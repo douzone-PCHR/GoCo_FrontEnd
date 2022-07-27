@@ -1,0 +1,19 @@
+{
+  "workbench.colorTheme": "Visual Studio Light",
+  "explorer.confirmDelete": false,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {},
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.jsxBracketSameLine": true,
+  "prettier.singleQuote": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "git.autofetch": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.formatOnType": true,
+  "prettier.printWidth": 200,
+  "prettier.tabWidth": 4
+}
