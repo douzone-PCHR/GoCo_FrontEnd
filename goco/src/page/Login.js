@@ -18,7 +18,6 @@ export default function Login() {
   // document.cookie = `Token=null; expires=Thu, 18 Dec 2000 12:00:00 UTC`;
   return (
     <div>
-      <Header />
       <input ref={id} placeholder="ID"></input>
       <input ref={pwd} type="password" placeholder="Password"></input>
       <Link
@@ -34,7 +33,6 @@ export default function Login() {
       <Link to="/signup">
         <div>회원가입</div>
       </Link>
-      <Footer />
     </div>
   );
 }

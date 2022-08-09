@@ -8,6 +8,7 @@ import Main from './page/Main';
 import Search from './page/Search';
 import Signup from './page/Signup';
 import NotFound from './page/NotFound';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,13 +17,15 @@ root.render(
   // </React.StrictMode>
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/goco" element={<Main />} />
-      <Route path="" element={ }/>
-
-      <Route path="*" element={<NotFound />} />
+      <Route path="/" element={<App />}>
+        {' '}
+        {/* 헤더와 푸터를 모두에게 뿌려줘야하기때문에 outlet으로 설정 */}
+        <Route path="/" element={<Login />} />
+        <Route path="/search" index element={<Search />} />
+        <Route path="/signup" index element={<Signup />} />
+        <Route path="/goco" index element={<Main />} />
+        <Route path="*" index element={<NotFound />} />
+      </Route>
     </Routes>
   </BrowserRouter>
 );

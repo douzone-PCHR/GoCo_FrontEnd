@@ -1,9 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
 import { Outlet } from 'react-router-dom';
+import Footer from './component/Footer';
+import Header from './component/Header';
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
+  );
 }
 
 export default App;

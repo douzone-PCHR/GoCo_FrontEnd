@@ -7,12 +7,5 @@ import Header from '../component/Header';
 export default function Main({ replace }) {
   commuteAPI();
   console.log(replace);
-  return (
-    <div>
-      {' '}
-      <Header />
-      Main
-      <Footer />
-    </div>
-  );
+  return <div>Main</div>;
 }
