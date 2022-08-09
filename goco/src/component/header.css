@@ -1,0 +1,22 @@
+.header {
+  height: 100px;
+  background-color: rgb(224, 245, 168);
+  font-size: 50px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.footer {
+  position: fixed;
+  height: 100px;
+  background-color: rgb(224, 245, 168);
+  font-size: 50px;
+  width: 100vw;
+  bottom: 0px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
