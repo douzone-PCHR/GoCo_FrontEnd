@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import App from './App';
 import Login from './page/Login';
-import Main from './page/Main';
 import Search from './page/Search';
 import Signup from './page/Signup';
+import Main from './page/Main';
 import NotFound from './page/NotFound';
-import App from './App';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
@@ -18,8 +17,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-        {' '}
         {/* 헤더와 푸터를 모두에게 뿌려줘야하기때문에 outlet으로 설정 */}
+        {/* 로그인 이후에 대한 컴포넌트는 조건을 따져서 뿌려지던지 아니던지 해야함. */}
         <Route path="/" element={<Login />} />
         <Route path="/search" index element={<Search />} />
         <Route path="/signup" index element={<Signup />} />
