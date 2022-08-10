@@ -14,6 +14,7 @@ const url = 'http://localhost:8080/commute/1';
 
 export default function commuteAPI() {
   // console.log(url);
+  console.log(document.cookie);
   const options = {
     method: 'GET',
     headers: {

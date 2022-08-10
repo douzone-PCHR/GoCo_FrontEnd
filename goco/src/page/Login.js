@@ -33,6 +33,12 @@ export default function Login() {
       <Link to="/signup">
         <div>회원가입</div>
       </Link>
+      <button
+        onClick={() => {
+          loginAPI(id.current.value, pwd.current.value);
+        }}>
+        qx
+      </button>
     </div>
   );
 }
