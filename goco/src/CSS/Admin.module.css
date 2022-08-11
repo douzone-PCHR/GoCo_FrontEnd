@@ -1,0 +1,49 @@
+/* TableCell {
+  color: black;
+  background-color: aquamarine;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+} */
+
+.Container {
+  /*전체 큰 틀*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  /*표에 대한 데이터*/
+  flex-direction: column;
+  width: 500px;
+  border: black solid 1px;
+  border-radius: 10px;
+  padding: 100px;
+  margin-top: 5%;
+  background-color: rgb(245, 252, 255);
+}
+
+.tableHeader {
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  border-radius: 10px;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 65%;
+  background-color: rgb(255, 255, 255);
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+}
+
+.back {
+  background-color: rgb(189, 189, 204);
+  border-radius: 10px;
+  padding: 20px;
+}
