@@ -11,7 +11,7 @@ export const getCookie = (name) => {
   return cookies.get(name);
 };
 
-export default async function loginAPI(id, password) {
+export const loginAPI = async (id, password, failModalhandleOpen) => {
   await axios
     .post('http://localhost:8080/auth/login', {
       empId: id,
@@ -27,9 +27,34 @@ export default async function loginAPI(id, password) {
       });
       alert('로그인 성공');
     })
-    .catch((error) => {
-      if (error.response.status == 401) {
-        alert('아이디 비밀번호가 잘못 입력되었습니다.');
-      }
+    .catch(() => {
+      failModalhandleOpen();
     });
-}
+};
+
+export const FindIdAPI = async (name, email, handleOpen, handleClose, failModalhandleOpen) => {
+  handleOpen(); // 모달창 띄우는 함수
+  await axios
+    .post('http://localhost:8080/auth/sendEmailForId', {
+      name: name,
+      email: email,
+    })
+    .then((response) => {
+      handleClose(); // 모달창 끄는 함수
+    })
+    .catch(() => {
+      handleClose(); // 모달을 끄는 함수
+      failModalhandleOpen();
+    });
+};
+
+export const AuthCheckAPI = async (authNum, authModalhandleOpen, setId) => {
+  await axios
+    .get(`http://localhost:8080/auth/find/2?authenticationNumber=${authNum}`)
+    .then((response) => {
+      setId(response.data);
+    })
+    .catch(() => {
+      authModalhandleOpen();
+    });
+};

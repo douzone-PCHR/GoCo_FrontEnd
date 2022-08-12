@@ -8,6 +8,7 @@ import Login from './page/auth/Login';
 import Search from './page/Search';
 import Signup from './page/auth/Signup';
 import FindId from './page/auth/FindId';
+import ShowId from './page/auth/ShowId';
 import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
 import NotFound from './page/NotFound';
@@ -25,6 +26,7 @@ root.render(
         <Route path="/search" index element={<Search />} />
         <Route path="/signup" index element={<Signup />} />
         <Route path="/FindId" index element={<FindId />} />
+        <Route path="/ShowId" index element={<ShowId />} />
         <Route path="/FindPwd" index element={<FindPwd />} />
         <Route path="/goco" index element={<Main />} />
         <Route path="*" index element={<NotFound />} />
