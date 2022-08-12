@@ -1,12 +1,11 @@
 .BackGround {
-  background: #e6f7ff;
   padding-top: 5%;
   padding-left: 30%;
   padding-right: 30%;
   padding-bottom: 9%;
 }
 .Border {
-  background: #e6f7ff;
+  background: rgb(236, 248, 253);
   border: 1px solid #8aa1a1;
   padding-left: 15%;
   padding-right: 15%;
