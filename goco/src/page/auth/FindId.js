@@ -3,31 +3,25 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../../CSS/authcss/FindId.module.css';
 import { FindIdAPI, AuthCheckAPI } from '../../api/authAPI';
 import ShowId from './ShowId';
+import {
+  ModalSendMail,
+  ModalSendMailFail,
+  ModalAuthNumberCheckFail,
+} from '../../component/auth/Modal';
 const theme = createTheme();
-const style = {
-  // 모달을 위해 쓰는 스타일
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  textAlign: 'center',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+
 export default function FindId() {
-  const [id, setId] = React.useState(); // 찾은 ID값이 들어 있다.
+  const [id, setId] = React.useState(-1); // 찾은 ID값이 들어 있다.
   const [data, setData] = React.useState({}); // 이름, 이메일 , 인증 번호가 들어 있는 유즈스테이트
-  const [showPage, setShowPage] = React.useState(false);
+  const [showPage, setShowPage] = React.useState(true);
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
   const handleOpen = () => setOpen(true); //메일보내는 중 모달
@@ -50,15 +44,17 @@ export default function FindId() {
   };
   const SendAuth = () => {
     // 이메일 전달하는 함수
-    FindIdAPI(data.name, data.email, handleOpen, handleClose, failModalhandleOpen);
+    FindIdAPI(data.name, data.email, handleOpen, handleClose, failModalhandleOpen, setErrorMessage);
   };
   const AuthCheck = () => {
     // 인증번호를 체크하고 맞다면 id 셋팅
-    AuthCheckAPI(data.authNum, authModalhandleOpen, setId);
+    AuthCheckAPI(data.authNum, data.email, authModalhandleOpen, setId, setErrorMessage);
   };
   React.useEffect(() => {
     //ID 값을 받았을 때 ShowId 컴포넌트 호출
-    setShowPage(!showPage);
+    if (id !== -1) {
+      setShowPage(false);
+    }
   }, [id]);
 
   return (
@@ -66,32 +62,11 @@ export default function FindId() {
       {showPage === true ? (
         <div className={styles.BackGround}>
           {/* ----------------------------------메일보내는 중 모달함수----------------------------------*/}
-          <Modal open={open} onClose={handleClose}>
-            <Box sx={style}>
-              <Typography variant="h6" component="h2">
-                메일을 보내는 중입니다.
-              </Typography>
-            </Box>
-          </Modal>
-          {/* ----------------------------------메일보내는 중 모달함수----------------------------------*/}
+          {ModalSendMail(open, handleClose)}
           {/* ----------------------------------실패 모달함수----------------------------------*/}
-          <Modal open={failModal} onClose={failModalhandleClose}>
-            <Box sx={style}>
-              <Typography variant="h6" component="h2">
-                이메일 혹은 이름을 다시 확인하세요.
-              </Typography>
-            </Box>
-          </Modal>
-          {/* ----------------------------------실패모달함수----------------------------------*/}
+          {ModalSendMailFail(failModal, failModalhandleClose, errorMessage)}
           {/* ----------------------------------인증 번호 다를 때 모달함수----------------------------------*/}
-          <Modal open={authModal} onClose={authModalhandleClose}>
-            <Box sx={style}>
-              <Typography variant="h6" component="h2">
-                올바른 인증번호를 입력하세요.
-              </Typography>
-            </Box>
-          </Modal>
-          {/* ----------------------------------인증 번호 다를 때 모달함수----------------------------------*/}
+          {ModalAuthNumberCheckFail(authModal, authModalhandleClose, errorMessage)}
 
           <div className={styles.Border}>
             <ThemeProvider theme={theme}>
@@ -179,7 +154,7 @@ export default function FindId() {
                         onClick={LoginPage}>
                         취소
                       </Button>
-                    </Grid>{' '}
+                    </Grid>
                     <Grid item xs={12} sm={6}>
                       <Button
                         type="submit"
@@ -200,7 +175,6 @@ export default function FindId() {
                     </Grid>
                   </Grid>
                 </Box>
-                {/* </Box> */}
               </Container>
             </ThemeProvider>
           </div>
