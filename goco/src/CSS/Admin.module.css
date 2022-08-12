@@ -16,7 +16,7 @@
 .item {
   /*표에 대한 데이터*/
   flex-direction: column;
-  width: 500px;
+  width: 1000px;
   border: black solid 1px;
   border-radius: 10px;
   padding: 100px;
@@ -29,6 +29,7 @@
   text-align: center;
 }
 
+/* modal 속성 */
 .modal {
   position: fixed;
   border-radius: 10px;
@@ -42,7 +43,8 @@
   justify-items: center;
 }
 
-.back {
+/* Modal- 근무상태 */
+.bgBlack {
   background-color: rgb(189, 189, 204);
   border-radius: 10px;
   padding: 20px;

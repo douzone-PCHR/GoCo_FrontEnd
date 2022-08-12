@@ -1,25 +1,31 @@
-import { TableCell, TableRow } from "@mui/material";
-import { useState } from "react";
-import { TableModalComponent } from "./TableModalComponent";
-
+import { TableCell, TableRow } from '@mui/material';
+import { useState } from 'react';
+import { TableModalComponent } from './TableModalComponent';
 export const TableCellComponent = ({ data }) => {
   const [open, setOpen] = useState(false);
+  const result = {
+    name: data.employee.name,
+    jobTitle: data.employee.jobTitle?.jobTitleName,
+    dept: data.employee.unit.unitName,
+    team: data.employee.unit.unitName,
+    teamPosition: data.employee.teamPosition.teampPositionName,
+    status: data.commuteStatus,
+  };
   return (
     <>
       <TableRow
         onClick={() => {
           setOpen(true);
         }}
-      >
-        <TableCell align="center">{data}1</TableCell>
-        <TableCell align="center">{data}2</TableCell>
-        <TableCell align="center">{data}3</TableCell>
-        <TableCell align="center">{data}4</TableCell>
-        <TableCell align="center">{data}5</TableCell>
-        <TableCell align="center">{data}6</TableCell>
+        hover>
+        <TableCell align="center">{result.name}</TableCell>
+        <TableCell align="center">{result.jobTitle}</TableCell>
+        <TableCell align="center">{result.dept}</TableCell>
+        <TableCell align="center">{result.team}</TableCell>
+        <TableCell align="center">{result.teamPosition}</TableCell>
+        <TableCell align="center">{result.status === '1' ? '근무중' : null}</TableCell>
       </TableRow>
-      {/* <TableModalComponent open={open} setOpen={setOpen} oneEmp={oneEmp} /> */}
-      <TableModalComponent open={open} setOpen={setOpen} />
+      <TableModalComponent open={open} setOpen={setOpen} result={result} />
     </>
   );
 };
