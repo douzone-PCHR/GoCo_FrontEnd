@@ -10,8 +10,8 @@ export const setCookie = (name, value, option) => {
 export const getCookie = (name) => {
   return cookies.get(name);
 };
-
-export const loginAPI = async (id, password, failModalhandleOpen) => {
+//////////////////// 로그인 하는 것
+export const loginAPI = async (id, password, failModalhandleOpen, setErrorMessage) => {
   await axios
     .post('http://localhost:8080/api/auth/login', {
       empId: id,
@@ -25,13 +25,15 @@ export const loginAPI = async (id, password, failModalhandleOpen) => {
         sameSite: 'none',
         expires,
       });
-      alert('로그인 성공');
+      setErrorMessage('로그인 성공');
+      failModalhandleOpen();
     })
     .catch(() => {
+      setErrorMessage('아이디 혹은 비밀번호가 잘못 입력되었습니다.');
       failModalhandleOpen();
     });
 };
-
+//////////////////// 아이디 찾을 때 이메일 보내는 함수
 export const FindIdAPI = async (
   name,
   email,
@@ -136,5 +138,94 @@ export const FindPasswordAPI = async (
       setErrorMessage(error.response.data.message); // 에러 모달에 띄울 에러 텍스트 셋팅
       console.log(error.response.data.message);
       errorModalhandleOpen(); //에러 모달 오픈
+    });
+};
+
+/////////////////////////// ID 중복 체크
+export const IDCheck = async (empId, setOkIdCheck, failModalhandleOpen, setErrorMessage) => {
+  if (empId == '') {
+    failModalhandleOpen();
+    setErrorMessage('아이디 값이 입력되지 않았습니다.');
+    return;
+  }
+  await axios
+    .get(`http://localhost:8080/api/auth/checkInfo?info=${empId}`)
+    .then((response) => {
+      setOkIdCheck(response.data); // 중복되지 않을 때 true가 담김
+      if (response.data == true) {
+        setErrorMessage('가입 가능 합니다.');
+      } else {
+        setErrorMessage('아이디가 이미 존재 합니다.');
+      }
+      failModalhandleOpen();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+///////////////////////////// 회원 가입시 유효한 이메일인지 확인하는 것
+export const SendEmailForSignUpAPI = async (
+  email,
+  handleOpen,
+  handleClose,
+  setErrorMessage,
+  failModalhandleOpen
+) => {
+  handleOpen();
+  await axios
+    .post('http://localhost:8080/api/auth/sendEmailForEmail', {
+      email: email,
+    })
+    .then((response) => {
+      handleClose();
+      failModalhandleOpen();
+      setErrorMessage(response.data);
+    })
+    .catch((error) => {
+      handleClose();
+      failModalhandleOpen();
+      setErrorMessage(error.response.data.message);
+    });
+};
+/////////////////////////// 회원 가입시 이메일 인증번호 확인하는 것
+export const CheckAuthForSignUpAPI = async (
+  authenticationNumber,
+  email,
+  failModalhandleOpen,
+  setErrorMessage,
+  setOkEmailCheck
+) => {
+  await axios
+    .post(`http://localhost:8080/api/auth/find/1`, {
+      authenticationNumber: authenticationNumber,
+      email: email,
+    })
+    .then((response) => {
+      if (response.data === '올바른 인증번호를 입력하세요') {
+        setErrorMessage(response.data);
+        failModalhandleOpen();
+      } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
+        setErrorMessage(response.data);
+        failModalhandleOpen();
+      } else if (authenticationNumber == response.data) {
+        setErrorMessage('인증에 성공하였습니다.');
+        failModalhandleOpen();
+        setOkEmailCheck(true);
+      }
+    })
+    .catch((error) => {
+      setErrorMessage(error.response.data.message);
+      failModalhandleOpen();
+    });
+};
+////////////////////////////// 유닛 받아오는 함수
+export const getAllUnitAPI = async (setUnit) => {
+  await axios
+    .get(`http://localhost:8080/api/auth/getAllUnit`)
+    .then((response) => {
+      setUnit(setUnit);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };

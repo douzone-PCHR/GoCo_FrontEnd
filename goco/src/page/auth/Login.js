@@ -14,6 +14,7 @@ import styles from '../../CSS/authcss/Login.module.css';
 import { loginAPI } from '../../api/authAPI';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import { ModalSendMailFail } from '../../component/auth/Modal';
 const style = {
   // 모달을 위해 쓰는 스타일
   position: 'absolute',
@@ -34,6 +35,7 @@ export default function Login() {
   const [failModal, setFailModal] = React.useState(false); // 실패 모달함수
   const failModalhandleOpen = () => setFailModal(true); // 실패 모달함수
   const failModalhandleClose = () => setFailModal(false); // 실패 모달함수
+  const [errorMessage, setErrorMessage] = React.useState(''); // 모달 에러 메세지 띄우는 변수
   const [values, setValues] = React.useState({
     password: '',
     id: '',
@@ -66,7 +68,7 @@ export default function Login() {
       setValues({ ...values, pwdInputError: true });
       return;
     }
-    loginAPI(values.id, values.password, failModalhandleOpen);
+    loginAPI(values.id, values.password, failModalhandleOpen, setErrorMessage);
     setValues({ ...values, idInputError: false, pwdInputError: false }); // input error reset
   };
   const FindId = () => {
@@ -82,13 +84,8 @@ export default function Login() {
   return (
     <div className={styles.BackGround}>
       {/* ----------------------------------실패 모달함수----------------------------------*/}
-      <Modal open={failModal} onClose={failModalhandleClose}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            아이디 혹은 비밀번호가 잘못 입력되었습니다.
-          </Typography>
-        </Box>
-      </Modal>
+      {ModalSendMailFail(failModal, failModalhandleClose, errorMessage)}
+
       {/* ----------------------------------실패모달함수----------------------------------*/}
       <div className={styles.Border}>
         <form method="POST">
