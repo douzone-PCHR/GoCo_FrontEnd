@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Admin } from "./page/admin/Admin";
 import App from './App';
 import Login from './page/auth/Login';
 import Search from './page/Search';
@@ -13,6 +14,7 @@ import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
 import NotFound from './page/NotFound';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   // <React.StrictMode>
   //   <App />
@@ -30,6 +32,7 @@ root.render(
         <Route path="/FindPwd" index element={<FindPwd />} />
         <Route path="/goco" index element={<Main />} />
         <Route path="*" index element={<NotFound />} />
+        <Route index element={<Admin />} />
       </Route>
     </Routes>
   </BrowserRouter>
