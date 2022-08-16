@@ -1,0 +1,16 @@
+.BackGround {
+  padding-top: 5%;
+  padding-left: 30%;
+  padding-right: 30%;
+  padding-bottom: 9%;
+}
+.Border {
+  background: rgb(236, 248, 253);
+  border: 1px solid #8aa1a1;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 10%;
+}
+.MainText {
+  margin-bottom: 15%;
+}
