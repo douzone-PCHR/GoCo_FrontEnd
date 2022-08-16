@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 const url = 'http://localhost:8080/';
-export default function employee() {
+export const employee = () => {
   axios.get();
-}
+};
+
+export const updateEmp = (data) => {
+  axios.put(`/api/admin/emp/${data.empNum}`, data).then((response) => {});
+};

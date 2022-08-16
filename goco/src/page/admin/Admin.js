@@ -9,6 +9,21 @@ export const Admin = () => {
   useEffect(() => {
     commuteGet(setData);
   }, []);
+  // const testData = {
+  //   employee: {
+  //     name: 'test1',
+  //     jobTitle: {
+  //       jobTitleName: '부장',
+  //     },
+  //     unit: {
+  //       unitName: '인사부서',
+  //     },
+  //     teamPosition: {
+  //       teampPositionName: '팀장',
+  //     },
+  //   },
+  //   commuteStatus: '1',
+  // };
   return (
     <div className={style.Container}>
       <div className={style.item}>
@@ -20,6 +35,7 @@ export const Admin = () => {
                 data.map((dat, index) => {
                   return <TableCellComponent data={dat} key={index} />;
                 })}
+              {/* <TableCellComponent data={testData} /> */}
             </TableBody>
           </Table>
         </div>

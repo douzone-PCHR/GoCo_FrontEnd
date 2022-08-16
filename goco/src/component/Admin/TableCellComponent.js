@@ -4,6 +4,7 @@ import { TableModalComponent } from './TableModalComponent';
 export const TableCellComponent = ({ data }) => {
   const [open, setOpen] = useState(false);
   const result = {
+    id: data.employee.empNum,
     name: data.employee.name,
     jobTitle: data.employee.jobTitle?.jobTitleName,
     dept: data.employee.unit.unitName,
