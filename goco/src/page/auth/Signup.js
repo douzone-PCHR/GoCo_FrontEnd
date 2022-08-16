@@ -20,7 +20,6 @@ import styles from '../../CSS/authcss/Signup.module.css';
 import * as dayjs from 'dayjs';
 import { CheckAuthForSignUpAPI, IDCheck, SendEmailForSignUpAPI } from '../../api/authAPI';
 import { ModalSendMail, ModalSendMailFail } from '../../component/auth/Modal';
-import { GroupedSelect } from '../../component/auth/Unit';
 const theme = createTheme();
 export default function Signup() {
   const [okIdCheck, setOkIdCheck] = React.useState(false);
@@ -37,6 +36,7 @@ export default function Signup() {
     phoneNumber: '',
     email: '',
     hiredate: '',
+    unit: '',
   }); // 이름, 이메일 , 인증 번호등 모든 데이터가 가 들어 있는 유즈스테이트
 
   const [errorMessage, setErrorMessage] = React.useState(''); // 모달 에러 메세지 띄우는 변수
@@ -102,6 +102,16 @@ export default function Signup() {
   React.useEffect(() => {
     setOkEmailCheck(false);
   }, [data.email]); // 입사일 지정 되었나 확인
+  React.useEffect(() => {
+    console.log('empId: ', data.empId);
+    console.log('password: ', data.password);
+    console.log('password2: ', data.password2);
+    console.log("name: ''", data.name);
+    console.log(' phoneNumber: ', data.phoneNumber);
+    console.log(' email: ', data.email);
+    console.log('hiredate: ', data.hiredate);
+    console.log('unit: ', data.unit);
+  }, [data]);
 
   return (
     <>
@@ -266,33 +276,6 @@ export default function Signup() {
                         onChange={handleChange('phoneNumber')}
                       />
                     </Grid>
-                    {/*-----------------------------------부서와 팀---------------------------------------*/}
-                    <Grid item xs={12} sm={6}>
-                      부서
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      팀
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="dept"
-                        label="부서를 입력하세요"
-                        name="dept"
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="unitId"
-                        label="팀을 입력하세요"
-                        name="unitId"
-                        onChange={handleChange('unitId')}
-                      />
-                    </Grid>
-
                     {/*---------------------------------- 이메일적고 발송버튼------------------------------------*/}
                     <Grid item xs={12} sm={12}>
                       이메일
@@ -353,14 +336,11 @@ export default function Signup() {
                       </Button>
                     </Grid>
                     {/*----------------------------------입사일----------------------------------------*/}
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12}>
                       입사일
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      부서 지정
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
                           inputFormat="yyyy-MM-dd"
@@ -374,11 +354,7 @@ export default function Signup() {
                         />
                       </LocalizationProvider>
                     </Grid>
-                    {/*----------------------------------유닛----------------------------------------*/}
-                    <Grid item xs={12} sm={6}>
-                      {GroupedSelect()}
-                    </Grid>
-                    {/*------------------------------------------------------------------------------------------*/}
+                    {/*----------------------------------------------------------------------------------*/}
                     <Grid item xs={12} sm={5}>
                       <Button
                         fullWidth

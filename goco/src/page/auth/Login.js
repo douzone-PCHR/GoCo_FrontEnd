@@ -12,23 +12,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import styles from '../../CSS/authcss/Login.module.css';
 import { loginAPI } from '../../api/authAPI';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
 import { ModalSendMailFail } from '../../component/auth/Modal';
-const style = {
-  // 모달을 위해 쓰는 스타일
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  textAlign: 'center',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  borderRadius: 5,
-  p: 4,
-};
+
 export default function Login() {
   // 로그아웃 시 쿠키 삭제
   // document.cookie = `Token=null; expires=Thu, 18 Dec 2000 12:00:00 UTC`;
@@ -86,7 +71,6 @@ export default function Login() {
       {/* ----------------------------------실패 모달함수----------------------------------*/}
       {ModalSendMailFail(failModal, failModalhandleClose, errorMessage)}
 
-      {/* ----------------------------------실패모달함수----------------------------------*/}
       <div className={styles.Border}>
         <form method="POST">
           <div className={styles.LoginText}>로그인</div>

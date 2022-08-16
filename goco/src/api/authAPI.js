@@ -116,7 +116,13 @@ export const FindPasswordAPI = async (
   handleOpen,
   handleClose
 ) => {
-  handleOpen(); //비번이 맞을 경우 '메일 보내는 중' 이라고 뜨게 만든다.
+  handleOpen(); //인증번호가 맞을 경우 '메일 보내는 중' 이라고 뜨게 만든다.
+  if ((email === '') | (email === null) | (email === undefined)) {
+    handleClose(); // 이메일이 입력되지 않았으면'메일보내는중 '메시지 끈다
+    setErrorMessage('이메일을 입력해 주세요');
+    errorModalhandleOpen();
+    return;
+  }
   await axios
     .post(`http://localhost:8080/api/auth/find/3`, {
       authenticationNumber: authNum,
@@ -216,16 +222,5 @@ export const CheckAuthForSignUpAPI = async (
     .catch((error) => {
       setErrorMessage(error.response.data.message);
       failModalhandleOpen();
-    });
-};
-////////////////////////////// 유닛 받아오는 함수
-export const getAllUnitAPI = async (setUnit) => {
-  await axios
-    .get(`http://localhost:8080/api/auth/getAllUnit`)
-    .then((response) => {
-      setUnit(setUnit);
-    })
-    .catch((error) => {
-      console.log(error);
     });
 };
