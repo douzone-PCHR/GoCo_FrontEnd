@@ -12,3 +12,7 @@
 .MainText {
   padding-bottom: 7%;
 }
+.PasswordSame {
+  color: red;
+  font-size: large;
+}

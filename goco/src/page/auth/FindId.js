@@ -21,7 +21,7 @@ export default function FindId() {
   const [id, setId] = React.useState(-1); // 찾은 ID값이 들어 있다.
   const [data, setData] = React.useState({}); // 이름, 이메일 , 인증 번호가 들어 있는 유즈스테이트
   const [showPage, setShowPage] = React.useState(true);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState(''); // 에러 메세지 띄우는 변수
 
   const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
   const handleOpen = () => setOpen(true); //메일보내는 중 모달
