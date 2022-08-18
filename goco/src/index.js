@@ -12,6 +12,8 @@ import ShowId from './page/auth/ShowId';
 import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
 import NotFound from './page/NotFound';
+import Approve from './page/employee/Approve/Approve';
+import ManagerApprove from './page/manager/Approve/ManagerApprove';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
@@ -30,6 +32,8 @@ root.render(
         <Route path="/FindPwd" index element={<FindPwd />} />
         <Route path="/goco" index element={<Main />} />
         <Route path="*" index element={<NotFound />} />
+        <Route path="/approve" element={<Approve />} />
+        <Route path="/approveteam" element={<ManagerApprove />} />
       </Route>
     </Routes>
   </BrowserRouter>
