@@ -3,15 +3,14 @@ import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { sweetAlert2, sweetAlertDeleteUser } from '../auth/AuthSweetAlert.js/sweetAlert2';
 
-import { deleteEmpAPI } from '../../api/employeeAPI';
-
-export default function DeleteEmp({ handleChange, textData, setTextData }) {
+export default function DeleteEmp({ handleChange, textData }) {
   const deleteEmp = () => {
     if ('계정 탈퇴' === textData.text) {
-      deleteEmpAPI();
+      sweetAlertDeleteUser();
     } else {
-      console.log('정확히 입력해 주세요');
+      sweetAlert2('정확히 입력해 주세요', 'warning');
     }
   };
   return (

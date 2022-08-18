@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getCookie, deleteCookie } from './authAPI';
-
+import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 const url = 'http://localhost:8080/';
 export const employee = () => {
   axios.get();
@@ -38,8 +38,8 @@ export const deleteEmpAPI = async () => {
   await axios(options)
     .then((response) => {
       if (response.data) {
+        sweetAlertSuccess('탈퇴 성공', 'success', '/login');
         deleteCookie(); //쿠키삭제
-        window.location.href = '/login';
       }
     })
     .catch((error) => {
@@ -49,6 +49,16 @@ export const deleteEmpAPI = async () => {
 ////회원 비번 변경
 const urlPwdChange = 'http://localhost:8080/api/user/changePwd';
 export const pwdChangeAPI = async (textData) => {
+  console.log('textData.password1 : ', textData.password1);
+  const text = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=*()]).*$/;
+  if (
+    (textData.password1 === '') |
+    (textData.password1 === undefined) |
+    !text.test(textData.password1)
+  ) {
+    sweetAlert2('비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.', 'warning');
+    return;
+  }
   const options = {
     method: 'PUT',
     headers: {
@@ -63,20 +73,25 @@ export const pwdChangeAPI = async (textData) => {
   await axios(options)
     .then((response) => {
       if (response.data === 1) {
-        console.log('변경 성공');
-        window.location.href = '/userupdate';
+        sweetAlertSuccess('변경 성공', 'success', '/userupdate');
       } else {
-        console.log('변경 실패');
+        sweetAlert2('변경 실패', 'warning');
       }
     })
     .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };
 
 // 회원 이메일 변경
 const urlChangeEmail = 'http://localhost:8080/api/user/changeEmail';
 export const changeEmailAPI = async (textData) => {
+  const text =
+    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  if ((textData.email === '') | (textData.email === undefined) | !text.test(textData.email)) {
+    sweetAlert2('이메일 형식이 올바르지 않습니다.', 'warning');
+    return;
+  }
   const options = {
     method: 'PUT',
     headers: {
@@ -90,19 +105,27 @@ export const changeEmailAPI = async (textData) => {
   await axios(options)
     .then((response) => {
       if (response.data === 1) {
-        console.log('변경 성공');
-        window.location.href = '/userupdate';
+        sweetAlertSuccess('변경 성공', 'success', '/userupdate');
       } else {
-        console.log('변경 실패');
+        sweetAlert2('변경 실패', 'warning');
       }
     })
     .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };
 // 회원 번호 변경
 const urlChangePhoneNumber = 'http://localhost:8080/api/user/changePhone';
 export const changePhoneNumberAPI = async (textData) => {
+  const text = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+  if (
+    (textData.phoneNumber === '') |
+    (textData.phoneNumber === undefined) |
+    !text.test(textData.phoneNumber)
+  ) {
+    sweetAlert2('핸드폰 번호 형식이 올바르지 않습니다.(10~11자리 입력)', 'warning');
+    return;
+  }
   const options = {
     method: 'PUT',
     headers: {
@@ -116,13 +139,12 @@ export const changePhoneNumberAPI = async (textData) => {
   await axios(options)
     .then((response) => {
       if (response.data === 1) {
-        console.log('변경 성공');
-        window.location.href = '/userupdate';
+        sweetAlertSuccess('변경 성공', 'success', '/userupdate');
       } else {
-        console.log('변경 실패');
+        sweetAlert2('변경 실패', 'warning');
       }
     })
     .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };

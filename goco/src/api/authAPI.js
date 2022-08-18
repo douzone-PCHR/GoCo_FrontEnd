@@ -21,9 +21,10 @@ export const deleteCookie = () => {
 };
 
 //////////////////// 로그인 하는 것
+const urlLogin = 'http://localhost:8080/api/auth/login';
 export const loginAPI = async (id, password) => {
   await axios
-    .post('http://localhost:8080/api/auth/login', {
+    .post(urlLogin, {
       empId: id,
       password: password,
     })
@@ -42,10 +43,11 @@ export const loginAPI = async (id, password) => {
     });
 };
 //////////////////// 아이디 찾을 때 이메일 보내는 함수
+const urlFindId = 'http://localhost:8080/api/auth/sendEmailForId';
 export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
   handleOpen(); // 모달창 띄우는 함수
   await axios
-    .post('http://localhost:8080/api/auth/sendEmailForId', {
+    .post(urlFindId, {
       name: name,
       email: email,
     })
@@ -59,9 +61,10 @@ export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
     });
 };
 //////////////////// 아이디 찾을 때 인증 번호 확인하는 함수
+const urlAuthCheck = `http://localhost:8080/api/auth/find/2`;
 export const AuthCheckAPI = async (authNum, email, setId) => {
   await axios
-    .post(`http://localhost:8080/api/auth/find/2`, {
+    .post(urlAuthCheck, {
       authenticationNumber: authNum,
       email: email,
     })
@@ -79,10 +82,11 @@ export const AuthCheckAPI = async (authNum, email, setId) => {
     });
 };
 ///////////////////pwd 찾기위해 인증번호 보내는 함수
+const urlFindPwd = 'http://localhost:8080/api/auth/sendEmailForPwd';
 export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
   handleOpen(); // 메일 보내는 중 표시하는 것
   await axios
-    .post('http://localhost:8080/api/auth/sendEmailForPwd', {
+    .post(urlFindPwd, {
       empId: empId,
       email: email,
     })
@@ -96,6 +100,7 @@ export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
     });
 };
 /////////////// 인증 번호로 새로운 비번 받는 함수
+const urlFindPassword = `http://localhost:8080/api/auth/find/3`;
 export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) => {
   handleOpen(); //인증번호가 맞을 경우 '메일 보내는 중' 이라고 뜨게 만든다.
   if ((email === '') | (email === null) | (email === undefined)) {
@@ -104,7 +109,7 @@ export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) =
     return;
   }
   await axios
-    .post(`http://localhost:8080/api/auth/find/3`, {
+    .post(urlFindPassword, {
       authenticationNumber: authNum,
       email: email,
     })
