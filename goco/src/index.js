@@ -14,7 +14,10 @@ import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
 import UserUpdate from './page/employee/UserUpdate';
 import NotFound from './page/NotFound';
+import Approve from './page/employee/Approve/Approve';
+import ManagerApprove from './page/manager/Approve/ManagerApprove';
 import { Management } from './page/admin/Management';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -37,6 +40,8 @@ root.render(
         <Route path="/userupdate" index element={<UserUpdate />} />
         <Route path="/goco" index element={<Main />} />
         <Route path="*" index element={<NotFound />} />
+        <Route path="/approve" element={<Approve />} />
+        <Route path="/approveteam" element={<ManagerApprove />} />
       </Route>
     </Routes>
   </BrowserRouter>
