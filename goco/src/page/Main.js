@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import commuteAPI from '../api/commuteAPI';
+import { commuteAPI } from '../api/commuteAPI';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
 

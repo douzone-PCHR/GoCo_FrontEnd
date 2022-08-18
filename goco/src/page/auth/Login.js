@@ -1,38 +1,19 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import styles from '../../CSS/authcss/Login.module.css';
 import { loginAPI } from '../../api/authAPI';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-const style = {
-  // 모달을 위해 쓰는 스타일
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  textAlign: 'center',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import { ModalSendMailFail } from '../../component/auth/Modal';
+import LoginButtonGroup from '../../component/auth/Login/LoginButtonGroup';
+import LoginInsertID from '../../component/auth/Login/LoginInsertID';
+import LoginInsertPwd from '../../component/auth/Login/LoginInsertPwd';
+
 export default function Login() {
   // 로그아웃 시 쿠키 삭제
   // document.cookie = `Token=null; expires=Thu, 18 Dec 2000 12:00:00 UTC`;
   const [failModal, setFailModal] = React.useState(false); // 실패 모달함수
   const failModalhandleOpen = () => setFailModal(true); // 실패 모달함수
   const failModalhandleClose = () => setFailModal(false); // 실패 모달함수
+  const [errorMessage, setErrorMessage] = React.useState(''); // 모달 에러 메세지 띄우는 변수
   const [values, setValues] = React.useState({
     password: '',
     id: '',
@@ -44,15 +25,7 @@ export default function Login() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+
   const LoginClick = (e) => {
     // 로그인 클릭
     if (values.id === '') {
@@ -65,73 +38,22 @@ export default function Login() {
       setValues({ ...values, pwdInputError: true });
       return;
     }
-    loginAPI(values.id, values.password, failModalhandleOpen);
+    loginAPI(values.id, values.password, failModalhandleOpen, setErrorMessage);
     setValues({ ...values, idInputError: false, pwdInputError: false }); // input error reset
-  };
-  const FindId = () => {
-    window.location.href = '/FindId';
-  };
-  const FindPwd = () => {
-    window.location.href = '/FindPwd';
-  };
-  const SignUp = () => {
-    window.location.href = '/signup';
   };
 
   return (
     <div className={styles.BackGround}>
       {/* ----------------------------------실패 모달함수----------------------------------*/}
-      <Modal open={failModal} onClose={failModalhandleClose}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            아이디 혹은 비밀번호가 잘못 입력되었습니다.
-          </Typography>
-        </Box>
-      </Modal>
-      {/* ----------------------------------실패모달함수----------------------------------*/}
+      {ModalSendMailFail(failModal, failModalhandleClose, errorMessage)}
+
       <div className={styles.Border}>
         <form method="POST">
           <div className={styles.LoginText}>로그인</div>
-          {/* ----------------------아이디-------------------- */}
-          <div className={styles.InputText}>　아이디</div>
-          <Box
-            sx={{
-              '& > :not(style)': { m: 1, width: '96%' },
-            }}>
-            <TextField
-              id="demo-helper-text-misaligned-no-helper"
-              label="아이디를 입력하세요"
-              onChange={handleChange('id')}
-              error={values.idInputError}
-            />
-          </Box>
-
+          {/* ----------------------아이디 입력 컴포넌트-------------------- */}
+          <LoginInsertID handleChange={handleChange} values={values} />
           {/* ----------------------비밀번호-------------------- */}
-          <div className={styles.InputText}>　비밀번호</div>
-          <FormControl sx={{ m: 1, width: '96%' }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password" error={values.pwdInputError}>
-              비밀번호를 입력하세요
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={values.showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={handleChange('password')}
-              error={values.pwdInputError}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end">
-                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="비밀번호를 입력하세요"
-            />
-          </FormControl>
+          <LoginInsertPwd handleChange={handleChange} values={values} setValues={setValues} />
           {/* ------------------------------------------ */}
 
           <div className={styles.LoginButton}>
@@ -152,11 +74,7 @@ export default function Login() {
         {/* --------------------위까지 로그인 form 안이다.---------------------- */}
         <hr className={styles.Horizontal} />
         {/* --------------------3개---------------------- */}
-        <ButtonGroup variant="text" aria-label="text button group" color="inherit" fullWidth={true}>
-          <Button onClick={FindId}>아이디 찾기</Button>
-          <Button onClick={FindPwd}>비밀번호 찾기</Button>
-          <Button onClick={SignUp}>회원가입</Button>
-        </ButtonGroup>
+        <LoginButtonGroup />
         {/* -------------------------------------------- */}
       </div>
     </div>
