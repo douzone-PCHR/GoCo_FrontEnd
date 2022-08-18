@@ -1,10 +1,29 @@
-import { Link } from "react-router-dom";
-import "./header.css";
-export default function Header() {
+import React, { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Approve from '../page/employee/Approve/Approve';
+
+const Header = () => {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-    <div className="header">
-      <Link to="/">헤더</Link>
-      <Link to="/manager">관리자 페이지</Link>
-    </div>
+    <>
+      <AppBar position="static">
+        <Tabs value={value} onChange={handleChange} aria-label="Main Tabs">
+          <Tab label="Home" href="/" />
+          <Tab label="결재관리" href="/approve"></Tab>
+
+          <Tab label="Profile" />
+        </Tabs>
+      </AppBar>
+    </>
   );
-}
+};
+
+export default Header;
