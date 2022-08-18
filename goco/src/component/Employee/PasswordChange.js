@@ -8,6 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { pwdChangeAPI } from '../../api/employeeAPI';
+import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 export default function PasswordChange({ handleChange, textData }) {
   const [values, setShowPassword] = React.useState({}); // 비밀번호 가리는데 쓰임
   const [passwordCheck, setPasswordCheck] = React.useState(true);
@@ -24,7 +25,9 @@ export default function PasswordChange({ handleChange, textData }) {
   };
   //비밀번호 변경 버튼함수
   const pwdChange = () => {
-    passwordCheck ? pwdChangeAPI(textData) : console.log('변경 실패 비밀번호가 서로 다릅니다.');
+    passwordCheck
+      ? pwdChangeAPI(textData)
+      : sweetAlert2('변경 실패 비밀번호가 서로 다릅니다.', 'warning');
   };
 
   React.useEffect(() => {
