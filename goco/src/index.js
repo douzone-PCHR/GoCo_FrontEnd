@@ -12,6 +12,7 @@ import FindId from './page/auth/FindId';
 import ShowId from './page/auth/ShowId';
 import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
+import UserUpdate from './page/employee/UserUpdate';
 import NotFound from './page/NotFound';
 import { Management } from './page/admin/Management';
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,16 +26,16 @@ root.render(
       <Route path="/" element={<App />}>
         {/* 헤더와 푸터를 모두에게 뿌려줘야하기때문에 outlet으로 설정 */}
         {/* 로그인 이후에 대한 컴포넌트는 조건을 따져서 뿌려지던지 아니던지 해야함. */}
-        <Route path="/" index element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/search" index element={<Search />} />
         <Route path="/signup" index element={<Signup />} />
         <Route path="/findid" index element={<FindId />} />
         <Route path="/showid" index element={<ShowId />} />
         <Route path="/findpwd" index element={<FindPwd />} />
-        <Route path="/goco" index element={<Main />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/management" element={<Management />} />
-
+        <Route path="/userupdate" index element={<UserUpdate />} />
+        <Route path="/goco" index element={<Main />} />
         <Route path="*" index element={<NotFound />} />
       </Route>
     </Routes>
