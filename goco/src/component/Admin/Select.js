@@ -10,7 +10,6 @@ export const Select = ({ data, title, setUnit, setUpdateData }) => {
     setUpdateData((data) => {
       let newCondition = { ...data };
       newCondition[title] = parseInt(event.target.value);
-      console.log(newCondition);
       return newCondition;
     });
   };

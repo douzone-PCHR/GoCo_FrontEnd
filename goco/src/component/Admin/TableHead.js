@@ -1,6 +1,6 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-export const TableHeade = () => {
+export const AdminTableHead = () => {
   return (
     <TableHead>
       <TableRow>

@@ -14,7 +14,7 @@ import FindPwd from './page/auth/FindPwd';
 import Main from './page/Main';
 import UserUpdate from './page/employee/UserUpdate';
 import NotFound from './page/NotFound';
-
+import { Management } from './page/admin/Management';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -32,11 +32,11 @@ root.render(
         <Route path="/findid" index element={<FindId />} />
         <Route path="/showid" index element={<ShowId />} />
         <Route path="/findpwd" index element={<FindPwd />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/management" element={<Management />} />
         <Route path="/userupdate" index element={<UserUpdate />} />
         <Route path="/goco" index element={<Main />} />
-
         <Route path="*" index element={<NotFound />} />
-        <Route index element={<Admin />} />
       </Route>
     </Routes>
   </BrowserRouter>
