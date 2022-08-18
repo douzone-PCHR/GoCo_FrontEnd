@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-
+import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 const cookies = new Cookies();
 
 export const setCookie = (name, value, option) => {
@@ -21,7 +21,7 @@ export const deleteCookie = () => {
 };
 
 //////////////////// 로그인 하는 것
-export const loginAPI = async (id, password, failModalhandleOpen, setErrorMessage) => {
+export const loginAPI = async (id, password) => {
   await axios
     .post('http://localhost:8080/api/auth/login', {
       empId: id,
@@ -35,102 +35,72 @@ export const loginAPI = async (id, password, failModalhandleOpen, setErrorMessag
         sameSite: 'none',
         expires,
       });
-      setErrorMessage('로그인 성공');
-      failModalhandleOpen();
+      sweetAlertSuccess('로그인 성공', 'success', '/');
     })
     .catch(() => {
-      setErrorMessage('아이디 혹은 비밀번호가 잘못 입력되었습니다.');
-      failModalhandleOpen();
+      sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
     });
 };
 //////////////////// 아이디 찾을 때 이메일 보내는 함수
-export const FindIdAPI = async (
-  name,
-  email,
-  handleOpen,
-  handleClose,
-  failModalhandleOpen,
-  setErrorMessage
-) => {
+export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
   handleOpen(); // 모달창 띄우는 함수
   await axios
     .post('http://localhost:8080/api/auth/sendEmailForId', {
       name: name,
       email: email,
     })
-    .then(() => {
+    .then((response) => {
       handleClose(); // 모달창 끄는 함수
+      sweetAlert2(response.data, 'success');
     })
     .catch((error) => {
-      console.log(error.response.data.message);
-      setErrorMessage(error.response.data.message);
+      sweetAlert2(error.response.data.message, 'warning');
       handleClose(); // 모달을 끄는 함수
-      failModalhandleOpen();
     });
 };
-
-export const AuthCheckAPI = async (authNum, email, authModalhandleOpen, setId, setErrorMessage) => {
+//////////////////// 아이디 찾을 때 인증 번호 확인하는 함수
+export const AuthCheckAPI = async (authNum, email, setId) => {
   await axios
     .post(`http://localhost:8080/api/auth/find/2`, {
       authenticationNumber: authNum,
       email: email,
     })
     .then((response) => {
-      if (response.data === '올바른 인증번호를 입력하세요') {
-        setErrorMessage(response.data);
-        authModalhandleOpen();
+      if (response.data === '올바른 인증번호를 입력하세요.') {
+        sweetAlert2(response.data, 'warning');
       } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
-        setErrorMessage(response.data);
-        authModalhandleOpen();
+        sweetAlert2(response.data, 'warning');
       } else {
         setId(response.data);
       }
     })
     .catch((error) => {
-      console.log(error.response.data.message);
-      setErrorMessage(error.response.data.message);
-      authModalhandleOpen();
+      sweetAlert2(error.response.data.message, 'warning');
     });
 };
 ///////////////////pwd 찾기위해 인증번호 보내는 함수
-export const FindPwdAPI = async (
-  empId,
-  email,
-  handleOpen,
-  handleClose,
-  setErrorMessage,
-  errorModalhandleOpen
-) => {
+export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
   handleOpen(); // 메일 보내는 중 표시하는 것
   await axios
     .post('http://localhost:8080/api/auth/sendEmailForPwd', {
       empId: empId,
       email: email,
     })
-    .then(() => {
+    .then((response) => {
+      sweetAlert2(response.data, 'success');
       handleClose(); // pwd확인을 위해 인증번호가 정상 발송되면 '메일보내는 중' 을 끈다
     })
     .catch((error) => {
       handleClose(); // 에러이면 '메일보내는 중' 을 끈다
-      setErrorMessage(error.response.data.message);
-      errorModalhandleOpen(); // 메일 보내는 중 에러가 뜨면 에러 모달을 open 한다.
-      console.log(error.response.data.message);
+      sweetAlert2(error.response.data.message, 'warning'); // 메일 보내는 중 에러가 뜨면 에러 open 한다.
     });
 };
 /////////////// 인증 번호로 새로운 비번 받는 함수
-export const FindPasswordAPI = async (
-  authNum,
-  email,
-  errorModalhandleOpen,
-  setErrorMessage,
-  handleOpen,
-  handleClose
-) => {
+export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) => {
   handleOpen(); //인증번호가 맞을 경우 '메일 보내는 중' 이라고 뜨게 만든다.
   if ((email === '') | (email === null) | (email === undefined)) {
     handleClose(); // 이메일이 입력되지 않았으면'메일보내는중 '메시지 끈다
-    setErrorMessage('이메일을 입력해 주세요');
-    errorModalhandleOpen();
+    sweetAlert2('이메일을 입력해 주세요.', 'warning');
     return;
   }
   await axios
@@ -140,35 +110,26 @@ export const FindPasswordAPI = async (
     })
     .then((response) => {
       handleClose();
-      if (response.data === '올바른 인증번호를 입력하세요') {
-        setErrorMessage(response.data);
-      } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
-        setErrorMessage(response.data);
+      if (
+        (response.data === '올바른 인증번호를 입력하세요.') |
+        (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.')
+      ) {
+        sweetAlert2(response.data, 'warning');
       } else if (response.data === '이메일로 비밀번호가 발송 되었습니다.') {
-        setErrorMessage(response.data);
+        sweetAlertSuccess(response.data, 'success', '/login');
       }
-      errorModalhandleOpen(); // 결과모달오픈
     })
     .catch((error) => {
       handleClose(); // 에러이면 '메일보내는중 '메시지 끈다
-      setErrorMessage(error.response.data.message); // 에러 모달에 띄울 에러 텍스트 셋팅
-      console.log(error.response.data.message);
-      errorModalhandleOpen(); //에러 모달 오픈
+      sweetAlert2(error.response.data.message, 'warning');
     });
 };
 
 /////////////////////////// ID 중복 체크
 const urlCheckId = 'http://localhost:8080/api/auth/checkInfo?info=';
-export const IDCheck = async (
-  data,
-  setOkIdCheck,
-  failModalhandleOpen,
-  setErrorMessage,
-  setSignupDataError
-) => {
+export const IDCheck = async (data, setOkIdCheck, setSignupDataError) => {
   if (data.empId === '') {
-    failModalhandleOpen();
-    setErrorMessage('아이디 값이 입력되지 않았습니다.');
+    sweetAlert2('아이디 값이 입력되지 않았습니다.', 'warning');
     return;
   }
   await axios
@@ -176,13 +137,12 @@ export const IDCheck = async (
     .then((response) => {
       setOkIdCheck(response.data); // 중복되지 않을 때 true가 담김
       if (response.data === true) {
-        setErrorMessage('가입 가능 합니다.');
+        sweetAlert2('가입 가능 합니다.', 'success');
         setSignupDataError({ ...data, valid_empId: '' });
         setOkIdCheck(true);
       } else {
-        setErrorMessage('아이디가 이미 존재 합니다.');
+        sweetAlert2('아이디가 이미 존재 합니다.', 'warning');
       }
-      failModalhandleOpen();
     })
     .catch((error) => {
       console.log(error);
@@ -190,14 +150,7 @@ export const IDCheck = async (
 };
 ///////////////////////////// 회원 가입시 유효한 이메일인지 확인하는 것
 const urlCheckEmail = 'http://localhost:8080/api/auth/sendEmailForEmail';
-export const SendEmailForSignUpAPI = async (
-  email,
-  handleOpen,
-  handleClose,
-  setErrorMessage,
-  failModalhandleOpen,
-  setAuthNumberOpen
-) => {
+export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setAuthNumberOpen) => {
   handleOpen();
   await axios
     .post(urlCheckEmail, {
@@ -205,47 +158,36 @@ export const SendEmailForSignUpAPI = async (
     })
     .then((response) => {
       handleClose();
-      failModalhandleOpen();
-      setErrorMessage(response.data);
+      sweetAlert2(response.data, 'success');
       setAuthNumberOpen(true);
     })
     .catch((error) => {
       handleClose();
-      failModalhandleOpen();
-      setErrorMessage(error.response.data.message);
+      sweetAlert2(error.response.data.message, 'warning');
     });
 };
 /////////////////////////// 회원 가입시 이메일 인증번호 확인하는 것
 const urlCheckAuth = 'http://localhost:8080/api/auth/find/1';
-export const CheckAuthForSignUpAPI = async (
-  data,
-  failModalhandleOpen,
-  setErrorMessage,
-  setOkEmailCheck,
-  setSignupDataError
-) => {
+export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupDataError) => {
   await axios
     .post(urlCheckAuth, {
       authenticationNumber: data.authenticationNumber,
       email: data.email,
     })
     .then((response) => {
-      if (response.data === '올바른 인증번호를 입력하세요') {
-        setErrorMessage(response.data);
-        failModalhandleOpen();
-      } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
-        setErrorMessage(response.data);
-        failModalhandleOpen();
+      if (
+        (response.data === '올바른 인증번호를 입력하세요.') |
+        (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.')
+      ) {
+        sweetAlert2(response.data, 'warning');
       } else if (data.authenticationNumber == response.data) {
-        setErrorMessage('인증에 성공하였습니다.');
-        failModalhandleOpen();
+        sweetAlert2('인증에 성공하였습니다.', 'success');
         setOkEmailCheck(true);
         setSignupDataError({ ...data, valid_email: '' });
       }
     })
     .catch((error) => {
-      setErrorMessage(error.response.data.message);
-      failModalhandleOpen();
+      sweetAlert2(error.response.data.message, 'warning');
     });
 };
 ///////////////////////// 회원 가입시 unit 불러오기
@@ -257,7 +199,7 @@ export const getUnitAPI = (setUnit) => {
 };
 //////////////////////// 회원 가입 버튼
 const urlSignup = 'http://localhost:8080/api/auth/signup';
-export const signupAPI = (data, setErrorMessage, failModalhandleOpen, setSignupDataError) => {
+export const signupAPI = (data, setSignupDataError) => {
   const signupData = {
     empId: data.empId,
     password: data.password,
@@ -273,9 +215,7 @@ export const signupAPI = (data, setErrorMessage, failModalhandleOpen, setSignupD
     .post(urlSignup, signupData)
     .then((response) => {
       if (response.data.email === data.email) {
-        setErrorMessage('가입 성공');
-        failModalhandleOpen();
-        //  window.location.href = '/login';
+        sweetAlertSuccess('가입 성공', 'success', '/login');
       } else {
         setSignupDataError({
           valid_email: response.data.valid_email,
@@ -288,9 +228,8 @@ export const signupAPI = (data, setErrorMessage, failModalhandleOpen, setSignupD
     })
     .catch((error) => {
       if (error.response.data) {
+        sweetAlert2(error.response.data.message, 'warning');
         console.log(error);
-        setErrorMessage(error.response.data.message);
-        failModalhandleOpen();
       }
     });
 };

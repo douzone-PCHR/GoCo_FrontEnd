@@ -1,18 +1,18 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../../CSS/authcss/Signup.module.css';
-import UnitSelect from '../../component/auth/UnitSelect';
-import PasswordCheck from '../../component/auth/PasswordCheck';
-import { Hiredate } from '../../component/auth/Hiredate';
-import { InsertEmail } from '../../component/auth/InsertEmail';
-import { insertName, insertPhoneNumber } from '../../component/auth/InsertNamePhone';
-import { InsertId } from '../../component/auth/InsertId';
+import UnitSelect from '../../component/auth/SignUp/UnitSelect';
+import PasswordCheck from '../../component/auth/SignUp/PasswordCheck';
+import { Hiredate } from '../../component/auth/SignUp/Hiredate';
+import { InsertEmail } from '../../component/auth/SignUp/InsertEmail';
+import { insertName, insertPhoneNumber } from '../../component/auth/SignUp/InsertNamePhone';
+import { InsertId } from '../../component/auth/SignUp/InsertId';
 import { signupAPI } from '../../api/authAPI';
-import { ModalSendMail, ModalSendMailFail } from '../../component/auth/Modal';
+import { ModalSendMail } from '../../component/auth/Modal';
+import MoveLoginPage from '../../component/auth/SignUp/MoveLoginPage';
+import SignUpButton from '../../component/auth/SignUp/SignUpButton';
 
 const theme = createTheme();
 export default function Signup() {
@@ -21,12 +21,6 @@ export default function Signup() {
   const [okEmailCheck, setOkEmailCheck] = React.useState(false);
   const [okHiredateCheck, setOkHiredateCheck] = React.useState(false);
   const [okUnitCheck, setOkUnitCheck] = React.useState(false);
-
-  const [errorMessage, setErrorMessage] = React.useState(''); // 모달 에러 메세지 띄우는 변수
-  const [failModal, setFailModal] = React.useState(false); // 실패 모달함수
-  const failModalhandleOpen = () => setFailModal(true); // 실패 모달함수
-  const failModalhandleClose = () => setFailModal(false); // 실패 모달함수
-
   const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
   const handleOpen = () => setOpen(true); //메일보내는 중 모달
   const handleClose = () => setOpen(false); //메일보내는 중 모달
@@ -52,10 +46,6 @@ export default function Signup() {
   const handleChange = (prop) => (event) => {
     setData({ ...data, [prop]: event.target.value });
   };
-  const LoginPage = () => {
-    window.location.href = '/login';
-  };
-
   React.useEffect(() => {
     setOkIdCheck(false);
   }, [data.empId]); // 아이디 입력을 바꿀때마다 id 체크 값이 false가 된다.
@@ -82,25 +72,16 @@ export default function Signup() {
     } else if (!okUnitCheck) {
       return false;
     }
-
-    signupAPI(data, setErrorMessage, failModalhandleOpen, setSignupDataError, signupDataError);
+    signupAPI(data, setSignupDataError, signupDataError);
   };
   return (
     <>
       <div className={styles.BackGround}>
         {/* ----------------------------------메일보내는 중 모달함수----------------------------------*/}
-        {ModalSendMail(open, handleClose, setErrorMessage, failModalhandleOpen, signupDataError)}
-        {/* ----------------------------------실패 모달함수----------------------------------*/}
-        {ModalSendMailFail(failModal, failModalhandleClose, errorMessage)}
+        {ModalSendMail(open, handleClose)}
         <div className={styles.Border}>
           <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="lg">
-              {/* <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}> */}
               <div className={styles.MainText}>회원가입</div>
 
               <Grid container spacing={3}>
@@ -109,8 +90,6 @@ export default function Signup() {
                   handleChange={handleChange}
                   data={data}
                   setOkIdCheck={setOkIdCheck}
-                  setErrorMessage={setErrorMessage}
-                  failModalhandleOpen={failModalhandleOpen}
                   signupDataError={signupDataError}
                   setSignupDataError={setSignupDataError}
                 />
@@ -122,20 +101,13 @@ export default function Signup() {
                 />
 
                 {/*-----------------------------------이름과 연락처---------------------------------------*/}
-                <Grid item xs={12} sm={6}>
-                  {insertName(handleChange, signupDataError)}
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  {insertPhoneNumber(handleChange, signupDataError)}
-                </Grid>
-
+                {insertName(handleChange, signupDataError)}
+                {insertPhoneNumber(handleChange, signupDataError)}
                 {/*---------------------------------- 이메일적고 발송버튼------------------------------------*/}
                 <InsertEmail
                   handleChange={handleChange}
                   signupDataError={signupDataError}
                   okEmailCheck={okEmailCheck}
-                  setErrorMessage={setErrorMessage}
-                  failModalhandleOpen={failModalhandleOpen}
                   data={data}
                   handleOpen={handleOpen}
                   handleClose={handleClose}
@@ -143,9 +115,7 @@ export default function Signup() {
                   setSignupDataError={setSignupDataError}
                 />
                 {/*----------------------------------입사일----------------------------------------*/}
-                <Grid item xs={12} sm={6}>
-                  <Hiredate data={data} setData={setData} setOkHiredateCheck={setOkHiredateCheck} />
-                </Grid>
+                <Hiredate data={data} setData={setData} setOkHiredateCheck={setOkHiredateCheck} />
                 {/*-------------------------------------부서지정---------------------------------------------*/}
                 <Grid item xs={12} sm={6}>
                   <UnitSelect
@@ -156,42 +126,9 @@ export default function Signup() {
                   />
                 </Grid>
                 {/*----------------------------------------------------------------------------------*/}
-                <Grid item xs={12} sm={5}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      mt: 3,
-                      mb: 2,
-                      backgroundColor: '#64a1bd',
-                      '&:hover': {
-                        backgroundColor: '#267194',
-                      },
-                      height: '60%',
-                    }}
-                    onClick={LoginPage}>
-                    취소
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={2}></Grid>
-                <Grid item xs={12} sm={5}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      mt: 3,
-                      mb: 2,
-                      backgroundColor: '#64a1bd',
-                      '&:hover': {
-                        backgroundColor: '#267194',
-                      },
-                      height: '60%',
-                    }}
-                    onClick={SignUpData}>
-                    회원 가입
-                  </Button>
-                </Grid>
+                <MoveLoginPage />
+                <Grid item xs={12} sm={2} />
+                <SignUpButton SignUpData={SignUpData} />
               </Grid>
             </Container>
           </ThemeProvider>

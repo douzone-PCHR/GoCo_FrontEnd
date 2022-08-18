@@ -2,13 +2,12 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { CheckAuthForSignUpAPI, SendEmailForSignUpAPI } from '../../api/authAPI';
+import { CheckAuthForSignUpAPI, SendEmailForSignUpAPI } from '../../../api/authAPI';
+import { sweetAlert2 } from '../AuthSweetAlert.js/sweetAlert2';
 export const InsertEmail = ({
   handleChange,
   signupDataError,
   okEmailCheck,
-  setErrorMessage,
-  failModalhandleOpen,
   data,
   handleOpen,
   handleClose,
@@ -19,28 +18,14 @@ export const InsertEmail = ({
   // 회원 가입시 메일 보내는 함수
   const SendEmailForSignUp = () => {
     if ((data.email === '') | (data.email === undefined)) {
-      setErrorMessage('이메일이 입력되지 않았습니다.');
-      failModalhandleOpen();
+      sweetAlert2('이메일이 입력되지 않았습니다.', 'warning');
       return;
     }
-    SendEmailForSignUpAPI(
-      data.email,
-      handleOpen,
-      handleClose,
-      setErrorMessage,
-      failModalhandleOpen,
-      setAuthNumberOpen
-    );
+    SendEmailForSignUpAPI(data.email, handleOpen, handleClose, setAuthNumberOpen);
   };
   //회원 가입시 인증번호 확인하는 함수
   const CheckAuthForSignUp = () => {
-    CheckAuthForSignUpAPI(
-      data,
-      failModalhandleOpen,
-      setErrorMessage,
-      setOkEmailCheck,
-      setSignupDataError
-    );
+    CheckAuthForSignUpAPI(data, setOkEmailCheck, setSignupDataError);
   };
   return (
     <>
