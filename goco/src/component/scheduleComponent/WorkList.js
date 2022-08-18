@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-import {
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-} from "@mui/material";
-import { Divider, List, Typography } from "antd";
-import workList from "../../api/work/workAPI";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import FullCalendar from '@fullcalendar/react'; // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
+import { List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography } from '@mui/material';
+import workList from '../../api/work/workAPI';
+import axios from 'axios';
 
 export default function WorkList() {
   const [selectedIndex, setSelectedIndex] = useState(1);
@@ -48,15 +42,14 @@ export default function WorkList() {
     <>
       <Box
         sx={{
-          "& > :not(style)": {
+          '& > :not(style)': {
             m: 1,
             margin: 5,
             marginTop: 10,
             width: 250,
             height: 250,
           },
-        }}
-      >
+        }}>
         <List component="nav" aria-label="secondary mailbox folder">
           <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
             개인 일정
@@ -67,7 +60,7 @@ export default function WorkList() {
                 <ListItemText primary={data.workTitle} />
               </ListItemButton>
             ) : (
-              ""
+              ''
             );
           })}
         </List>
@@ -82,7 +75,7 @@ export default function WorkList() {
                 <ListItemText primary={data.workTitle} />
               </ListItemButton>
             ) : (
-              ""
+              ''
             );
           })}
         </List>

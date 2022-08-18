@@ -1,28 +1,26 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Admin } from './page/admin/Admin';
-import App from "./App";
-import Login from "./page/auth/Login";
-import Search from "./page/Search";
-import Signup from "./page/auth/Signup";
+import App from './App';
+import Login from './page/auth/Login';
+import Search from './page/Search';
+import Signup from './page/auth/Signup';
 import FindId from './page/auth/FindId';
 import ShowId from './page/auth/ShowId';
 import FindPwd from './page/auth/FindPwd';
-import Main from "./page/Main";
+import Main from './page/Main';
 import UserUpdate from './page/employee/UserUpdate';
-import NotFound from "./page/NotFound";
-import ManagerMain from "./page/manager/ManagerMain";
-import Myteamcurrentstatus from "./page/manager/Myteamcurrentstatus";
+import NotFound from './page/NotFound';
 import Approve from './page/employee/Approve/Approve';
 import ManagerApprove from './page/manager/Approve/ManagerApprove';
 import { Management } from './page/admin/Management';
-import ManagerMain from "./page/manager/ManagerMain";
-import Myteamcurrentstatus from "./page/manager/Myteamcurrentstatus";
+import ManagerMain from './page/manager/ManagerMain';
+import Myteamcurrentstatus from './page/manager/Myteamcurrentstatus';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   // <React.StrictMode>
