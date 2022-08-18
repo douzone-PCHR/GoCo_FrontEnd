@@ -5,8 +5,8 @@ import jobTitle from './jobTitle.json';
 import teamPosition from './teamPosition.json';
 import { useEffect, useState } from 'react';
 import { getUnit } from '../../api/unitAPI';
-import { TableHeade } from './TableHead';
-import { updateEmp } from '../../api/employeeAPI';
+import { AdminTableHead } from './TableHead';
+import { updateEmpAPI } from '../../api/employeeAPI';
 function updateDatafnc(updateData) {
   const data = {
     empNum: updateData.id,
@@ -20,19 +20,19 @@ function updateDatafnc(updateData) {
       unitId: updateData.unit,
     },
   };
-  updateEmp(data);
+  updateEmpAPI(data);
 }
+
 export const TableModalComponent = ({ open, setOpen, result }) => {
   const [units, setUnit] = useState();
   const [selectDept, setSelectDept] = useState('');
   const [resultTeam, setResultTeam] = useState([]);
   const resultDept = [];
   const [updateData, setUpdateData] = useState({ id: result.id });
-  console.log(result);
   useEffect(() => {
     getUnit(setUnit);
   }, []);
-  console.log(units);
+
   useEffect(() => {
     const teams = [];
     units &&
@@ -53,8 +53,8 @@ export const TableModalComponent = ({ open, setOpen, result }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <div className={style.modal}>
-        <Table sx={{ width: 750 }} align="center">
-          <TableHeade />
+        <Table align="center">
+          <AdminTableHead />
           <TableBody>
             <TableRow>
               {/* 이름 */}
@@ -87,13 +87,8 @@ export const TableModalComponent = ({ open, setOpen, result }) => {
         </Table>
         <Button
           onClick={() => {
-            // if (confirm('수정하시겠습니까?') == false) {
             updateDatafnc(updateData);
             setOpen(false);
-            // } else {
-            // return false;
-            // }
-            // alert('수정하시겠습니까?');
           }}>
           수정
         </Button>

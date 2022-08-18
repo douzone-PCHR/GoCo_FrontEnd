@@ -5,6 +5,6 @@ export const employee = () => {
   axios.get();
 };
 
-export const updateEmp = (data) => {
+export const updateEmpAPI = (data) => {
   axios.put(`/api/admin/emp/${data.empNum}`, data).then((response) => {});
 };
