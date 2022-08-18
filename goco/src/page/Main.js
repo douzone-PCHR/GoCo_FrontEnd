@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import commuteAPI from '../api/commuteAPI';
-import Footer from '../component/Footer';
-import Header from '../component/Header';
+import { useEffect, useState } from "react";
+import commuteAPI from "../api/commuteAPI";
+import { loginDefaultValue } from "../api/work/workAPI";
+import ManagerMain from "./manager/ManagerMain";
+
+import Schedule from "./schedule/Schedule";
 
 export default function Main({ replace }) {
-  commuteAPI();
-  console.log(replace);
-  return <div>Main</div>;
+  return (
+    <div>
+      <Schedule />
+    </div>
+  );
 }

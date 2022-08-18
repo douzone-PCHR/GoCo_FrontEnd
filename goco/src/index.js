@@ -1,15 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import App from './App';
-import Login from './page/Login';
-import Search from './page/Search';
-import Signup from './page/Signup';
-import Main from './page/Main';
-import NotFound from './page/NotFound';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import App from "./App";
+import Login from "./page/Login";
+import Search from "./page/Search";
+import Signup from "./page/Signup";
+import Main from "./page/Main";
+import NotFound from "./page/NotFound";
+import ManagerMain from "./page/manager/ManagerMain";
+import Myteamcurrentstatus from "./page/manager/Myteamcurrentstatus";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   //   <App />
@@ -23,6 +25,8 @@ root.render(
         <Route path="/search" index element={<Search />} />
         <Route path="/signup" index element={<Signup />} />
         <Route path="/goco" index element={<Main />} />
+        <Route path="/manager" index element={<ManagerMain />} />
+        <Route path="/currentStatus" index element={<Myteamcurrentstatus />} />
         <Route path="*" index element={<NotFound />} />
       </Route>
     </Routes>

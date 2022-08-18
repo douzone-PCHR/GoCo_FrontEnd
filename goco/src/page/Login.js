@@ -3,13 +3,9 @@
 // }
 // export default Login;
 
-import axios from 'axios';
-import { useRef, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import loginAPI from '../api/authAPI';
-import authAPI from '../api/authAPI';
-import Footer from '../component/Footer';
-import Header from '../component/Header';
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import loginAPI from "../api/authAPI";
 
 export default function Login() {
   const id = useRef();
@@ -23,8 +19,9 @@ export default function Login() {
       <Link
         to={`/goco`}
         onClick={() => {
-          loginAPI(id.current.value, pwd.current.value);
-        }}>
+          // loginAPI(id.current.value, pwd.current.value);
+        }}
+      >
         <button>로그인 하기</button>
       </Link>
       <Link to="/search">
@@ -35,8 +32,9 @@ export default function Login() {
       </Link>
       <button
         onClick={() => {
-          loginAPI(id.current.value, pwd.current.value);
-        }}>
+          // loginAPI(id.current.value, pwd.current.value);
+        }}
+      >
         qx
       </button>
     </div>

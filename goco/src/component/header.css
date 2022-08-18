@@ -9,7 +9,7 @@
 }
 
 .footer {
-  position: fixed;
+  position: relative;
   height: 100px;
   background-color: rgb(224, 245, 168);
   font-size: 50px;
