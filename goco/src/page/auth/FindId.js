@@ -1,15 +1,16 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../../CSS/authcss/FindId.module.css';
 import { FindIdAPI, AuthCheckAPI } from '../../api/authAPI';
 import ShowId from './ShowId';
+import InsertName from '../../component/auth/FindId/InsertName';
+import InsertEmail from '../../component/auth/FindId/InsertEmail';
+import InsertAuthNum from '../../component/auth/FindId/InsertAuthNum';
+import MoveLoginPage from '../../component/auth/FindId/MoveLoginPage';
+import MoveShowIdPage from '../../component/auth/FindId/MoveShowIdPage';
+import AuthNumButton from '../../component/auth/FindId/AuthNumButton';
 import {
   ModalSendMail,
   ModalSendMailFail,
@@ -39,9 +40,6 @@ export default function FindId() {
     setData({ ...data, [prop]: event.target.value });
   };
 
-  const LoginPage = () => {
-    window.location.href = '/Login';
-  };
   const SendAuth = () => {
     // 이메일 전달하는 함수
     FindIdAPI(data.name, data.email, handleOpen, handleClose, failModalhandleOpen, setErrorMessage);
@@ -71,110 +69,15 @@ export default function FindId() {
           <div className={styles.Border}>
             <ThemeProvider theme={theme}>
               <Container component="main" maxWidth="lg">
-                <Box
-                  sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}>
-                  <div className={styles.MainText}>
-                    <Typography component="h1" variant="h5">
-                      아이디 찾기
-                    </Typography>
-                  </div>
-                  {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}> */}
-                  <Grid container spacing={4}>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoComplete="given-name"
-                        name="이름을 입력하세요"
-                        required
-                        fullWidth
-                        id="name"
-                        label="이름을 입력하세요"
-                        autoFocus
-                        onChange={handleChange('name')}
-                      />
-                    </Grid>
-                    {/*---------------------------------- 이메일과 인증번호 버튼------------------------------------*/}
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="email"
-                        label="이메일을 입력하세요"
-                        name="email"
-                        autoComplete="email"
-                        onChange={handleChange('email')}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Button
-                        variant="outlined"
-                        sx={{
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: '#64a1bd',
-                          '&:hover': {
-                            backgroundColor: '#267194',
-                          },
-                          color: 'AppWorkspace',
-                        }}
-                        onClick={SendAuth}>
-                        인증번호 발송
-                      </Button>
-                    </Grid>
-                    {/*------------------------------------------------------------------------------------------*/}
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="authNum"
-                        label="인증번호를 입력하세요"
-                        name="authNum"
-                        onChange={handleChange('authNum')}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{
-                          mt: 3,
-                          mb: 2,
-                          backgroundColor: '#64a1bd',
-                          '&:hover': {
-                            backgroundColor: '#267194',
-                          },
-
-                          height: '60%',
-                        }}
-                        onClick={LoginPage}>
-                        취소
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{
-                          mt: 3,
-                          mb: 2,
-                          backgroundColor: '#64a1bd',
-                          '&:hover': {
-                            backgroundColor: '#267194',
-                          },
-                          height: '60%',
-                        }}
-                        onClick={AuthCheck}>
-                        확인
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
+                <div className={styles.MainText}>아이디 찾기</div>
+                <Grid container spacing={4}>
+                  <InsertName handleChange={handleChange} />
+                  <InsertEmail handleChange={handleChange} />
+                  <AuthNumButton SendAuth={SendAuth} />
+                  <InsertAuthNum handleChange={handleChange} />
+                  <MoveLoginPage />
+                  <MoveShowIdPage AuthCheck={AuthCheck} />
+                </Grid>
               </Container>
             </ThemeProvider>
           </div>

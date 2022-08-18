@@ -10,6 +10,16 @@ export const setCookie = (name, value, option) => {
 export const getCookie = (name) => {
   return cookies.get(name);
 };
+
+export const deleteCookie = () => {
+  const expires = new Date(); //유효시간
+  expires.setDate(expires.getDate() - 1);
+  return cookies.set('accessToken', '', {
+    path: '/',
+    expires,
+  });
+};
+
 //////////////////// 로그인 하는 것
 export const loginAPI = async (id, password, failModalhandleOpen, setErrorMessage) => {
   await axios
@@ -148,18 +158,27 @@ export const FindPasswordAPI = async (
 };
 
 /////////////////////////// ID 중복 체크
-export const IDCheck = async (empId, setOkIdCheck, failModalhandleOpen, setErrorMessage) => {
-  if (empId == '') {
+const urlCheckId = 'http://localhost:8080/api/auth/checkInfo?info=';
+export const IDCheck = async (
+  data,
+  setOkIdCheck,
+  failModalhandleOpen,
+  setErrorMessage,
+  setSignupDataError
+) => {
+  if (data.empId === '') {
     failModalhandleOpen();
     setErrorMessage('아이디 값이 입력되지 않았습니다.');
     return;
   }
   await axios
-    .get(`http://localhost:8080/api/auth/checkInfo?info=${empId}`)
+    .get(`${urlCheckId}${data.empId}`)
     .then((response) => {
       setOkIdCheck(response.data); // 중복되지 않을 때 true가 담김
-      if (response.data == true) {
+      if (response.data === true) {
         setErrorMessage('가입 가능 합니다.');
+        setSignupDataError({ ...data, valid_empId: '' });
+        setOkIdCheck(true);
       } else {
         setErrorMessage('아이디가 이미 존재 합니다.');
       }
@@ -170,22 +189,25 @@ export const IDCheck = async (empId, setOkIdCheck, failModalhandleOpen, setError
     });
 };
 ///////////////////////////// 회원 가입시 유효한 이메일인지 확인하는 것
+const urlCheckEmail = 'http://localhost:8080/api/auth/sendEmailForEmail';
 export const SendEmailForSignUpAPI = async (
   email,
   handleOpen,
   handleClose,
   setErrorMessage,
-  failModalhandleOpen
+  failModalhandleOpen,
+  setAuthNumberOpen
 ) => {
   handleOpen();
   await axios
-    .post('http://localhost:8080/api/auth/sendEmailForEmail', {
+    .post(urlCheckEmail, {
       email: email,
     })
     .then((response) => {
       handleClose();
       failModalhandleOpen();
       setErrorMessage(response.data);
+      setAuthNumberOpen(true);
     })
     .catch((error) => {
       handleClose();
@@ -194,17 +216,18 @@ export const SendEmailForSignUpAPI = async (
     });
 };
 /////////////////////////// 회원 가입시 이메일 인증번호 확인하는 것
+const urlCheckAuth = 'http://localhost:8080/api/auth/find/1';
 export const CheckAuthForSignUpAPI = async (
-  authenticationNumber,
-  email,
+  data,
   failModalhandleOpen,
   setErrorMessage,
-  setOkEmailCheck
+  setOkEmailCheck,
+  setSignupDataError
 ) => {
   await axios
-    .post(`http://localhost:8080/api/auth/find/1`, {
-      authenticationNumber: authenticationNumber,
-      email: email,
+    .post(urlCheckAuth, {
+      authenticationNumber: data.authenticationNumber,
+      email: data.email,
     })
     .then((response) => {
       if (response.data === '올바른 인증번호를 입력하세요') {
@@ -213,14 +236,61 @@ export const CheckAuthForSignUpAPI = async (
       } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
         setErrorMessage(response.data);
         failModalhandleOpen();
-      } else if (authenticationNumber == response.data) {
+      } else if (data.authenticationNumber == response.data) {
         setErrorMessage('인증에 성공하였습니다.');
         failModalhandleOpen();
         setOkEmailCheck(true);
+        setSignupDataError({ ...data, valid_email: '' });
       }
     })
     .catch((error) => {
       setErrorMessage(error.response.data.message);
       failModalhandleOpen();
+    });
+};
+///////////////////////// 회원 가입시 unit 불러오기
+const urlUnit = 'http://localhost:8080/api/auth/getAllUnit';
+export const getUnitAPI = (setUnit) => {
+  axios.get(urlUnit).then((response) => {
+    setUnit(response.data);
+  });
+};
+//////////////////////// 회원 가입 버튼
+const urlSignup = 'http://localhost:8080/api/auth/signup';
+export const signupAPI = (data, setErrorMessage, failModalhandleOpen, setSignupDataError) => {
+  const signupData = {
+    empId: data.empId,
+    password: data.password,
+    name: data.name,
+    phoneNumber: data.phoneNumber,
+    email: data.email,
+    hiredate: data.hiredate,
+    unit: {
+      unitId: data.unit,
+    },
+  };
+  axios
+    .post(urlSignup, signupData)
+    .then((response) => {
+      if (response.data.email === data.email) {
+        setErrorMessage('가입 성공');
+        failModalhandleOpen();
+        //  window.location.href = '/login';
+      } else {
+        setSignupDataError({
+          valid_email: response.data.valid_email,
+          valid_empId: response.data.valid_empId,
+          valid_name: response.data.valid_name,
+          valid_password: response.data.valid_password,
+          valid_phoneNumber: response.data.valid_phoneNumber,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data) {
+        console.log(error);
+        setErrorMessage(error.response.data.message);
+        failModalhandleOpen();
+      }
     });
 };

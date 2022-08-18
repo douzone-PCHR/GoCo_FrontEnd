@@ -10,12 +10,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
-export default function ({ id }) {
+export default function ShowId({ id }) {
   const LoginPage = () => {
-    window.location.href = '/Login';
+    window.location.href = '/login';
   };
   const FindPwdPage = () => {
-    window.location.href = '/FindPwd';
+    window.location.href = '/findPwd';
   };
   return (
     <>
