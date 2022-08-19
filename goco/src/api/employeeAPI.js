@@ -148,3 +148,20 @@ export const changePhoneNumberAPI = async (textData) => {
       sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };
+
+export const getManager = (unitId, setManager) => {
+  axios.get(`http://localhost:8080/api/admin/findmanager/${unitId}`).then((response) => {
+    setManager(response.data);
+  });
+};
+
+export const getEmp = (setEmp) => {
+  axios
+    .get('http://localhost:8080/api/admin/findAll')
+    .then((response) => {
+      setEmp(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, TableCell } from '@mui/material';
 import React, { useState } from 'react';
 
-export const Select = ({ data, title, setUnit, setUpdateData }) => {
+export const SelectComponent = ({ data, title, setUnit, setUpdateData }) => {
   const [combo, setCombo] = useState('');
   const handleChange = (event) => {
     setCombo(event.target.value); // selectBox 변경 값

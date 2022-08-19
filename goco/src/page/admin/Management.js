@@ -12,41 +12,27 @@ import {
 } from '@mui/material';
 import { width } from '@mui/system';
 import { Fragment, useEffect, useState } from 'react';
-import { getUnit, insertUnit } from '../../api/unitAPI';
+import { getManager } from '../../api/employeeAPI';
+import { getUnitAPI, insertUnitAPI } from '../../api/unitAPI';
 import { UnitModalComponent } from '../../component/Admin/Management/UnitModalComponent';
 import styled from '../../CSS/Admin.module.css';
 
 function getUnits(setUnits) {
-  getUnit(setUnits);
+  getUnitAPI(setUnits);
 }
 
 export const Management = () => {
   const [units, setUnits] = useState();
   const [insertBtn, setInsertBtn] = useState(false);
-  const [open, setOpen] = useState({
-    0: false,
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-    9: false,
-    10: false,
-    11: false,
-    12: false,
-    13: false,
-    14: false,
-  });
-
+  const [dept, setDept] = useState();
+  const [open, setOpen] = useState(false);
+  const [check, setCheck] = useState(true);
   const resultDept = [];
   const teams = [];
-
   useEffect(() => {
     getUnits(setUnits);
-  }, [units]);
+  }, [check]);
+
   units &&
     units.map((unit) => {
       if (!unit.unitType) {
@@ -82,7 +68,7 @@ export const Management = () => {
                 resultDept.map((element, index) => {
                   // 부서(key)값
                   return (
-                    <TableRow key={element + index}>
+                    <TableRow key={index}>
                       {/* 부서에 대한 값 */}
                       <TableCell>{element.unitName}</TableCell>
                       {teams &&
@@ -96,20 +82,14 @@ export const Management = () => {
                           );
                         })}
 
-                      <UnitModalComponent
-                        depts={element}
-                        open={open}
-                        setOpen={setOpen}
-                        index={index}
-                        teams={teams}
-                      />
                       {[...Array(teams.length + 3 - teams.length)].map((num, arrIdx) => {
                         return <TableCell key={arrIdx} />;
                       })}
                       <TableCell align="right" colSpan={20} padding="none">
                         <Button
                           onClick={() => {
-                            setOpen({ ...open, [`${index}`]: true });
+                            setOpen(true);
+                            setDept(element);
                           }}>
                           수정하기
                         </Button>
@@ -119,6 +99,7 @@ export const Management = () => {
                 })}
             </TableBody>
           </Table>
+
           <Modal open={insertBtn}>
             <div className={styled.modal}>
               <Typography variant="h4" color="primary" fontWeight="bold">
@@ -129,13 +110,12 @@ export const Management = () => {
                 <br />
                 <Button
                   onClick={() => {
-                    const data = document.getElementsByName(styled.textField)[0].value;
-                    const unit = {
-                      unitName: data,
-                    };
-                    if (data) {
-                      insertUnit(unit);
+                    const unitName = document.getElementsByName(styled.textField)[0].value;
+
+                    if (unitName) {
+                      insertUnitAPI(unitName);
                       setInsertBtn(false);
+                      setCheck(!check);
                     }
                   }}>
                   추가
@@ -150,6 +130,14 @@ export const Management = () => {
             </div>
           </Modal>
         </div>
+        <UnitModalComponent
+          open={open}
+          setOpen={setOpen}
+          teams={teams}
+          dept={dept}
+          setCheck={setCheck}
+          check={check}
+        />
       </div>
     </>
   );
