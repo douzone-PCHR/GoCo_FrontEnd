@@ -1,25 +1,45 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from 'axios';
 
-// export const getWorkListData = async () => {
-//   await axios
-//     .get("http://localhost:8080/work", {
-//       headers: {
-//         "access-control-allow-origin": "true",
-//         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjAzMjUyMDV9.cxefj3OA80c8bUNJuR90o0LSilPrssbIqgUGeue3s_QsavERIwjoZex_KQ22njzkSBwAeM2aZeP6cOfYJ8wwlw`,
-//       },
-//     })
-//     .then((response) => {
-//       console.log(response.data);
-//     });
-// };
+export const getWorkListData = async (privateSetData, publicSetData) => {
+  await axios
+    .get('http://localhost:8080/api/work', {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+      },
+    })
+    .then((response) => {
+      let privatedata = response.data.filter(
+        (work) => work.workStartDate === null && work.workEndDate === null && work.workType === true
+      );
+      let publicdata = response.data.filter(
+        (work) =>
+          work.workStartDate === null && work.workEndDate === null && work.workType === false
+      );
+      privateSetData(privatedata);
+      publicSetData(publicdata);
+    });
+};
+
+export const commuteTime = async (setCommuteTimeData) => {
+  await axios
+    .get(`http://localhost:8080/api/commute/time`, {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+      },
+    })
+    .then((response) => {
+      setCommuteTimeData(response.data);
+    });
+};
 
 export const getEmployeeList = async (setEmp) => {
   await axios
-    .get("http://localhost:8080/api/work/emplist", {
+    .get('http://localhost:8080/api/work/emplist', {
       headers: {
-        "access-control-allow-origin": "true",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA2NzY4NTN9.t5bsh_dxyELOx2rmLehTzsZAWlZOPY0Qs9MuN52RofFN7s-q1ch0K_8yNL14aNTVR85w7rZADyIGMldONAB4nQ`,
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
       },
     })
     .then((response) => {
@@ -29,10 +49,10 @@ export const getEmployeeList = async (setEmp) => {
 
 export const loginDefaultValue = async (setLoginEmp) => {
   await axios
-    .get("http://localhost:8080/api/user/me", {
+    .get('http://localhost:8080/api/user/me', {
       headers: {
-        "access-control-allow-origin": "true",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA2NzY4NTN9.t5bsh_dxyELOx2rmLehTzsZAWlZOPY0Qs9MuN52RofFN7s-q1ch0K_8yNL14aNTVR85w7rZADyIGMldONAB4nQ`,
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
       },
     })
     .then((response) => {
