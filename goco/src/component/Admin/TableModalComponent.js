@@ -1,10 +1,10 @@
 import { Button, Modal, Table, TableBody, TableCell, TableRow } from '@mui/material';
 import style from '../../CSS/Admin.module.css';
-import { Select } from './Select';
+import { SelectComponent } from './SelectComponent';
 import jobTitle from './jobTitle.json';
 import teamPosition from './teamPosition.json';
 import { useEffect, useState } from 'react';
-import { getUnit } from '../../api/unitAPI';
+import { getUnitAPI } from '../../api/unitAPI';
 import { AdminTableHead } from './TableHead';
 import { updateEmpAPI } from '../../api/employeeAPI';
 function updateDatafnc(updateData) {
@@ -30,7 +30,7 @@ export const TableModalComponent = ({ open, setOpen, result }) => {
   const resultDept = [];
   const [updateData, setUpdateData] = useState({ id: result.id });
   useEffect(() => {
-    getUnit(setUnit);
+    getUnitAPI(setUnit);
   }, []);
 
   useEffect(() => {
@@ -60,9 +60,9 @@ export const TableModalComponent = ({ open, setOpen, result }) => {
               {/* 이름 */}
               <TableCell align="center">{result.name}</TableCell>
               {/* 직급 */}
-              <Select data={jobTitle} title={'jobTitle'} setUpdateData={setUpdateData} />
+              <SelectComponent data={jobTitle} title={'jobTitle'} setUpdateData={setUpdateData} />
               {/* 부서 */}
-              <Select
+              <SelectComponent
                 data={resultDept}
                 title={'ParentUnit'}
                 setUnit={setSelectDept}
@@ -70,10 +70,10 @@ export const TableModalComponent = ({ open, setOpen, result }) => {
               />
               {/* 팀 */}
               {resultTeam && (
-                <Select data={resultTeam} title={'unit'} setUpdateData={setUpdateData} />
+                <SelectComponent data={resultTeam} title={'unit'} setUpdateData={setUpdateData} />
               )}
               {/* 직책 */}
-              <Select
+              <SelectComponent
                 data={teamPosition}
                 title={'teamPosition'}
                 result={result.teamPosition}
