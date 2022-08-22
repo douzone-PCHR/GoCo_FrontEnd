@@ -46,14 +46,12 @@ export const InsertId = ({
           중복확인
         </Button>
       </Grid>
-      {signupDataError.valid_empId !== '' ? (
+      {signupDataError.valid_empId !== '' && (
         <>
           <Grid item xs={12} sx={{ color: 'red', fontSize: 'small' }}>
             {signupDataError.valid_empId}
           </Grid>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

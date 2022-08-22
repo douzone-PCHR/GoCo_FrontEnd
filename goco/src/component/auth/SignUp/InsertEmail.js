@@ -60,17 +60,15 @@ export const InsertEmail = ({
           인증번호 발송
         </Button>
       </Grid>
-      {signupDataError.valid_email !== '' ? (
+      {signupDataError.valid_email !== '' && (
         <>
           <Grid item xs={12} sx={{ color: 'red', fontSize: 'small' }}>
             {signupDataError.valid_email}
           </Grid>
         </>
-      ) : (
-        <></>
       )}
       {/*------------------------------------인증번호입력칸 + 확인버튼---------------------------------------------*/}
-      {authNumberOpen === true ? (
+      {authNumberOpen === true && (
         <>
           <Grid item xs={12} sm={9}>
             <TextField
@@ -100,8 +98,6 @@ export const InsertEmail = ({
             </Button>
           </Grid>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

@@ -57,15 +57,13 @@ export default function PasswordCheck({ okPasswordCheck, handleChange, signupDat
             </FormControl>
           </Grid>
         </Grid>
-        {signupDataError.valid_password !== '' ? (
+        {signupDataError.valid_password !== '' && (
           <>
             <Grid item xs={12} sm={6}></Grid>
             <Grid item xs={12} sm={6} sx={{ color: 'red', fontSize: 'small' }}>
               {signupDataError.valid_password}
             </Grid>
           </>
-        ) : (
-          <></>
         )}
       </Grid>
       {/* ------------------------------------ */}
@@ -101,15 +99,13 @@ export default function PasswordCheck({ okPasswordCheck, handleChange, signupDat
             </FormControl>
           </Grid>
         </Grid>
-        {okPasswordCheck === false ? (
+        {okPasswordCheck === false && (
           <>
             <Grid item xs={12} sm={6}></Grid>
             <Grid item xs={12} sm={6} sx={{ color: 'red', fontSize: 'small' }}>
               비밀번호를 일치시켜 주세요
             </Grid>
           </>
-        ) : (
-          <></>
         )}
       </Grid>
     </>

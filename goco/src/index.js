@@ -19,7 +19,8 @@ import ManagerApprove from './page/manager/Approve/ManagerApprove';
 import { Management } from './page/admin/Management';
 import ManagerMain from './page/manager/ManagerMain';
 import Myteamcurrentstatus from './page/manager/Myteamcurrentstatus';
-
+import Board from './page/board/Board';
+import BoardInsert from './page/board/BoardInsert';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -45,6 +46,9 @@ root.render(
         <Route path="/currentStatus" index element={<Myteamcurrentstatus />} />
         <Route path="*" index element={<NotFound />} />
         <Route path="/approve" element={<Approve />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/boardinsert" element={<BoardInsert />} />
+
         <Route path="/approveteam" element={<ManagerApprove />} />
       </Route>
     </Routes>
