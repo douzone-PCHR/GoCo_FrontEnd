@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { deleteVacation, getVacations } from '../../../api/vacationAPI';
-import { confirm } from '../../../common/confirm';
+import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
 import { TablePagination, Tooltip } from '@mui/material';
 
 function createData(type, startDate, endDate, requestDate, approve, detail, vacation) {
@@ -30,6 +30,12 @@ function createData(type, startDate, endDate, requestDate, approve, detail, vaca
     vacation,
   };
 }
+const approveType = {
+  APPROVE_WAITTING: '결재대기',
+  APPROVE_SUCCESS: '승인',
+  APPROVE_REFUSE: '반려',
+  APPROVE_CANCEL: '승인취소',
+};
 
 function Row(props) {
   const { row, check, setCheck } = props;
@@ -49,7 +55,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="right">{row.approve}</TableCell>
+        <TableCell align="right">{approveType[row.approve]}</TableCell>
 
         <TableCell>
           {row.approve === 'APPROVE_WAITTING' ? (
@@ -57,10 +63,20 @@ function Row(props) {
               <IconButton
                 aria-label="delete"
                 onClick={() => {
-                  confirm('신청 내역을 삭제 하시겠습니까?').then((result) => {
+                  deleteConfirm(
+                    '신청 내역을 삭제 하시겠습니까?',
+                    '',
+                    document.getElementById('modal2')
+                  ).then((result) => {
                     if (result.isConfirmed) {
-                      Swal.fire('신청 내역이 삭제되었습니다', '', 'success');
-                      deleteVacation(row.vacation, check, setCheck);
+                      resultConfirm(
+                        '신청 내역이 삭제되었습니다',
+                        '',
+                        'success',
+                        document.getElementById('modal2')
+                      ).then((result) => {
+                        deleteVacation(row.vacation, check, setCheck);
+                      });
                     }
                   });
                 }}>
@@ -105,9 +121,9 @@ function Row(props) {
   );
 }
 
-export default function Vacations() {
-  const [vacationList, setVacationList] = useState([]);
-  const [check, setCheck] = useState(false);
+export default function Vacations({ vacationList, check, setCheck }) {
+  // const [vacationList, setVacationList] = useState([]);
+  // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
@@ -118,9 +134,9 @@ export default function Vacations() {
     setPage(0);
   };
 
-  useEffect(() => {
-    getVacations(setVacationList, 1);
-  }, [check]);
+  // useEffect(() => {
+  //   getVacations(setVacationList, 1);
+  // }, [check]);
   const rows = [];
   if (vacationList.length) {
     vacationList.map((vacation) => {

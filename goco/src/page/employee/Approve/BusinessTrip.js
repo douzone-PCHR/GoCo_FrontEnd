@@ -14,9 +14,9 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
-import { deleteBusinessTrip, getBusinessTrip } from '../../../api/businessTripAPI';
+import { checkBusiness, deleteBusinessTrip, getBusinessTrip } from '../../../api/businessTripAPI';
 import Swal from 'sweetalert2';
-import { confirm, deleteConfirm } from '../../../common/confirm';
+import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
 import { TablePagination, Tooltip } from '@mui/material';
 
 function createData(startDate, endDate, requestDate, approve, detail, business) {
@@ -29,7 +29,12 @@ function createData(startDate, endDate, requestDate, approve, detail, business) 
     business,
   };
 }
-
+const approveType = {
+  APPROVE_WAITTING: '결재대기',
+  APPROVE_SUCCESS: '승인',
+  APPROVE_REFUSE: '반려',
+  APPROVE_CANCEL: '승인취소',
+};
 function Row(props) {
   const { row, check, setCheck } = props;
   const [open, setOpen] = useState(false);
@@ -47,7 +52,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="right">{row.approve}</TableCell>
+        <TableCell align="right">{approveType[row.approve]}</TableCell>
 
         <TableCell>
           {row.approve === 'APPROVE_WAITTING' ? (
@@ -55,10 +60,20 @@ function Row(props) {
               <IconButton
                 aria-label="delete"
                 onClick={() => {
-                  deleteConfirm('신청 내역을 삭제 하시겠습니까?').then((result) => {
+                  deleteConfirm(
+                    '신청 내역을 삭제 하시겠습니까?',
+                    '',
+                    document.getElementById('modal2')
+                  ).then((result) => {
                     if (result.isConfirmed) {
-                      Swal.fire('신청 내역이 삭제되었습니다', '', 'success');
-                      deleteBusinessTrip(row.business, check, setCheck);
+                      resultConfirm(
+                        '신청 내역이 삭제되었습니다',
+                        '',
+                        'success',
+                        document.getElementById('modal2')
+                      ).then(() => {
+                        deleteBusinessTrip(row.business, check, setCheck);
+                      });
                     }
                   });
                 }}>
@@ -102,9 +117,9 @@ function Row(props) {
     </Fragment>
   );
 }
-export default function BusinessTrips() {
-  const [businessList, setBusinessList] = useState([]);
-  const [check, setCheck] = useState(false);
+export default function BusinessTrips({ businessList, check, setCheck }) {
+  // const [businessList, setBusinessList] = useState([]);
+  // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
@@ -116,9 +131,9 @@ export default function BusinessTrips() {
   };
   console.log(businessList);
 
-  useEffect(() => {
-    getBusinessTrip(setBusinessList, 1);
-  }, [check]);
+  // useEffect(() => {
+  //   getBusinessTrip(setBusinessList, 1);
+  // }, [check]);
   const rows = [];
   if (businessList.length) {
     businessList.map((business) => {
