@@ -19,14 +19,12 @@ export const insertName = (handleChange, signupDataError) => {
             onChange={handleChange('name')}
           />
         </Grid>
-        {signupDataError.valid_name !== '' ? (
+        {signupDataError.valid_name !== '' && (
           <>
             <Grid item xs={12} sx={{ color: 'red', fontSize: 'small' }}>
               {signupDataError.valid_name}
             </Grid>
           </>
-        ) : (
-          <></>
         )}
       </Grid>
     </Grid>
@@ -50,14 +48,12 @@ export const insertPhoneNumber = (handleChange, signupDataError) => {
             onChange={handleChange('phoneNumber')}
           />
         </Grid>
-        {signupDataError.valid_phoneNumber !== '' ? (
+        {signupDataError.valid_phoneNumber !== '' && (
           <>
             <Grid item xs={12} sx={{ color: 'red', fontSize: 'small' }}>
               {signupDataError.valid_phoneNumber}
             </Grid>
           </>
-        ) : (
-          <></>
         )}
       </Grid>
     </Grid>

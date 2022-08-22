@@ -1,0 +1,30 @@
+.OutterBox {
+  padding: 4%;
+}
+.headerBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2%;
+}
+.MainText {
+  display: flex;
+  display: inline-block;
+}
+.MiddleText {
+  display: flex;
+  justify-content: space-between;
+}
+.Space {
+  margin-right: 2%;
+}
+.Pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+}
+.SearchDate {
+  display: flex;
+}
+.Margin {
+  margin-bottom: '100px';
+}

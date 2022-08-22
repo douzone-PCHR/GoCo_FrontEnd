@@ -36,22 +36,25 @@ export default function UserDataUpdate() {
             <Container component="main" maxWidth="lg">
               <div className={styles.MainText}>사용자 정보 변경</div>
               <Grid container spacing={1}>
-                {data && data ? (
-                  <>
-                    {/*-------------------------------------------이름 , id불변-----------------------------------------------*/}
-                    <NameAndId data={data} />
-                    {/*----------------------------------- 연락처 변경 ---------------------------------------*/}
-                    <ChangePhoneNumber
-                      data={data}
-                      handleChange={handleChange}
-                      textData={textData}
-                    />
-                    {/*---------------------------------- 이메일변경 -----------------------------------*/}
-                    <ChangeEmail data={data} handleChange={handleChange} textData={textData} />
-                  </>
-                ) : (
-                  <></>
-                )}
+                {
+                  data && data && (
+                    <>
+                      {/*-------------------------------------------이름 , id불변-----------------------------------------------*/}
+                      <NameAndId data={data} />
+                      {/*----------------------------------- 연락처 변경 ---------------------------------------*/}
+                      <ChangePhoneNumber
+                        data={data}
+                        handleChange={handleChange}
+                        textData={textData}
+                      />
+                      {/*---------------------------------- 이메일변경 -----------------------------------*/}
+                      <ChangeEmail data={data} handleChange={handleChange} textData={textData} />
+                    </>
+                  )
+                  //   : (
+                  //   <></>
+                  // )
+                }
                 {/* 여기 까지 삼항 연산자 */}
                 {/*----------------------------------비번변경 ----------------------------------------*/}
                 <PasswordChange handleChange={handleChange} textData={textData} />
