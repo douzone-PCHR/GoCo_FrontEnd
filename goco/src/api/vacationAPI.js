@@ -1,6 +1,7 @@
 import { SettingsSystemDaydreamTwoTone } from '@mui/icons-material';
 import { EightMpOutlined } from '@mui/icons-material';
 import axios from 'axios';
+import { resultConfirm } from '../common/confirm';
 
 // 휴가 전체 리스트
 export function getVacations(setData, empNum) {
@@ -21,14 +22,34 @@ export function approveVacationList(setData, unitId) {
 }
 
 // 휴가 추가
-export function addVacation(vacation) {
+export function addVacation(vacation, file, setOpen, setCheckOpen) {
   const url = '/api/vacation';
+  const fd = new FormData();
+  fd.append('vacationDTO', new Blob([JSON.stringify(vacation)], { type: 'application/json' }));
+  file ? fd.append('file', file) : fd.append('file', new Blob());
   axios
-    .post(url, vacation)
-    .then((response) => {
-      console.log(response.data);
+    .post(url, fd, { headers: { 'Content-Type': `multipart/form-data; ` } })
+    .then((res) => {
+      if (res.data.success.length === 0 && res.data.waitting.length === 0) {
+        resultConfirm(
+          '신청이 완료되었습니다',
+          '결재대기중인 경우 삭제 할 수 있습니다.',
+          'success'
+        ).then(() => {
+          setOpen(false);
+        });
+      } else {
+        resultConfirm(
+          '중복되는 신청일이 있습니다!',
+          '',
+          'error',
+          document.getElementById('modal')
+        ).then(() => {
+          setCheckOpen(true);
+        });
+      }
     })
-    .catch((error) => console.log(error));
+    .catch((err) => console.log(err));
 }
 
 // 휴가 결재
@@ -50,3 +71,33 @@ export const deleteVacation = (vacation, check, setCheck) => {
     .then(() => setCheck(!check))
     .catch((err) => console.log(err));
 };
+
+// check date
+export function checkVacation(setCheckDate, vacation) {
+  const url = 'api/vacation/check';
+  axios
+    .post(url, vacation)
+    .then((response) => setCheckDate(response.data.waitting.concat(response.data.success)));
+}
+
+// check vacationCount
+// http://localhost:8080/api/vacation/count/1?count=3
+export function checkVacationCount(empNum, count, date, setDate) {
+  const url = `api/vacation/count/${empNum}`;
+  const today = new Date();
+  axios
+    .get(url)
+    .then((response) => {
+      if (response.data - count < 0) {
+        resultConfirm(
+          '잔여 휴가 일수를 확인하세요!!',
+          `잔여 휴가 : ${response.data} 일`,
+          'error',
+          document.getElementById('modal')
+        ).then();
+        date.startDate = today;
+        date.endDate = null;
+      }
+    })
+    .catch((err) => console.log(err));
+}
