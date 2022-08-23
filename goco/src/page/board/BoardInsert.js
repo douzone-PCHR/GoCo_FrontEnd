@@ -1,84 +1,25 @@
 import * as React from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import ReactHtmlParser from 'html-react-parser';
-import Axios from 'axios';
-
-export default function BoardInsert() {
-  const [movieContent, setMovieContent] = React.useState({
-    title: '',
-    content: '',
+import Editor from './EditorComponent';
+import styles from '../../CSS/board/NoticeBoard.module.css';
+const NoticeWriteComponent = () => {
+  const [data, setData] = React.useState({
+    boardTitle: '',
+    boardContent: '',
+    employee: { empNum: 1 },
+    boardType: '',
   });
-
-  const [viewContent, setViewContent] = React.useState([]);
-
-  React.useEffect(() => {
-    setViewContent([...viewContent], [movieContent.content]);
-  }, [movieContent.content]);
-
-  const submitReview = () => {
-    Axios.post('http://localhost:8000/api/insert', {
-      title: movieContent.title,
-      content: movieContent.content,
-    }).then(() => {
-      alert('등록 완료!');
-    });
-  };
-
-  const getValue = (e) => {
-    const { name, value } = e.target;
-    setMovieContent({
-      ...movieContent,
-      [name]: value,
-    });
-  };
+  function onEditorChange(value) {
+    setData({ ...data, boardContent: value });
+    console.log('data.boardContent : ', data.boardContent);
+  }
 
   return (
-    <div className="App">
-      <h1>Movie Review</h1>
-      <div className="movie-container">
-        {viewContent.map((element) => (
-          <div style={{ border: '1px solid #333' }}>
-            <h2>{element.title}</h2>
-            <div>{ReactHtmlParser(element.content)}</div>
-          </div>
-        ))}
-      </div>
-      <div className="form-wrapper">
-        <input
-          className="title-input"
-          type="text"
-          placeholder="제목"
-          onChange={getValue}
-          name="title"
-        />
-
-        <CKEditor
-          editor={ClassicEditor}
-          onReady={(editor) => {
-            // You can store the "editor" and use when it is needed.
-            console.log('Editor is ready to use!', editor);
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            console.log({ event, editor, data });
-            console.log('콘텐트 : ', movieContent.content);
-            setMovieContent({
-              ...movieContent,
-              content: data,
-            });
-          }}
-          onBlur={(event, editor) => {
-            console.log('Blur.', editor);
-          }}
-          onFocus={(event, editor) => {
-            console.log('Focus.', editor);
-          }}
-        />
-      </div>
-      <button className="submit-button" onClick={submitReview}>
-        입력
-      </button>
+    <div className={styles.OutterBox}>
+      <div>사용자</div>
+      <div>제목</div>
+      <Editor value={data.boardContent} onChange={onEditorChange} />
     </div>
   );
-}
+};
+
+export default NoticeWriteComponent;
