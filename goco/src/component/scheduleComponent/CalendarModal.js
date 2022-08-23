@@ -7,7 +7,7 @@ import { Button, Dialog, DialogTitle, List, ListItem, ListItemText } from '@mui/
 import CalendarModalListDeTail from './CalendarModalListDeTail';
 import AddWork from './AddWork';
 
-export default function CalendarModal({ open, setOpenInsert, requestDate }) {
+export default function CalendarModal({ open, setOpenInsert, requestDate, user }) {
   const [detailList, setDetailList] = useState([]);
 
   const [secondOpen, setSecondOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate }) {
       {secondOpen && workId !== 0 && (
         <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} />
       )}
-      {addOpen && <AddWork addOpen={addOpen} setAddOpen={setAddOpen} />}
+      {addOpen && <AddWork addOpen={addOpen} setAddOpen={setAddOpen} user={user} />}
     </div>
   );
 }
