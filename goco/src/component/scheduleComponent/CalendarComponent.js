@@ -1,130 +1,78 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import FullCalendar from '@fullcalendar/react'; // must go before plugins
+import FullCalendar, { CalendarApi } from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import { INITIAL_EVENTS, workGetData } from '../../api/work/event-utils';
+import { workGetData } from '../../api/work/event-utils';
 
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { Container } from '@mui/system';
-import axios from 'axios';
-import { getEmployeeList, getWorkListData, loginDefaultValue } from '../../api/work/workAPI';
+import { Button, FormControl, InputLabel, Modal, Typography } from '@mui/material';
+import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
-import { empNum } from '../../page/schedule/Schedule';
 
-export default function CalendarComponent(loginEmp) {
-  const [getEmp, setEmp] = useState([]);
-  const [getWorkList, setGetWorkList] = useState([{ id: 0, title: '', start: '' }]);
+export default function CalendarComponent(empList) {
+  const [getWorkList, setGetWorkList] = useState([]);
+  const [getEmpId, setEmpId] = useState(empList.userId);
+  const [requestDate, setRequestDate] = useState();
+  const [empList2, setEmpList2] = useState(empList.empList);
   const calendarRef = useRef();
-  const [getEmpNum, setEmpNum] = useState(0);
-  // const [getEmpNum, setEmpNum] = useState(3);
-  const [eventMode, setEventMode] = useState(false);
-  const [eventList, setEventList] = useState([]);
+  const [openInsert, setOpenInsert] = useState(false);
+
+  const handleDateClick = (info) => {
+    setOpenInsert(true);
+    setRequestDate(info.dateStr);
+  };
 
   useEffect(() => {
-    getEmployeeList(setEmp);
-    workGetData(setGetWorkList, loginEmp.emp);
-  }, [getEmpNum]);
-  const open = () => {
-    setEventMode(true);
-  };
-  const handleChange = (event) => {
-    setEmpNum(event.target.value);
-  };
-
-  // console.log(getWorkList);
+    workGetData(setGetWorkList, getEmpId);
+  }, [getEmpId]);
 
   return (
-    <Box component="div" sx={{ width: 1000 }}>
-      <Box component="div" sx={{ display: 'inline' }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-select-small">직원 목록</InputLabel>
-          {/* <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            value={loginEmp.emp}
-            label="emp"
-            onChange={handleChange}>
-            {getEmp.map((data) => {
-              return (
-                <MenuItem
-                  key={data.empNum}
-                  // onClick={(e) => {
-                  //   setEmp(data.empNum);
-                  // }}
-                  value={data.empNum}>
-                  {data.name}
-                </MenuItem>
-              );
-            })}
-          </Select> */}
-        </FormControl>
-      </Box>
-      <Box component="div" sx={{ display: 'inline' }}>
-        <Button
-          variant="outlined"
-          sx={{
-            m: 2,
-            width: '10%',
-            height: '10%',
-            backgroundColor: '#64a1bd',
-            '&:hover': {
-              backgroundColor: '#267194',
-            },
-            color: 'AppWorkspace',
-          }}>
-          출근
-        </Button>
-      </Box>
-      <Box component="div" sx={{ display: 'inline' }}>
-        <Button
-          variant="outlined"
-          sx={{
-            m: 2,
-            width: '10%',
-            height: '10%',
-            backgroundColor: '#64a1bd',
-            '&:hover': {
-              backgroundColor: '#267194',
-            },
-            color: 'AppWorkspace',
-          }}>
-          퇴근
-        </Button>
-      </Box>
-
+    <Box component="div" sx={{ width: '100%', marginTop: '100px' }}>
       <Box
         sx={{
           '& > :not(style)': {
-            marginTop: 2,
-            width: 1000,
+            width: '100%',
           },
         }}>
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin, googleCalendarPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: 'prev,next',
-            center: 'title',
-            right: 'today',
-          }}
-          // 타이틀 설정
-          titleFormat={{ year: 'numeric', month: 'long' }}
-          // 달력 일칸 사이즈 비율 고정
-          aspectRatio={'1.2'}
-          initialEvents={loginEmp.workList}
-          googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
-          eventSources={{
-            googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-            color: 'red',
-          }}
-          dateClick={setEventMode}
-          locale="ko"
-          height="70vh"
+        <CalendarHeader
+          calendarRef={calendarRef}
+          empList={empList.empList}
+          getEmpId={getEmpId}
+          setEmpId={setEmpId}
         />
-        {/* {open && <CalendarModal></CalendarModal>} */}
+        {getWorkList.length !== 0 && (
+          <FullCalendar
+            ref={calendarRef}
+            plugins={[dayGridPlugin, interactionPlugin, googleCalendarPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: '',
+              center: '',
+              right: '',
+            }}
+            titleFormat={{ year: 'numeric', month: 'long' }}
+            aspectRatio={'1.2'}
+            initialEvents={getWorkList}
+            googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
+            eventSources={{
+              googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+              color: 'red',
+            }}
+            eventClick={(info) => {
+              if (info.event.url) {
+                info.jsEvent.preventDefault();
+              }
+            }}
+            dateClick={(info) => handleDateClick(info)}
+            locale="ko"
+            height="80vh"
+          />
+        )}
       </Box>
+      {openInsert && requestDate !== null && (
+        <CalendarModal open={openInsert} setOpenInsert={setOpenInsert} requestDate={requestDate} />
+      )}
     </Box>
   );
 }
