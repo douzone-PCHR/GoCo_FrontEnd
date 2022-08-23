@@ -5,7 +5,7 @@ export const getWorkListData = async (privateSetData, publicSetData) => {
     .get('http://localhost:8080/api/work', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
       },
     })
     .then((response) => {
@@ -26,7 +26,7 @@ export const commuteTime = async (setCommuteTimeData) => {
     .get(`http://localhost:8080/api/commute/time`, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
       },
     })
     .then((response) => {
@@ -39,7 +39,7 @@ export const getEmployeeList = async (setEmp) => {
     .get('http://localhost:8080/api/work/emplist', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
       },
     })
     .then((response) => {
@@ -52,10 +52,36 @@ export const loginDefaultValue = async (setLoginEmp) => {
     .get('http://localhost:8080/api/user/me', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA5MjU1MzZ9.gfh5KH_Ca3R_rUO8paWtGFsT-eEloHr2l74VUxh7TqKPtYUEUd4yW8iUEOxFVFx9-WMf7uyR4VWqK28roDTkYw`,
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
       },
     })
     .then((response) => {
       setLoginEmp(response.data);
+    });
+};
+
+export const dateWorkList = async (requestDate, setDetailList) => {
+  await axios
+    .post('http://localhost:8080/api/work/detail', new Date(requestDate), {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+      },
+    })
+    .then((response) => {
+      setDetailList(response.data);
+    });
+};
+
+export const dialogDetailList = async (workId, setDetailWorkList) => {
+  await axios
+    .get(`http://localhost:8080/api/work/${workId}`, {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+      },
+    })
+    .then((response) => {
+      setDetailWorkList(response.data);
     });
 };

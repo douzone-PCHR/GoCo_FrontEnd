@@ -16,7 +16,7 @@ export default function WorkList() {
 
   return (
     <>
-      {privateData && <PrivateWork data={privateData} />}
+      {privateData && <PrivateWork style={{ marginBottom: '10px' }} data={privateData} />}
       {publicData && <PublicWork data={publicData} />}
     </>
   );

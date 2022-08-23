@@ -23,7 +23,7 @@ export default function WorkTime() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '50%',
+            width: '100%',
           },
         }}>
         <Typography
@@ -32,7 +32,7 @@ export default function WorkTime() {
           variant="h6"
           component="div"
           style={{
-            width: '30%',
+            width: '40%',
             fontFamily: 'Inter',
             fontStyle: 'normal',
             fontWeight: '700',
@@ -45,7 +45,7 @@ export default function WorkTime() {
           variant="h6"
           component="div"
           style={{
-            width: '50%',
+            width: '100%',
             fontFamily: 'Inter',
             fontStyle: 'normal',
             fontWeight: '700',
@@ -142,7 +142,7 @@ export default function WorkTime() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '60%',
+            width: '100%',
           },
         }}>
         <Typography
@@ -151,7 +151,7 @@ export default function WorkTime() {
           variant="h6"
           component="div"
           style={{
-            width: '30%',
+            width: '40%',
             fontFamily: 'Inter',
             fontStyle: 'normal',
             fontWeight: '700',
