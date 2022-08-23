@@ -53,12 +53,17 @@ export default function CalendarComponent(empList) {
             }}
             titleFormat={{ year: 'numeric', month: 'long' }}
             aspectRatio={'1.2'}
-            initialEvents={getWorkList}
-            googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
-            eventSources={{
+            // initialEvents={getWorkList}
+            events={{
               googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
               color: 'red',
             }}
+            googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
+            eventSources={[getWorkList]}
+            // eventSources={{
+            //   googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+            //   color: 'red',
+            // }}
             eventClick={(info) => {
               if (info.event.url) {
                 info.jsEvent.preventDefault();
@@ -71,7 +76,12 @@ export default function CalendarComponent(empList) {
         )}
       </Box>
       {openInsert && requestDate !== null && (
-        <CalendarModal open={openInsert} setOpenInsert={setOpenInsert} requestDate={requestDate} />
+        <CalendarModal
+          open={openInsert}
+          setOpenInsert={setOpenInsert}
+          requestDate={requestDate}
+          user={empList.userId}
+        />
       )}
     </Box>
   );

@@ -85,3 +85,17 @@ export const dialogDetailList = async (workId, setDetailWorkList) => {
       setDetailWorkList(response.data);
     });
 };
+
+export const addWork = async (workData) => {
+  console.log(workData);
+  await axios
+    .post(`http://localhost:8080/api/work`, workData, {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+      },
+    })
+    .then((response) => {
+      console.log(response);
+    });
+};
