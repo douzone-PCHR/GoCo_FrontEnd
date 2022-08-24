@@ -41,5 +41,26 @@ export const WriteButtonStyles = {
 export const DatePickerCSS = {
   margin: '1% 1px',
   background: 'white',
-  width: '12%',
+  width: '22%',
+};
+
+export const ClickBoard = {
+  '&:hover': {
+    backgroundColor: 'rgb(205, 234, 241)',
+    cursor: 'pointer',
+  },
+};
+
+export const BoardTypeStyle = {
+  margin: '7% 0',
+  fontSize: '170%',
+  textAlign: 'center',
+};
+
+export const BoardButtonStyle = {
+  backgroundColor: '#64a1bd',
+  '&:hover': {
+    backgroundColor: '#267194',
+  },
+  width: '50%',
 };

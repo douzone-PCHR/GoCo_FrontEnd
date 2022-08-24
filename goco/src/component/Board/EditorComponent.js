@@ -1,4 +1,4 @@
-import React, { Component, useMemo } from 'react';
+import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -21,6 +21,7 @@ class EditorComponent extends Component {
   };
 
   formats = [
+    'bold',
     'header',
     'font',
     'size',
@@ -43,16 +44,14 @@ class EditorComponent extends Component {
   render() {
     const { value, onChange } = this.props; // 전달 받은 프롭스
     return (
-      <div style={{ height: '100%' }}>
-        <ReactQuill
-          style={{ height: '100%', background: 'white' }}
-          theme="snow"
-          modules={this.modules}
-          formats={this.formats}
-          value={value || ''}
-          onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
-        />
-      </div>
+      <ReactQuill
+        style={{ height: '400px', background: 'white', backgroundSize: '100%' }}
+        theme="snow"
+        modules={this.modules}
+        formats={this.formats}
+        value={value || ''}
+        onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
+      />
     );
   }
 }

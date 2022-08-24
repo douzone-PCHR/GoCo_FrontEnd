@@ -1,6 +1,11 @@
 .OutterBox {
-  padding: 4%;
+  margin: 14%;
+  padding: 3%;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 2%;
 }
+
 .headerBox {
   display: flex;
   justify-content: space-between;
