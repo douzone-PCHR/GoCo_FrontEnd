@@ -12,6 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import SearchIcon from '@mui/icons-material/Search';
 import { NoticeBoardAPI, FreeBoardAPI } from '../../api/boardAPI';
 import SearchBoard from '../../component/Board/SearchBoard';
+import { SelectBoard } from '../../component/Board/BoardFunction';
+import { ClickBoard } from '../../component/Board/BoardCSS';
 import {
   StyledTableCell,
   StyledTableRow,
@@ -65,6 +67,7 @@ export default function Board() {
             </Button>
           </div>
         </div>
+        &nbsp;
         <div className={styles.MiddleText}>
           <Button
             onClick={() => {
@@ -106,7 +109,12 @@ export default function Board() {
               <TableBody>
                 {showData &&
                   _DATA.currentData().map((list) => (
-                    <StyledTableRow key={list.boardId}>
+                    <StyledTableRow
+                      key={list.boardId}
+                      sx={ClickBoard}
+                      onClick={() => {
+                        SelectBoard(list.boardId);
+                      }}>
                       <StyledTableCell align="center">{list.boardId}</StyledTableCell>
                       <StyledTableCell align="center">{list.boardTitle}</StyledTableCell>
                       <StyledTableCell align="center">{list.employee.name}</StyledTableCell>
@@ -118,7 +126,6 @@ export default function Board() {
             </Table>
           </TableContainer>
         </div>
-
         <div className={styles.Pagination}>
           <Pagination
             count={dataLength && count}
