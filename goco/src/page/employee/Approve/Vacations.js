@@ -121,7 +121,7 @@ function Row(props) {
   );
 }
 
-export default function Vacations({ vacationList, check, setCheck }) {
+export default function Vacations({ vacationList, check, setCheck, state, dateFilter }) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
@@ -139,24 +139,52 @@ export default function Vacations({ vacationList, check, setCheck }) {
   // }, [check]);
   const rows = [];
   if (vacationList.length) {
-    vacationList.map((vacation) => {
-      let detail = {
-        content: vacation.vacationContent,
-        approveDate: vacation.vacationApproveDate,
-        file: vacation.file,
-      };
-      rows.push(
-        createData(
-          vacation.vacationType,
-          vacation.vacationStartDate,
-          vacation.vacationEndDate,
-          vacation.vacationRequestDate,
-          vacation.approveYn,
-          detail,
-          vacation
-        )
-      );
-    });
+    // vacationList는 초기에 전체 데이터를 가지고있음
+    // filter로 state가 ALL일 때는 그대로 리턴을 하고
+    // state에 다른 값이 들어왔을 때 해당하는 요청 상태에
+    // 맞는 vacationList로 새로운 배열을 만듦
+    vacationList
+      .filter((vacation) => {
+        if (dateFilter) {
+          if (
+            state === 'ALL' &&
+            vacation.vacationRequestDate >= dateFilter.startDate &&
+            vacation.vacationRequestDate <= dateFilter.endDate
+          ) {
+            return vacation;
+          } else if (
+            vacation.approveYn === state &&
+            vacation.vacationRequestDate >= dateFilter.startDate &&
+            vacation.vacationRequestDate <= dateFilter.endDate
+          ) {
+            return vacation;
+          }
+        } else {
+          if (state === 'ALL') {
+            return vacation;
+          } else if (vacation.approveYn === state) {
+            return vacation;
+          }
+        }
+      })
+      .map((vacation) => {
+        let detail = {
+          content: vacation.vacationContent,
+          approveDate: vacation.vacationApproveDate,
+          file: vacation.file,
+        };
+        rows.push(
+          createData(
+            vacation.vacationType,
+            vacation.vacationStartDate,
+            vacation.vacationEndDate,
+            vacation.vacationRequestDate,
+            vacation.approveYn,
+            detail,
+            vacation
+          )
+        );
+      });
   }
   console.log(vacationList);
   return (

@@ -117,7 +117,7 @@ function Row(props) {
     </Fragment>
   );
 }
-export default function BusinessTrips({ businessList, check, setCheck }) {
+export default function BusinessTrips({ businessList, check, setCheck, state, dateFilter }) {
   // const [businessList, setBusinessList] = useState([]);
   // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
@@ -136,24 +136,48 @@ export default function BusinessTrips({ businessList, check, setCheck }) {
   // }, [check]);
   const rows = [];
   if (businessList.length) {
-    businessList.map((business) => {
-      console.log(business);
-      let detail = {
-        content: business.businessTripContent,
-        approveDate: business.businessTripApproveDate,
-        file: business.file,
-      };
-      rows.push(
-        createData(
-          business.businessTripStartDate,
-          business.businessTripEndDate,
-          business.businessTripRequestDate,
-          business.approveYn,
-          detail,
-          business
-        )
-      );
-    });
+    console.log(businessList);
+    businessList
+      .filter((business) => {
+        if (dateFilter) {
+          if (
+            state === 'ALL' &&
+            business.businessTripRequestDate >= dateFilter.startDate &&
+            business.businessTripRequestDate <= dateFilter.endDate
+          ) {
+            return business;
+          } else if (
+            business.approveYn === state &&
+            business.businessTripRequestDate >= dateFilter.startDate &&
+            business.businessTripRequestDate <= dateFilter.endDate
+          ) {
+            return business;
+          }
+        } else {
+          if (state === 'ALL') {
+            return business;
+          } else if (business.approveYn === state) {
+            return business;
+          }
+        }
+      })
+      .map((business) => {
+        let detail = {
+          content: business.businessTripContent,
+          approveDate: business.businessTripApproveDate,
+          file: business.file,
+        };
+        rows.push(
+          createData(
+            business.businessTripStartDate,
+            business.businessTripEndDate,
+            business.businessTripRequestDate,
+            business.approveYn,
+            detail,
+            business
+          )
+        );
+      });
   }
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 600 }}>

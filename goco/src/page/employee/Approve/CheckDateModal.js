@@ -14,7 +14,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '60%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -39,13 +39,11 @@ export default function CheckDateModal(props) {
         <Typography id="modal-modal-title" variant="h6" component="h2">
           중복 날짜
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          1111
-        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         {type === '휴가' ? (
-          <Vacations vacationList={checkDate} check={check} setCheck={setCheck} />
+          <Vacations vacationList={checkDate} check={check} setCheck={setCheck} state={'ALL'} />
         ) : (
-          <BusinessTrips businessList={checkDate} check={check} setCheck={setCheck} />
+          <BusinessTrips businessList={checkDate} check={check} setCheck={setCheck} state={'ALL'} />
         )}
         <Button
           onClick={() => {
