@@ -26,7 +26,7 @@ const PrivateWork = (privateData) => {
       style={{
         position: 'relative',
         border: '1px solid black',
-
+        marginBottom: '50px',
         width: '100%',
         height: '40%',
         backgroundColor: '#ffffff80',
