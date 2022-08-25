@@ -117,14 +117,12 @@ export default function Signup() {
                 {/*----------------------------------입사일----------------------------------------*/}
                 <Hiredate data={data} setData={setData} setOkHiredateCheck={setOkHiredateCheck} />
                 {/*-------------------------------------부서지정---------------------------------------------*/}
-                <Grid item xs={12} sm={6}>
-                  <UnitSelect
-                    setData={setData}
-                    data={data}
-                    setOkUnitCheck={setOkUnitCheck}
-                    okUnitCheck={okUnitCheck}
-                  />
-                </Grid>
+                <UnitSelect
+                  setData={setData}
+                  data={data}
+                  setOkUnitCheck={setOkUnitCheck}
+                  okUnitCheck={okUnitCheck}
+                />
                 {/*----------------------------------------------------------------------------------*/}
                 <MoveLoginPage />
                 <Grid item xs={12} sm={2} />

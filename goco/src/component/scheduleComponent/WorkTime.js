@@ -1,80 +1,134 @@
-import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-// import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { FormLabel } from "@mui/material";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import { Divider, FormLabel, TableHead, Typography } from '@mui/material';
+import { commuteTime } from '../../api/work/workAPI';
 
 export default function WorkTime() {
-  const [commuteTimeData, setCommuteTimeData] = useState(0);
-  const commuteTime = async (event) => {
-    const workTime = {
-      startDate: event[0]._d,
-      endDate: event[1]._d,
-    };
-    await axios
-      .post(`http://localhost:8080/api/commute/time`, workTime, {
-        headers: {
-          "access-control-allow-origin": "true",
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NjA0NjM3MDF9.AjO8QQfvdXlmsJhUNGeC2snOY-on8UKepqZpoG2lCAmlYLGwl0QuAHQZf4cbHQxyypFTmkwuEg2ypU--a6YxHA`,
-        },
-      })
-      .then((response) => {
-        setCommuteTimeData(response.data);
-      });
-  };
+  const [commuteTimeData, setCommuteTimeData] = useState([]);
+  useEffect(() => {
+    commuteTime(setCommuteTimeData);
+  }, []);
 
   return (
     <>
       <Box
         sx={{
-          "& > :not(style)": {
-            m: 5,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 300,
+          '& > :not(style)': {
+            m: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           },
-        }}
-      >
-        <FormLabel>내 근로 통계</FormLabel>
-        {/* <LocalizationProvider>
-          <DatePicker label="Basic example" onChange={commuteTime} />
-          <DatePicker label="Basic example" onChange={commuteTime} />
-        </LocalizationProvider> */}
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 150 }} aria-label="simple table">
+        }}>
+        <Typography
+          elevation={0}
+          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '8px solid #00AAFF' }}
+          variant="h6"
+          component="div"
+          style={{
+            width: '40%',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            fontSize: '20px',
+          }}>
+          내 근로 통계
+        </Typography>
+        <Typography
+          sx={{}}
+          variant="h6"
+          component="div"
+          style={{
+            width: '100%',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            fontSize: '15px',
+          }}>
+          {commuteTimeData.startDate} ~ {commuteTimeData.endDate}
+        </Typography>
+
+        <Divider />
+
+        <TableContainer>
+          <Table sx={{ width: '100%' }} aria-label="custom pagination table">
             <TableBody>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                  }}>
                   소정 근로시간
                 </TableCell>
-                <TableCell align="right">40</TableCell>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                  }}
+                  align="left">
+                  40h
+                </TableCell>
               </TableRow>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                  }}>
                   실제 근로 시간
                 </TableCell>
-                <TableCell align="right">{commuteTimeData}</TableCell>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                  }}
+                  align="left">
+                  {commuteTimeData.commute_work_time}h
+                </TableCell>
               </TableRow>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                  }}>
                   연장 근로 시간
                 </TableCell>
-                <TableCell align="right">
-                  {commuteTimeData >= 40 ? commuteTimeData - 40 : 0}
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                  }}
+                  align="left">
+                  {commuteTimeData.commute_work_time >= 40
+                    ? commuteTimeData.commute_work_time - 40
+                    : 0}
+                  h
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -83,43 +137,84 @@ export default function WorkTime() {
       </Box>
       <Box
         sx={{
-          "& > :not(style)": {
-            m: 5,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 300,
+          '& > :not(style)': {
+            m: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           },
-        }}
-      >
-        <FormLabel>내 휴가 통계</FormLabel>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 150 }} aria-label="simple table">
-            <TableBody>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  휴가 그룹
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  총
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  사용
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  잔여
-                </TableCell>
-                <TableCell align="left">연차 휴가</TableCell>
+        }}>
+        <Typography
+          elevation={0}
+          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '8px solid #FF8B8B' }}
+          variant="h6"
+          component="div"
+          style={{
+            width: '40%',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            fontSize: '20px',
+          }}>
+          내 휴가 통계
+        </Typography>
+
+        <Divider />
+        <TableContainer>
+          <Table sx={{ width: '100%' }} aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">휴가 그룹</TableCell>
+                <TableCell align="left">총</TableCell>
+                <TableCell align="left">사용</TableCell>
+                <TableCell align="left">잔여</TableCell>
               </TableRow>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                  }}>
                   연차 휴가
                 </TableCell>
-                <TableCell align="center">11</TableCell>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                    textAlign: 'center',
+                  }}>
+                  11
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                    textAlign: 'center',
+                  }}>
+                  {/* {parseInt(commuteTimeData.vacation_count) === parseInt(11)
+                    ? parseInt(0)
+                    : parseInt(11) - parseInt(commuteTimeData.vacation_count)} */}
+                  {String(parseInt(11) - commuteTimeData.vacation_count)}
+                </TableCell>
+                <TableCell
+                  style={{
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+                    fontWeight: '500',
+                    fontSize: '15px',
+                    textAlign: 'center',
+                  }}>
+                  {commuteTimeData.vacation_count}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>

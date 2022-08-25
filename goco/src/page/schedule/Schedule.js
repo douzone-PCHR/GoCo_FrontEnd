@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
-import CalendarComponent from "../../component/scheduleComponent/CalendarComponent";
-import WorkTime from "../../component/scheduleComponent/WorkTime";
-import WorkList from "../../component/scheduleComponent/WorkList";
-import { Grid } from "@mui/material";
-import { loginDefaultValue } from "../../api/work/workAPI";
-import { workGetData } from "../../api/work/event-utils";
+import React, { useEffect, useState } from 'react';
+import CalendarComponent from '../../component/scheduleComponent/CalendarComponent';
+import WorkTime from '../../component/scheduleComponent/WorkTime';
+import WorkList from '../../component/scheduleComponent/WorkList';
+import { Grid } from '@mui/material';
+import { getEmployeeList, loginDefaultValue } from '../../api/work/workAPI';
 
 export default function Schedule() {
-  const [loginEmp, setLoginEmp] = useState(14);
-  const [getWorkList, setGetWorkList] = useState([
-    { id: 0, title: "", start: "" },
-  ]);
+  const [loginEmp, setLoginEmp] = useState(0);
+  const [getEmp, setEmp] = useState([]);
 
   useEffect(() => {
     loginDefaultValue(setLoginEmp);
-    workGetData(setGetWorkList, loginEmp);
-  }, [getWorkList]);
+    getEmployeeList(setEmp);
+  }, []);
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={3}>
+    <Grid container direction="row" spacing={2}>
+      <Grid item xs={2} margin="50px 50px">
         <WorkTime />
       </Grid>
-      <Grid item xs={7}>
-        <CalendarComponent emp={loginEmp} workList={getWorkList} />
+      <Grid item container direction="column" xs spacing={2} marginRight="40px">
+        <Grid item xs={8}>
+          {loginEmp.empId !== undefined && getEmp.length !== 0 && (
+            <CalendarComponent user={loginEmp} empList={getEmp} />
+          )}
+        </Grid>
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={2} marginRight="30px" marginTop="50px">
         <WorkList />
       </Grid>
     </Grid>

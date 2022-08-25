@@ -23,7 +23,7 @@ export const updateEmpAPI = async (empId, updateValue) => {
   });
 };
 
-//////회원 정보수정 userMe
+//////회원 정보확인 userMe
 const urlUserMe = 'http://localhost:8080/api/user/me';
 export const userMeAPI = async (setData) => {
   const options = {
@@ -35,6 +35,19 @@ export const userMeAPI = async (setData) => {
   };
   await axios(options).then((response) => {
     setData(response.data);
+  });
+};
+////// 내가누군지 알려주는 것  userMe / empNum 반환해줌
+export const WhoAmIAPI = async (setWhoAmI) => {
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+    url: urlUserMe,
+  };
+  await axios(options).then((response) => {
+    setWhoAmI(response.data.empNum);
   });
 };
 

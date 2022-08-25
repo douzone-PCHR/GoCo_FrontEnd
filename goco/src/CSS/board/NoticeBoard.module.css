@@ -1,0 +1,74 @@
+.OutterBox {
+  margin: 7%;
+  padding: 3%;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 2%;
+}
+
+.headerBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2%;
+}
+.MainText {
+  display: flex;
+  display: inline-block;
+}
+.MiddleText {
+  display: flex;
+  justify-content: space-between;
+}
+.Space {
+  margin-right: 2%;
+}
+.Pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+}
+.SearchDate {
+  display: flex;
+  margin: 1% 0;
+}
+.Margin {
+  margin-bottom: 1%;
+}
+.CommentOutter {
+  padding: 3%;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+.CommentText {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3%;
+}
+.CommentName {
+  font-size: large;
+  font-weight: bold;
+  margin-right: 3%;
+}
+.CommentRegisterDate {
+  font-size: xx-small;
+  color: rgb(202, 200, 200);
+  vertical-align: bottom;
+}
+.CommentContent {
+  font-size: small;
+}
+.CommentWriteOutter {
+  margin-top: 4%;
+  padding: 3%;
+  border: 1px solid gray;
+  border-radius: 1%;
+}
+.CommentContentAndButton {
+  display: flex;
+}
+.BoardCommentDeleteButton {
+  text-align: right;
+}
+.CommentWriteText {
+  margin-bottom: 2%;
+  font-weight: bold;
+}

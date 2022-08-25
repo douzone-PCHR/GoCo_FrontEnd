@@ -123,7 +123,7 @@ function Row(props) {
                             }
                           }
                         );
-                        row.vacation.approveYn = 'APPROVE_CANCEL';
+                        row.vacation.approveYn = 'APPROVE_WAITTING';
                         approveVacation(row.vacation, check, setCheck);
                       }}>
                       승인취소
@@ -139,9 +139,9 @@ function Row(props) {
   );
 }
 
-export default function ManagerVacations() {
-  const [vacationList, setVacationList] = useState([]);
-  const [check, setCheck] = useState(false);
+export default function ManagerVacations({ vacationList, check, setCheck, state }) {
+  // const [vacationList, setVacationList] = useState([]);
+  // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
@@ -152,9 +152,9 @@ export default function ManagerVacations() {
     setPage(0);
   };
 
-  useEffect(() => {
-    approveVacationList(setVacationList, 1);
-  }, [check]);
+  // useEffect(() => {
+  //   approveVacationList(setVacationList, 1);
+  // }, [check]);
   const rows = [];
   if (vacationList.length) {
     vacationList.map((vacation) => {

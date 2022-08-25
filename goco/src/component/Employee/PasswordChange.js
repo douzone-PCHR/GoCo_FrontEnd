@@ -105,14 +105,12 @@ export default function PasswordChange({ handleChange, textData }) {
           비밀번호 변경
         </Button>
       </Grid>
-      {passwordCheck === false ? (
+      {passwordCheck === false && (
         <>
           <Grid item xs={12} sx={{ color: 'red', fontSize: 'small' }}>
             비밀번호를 일치시켜 주세요
           </Grid>
         </>
-      ) : (
-        <></>
       )}
     </>
   );

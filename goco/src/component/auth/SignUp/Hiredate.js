@@ -5,9 +5,7 @@ import Grid from '@mui/material/Grid';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; //달력
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; //달력
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'; //달력
-
-//import * as dayjs from 'dayjs';
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'; //달력
 export const Hiredate = ({ data, setData, setOkHiredateCheck }) => {
   return (
     <>
