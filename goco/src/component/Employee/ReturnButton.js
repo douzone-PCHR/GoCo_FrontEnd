@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-
 import Grid from '@mui/material/Grid';
 
 export default function ReturnButton() {
@@ -21,7 +20,7 @@ export default function ReturnButton() {
             height: '70%',
           }}
           onClick={() => {
-            window.location.href = '/';
+            window.location.href = '/goco';
           }}>
           돌아가기
         </Button>

@@ -36,7 +36,7 @@ export const loginAPI = async (id, password) => {
         sameSite: 'none',
         expires,
       });
-      sweetAlertSuccess('로그인 성공', 'success', '/');
+      sweetAlertSuccess('로그인 성공', 'success', '/goco');
     })
     .catch(() => {
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');

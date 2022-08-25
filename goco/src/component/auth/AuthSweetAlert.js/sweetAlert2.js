@@ -58,3 +58,15 @@ export const sweetAlertDeleteBoard = (boardId) => {
     }
   });
 };
+// 댓글 삭제 , 입력시 주소 이동하는 것
+export const sweetAlertComment = (text, icon, url) => {
+  Swal.fire({
+    text: text,
+    icon: icon,
+    confirmButtonColor: '#3085d6',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.replace(url);
+    }
+  });
+};
