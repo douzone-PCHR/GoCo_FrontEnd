@@ -11,12 +11,9 @@ export default function WorkList() {
     getWorkListData(privateSetData, publicSetData);
   }, []);
 
-  // console.log(privateData && privateData);
-  //console.log(publicData);
-
   return (
     <>
-      {privateData && <PrivateWork style={{ marginBottom: '10px' }} data={privateData} />}
+      {privateData && <PrivateWork data={privateData} />}
       {publicData && <PublicWork data={publicData} />}
     </>
   );
