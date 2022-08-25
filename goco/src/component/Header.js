@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import './Header.css';
+import './header.css';
 import { FiMenu } from 'react-icons/fi';
 const Header = () => {
   const [value, setValue] = useState(0);
@@ -44,6 +44,7 @@ const Header = () => {
     //     </Tabs>
     //   </AppBar>
     // </>
+
     <header className="Header">
       <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
       <CSSTransition

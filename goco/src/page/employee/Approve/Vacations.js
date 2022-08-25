@@ -189,7 +189,7 @@ export default function Vacations({ vacationList, check, setCheck, state, dateFi
   console.log(vacationList);
   return (
     <Box>
-      <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 700 }}>
         <Table stickyHeader aria-label="collapsible table">
           <TableHead>
             <TableRow>

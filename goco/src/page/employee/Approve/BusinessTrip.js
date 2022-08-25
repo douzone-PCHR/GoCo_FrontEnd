@@ -180,7 +180,7 @@ export default function BusinessTrips({ businessList, check, setCheck, state, da
       });
   }
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 700 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>

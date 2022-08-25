@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getCookie, deleteCookie } from './authAPI';
 import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { setUser } from '../component/auth/Login/sessionLogin';
 const url = 'http://localhost:8080/';
 export const employee = () => {
   axios.get();
@@ -34,7 +35,9 @@ export const userMeAPI = async (setData) => {
     url: urlUserMe,
   };
   await axios(options).then((response) => {
-    setData(response.data);
+    // setData(response.data);
+    console.log(response.data);
+    setUser(response.data);
   });
 };
 ////// 내가누군지 알려주는 것  userMe / empNum 반환해줌

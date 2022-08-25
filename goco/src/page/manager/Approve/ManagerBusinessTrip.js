@@ -85,11 +85,12 @@ function Row(props) {
                     </a>
                   )}
                 </div>
+
                 {row.approve === 'APPROVE_WAITTING' && (
                   <div>
                     <Button
                       onClick={() => {
-                        confirm('결재를 승인 하시겠습니까?').then((result) => {
+                        confirm('결재를 승인 하시겠습니까?', '', '').then((result) => {
                           if (result.isConfirmed) {
                             Swal.fire('결재가 승인 되었습니다', '', 'success');
                             row.business.approveYn = 'APPROVE_SUCCESS';
@@ -139,7 +140,7 @@ function Row(props) {
     </Fragment>
   );
 }
-export default function ManagerBusinessTrips({ businessList, check, setCheck, state }) {
+export default function ManagerBusinessTrips({ businessList, check, setCheck, state, dateFilter }) {
   // const [businessList, setBusinessList] = useState([]);
   // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
@@ -177,7 +178,7 @@ export default function ManagerBusinessTrips({ businessList, check, setCheck, st
     });
   }
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 700, minWidth: 785 }}>
       <Table stickyHeader aria-label="collapsible table">
         <TableHead>
           <TableRow>
