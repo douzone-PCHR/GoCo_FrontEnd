@@ -4,23 +4,20 @@ import FullCalendar, { CalendarApi } from '@fullcalendar/react'; // must go befo
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import { workGetData } from '../../api/work/event-utils';
-
-import { Button, FormControl, InputLabel, Modal, Typography } from '@mui/material';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
+import { workGetData } from '../../api/work/workAPI';
 
-export default function CalendarComponent(empList) {
+export default function CalendarComponent({ user, empList }) {
   const [getWorkList, setGetWorkList] = useState([]);
-  const [getEmpId, setEmpId] = useState(empList.userId);
+  const [getEmpId, setEmpId] = useState(user.empId);
   const [requestDate, setRequestDate] = useState();
-  const [empList2, setEmpList2] = useState(empList.empList);
   const calendarRef = useRef();
   const [openInsert, setOpenInsert] = useState(false);
 
   const handleDateClick = (info) => {
     setOpenInsert(true);
-    setRequestDate(info.dateStr);
+    setRequestDate(info);
   };
 
   useEffect(() => {
@@ -28,7 +25,7 @@ export default function CalendarComponent(empList) {
   }, [getEmpId]);
 
   return (
-    <Box component="div" sx={{ width: '100%', marginTop: '100px' }}>
+    <Box component="div" sx={{ width: '100%', marginTop: '50px' }}>
       <Box
         sx={{
           '& > :not(style)': {
@@ -37,9 +34,10 @@ export default function CalendarComponent(empList) {
         }}>
         <CalendarHeader
           calendarRef={calendarRef}
-          empList={empList.empList}
+          empList={empList}
           getEmpId={getEmpId}
           setEmpId={setEmpId}
+          user={user.empNum}
         />
         {getWorkList.length !== 0 && (
           <FullCalendar
@@ -51,25 +49,24 @@ export default function CalendarComponent(empList) {
               center: '',
               right: '',
             }}
+            moreLinkContent={(e) => (e.text = ` +${e.num} 더보기`)}
+            dayMaxEvents={2}
             titleFormat={{ year: 'numeric', month: 'long' }}
             aspectRatio={'1.2'}
-            // initialEvents={getWorkList}
             events={{
               googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
               color: 'red',
             }}
             googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
             eventSources={[getWorkList]}
-            // eventSources={{
-            //   googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-            //   color: 'red',
-            // }}
             eventClick={(info) => {
               if (info.event.url) {
                 info.jsEvent.preventDefault();
+              } else {
+                handleDateClick(info.event.startStr);
               }
             }}
-            dateClick={(info) => handleDateClick(info)}
+            dateClick={(info) => handleDateClick(info.date)}
             locale="ko"
             height="80vh"
           />
@@ -80,7 +77,7 @@ export default function CalendarComponent(empList) {
           open={openInsert}
           setOpenInsert={setOpenInsert}
           requestDate={requestDate}
-          user={empList.userId}
+          user={user.empNum}
         />
       )}
     </Box>

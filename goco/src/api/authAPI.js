@@ -39,6 +39,7 @@ export const loginAPI = async (id, password) => {
       });
       sweetAlertSuccess('로그인 성공', 'success', '/');
       userMeAPI();
+
     })
     .catch(() => {
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');

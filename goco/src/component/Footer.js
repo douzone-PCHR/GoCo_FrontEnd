@@ -1,9 +1,18 @@
-import { Link } from 'react-router-dom';
-import './header.css';
+import './footer.css';
+
 export default function Footer() {
   return (
-    <div className="footer">
-      <Link to="/">/ 으로 이동</Link>
-    </div>
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="logo-img-div">
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/pchrLogo.png`}
+            alt="logo"
+            className="logo-img"
+          />
+        </div>
+        <div className="footer-txt">PCHR Co.,Ltd. Copyright © PCHR. All rights reserved.</div>
+      </div>
+    </footer>
   );
 }

@@ -7,11 +7,24 @@ export const employee = () => {
   axios.get();
 };
 
-export const updateEmpAPI = (data) => {
-  axios.put(`/api/admin/emp/${data.empNum}`, data).then((response) => {});
+export const updateEmpAPI = async (empId, updateValue) => {
+  const data = {
+    jobTitle: {
+      jobTitleId: updateValue.jobTitle,
+    },
+    teamPosition: {
+      teamPositionId: updateValue.teamPosition || 2,
+    },
+    unit: {
+      unitId: updateValue.team,
+    },
+  };
+  return await axios.put(`/api/admin/emp/${empId}`, data).then((response) => {
+    return response.data;
+  });
 };
 
-//////회원 정보수정 userMe
+//////회원 정보확인 userMe
 const urlUserMe = 'http://localhost:8080/api/user/me';
 export const userMeAPI = async (setData) => {
   const options = {
@@ -25,6 +38,19 @@ export const userMeAPI = async (setData) => {
     // setData(response.data);
     console.log(response.data);
     setUser(response.data);
+  });
+};
+////// 내가누군지 알려주는 것  userMe / empNum 반환해줌
+export const WhoAmIAPI = async (setWhoAmI) => {
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+    url: urlUserMe,
+  };
+  await axios(options).then((response) => {
+    setWhoAmI(response.data.empNum);
   });
 };
 
@@ -158,13 +184,27 @@ export const getManager = (unitId, setManager) => {
   });
 };
 
-export const getEmp = (setEmp) => {
+//모든 유저
+export const getEmp = (setEmp, setmgrNum) => {
   axios
     .get('http://localhost:8080/api/admin/findAll')
     .then((response) => {
       setEmp(response.data);
+      setmgrNum && setmgrNum(response.data[0].empNum);
     })
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const deleteAdminEmpAPI = async (id) => {
+  return await axios.delete(`http://localhost:8080/api/admin/delete/${id}`).then((response) => {
+    return response.data;
+  });
+};
+
+export const getResignationAPI = async (setResignation) => {
+  axios.get(`http://localhost:8080/api/admin/ResignationAll`).then((response) => {
+    setResignation(response.data);
+  });
 };

@@ -1,23 +1,24 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const getCurrentStatus = async (setCurrentStatus) => {
-  await axios
-    .get("http://localhost:8080/api/commute/status", {
-      headers: {
-        "access-control-allow-origin": "true",
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
-      },
-    })
-    .then((response) => {
-      setCurrentStatus(response.data);
-    });
-};
+// export const getCurrentStatus = async (setCurrentStatus) => {
+//   await axios
+//     .get('http://localhost:8080/api/commute/myteam', {
+//       // .get("http://localhost:8080/api/commute/status", {
+//       headers: {
+//         'access-control-allow-origin': 'true',
+//         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+//       },
+//     })
+//     .then((response) => {
+//       setCurrentStatus(response.data);
+//     });
+// };
 
 export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
   await axios
-    .get("http://localhost:8080/api/commute/myteam", {
+    .get('http://localhost:8080/api/manager/commute/myteam', {
       headers: {
-        "access-control-allow-origin": "true",
+        'access-control-allow-origin': 'true',
         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
       },
     })
@@ -28,9 +29,9 @@ export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
 
 export const getCommuteCheck = async (setCommuteCheckData) => {
   await axios
-    .get("http://localhost:8080/api/commute/", {
+    .get('http://localhost:8080/api/manager/commute', {
       headers: {
-        "access-control-allow-origin": "true",
+        'access-control-allow-origin': 'true',
         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
       },
     })
@@ -42,7 +43,7 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
       response.data.forEach((element) => {
         // console.log(element);
         switch (element.commuteStatus) {
-          case "0":
+          case '0':
             setCommuteCheckData({
               // notWorking: (countA = countA + 1),
               notWorking: ++countA,
@@ -52,7 +53,7 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
             });
 
             break;
-          case "1":
+          case '1':
             setCommuteCheckData({
               notWorking: countA,
               late: ++countB,
@@ -61,7 +62,7 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
             });
 
             break;
-          case "2":
+          case '2':
             setCommuteCheckData({
               notWorking: countA,
               late: countB,
@@ -70,7 +71,7 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
             });
 
             break;
-          case "3":
+          case '3':
             setCommuteCheckData({
               notWorking: countA,
               late: countB,
@@ -86,9 +87,9 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
 
 export const getRequestList = async (setData) => {
   await axios
-    .get(`http://localhost:8080/api/vacation/list`, {
+    .get(`http://localhost:8080/api/manager/vacation/list`, {
       headers: {
-        "access-control-allow-origin": "true",
+        'access-control-allow-origin': 'true',
         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
       },
     })
@@ -99,13 +100,13 @@ export const getRequestList = async (setData) => {
 
 export const getNoticeList = async (setPageList) => {
   await axios
-    .get("http://localhost:8080/api/board?page=1&size=10", {
+    .get('http://localhost:8080/api/user/board/notice', {
       headers: {
-        "access-control-allow-origin": "true",
+        'access-control-allow-origin': 'true',
         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
       },
     })
     .then((response) => {
-      setPageList(response.data.dtoList);
+      setPageList(response.data);
     });
 };

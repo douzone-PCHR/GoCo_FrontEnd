@@ -9,10 +9,15 @@
 .Container {
   /*전체 큰 틀*/
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
-
+.test {
+  display: flex;
+  flex-direction: column;
+}
 .item {
   /*표에 대한 데이터*/
   flex-direction: column;
@@ -21,6 +26,9 @@
   border-radius: 10px;
   padding: 100px;
   margin-top: 5%;
+
+  /* margin-right: 20%; */
+  margin-bottom: 5%;
   background-color: rgb(245, 252, 255);
 }
 
@@ -36,8 +44,8 @@
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 65%;
-  width: 50%;
+  min-height: 50%;
+  min-width: 50%;
   background-color: rgb(255, 255, 255);
   align-items: center;
   text-align: center;
@@ -67,4 +75,8 @@
   /* transform: translate(-50%, -50%); */
   margin-top: 20px;
   background-color: rgb(233, 241, 241);
+}
+
+.test9 {
+  z-index: 9999999;
 }

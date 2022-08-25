@@ -23,13 +23,15 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 export const MainButtonStyles1 = {
   color: '#00AAFF',
-  fontSize: 'large',
+  fontSize: '180%',
   fontWeight: 'bold',
 };
 export const MainButtonStyles2 = {
   color: 'gray',
-  fontSize: 'medium',
+  fontSize: '100%',
 };
+
+export const BoardTitleStyles = { width: '10%', fontWeight: 'bold', fontSize: '100%' };
 
 export const WriteButtonStyles = {
   fontSize: 'medium',
@@ -37,11 +39,6 @@ export const WriteButtonStyles = {
   '&:hover': {
     fontWeight: 'bold',
   },
-};
-export const DatePickerCSS = {
-  margin: '1% 1px',
-  background: 'white',
-  width: '22%',
 };
 
 export const ClickBoard = {
@@ -52,8 +49,9 @@ export const ClickBoard = {
 };
 
 export const BoardTypeStyle = {
-  margin: '7% 0',
-  fontSize: '170%',
+  margin: '6% 0',
+  fontWeight: 'bold',
+  fontSize: '290%',
   textAlign: 'center',
 };
 
@@ -63,4 +61,30 @@ export const BoardButtonStyle = {
     backgroundColor: '#267194',
   },
   width: '50%',
+};
+export const BoardCommentDeleteButton = {
+  backgroundColor: '#64a1bd',
+  '&:hover': {
+    backgroundColor: '#267194',
+  },
+  padding: '0px',
+  marginLeft: '1%',
+};
+
+export const BoardCommentUpdateButton = {
+  backgroundColor: '#64a1bd',
+  '&:hover': {
+    backgroundColor: '#267194',
+  },
+  padding: '0px',
+};
+
+export const BoardCommentButton = {
+  margin: '0 35%',
+  backgroundColor: '#64a1bd',
+  '&:hover': {
+    backgroundColor: '#267194',
+  },
+  width: '50%',
+  height: '100%',
 };

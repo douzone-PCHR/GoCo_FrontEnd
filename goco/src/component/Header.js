@@ -1,31 +1,38 @@
-import React, { Fragment, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Approve from '../page/employee/Approve/Approve';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import './header.css';
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  MenuList,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CustomizedMenus from './CustomizedMenus';
-import { display } from '@mui/system';
+import { FiMenu } from 'react-icons/fi';
 const Header = () => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const theme = useTheme();
-  const [secondValue, setSecondValue] = useState(0);
-  const isMatch = useMediaQuery(theme.breakpoints.down('md'));
+  const [isNavVisible, setNavVisibility] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1100px)');
+    mediaQuery.addListener(handleMediaQueryChange);
+    handleMediaQueryChange(mediaQuery);
+
+    return () => {
+      mediaQuery.removeListener(handleMediaQueryChange);
+    };
+  }, []);
+
+  const handleMediaQueryChange = (mediaQuery) => {
+    if (mediaQuery.matches) {
+      setIsSmallScreen(true);
+    } else {
+      setIsSmallScreen(false);
+    }
+  };
+
+  const toggleNav = () => {
+    setNavVisibility(!isNavVisible);
+  };
+
   return (
     // <>
     //   <AppBar position="static">
@@ -37,26 +44,41 @@ const Header = () => {
     //     </Tabs>
     //   </AppBar>
     // </>
-    <Fragment>
-      <AppBar sx={{ background: 'white' }} position="relative">
-        <Toolbar>
-          <Typography>회사로고</Typography>
-          <Tabs
-            textColor="primary"
-            value={secondValue}
-            onChange={(e, secondValue) => setSecondValue(secondValue)}
-            variant="scrollable">
-            <Tab label="일정 관리" />
-            <Tab label="휴가 신청" />
-            <Tab label="요청 내역" />
-            <Tab label="게시판" />
-            <Tab label="근무 중" />
-          </Tabs>
-          <Button variant="contained">매니저 모드 전환</Button>
-          <CustomizedMenus style={{ float: 'right' }} />
-        </Toolbar>
-      </AppBar>
-    </Fragment>
+
+    <header className="Header">
+      <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
+      <CSSTransition
+        in={!isSmallScreen || isNavVisible}
+        timeout={350}
+        classNames="NavAnimation"
+        unmountOnExit>
+        <nav className="Nav">
+          <Link to="/goco">일정 관리</Link>
+          <Link to="/">휴가 신청</Link>
+          <Link to="/">요청 내역</Link>
+          <Link to="/">게시판</Link>
+          <Link to="/">근무중</Link>
+          <button className="mangerChangeBtn">
+            <Link to="/manager">매니저 모드 전환</Link>
+          </button>
+          <div className="dropdown">
+            <button className="dropbtn">
+              조명윤
+              <i className="fa fa-caret-down"></i>
+            </button>
+            <div className="dropdown-content">
+              <a href="#">Logout</a>
+              <a href="#">설정</a>
+            </div>
+          </div>
+          {/* <button>Logout</button> */}
+        </nav>
+      </CSSTransition>
+
+      <button onClick={toggleNav} className="Burger">
+        <FiMenu />
+      </button>
+    </header>
   );
 };
 

@@ -3,6 +3,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import 'moment/locale/ko';
 import moment from 'moment';
 import { addWork, dateWorkList } from '../../api/work/workAPI';
+import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,6 +15,7 @@ import {
   Checkbox,
   Dialog,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -28,24 +30,14 @@ import {
   TextField,
 } from '@mui/material';
 import CalendarModalListDeTail from './CalendarModalListDeTail';
-import { DateTimePicker, DesktopDatePicker } from '@mui/x-date-pickers';
+import { DatePicker, DateTimePicker, DesktopDatePicker } from '@mui/x-date-pickers';
 import { minWidth } from '@mui/system';
-// const style = {
-//   position: 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: 400,
-//   bgcolor: 'background.paper',
-//   border: '2px solid #000',
-//   boxShadow: 24,
-//   p: 4,
-// };
 
-export default function AddWork({ addOpen, setAddOpen, user }) {
-  const [startValue, setStartValue] = useState(new Date());
-  const [endValue, setEndValue] = useState(new Date());
+export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
+  const [startValue, setStartValue] = useState(null);
+  const [endValue, setEndValue] = useState(null);
   const [radioValue, setRadioValue] = useState(0);
+
   const [textarea, setTextArea] = useState('');
   const [textTitle, setTextTitle] = useState('');
   useEffect(() => {}, []);
@@ -66,7 +58,7 @@ export default function AddWork({ addOpen, setAddOpen, user }) {
       workStartDate: startValue,
       workEndDate: endValue,
       workType: radioValue,
-      employee: { empId: user },
+      employee: { empNum: user },
     };
     addWork(workData);
   };
@@ -81,15 +73,33 @@ export default function AddWork({ addOpen, setAddOpen, user }) {
           },
         }}>
         <Dialog
-          sx={{ width: '100%' }}
+          sx={{
+            '& .MuiDialog-container': {
+              '& .MuiPaper-root': {
+                width: '100%',
+                maxWidth: '40%',
+                height: '90%',
+              },
+            },
+          }}
           open={addOpen}
           onClose={handleClose}
           PaperProps={{ sx: { width: '100%', height: '100%', padding: '20px' } }}>
-          <DialogTitle style={{ fontSize: '32px' }}>업무 등록 리스트</DialogTitle>
+          <DialogTitle
+            style={{
+              fontSize: '50px',
+              fontWeight: '400',
+              fontFamily: 'Inter',
+              color: '#000000',
+              textAlign: 'center',
+            }}>
+            업무 등록 리스트
+          </DialogTitle>
+          <Divider />
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             value={radioValue}
-            onChange={(e) => setRadioValue(e.target.value)}
+            onChange={(e) => setRadioValue(Number(e.target.value))}
             style={{ display: 'inline-block', margin: '0 20px' }}
             name="radio-buttons-group"
             id="radio-buttons-group">
@@ -98,43 +108,40 @@ export default function AddWork({ addOpen, setAddOpen, user }) {
           </RadioGroup>
 
           <Box
+            style={{ display: 'flex' }}
             sx={{
               '& > :not(style)': {
-                m: 1,
+                m: 2,
                 width: '100%',
-                height: '100%',
               },
             }}>
-            <FormControl>
+            <FormControl style={{ width: '50%' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Box
-                  sx={{
-                    '& > :not(style)': {
-                      marginLeft: '10px',
-                      marginBottom: '30px',
-                    },
-                  }}>
-                  <DateTimePicker
-                    label="시작일"
-                    value={startValue}
-                    onChange={startChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </Box>
+                <DateTimePicker
+                  label="시작일"
+                  value={startValue}
+                  onChange={startChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
 
-                <Box
-                  sx={{
-                    '& > :not(style)': {
-                      marginLeft: '10px',
-                    },
-                  }}>
-                  <DateTimePicker
-                    label="종료일"
-                    value={endValue}
-                    onChange={endChange}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </Box>
+                {/* <MobileDatePicker
+          label="Date mobile"
+          inputFormat="MM/dd/yyyy"
+          value={value}
+          onChange={handleChange}
+          renderInput={(params) => <TextField {...params} />}
+        /> */}
+              </LocalizationProvider>
+            </FormControl>
+            <FormControl style={{ width: '50%' }}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  label="종료일"
+                  id="endDate"
+                  value={endValue}
+                  onChange={endChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
 
                 {/* <MobileDatePicker
           label="Date mobile"
@@ -147,7 +154,7 @@ export default function AddWork({ addOpen, setAddOpen, user }) {
             </FormControl>
           </Box>
           <TextField
-            style={{ width: '60%', marginLeft: '15px', fontSize: '16px' }}
+            style={{ width: '90%', margin: '20px 15px', fontSize: '16px' }}
             onBlur={(e) => setTextTitle(e.target.value)}
             placeholder="업무 제목"></TextField>
           <TextareaAutosize
@@ -156,19 +163,56 @@ export default function AddWork({ addOpen, setAddOpen, user }) {
             placeholder="업무 내용 기입란"
             onBlur={(e) => setTextArea(e.target.value)}
             style={{
-              width: '90%',
-              height: '50%',
-              fontSize: '24px',
-              margin: '10px',
-              marginLeft: '15px',
+              width: '85%',
+              height: '90%',
+              fontSize: '32px',
+              fontWeight: '500',
+              margin: '0px 15px',
+              padding: '15px',
+              backgroundColor: '#b3b3b354',
+              // marginLeft: '15px',
             }}
           />
-          <Stack direction="row" justifyContent={'end'}>
-            <Button variant="contained" onClick={addEvent} style={{ marginRight: '10px' }}>
+
+          <ButtonGroup
+            style={{
+              display: 'flex',
+              height: '10%',
+              margin: '15px 100px',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}>
+            <Button
+              style={{
+                width: '20%',
+                backgroundColor: '#00AAFF',
+                color: '#FFFFFF',
+                fontFamily: 'Inter',
+                fontSize: '16px',
+                fontWeight: '700',
+                height: '100%',
+                border: '1px solid transparent',
+                borderRadius: '5%',
+              }}
+              onClick={addEvent}>
               추가
             </Button>
-            <Button variant="contained">취소</Button>
-          </Stack>
+            <Button
+              style={{
+                width: '20%',
+                backgroundColor: '#D9D9D9',
+                color: '#616161',
+                fontFamily: 'Inter',
+                fontSize: '16px',
+                fontWeight: '700',
+                height: '100%',
+                border: '1px solid transparent',
+                borderRadius: '5%',
+              }}
+              onClick={handleClose}>
+              취소
+            </Button>
+          </ButtonGroup>
         </Dialog>
       </Box>
     </div>

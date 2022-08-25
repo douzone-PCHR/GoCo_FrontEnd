@@ -20,6 +20,7 @@ import {
   WriteButtonStyles,
   MainButtonStyles1,
   MainButtonStyles2,
+  BoardTitleStyles,
 } from '../../component/Board/BoardCSS';
 import usePagination from '../../component/Board/Pagination';
 import moment from 'moment';
@@ -91,17 +92,19 @@ export default function Board() {
               aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell sx={{ width: '10%' }} align="center">
+                  <StyledTableCell sx={BoardTitleStyles} align="center">
                     번호
                   </StyledTableCell>
-                  <StyledTableCell align="center">제목</StyledTableCell>
-                  <StyledTableCell sx={{ width: '10%' }} align="center">
+                  <StyledTableCell sx={{ fontWeight: 'bold', fontSize: '100%' }} align="center">
+                    제목
+                  </StyledTableCell>
+                  <StyledTableCell sx={BoardTitleStyles} align="center">
                     작성자
                   </StyledTableCell>
-                  <StyledTableCell sx={{ width: '10%' }} align="center">
+                  <StyledTableCell sx={BoardTitleStyles} align="center">
                     작성 일자
                   </StyledTableCell>
-                  <StyledTableCell sx={{ width: '10%' }} align="center">
+                  <StyledTableCell sx={BoardTitleStyles} align="center">
                     조회수
                   </StyledTableCell>
                 </TableRow>

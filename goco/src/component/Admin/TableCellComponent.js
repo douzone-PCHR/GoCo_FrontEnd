@@ -2,27 +2,31 @@ import { TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 import { TableModalComponent } from './TableModalComponent';
 
-function commuteState(status) {
-  switch (status) {
-    case '0':
-      return '근무중';
-    case '1':
-      return '지각';
-    case '2':
-      return '미출근';
-  }
-}
-
-export const TableCellComponent = ({ data }) => {
+export const TableCellComponent = ({ processingData, data, check, setCheck }) => {
   const [open, setOpen] = useState(false);
-  const result = {
-    id: data.employee.empNum, //id값을 넘겨받으며 사원 수정
-    name: data.employee.name,
-    jobTitle: data.employee.jobTitle?.jobTitleName,
-    dept: data.employee.unit?.parentUnit.unitName,
-    team: data.employee.unit?.unitName,
-    teamPosition: data.employee.teamPosition.teampPositionName,
-    status: data.commuteStatus,
+  const empInfo = {
+    id: data.empNum, //id값을 넘겨받으며 사원 수정
+    name: data.name,
+    jobTitle: {
+      jobTitleName: data.jobTitle?.jobTitleName,
+      jobTitleId: data.jobTitle?.jobTitleId,
+    },
+    dept: {
+      deptName: data.unit?.parentUnit?.unitName,
+      deptId: data.unit?.parentUnit?.unitId,
+    },
+    team: {
+      teamName: data.unit?.unitName,
+      teamId: data.unit?.unitId,
+    },
+    teamPosition: {
+      teamPositionName: data.teamPosition.teampPositionName,
+      teamPositionId: data.teamPosition?.teamPositionId,
+    },
+    phoneNumber: data.phoneNumber,
+    email: data.email,
+    hiredate:
+      data.hiredate && data.hiredate.split('T', 1)[0].replace('-', '년').replace('-', '월') + `일`,
   };
 
   return (
@@ -32,14 +36,20 @@ export const TableCellComponent = ({ data }) => {
           setOpen(true);
         }}
         hover>
-        <TableCell align="center">{result.name}</TableCell>
-        <TableCell align="center">{result.jobTitle}</TableCell>
-        <TableCell align="center">{result.dept}</TableCell>
-        <TableCell align="center">{result.team}</TableCell>
-        <TableCell align="center">{result.teamPosition}</TableCell>
-        <TableCell align="center">{commuteState(result.status)}</TableCell>
+        <TableCell align="center">{empInfo.name}</TableCell>
+        <TableCell align="center">{empInfo.jobTitle?.jobTitleName}</TableCell>
+        <TableCell align="center">{empInfo.dept.deptName || '-'}</TableCell>
+        <TableCell align="center">{empInfo.team.teamName || '-'}</TableCell>
+        <TableCell align="center">{empInfo.teamPosition.teamPositionName}</TableCell>
       </TableRow>
-      <TableModalComponent open={open} setOpen={setOpen} result={result} />
+      <TableModalComponent
+        processingData={processingData}
+        open={open}
+        setOpen={setOpen}
+        empInfo={empInfo}
+        check={check}
+        setCheck={setCheck}
+      />
     </>
   );
 };
