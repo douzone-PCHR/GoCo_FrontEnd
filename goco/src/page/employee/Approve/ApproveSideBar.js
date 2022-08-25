@@ -17,42 +17,54 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { resultConfirm } from '../../../common/confirm';
 
 export default function ApproveSideBar({ approveList, setState, setDateFilter }) {
   const today = new Date();
-  const [startDate, setStartDate] = useState(today);
-  const [endDate, setEndDate] = useState(today);
+  const [startDate, setStartDate] = useState(
+    moment(today).hours('00').minutes('00').seconds('00').format()
+  );
+  const [endDate, setEndDate] = useState(
+    moment(today).hours('23').minutes('59').seconds('59').format()
+  );
   const resetHandler = () => {
-    setStartDate(today);
-    setEndDate(today);
+    setStartDate(moment(today).hours('00').minutes('00').seconds('00').format());
+    setEndDate(moment(today).hours('23').minutes('59').seconds('59').format());
     setDateFilter();
   };
   console.log(startDate);
+  console.log(endDate);
   console.log(approveList);
   return (
     <Box
       display="flex"
-      minHeight="70vh"
+      position="sticky"
+      minHeight="75vh"
       alignItems="center"
-      marginTop="5%"
+      marginTop="2%"
       marginRight="5%"
       border="solid black 1px"
-      width="20%"
+      width="23%"
       justifyContent="space-around"
       flexDirection="column">
       <Box textAlign={'center'}>
         <Box maxHeight={'30%'}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={2}>
+              <Typography>신청일자검색</Typography>
               <DesktopDatePicker
                 label="시작일"
                 inputFormat="yyyy/MM/dd"
                 value={startDate}
                 onChange={(newValue) => {
-                  if (endDate < newValue) {
-                    alert('시작일이 종료일 보다 큼');
-                  } else {
-                    setStartDate(moment(newValue).hours('00').minutes('00').seconds('00').format());
+                  if (endDate) {
+                    if (endDate < moment(newValue).format()) {
+                      resultConfirm('날짜를 확인 해주세요', '시작일이 종료일보다 큽니다', 'error');
+                    } else {
+                      setStartDate(
+                        moment(newValue).hours('00').minutes('00').seconds('00').format()
+                      );
+                    }
                   }
                 }}
                 renderInput={(params) => <TextField {...params} size="small" />}
@@ -62,10 +74,16 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
                 inputFormat="yyyy/MM/dd"
                 value={endDate}
                 onChange={(newValue) => {
-                  if (startDate > newValue) {
-                    alert('종료일이 시작이보다 작음');
-                  } else {
-                    setEndDate(moment(newValue).hours('23').minutes('59').seconds('59').format());
+                  if (startDate) {
+                    if (startDate > moment(newValue).format()) {
+                      resultConfirm(
+                        '날짜를 확인 해주세요',
+                        '종료일이 시작일보다 작습니다',
+                        'error'
+                      );
+                    } else {
+                      setEndDate(moment(newValue).hours('23').minutes('59').seconds('59').format());
+                    }
                   }
                 }}
                 renderInput={(params) => <TextField {...params} size="small" />}
@@ -88,7 +106,13 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
           justifyContent="space-between">
           대기 요청 수
           <Button>
-            {approveList.filter((approve) => approve.approveYn === 'APPROVE_WAITTING').length}
+            {
+              approveList.filter(
+                (approve) =>
+                  approve.approveYn === 'APPROVE_WAITTING' &&
+                  startDate <= approve.vacationRequestDate <= endDate
+              ).length
+            }
           </Button>
         </Typography>
 
@@ -100,7 +124,13 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
           justifyContent="space-between">
           승인 요청 수
           <Button>
-            {approveList.filter((approve) => approve.approveYn === 'APPROVE_SUCCESS').length}
+            {
+              approveList.filter(
+                (approve) =>
+                  approve.approveYn === 'APPROVE_SUCCESS' &&
+                  startDate <= approve.vacationRequestDate <= endDate
+              ).length
+            }
           </Button>
         </Typography>
         <Typography id="sidebar-content" variant="button" gutterBottom component="div">

@@ -10,6 +10,7 @@ import ApproveForm from './ApproveForm';
 import { getVacations } from '../../../api/vacationAPI';
 import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
+import { getUser } from '../../../component/auth/Login/sessionLogin';
 
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
@@ -18,14 +19,15 @@ export default function Approve() {
   const [check, setCheck] = useState(false);
   const [state, setState] = useState('ALL');
   const [dateFilter, setDateFilter] = useState();
+  const user = getUser();
   // const [approve, setApprove] = useState([]);
   // const [check, setCheck] = useState(false);
 
   useEffect(() => {
     if (value === '휴가') {
-      getVacations(setApproveList, 1);
+      getVacations(setApproveList, user.empNum);
     } else if (value === '출장') {
-      getBusinessTrip(setApproveList, 1);
+      getBusinessTrip(setApproveList, user.empNum);
     }
   }, [check, value]);
   // useEffect(() => {
@@ -49,16 +51,16 @@ export default function Approve() {
           setDateFilter={setDateFilter}
         />
 
-        <Box sx={{ display: 'flex' }} flexDirection="column">
+        <Box sx={{ display: 'flex' }} flexDirection="column" position="sticky">
           <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
             <Tab value="휴가" label="휴가"></Tab>
             <Tab value="출장" label="출장"></Tab>
           </Tabs>
-          <div>
+          <Box position={'fixed'} right={100}>
             <IconButton onClick={() => setOpen(true)}>
               <AddIcon></AddIcon>
             </IconButton>
-          </div>
+          </Box>
 
           <Box>
             {approveList.length && approveList[0].vacationType ? (
@@ -78,7 +80,12 @@ export default function Approve() {
                 dateFilter={dateFilter}
               />
             )}
-            <ApproveForm open={open} setOpen={setOpen} type={value}></ApproveForm>
+            <ApproveForm
+              open={open}
+              setOpen={setOpen}
+              type={value}
+              check={check}
+              setCheck={setCheck}></ApproveForm>
           </Box>
         </Box>
         <Box />

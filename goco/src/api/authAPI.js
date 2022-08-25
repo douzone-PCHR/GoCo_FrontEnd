@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { userMeAPI } from './employeeAPI';
 const cookies = new Cookies();
 
 export const setCookie = (name, value, option) => {
@@ -37,6 +38,7 @@ export const loginAPI = async (id, password) => {
         expires,
       });
       sweetAlertSuccess('로그인 성공', 'success', '/');
+      userMeAPI();
     })
     .catch(() => {
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');

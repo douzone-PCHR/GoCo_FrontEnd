@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Approve from '../page/employee/Approve/Approve';
+import './header.css';
 import {
   Button,
   IconButton,
@@ -16,6 +17,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CustomizedMenus from './CustomizedMenus';
+import { display } from '@mui/system';
 const Header = () => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
@@ -36,7 +38,7 @@ const Header = () => {
     //   </AppBar>
     // </>
     <Fragment>
-      <AppBar sx={{ background: 'white' }}>
+      <AppBar sx={{ background: 'white' }} position="relative">
         <Toolbar>
           <Typography>회사로고</Typography>
           <Tabs

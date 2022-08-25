@@ -29,7 +29,7 @@ const style = {
   p: 2,
 };
 
-export default function ApproveForm({ open, setOpen, type }) {
+export default function ApproveForm({ open, setOpen, type, check, setCheck }) {
   const handleClose = () => setOpen(false);
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
@@ -143,6 +143,7 @@ export default function ApproveForm({ open, setOpen, type }) {
                       addVacation(newApprove, file, setOpen, setCheckOpen);
                     }
                     setNewApprove(newApprove);
+                    setCheck(!check);
                   }
                 }
               );

@@ -119,12 +119,12 @@ function Row(props) {
                         confirm('승인 된 결재 입니다. 승인을 취소 하시겠습니까? ').then(
                           (result) => {
                             if (result.isConfirmed) {
+                              row.vacation.approveYn = 'APPROVE_CANCEL';
+                              approveVacation(row.vacation, check, setCheck);
                               Swal.fire('승인이 취소 되었습니다', '', 'success');
                             }
                           }
                         );
-                        row.vacation.approveYn = 'APPROVE_WAITTING';
-                        approveVacation(row.vacation, check, setCheck);
                       }}>
                       승인취소
                     </Button>
@@ -139,7 +139,7 @@ function Row(props) {
   );
 }
 
-export default function ManagerVacations({ vacationList, check, setCheck, state }) {
+export default function ManagerVacations({ vacationList, check, setCheck, state, dateFilter }) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
@@ -157,30 +157,55 @@ export default function ManagerVacations({ vacationList, check, setCheck, state 
   // }, [check]);
   const rows = [];
   if (vacationList.length) {
-    vacationList.map((vacation) => {
-      let detail = {
-        content: vacation.vacationContent,
-        approveDate: vacation.vacationApproveDate,
-        file: vacation.file,
-      };
-      rows.push(
-        createData(
-          vacation.employee.name,
-          vacation.employee.vacationCount,
-          vacation.vacationType,
-          vacation.vacationStartDate,
-          vacation.vacationEndDate,
-          vacation.vacationRequestDate,
-          vacation.approveYn,
-          detail,
-          vacation
-        )
-      );
-    });
+    console.log(vacationList);
+    vacationList
+      .filter((vacation) => {
+        if (dateFilter) {
+          if (
+            state === 'ALL' &&
+            vacation.vacationRequestDate >= dateFilter.startDate &&
+            vacation.vacationRequestDate <= dateFilter.endDate
+          ) {
+            return vacation;
+          } else if (
+            vacation.approveYn === state &&
+            vacation.vacationRequestDate >= dateFilter.startDate &&
+            vacation.vacationRequestDate <= dateFilter.endDate
+          ) {
+            return vacation;
+          }
+        } else {
+          if (state === 'ALL') {
+            return vacation;
+          } else if (vacation.approveYn === state) {
+            return vacation;
+          }
+        }
+      })
+      .map((vacation) => {
+        let detail = {
+          content: vacation.vacationContent,
+          approveDate: vacation.vacationApproveDate,
+          file: vacation.file,
+        };
+        rows.push(
+          createData(
+            vacation.employee.name,
+            vacation.employee.vacationCount,
+            vacation.vacationType,
+            vacation.vacationStartDate,
+            vacation.vacationEndDate,
+            vacation.vacationRequestDate,
+            vacation.approveYn,
+            detail,
+            vacation
+          )
+        );
+      });
   }
-  console.log(vacationList);
+  console.log(rows);
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 700, minWidth: 785 }}>
       <Table stickyHeader aria-label="collapsible table">
         <TableHead>
           <TableRow>

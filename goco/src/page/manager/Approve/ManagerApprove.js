@@ -7,23 +7,28 @@ import ManagerBusinessTrips from './ManagerBusinessTrip';
 import { approveBusinessTripList } from '../../../api/businessTripAPI';
 import { approveVacationList } from '../../../api/vacationAPI';
 import ApproveSideBar from '../../employee/Approve/ApproveSideBar';
+import { userMeAPI } from '../../../api/employeeAPI';
+import { getUser } from '../../../component/auth/Login/sessionLogin';
 
+console.log(getUser());
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
   const [value, setValue] = useState('휴가결재');
   const [open, setOpen] = useState(false);
   const [check, setCheck] = useState(false);
   const [state, setState] = useState('ALL');
-  const [dateFilter, setDateFilter] = useState({});
+  const [dateFilter, setDateFilter] = useState();
+  const user = getUser();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   useEffect(() => {
     if (value === '휴가결재') {
-      approveVacationList(setApproveList, 1);
+      approveVacationList(setApproveList, user.unit.unitId);
     } else if (value === '출장결재') {
-      approveBusinessTripList(setApproveList, 1);
+      approveBusinessTripList(setApproveList, user.unit.unitId);
     }
   }, [check, value]);
 
@@ -48,6 +53,7 @@ export default function Approve() {
                 check={check}
                 setCheck={setCheck}
                 state={state}
+                dateFilter={dateFilter}
               />
             ) : (
               <ManagerBusinessTrips
@@ -55,6 +61,7 @@ export default function Approve() {
                 check={check}
                 setCheck={setCheck}
                 state={state}
+                dateFilter={dateFilter}
               />
             )}
           </Box>
