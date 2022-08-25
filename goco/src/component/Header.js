@@ -3,16 +3,21 @@ import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import './header.css';
 import { FiMenu } from 'react-icons/fi';
+import { loginDefaultValue } from '../api/work/workAPI';
+
 const Header = () => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
+  const [loginEmp, setLoginEmp] = useState();
+  const mediaQuery = window.matchMedia('(max-width: 1100px)');
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 1100px)');
+    loginDefaultValue(setLoginEmp);
+
     mediaQuery.addListener(handleMediaQueryChange);
     handleMediaQueryChange(mediaQuery);
 
@@ -58,9 +63,14 @@ const Header = () => {
           <Link to="/">요청 내역</Link>
           <Link to="/">게시판</Link>
           <Link to="/">근무중</Link>
-          <button className="mangerChangeBtn">
-            <Link to="/manager">매니저 모드 전환</Link>
-          </button>
+          {loginEmp !== undefined && loginEmp.authority === 'ROLE_MANAGER' ? (
+            <button className="mangerChangeBtn">
+              <Link to="/manager">매니저 모드 전환</Link>
+            </button>
+          ) : (
+            ''
+          )}
+
           <div className="dropdown">
             <button className="dropbtn">
               조명윤
