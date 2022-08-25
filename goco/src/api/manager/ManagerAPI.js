@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getCookie } from '../authAPI';
 
 // export const getCurrentStatus = async (setCurrentStatus) => {
 //   await axios
@@ -6,7 +7,7 @@ import axios from 'axios';
 //       // .get("http://localhost:8080/api/commute/status", {
 //       headers: {
 //         'access-control-allow-origin': 'true',
-//         Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+//         Authorization: `Bearer ${getCookie('accessToken')}`,
 //       },
 //     })
 //     .then((response) => {
@@ -19,7 +20,7 @@ export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
     .get('http://localhost:8080/api/manager/commute/myteam', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -32,7 +33,7 @@ export const getCommuteCheck = async (setCommuteCheckData) => {
     .get('http://localhost:8080/api/manager/commute', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -90,7 +91,7 @@ export const getRequestList = async (setData) => {
     .get(`http://localhost:8080/api/manager/vacation/list`, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -103,7 +104,7 @@ export const getNoticeList = async (setPageList) => {
     .get('http://localhost:8080/api/user/board/notice', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjIyMDA3ODMxMDZ9.NAfhWRU0X9rxVHFhRgJEG1XkC_3XepvQwuNWo9PnzQZMWR5bSauX5XGngSw-KnY3FxNbNjyDkL7QeWcKIUw_bA`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import { getCookie } from '../authAPI';
 
 export const workGetData = async (setGetWorkList, getEmpId) => {
   const response = await axios.get(
@@ -7,7 +8,7 @@ export const workGetData = async (setGetWorkList, getEmpId) => {
     {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     }
   );
@@ -36,7 +37,7 @@ export const getWorkListData = async (privateSetData, publicSetData) => {
     .get('http://localhost:8080/api/user/work', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -57,7 +58,7 @@ export const commuteTime = async (setCommuteTimeData) => {
     .get(`http://localhost:8080/api/user/commute/time`, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -70,7 +71,7 @@ export const getEmployeeList = async (setEmp) => {
     .get('http://localhost:8080/api/user/work/emplist', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -83,7 +84,7 @@ export const loginDefaultValue = async (setLoginEmp) => {
     .get('http://localhost:8080/api/user/me', {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -99,7 +100,7 @@ export const dateWorkList = async (requestDate, setDetailList) => {
       {
         headers: {
           'access-control-allow-origin': 'true',
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+          Authorization: `Bearer ${getCookie('accessToken')}`,
         },
       }
     )
@@ -113,7 +114,7 @@ export const dialogDetailList = async (workId, setDetailWorkList) => {
     .get(`http://localhost:8080/api/user/work/${workId}`, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -126,7 +127,7 @@ export const addWork = async (workData) => {
     .post(`http://localhost:8080/api/user/work`, workData, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -143,7 +144,7 @@ export const updateWork = async (workData) => {
     .put(`http://localhost:8080/api/user/work`, workData, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -160,7 +161,7 @@ export const deleteWork = async (workId) => {
     .delete(`http://localhost:8080/api/user/work/${workId}`, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
@@ -177,7 +178,7 @@ export const commuteUpdate = async (work) => {
     .put(`http://localhost:8080/api/user/commute`, work, {
       headers: {
         'access-control-allow-origin': 'true',
-        Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreWoxMTExMSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE3MTUxMjg2OTR9.1z0OmV0aP2brGlOlaSnntcFRkcailDkEHbbgsf60kLJX-kBwxfvs9494EhMNm2gwcvvKkXIohiuQq7thF68X_Q`,
+        Authorization: `Bearer ${getCookie('accessToken')}`,
       },
     })
     .then((response) => {
