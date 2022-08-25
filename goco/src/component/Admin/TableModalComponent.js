@@ -1,104 +1,97 @@
-import { Button, Modal, Table, TableBody, TableCell, TableRow } from '@mui/material';
-import style from '../../CSS/Admin.module.css';
-import { SelectComponent } from './SelectComponent';
-import jobTitle from './jobTitle.json';
-import teamPosition from './teamPosition.json';
-import { useEffect, useState } from 'react';
-import { getUnitAPI } from '../../api/unitAPI';
-import { AdminTableHead } from './TableHead';
-import { updateEmpAPI } from '../../api/employeeAPI';
-function updateDatafnc(updateData) {
-  const data = {
-    empNum: updateData.id,
-    jobTitle: {
-      jobTitleId: updateData.jobTitle,
-    },
-    teamPosition: {
-      teamPositionId: updateData.teamPosition,
-    },
-    unit: {
-      unitId: updateData.unit,
-    },
-  };
-  updateEmpAPI(data);
-}
+import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import style from '../../CSS/admin.module.css';
+import { Fragment, useEffect, useState } from 'react';
+import { EmpUpdateModal } from './EmpUpdateModal';
 
-export const TableModalComponent = ({ open, setOpen, result }) => {
-  const [units, setUnit] = useState();
-  const [selectDept, setSelectDept] = useState('');
-  const [resultTeam, setResultTeam] = useState([]);
-  const resultDept = [];
-  const [updateData, setUpdateData] = useState({ id: result.id });
-  useEffect(() => {
-    getUnitAPI(setUnit);
-  }, []);
-
-  useEffect(() => {
-    const teams = [];
-    units &&
-      units.map((unit) => {
-        unit.parentUnit && unit.parentUnit?.unitId === parseInt(selectDept) && teams.push(unit);
-      });
-    setResultTeam([...teams]);
-  }, [selectDept]);
-
-  units &&
-    units.map((unit) => {
-      !unit.unitType && resultDept.push(unit);
-    });
-
+export const TableModalComponent = ({
+  processingData,
+  open,
+  setOpen,
+  empInfo,
+  check,
+  setCheck,
+}) => {
+  // const [units, setUnit] = useState();
+  const [updateModal, setUpdateModal] = useState(false);
   return (
-    <Modal
-      open={open}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description">
-      <div className={style.modal}>
-        <Table align="center">
-          <AdminTableHead />
-          <TableBody>
-            <TableRow>
-              {/* 이름 */}
-              <TableCell align="center">{result.name}</TableCell>
+    <Fragment>
+      <Modal
+        open={open}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <div className={style.modal}>
+          <Table align="center">
+            <TableHead>
+              <TableRow>
+                {/* 이름 */}
+                <TableCell sx={{ padding: '0px 0px 0px 10px', width: 'auto', fontWeight: 'bold' }}>
+                  사원명
+                </TableCell>
+                <TableCell sx={{ padding: '16px 0px 16px 0px', textAlign: 'center' }}>
+                  {empInfo.name}
+                </TableCell>
+                <TableCell colSpan={10} />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {/* <TableRow> */}
               {/* 직급 */}
-              <SelectComponent data={jobTitle} title={'jobTitle'} setUpdateData={setUpdateData} />
+              <TableRow>
+                <TableCell sx={{ width: '10%', padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>
+                  직급
+                </TableCell>
+                <TableCell>{empInfo.jobTitle.jobTitleName}</TableCell>
+                <TableCell sx={{ width: '10%', fontWeight: 'bold' }}>이메일</TableCell>
+                <TableCell>{empInfo.email}</TableCell>
+              </TableRow>
               {/* 부서 */}
-              <SelectComponent
-                data={resultDept}
-                title={'ParentUnit'}
-                setUnit={setSelectDept}
-                setUpdateData={setUpdateData}
-              />
+              <TableRow>
+                <TableCell sx={{ padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>부서</TableCell>
+                <TableCell>{empInfo.dept.deptName || '-'}</TableCell>
+                <TableCell sx={{ padding: 'none', fontWeight: 'bold' }}>입사일</TableCell>
+                <TableCell>{empInfo.hiredate} </TableCell>
+              </TableRow>
               {/* 팀 */}
-              {resultTeam && (
-                <SelectComponent data={resultTeam} title={'unit'} setUpdateData={setUpdateData} />
-              )}
+              <TableRow>
+                <TableCell sx={{ width: '10px', padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>
+                  팀
+                </TableCell>
+                <TableCell>{empInfo.team.teamName || '-'}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>휴대폰 번호</TableCell>
+                <TableCell> {empInfo.phoneNumber} </TableCell>
+              </TableRow>
+
               {/* 직책 */}
-              <SelectComponent
-                data={teamPosition}
-                title={'teamPosition'}
-                result={result.teamPosition}
-                setUpdateData={setUpdateData}
-              />
-              <TableCell align="center">
-                <div className={style.bgBlack}>{result.status === '1' ? '근무중 ' : '휴가'}</div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <Button
-          onClick={() => {
-            updateDatafnc(updateData);
-            setOpen(false);
-          }}>
-          수정
-        </Button>
-        <Button
-          onClick={() => {
-            setOpen(false);
-          }}>
-          취소
-        </Button>
-      </div>
-    </Modal>
+              <TableRow>
+                <TableCell sx={{ padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>직책</TableCell>
+                <TableCell>{empInfo.teamPosition.teamPositionName}</TableCell>
+                <TableCell colSpan={10} />
+              </TableRow>
+            </TableBody>
+          </Table>
+          <Button
+            onClick={() => {
+              // updateDatafnc(updateData);
+              setUpdateModal(true);
+            }}>
+            정보 수정하기
+          </Button>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}>
+            취소
+          </Button>
+        </div>
+      </Modal>
+      <EmpUpdateModal
+        processingData={processingData}
+        updateModal={updateModal}
+        setUpdateModal={setUpdateModal}
+        empInfo={empInfo}
+        check={check}
+        setCheck={setCheck}
+      />
+    </Fragment>
   );
 };

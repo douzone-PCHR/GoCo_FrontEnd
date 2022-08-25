@@ -1,60 +1,50 @@
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Input,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Modal,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { border, display, margin, width } from '@mui/system';
+import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
-import { getEmp, getManager } from '../../../api/employeeAPI';
-import { deleteUnitAPI, insertUnitAPI } from '../../../api/unitAPI';
-import style from '../../../CSS/Admin.module.css';
+import Swal from 'sweetalert2';
+import { getManager } from '../../../api/employeeAPI';
+import { deleteUnitAPI, updateUnitAPI } from '../../../api/unitAPI';
+import style from '../../../CSS/admin.module.css';
+import { ChildModal } from './ChildModal';
+export const handleChange = (e, setHandleDept) => {
+  setHandleDept(e.target.value);
+};
 
-const onHandleChange = (e, setChange) => setChange(e.target.value);
-export const UnitModalComponent = ({ open, setOpen, teams, dept, setCheck, check }) => {
-  const [handleModal, setHandleModal] = useState(false);
+export const UnitModalComponent = ({
+  open,
+  setOpen,
+  teams,
+  dept,
+  check,
+  setCheck,
+  handleModal,
+  setHandleModal,
+}) => {
   const [teamManagers, setteamManagers] = useState();
-  const [emps, setEmp] = useState();
-  const [empNum, setEmpNum] = useState();
-  const [empTeamMembers, setEmpTeamMember] = useState([]);
-
-  const [teamEmp, setTeamEmp] = useState([]);
-  useEffect(() => {
-    getEmp(setEmp);
-  }, [check]);
   useEffect(() => {
     dept?.unitId && getManager(dept.unitId, setteamManagers);
-  }, [dept?.unitId, check]);
-
+  }, [dept?.unitId, open, handleModal]);
   return (
-    // dept, teams, teamManagers,deleteUnitAPI, seCheck, setOpen,open,setcheck,check
     <>
-      <Modal open={open}>
+      <Modal
+        open={open}
+        id="parent-modal"
+        disableEnforceFocus={true}
+        disableRestoreFocus={true}
+        disableAutoFocus={true}>
         <div className={style.modal}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>부서: {dept?.unitName}</TableCell>
-                <TableCell colSpan={20}>팀장</TableCell>
+                <TableCell sx={{ width: '30%' }}>부서: {dept?.unitName}</TableCell>
+                <TableCell colSpan={5}>
+                  <span>팀장</span>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {teams &&
                 teams.map((team, idx) => {
-                  return dept?.unitName === team.parentUnit.unitName ? (
+                  return dept && dept.unitName === team.parentUnit.unitName ? (
                     <TableRow key={idx}>
                       <TableCell>{team.unitName}</TableCell>
                       {teamManagers &&
@@ -65,14 +55,111 @@ export const UnitModalComponent = ({ open, setOpen, teams, dept, setCheck, check
                             <Fragment key={teamManager.empNum} />
                           );
                         })}
-                      {[...Array(5)].map((num, idx) => {
-                        return <TableCell key={idx} />;
-                      })}
+
                       <TableCell padding="none" align="right">
                         <Button
                           onClick={() => {
-                            deleteUnitAPI(team.unitId);
-                            setCheck(!check);
+                            Swal.fire({
+                              title: '팀명 변경',
+                              input: 'text',
+                              toast: true,
+                              inputPlaceholder: '변경할 팀 이름을 입력해주세요:',
+                              // html: `<Select
+                              //     onChange={(e) => {
+                              //       handleChange(e, setHandleDept);
+                              //     }}
+                              //     value={handleDept}>
+                              //     {/* {resultDept.map((data, index) => {
+                              //       <MenuItem value={data.unitId} key={index}>
+                              //         {data.unitName}
+                              //       </MenuItem>;
+                              //     })} */}
+                              //   </Select>`,
+                              target: '#parent-modal',
+                              showCancelButton: true,
+                              // showConfirmButton: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                updateUnitAPI(team.unitId, result.value).then((results) => {
+                                  if (results) {
+                                    Swal.fire({
+                                      icon: 'success',
+                                      title: '팀명이 변경되었습니다.',
+                                      target: '#parent-modal',
+                                      text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
+                                      // showConfirmButton: true,
+                                      confirmButtonText: '확인',
+                                    }).then((result) => {
+                                      if (result.isConfirmed) {
+                                        setOpen(false);
+                                      }
+                                    });
+                                  } else {
+                                    Swal.fire({
+                                      title: '중복된 팀명입니다.',
+                                      icon: 'error',
+                                      target: '#parent-modal',
+                                      showConfirmButton: true,
+                                      confirmButtonText: '확인',
+                                    });
+                                  }
+                                });
+                              }
+                            });
+                          }}>
+                          팀 수정
+                        </Button>
+
+                        <Button
+                          onClick={() => {
+                            Swal.fire({
+                              title: `${team.unitName}팀을 삭제 하시겠습니까?`,
+                              icon: 'warning',
+                              target: '#parent-modal',
+                              cancelButtonText: '돌아가기',
+                              cancelButtonColor: 'gray',
+                              confirmButtonText: '삭제하기',
+                              confirmButtonColor: 'red',
+                              showCancelButton: true,
+                            }).then(async (result) => {
+                              if (result.isConfirmed) {
+                                await deleteUnitAPI(team.unitId, 2).then((data) => {
+                                  switch (data) {
+                                    case -1:
+                                      break;
+                                    case 1:
+                                      Swal.fire({
+                                        target: '#parent-modal',
+                                        title: `팀에 사원이 존재합니다.`,
+                                        confirmButtonText: '확인',
+                                        icon: 'warning',
+                                      }).then(() => {
+                                        setCheck(!check);
+                                      });
+                                      break;
+                                    case 2:
+                                      Swal.fire({
+                                        target: '#parent-modal',
+                                        title: `${team.unitName}팀이 삭제되었습니다.`,
+                                        confirmButtonText: '확인',
+                                        icon: 'success',
+                                      }).then(() => {
+                                        setCheck(!check);
+                                      });
+                                      break;
+                                    default:
+                                      break;
+                                  }
+                                });
+                              } else {
+                                Swal.fire({
+                                  target: '#parent-modal',
+                                  title: `팀 삭제가 취소되었습니다.`,
+                                  confirmButtonText: '확인',
+                                  icon: 'info',
+                                });
+                              }
+                            });
                           }}>
                           팀 삭제
                         </Button>
@@ -87,18 +174,53 @@ export const UnitModalComponent = ({ open, setOpen, teams, dept, setCheck, check
           <div className={style.btn}>
             <Button
               onClick={() => {
-                // insertUnitAPI(team);
                 setHandleModal(true);
-
-                setCheck(!check);
               }}>
               팀추가
             </Button>
+
             <Button
               onClick={() => {
-                deleteUnitAPI(dept.unitId);
-                setOpen(false);
-                setCheck(!check);
+                Swal.fire({
+                  title: `${dept?.unitName}부서를 삭제 하시겠습니까?`,
+                  icon: 'warning',
+                  target: '#parent-modal',
+                  confirmButtonText: '삭제하기',
+                  showCancelButton: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // if()
+                    deleteUnitAPI(dept.unitId, 1).then((data) => {
+                      switch (data) {
+                        case -1:
+                          break;
+                        case 1:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `부서 내에 사원이 존재합니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'warning',
+                          });
+                          break;
+                        case 2:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `${dept.unitName}부서가 삭제되었습니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'success',
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              setOpen(false);
+                              setCheck(!check);
+                            }
+                          });
+                          break;
+                        default:
+                          break;
+                      }
+                    });
+                  }
+                });
               }}>
               부서 삭제
             </Button>
@@ -111,108 +233,13 @@ export const UnitModalComponent = ({ open, setOpen, teams, dept, setCheck, check
           </div>
         </div>
       </Modal>
-
-      <Modal open={handleModal}>
-        {/* <div className={style.modal}> */}
-        <div className={style.modal}>
-          <Typography variant="h3">팀 추가</Typography>
-          <br />
-          <br />
-          <div style={{ display: 'flex', marginLeft: '10px' }}>
-            <Input
-              align="center"
-              name="teamName"
-              placeholder="팀이름"
-              sx={{ fontSize: 'small', border: 'solid', marginRight: '10px', width: '15%' }}
-            />
-            <FormControl sx={{ marginRight: '10px', fontSize: 'small', width: '15%' }}>
-              <InputLabel id="InputLabelTeamk">팀장 선택</InputLabel>
-              <Select
-                labelId="InputLabelTeamk"
-                id="empSelect"
-                defaultValue={emps ? emps[0].empNum : '2'}
-                onChange={(e) => {
-                  setEmpNum(e.target.value);
-                }}>
-                {emps &&
-                  emps.map((emp, idx) => {
-                    return (
-                      <MenuItem key={idx} value={emp.empNum}>
-                        {emp.name}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ width: '30%' }}>
-              <InputLabel id="mutiple-select-label" sx={{ width: '100px' }}>
-                팀원 선택
-              </InputLabel>
-              <Select
-                labelId="mutiple-select-label"
-                multiple
-                value={teamEmp}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  e.target.value.map((teamMember) => {
-                    setEmpTeamMember([...empTeamMembers, teamMember.empNum]);
-                  });
-                  setEmpNum(e.target.value);
-                }}
-                renderValue={(name) =>
-                  name
-                    .map((data) => {
-                      return data.name;
-                    })
-                    .join(',')
-                }>
-                {emps &&
-                  emps.map((emp) => {
-                    if (!emp.unit) {
-                      if (empNum !== emp.empNum) {
-                        return (
-                          // <MenuItem key={emp.empNum} value={emp.name}>
-                          <MenuItem key={emp.empNum} value={emp}>
-                            <Checkbox checked={teamEmp.indexOf(emp.name) > -1} />
-                            <ListItemText primary={emp.name} />
-                          </MenuItem>
-                        );
-                      }
-                    }
-                  })}
-              </Select>
-            </FormControl>
-          </div>
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <Button
-            onClick={() => {
-              const teamName = document.getElementsByName('teamName')[0].value;
-              if (teamName) {
-                insertUnitAPI(teamName, dept.unitId, empNum, empTeamMembers, setTeamEmp);
-                setHandleModal(false);
-                setCheck(!check);
-              } else {
-                console.log('팀 이름입력해주세요.');
-              }
-            }}>
-            추가하기
-          </Button>
-          <Button
-            onClick={() => {
-              setHandleModal(false);
-              setTeamEmp([]);
-            }}>
-            취소
-          </Button>
-        </div>
-      </Modal>
+      <ChildModal
+        handleModal={handleModal}
+        setHandleModal={setHandleModal}
+        dept={dept}
+        check={check}
+        setCheck={setCheck}
+      />
     </>
   );
 };
