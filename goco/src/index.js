@@ -19,6 +19,7 @@ import ManagerApprove from './page/manager/Approve/ManagerApprove';
 import { Management } from './page/admin/Management';
 import ManagerMain from './page/manager/ManagerMain';
 import Myteamcurrentstatus from './page/manager/Myteamcurrentstatus';
+import { Emplist } from './page/admin/EmpList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -46,6 +47,7 @@ root.render(
         <Route path="*" index element={<NotFound />} />
         <Route path="/approve" element={<Approve />} />
         <Route path="/approveteam" element={<ManagerApprove />} />
+        <Route path="/emplist" element={<Emplist />} />
       </Route>
     </Routes>
   </BrowserRouter>

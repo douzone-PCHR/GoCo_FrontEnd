@@ -9,7 +9,6 @@ export const AdminTableHead = () => {
         <TableCell align="center">부서</TableCell>
         <TableCell align="center">팀</TableCell>
         <TableCell align="center">직책</TableCell>
-        <TableCell align="center">근무현황</TableCell>
       </TableRow>
     </TableHead>
   );

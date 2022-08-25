@@ -1,4 +1,3 @@
-import { SettingsCellOutlined } from '@mui/icons-material';
 import {
   Button,
   Modal,
@@ -10,15 +9,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { width } from '@mui/system';
 import { Fragment, useEffect, useState } from 'react';
-import { getManager } from '../../api/employeeAPI';
-import { getUnitAPI, insertUnitAPI } from '../../api/unitAPI';
+import Swal from 'sweetalert2';
+import { getUnitsAPI, insertUnitAPI } from '../../api/unitAPI';
 import { UnitModalComponent } from '../../component/Admin/Management/UnitModalComponent';
-import styled from '../../CSS/Admin.module.css';
+import styled from '../../CSS/admin.module.css';
 
 function getUnits(setUnits) {
-  getUnitAPI(setUnits);
+  getUnitsAPI(setUnits);
 }
 
 export const Management = () => {
@@ -27,11 +25,12 @@ export const Management = () => {
   const [dept, setDept] = useState();
   const [open, setOpen] = useState(false);
   const [check, setCheck] = useState(true);
+  const [handleModal, setHandleModal] = useState(false);
   const resultDept = [];
   const teams = [];
   useEffect(() => {
     getUnits(setUnits);
-  }, [check]);
+  }, [check, open, handleModal]);
 
   units &&
     units.map((unit) => {
@@ -40,6 +39,7 @@ export const Management = () => {
       } else {
         teams.push(unit);
       }
+      return unit;
     });
 
   return (
@@ -50,7 +50,7 @@ export const Management = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>부서</TableCell>
+                <TableCell sx={{ width: '15%' }}>부서</TableCell>
                 <TableCell colSpan={10}>팀</TableCell>
                 <TableCell padding="none" align="right">
                   <Button
@@ -82,9 +82,6 @@ export const Management = () => {
                           );
                         })}
 
-                      {[...Array(teams.length + 3 - teams.length)].map((num, arrIdx) => {
-                        return <TableCell key={arrIdx} />;
-                      })}
                       <TableCell align="right" colSpan={20} padding="none">
                         <Button
                           onClick={() => {
@@ -100,7 +97,7 @@ export const Management = () => {
             </TableBody>
           </Table>
 
-          <Modal open={insertBtn}>
+          <Modal open={insertBtn} id="dept-insert-modal" disableAutoFocus={false}>
             <div className={styled.modal}>
               <Typography variant="h4" color="primary" fontWeight="bold">
                 부서추가
@@ -111,11 +108,39 @@ export const Management = () => {
                 <Button
                   onClick={() => {
                     const unitName = document.getElementsByName(styled.textField)[0].value;
-
                     if (unitName) {
-                      insertUnitAPI(unitName);
-                      setInsertBtn(false);
-                      setCheck(!check);
+                      Swal.fire({
+                        title: `${unitName}부서를 추가 하시겠습니까?`,
+                        icon: 'info',
+                        target: '#dept-insert-modal',
+                        cancelButtonText: '돌아가기',
+                        // cancelButtonColor: 'gray',
+                        confirmButtonText: '추가하기',
+                        confirmButtonColor: '#6af40f',
+                        showCancelButton: true,
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          insertUnitAPI(unitName).then((data) => {
+                            data
+                              ? Swal.fire({
+                                  title: `${unitName} 부서가 추가되었습니다.`,
+                                  icon: 'success',
+                                  target: '#dept-insert-modal',
+                                  confirmButtonText: '완료',
+                                }).then(() => {
+                                  setInsertBtn(false);
+                                  setCheck(!check);
+                                })
+                              : Swal.fire({
+                                  title: `중복된 이름입니다.`,
+                                  text: `${unitName}`,
+                                  icon: 'warning',
+                                  target: '#dept-insert-modal',
+                                  confirmButtonText: '완료',
+                                });
+                          });
+                        }
+                      });
                     }
                   }}>
                   추가
@@ -135,8 +160,10 @@ export const Management = () => {
           setOpen={setOpen}
           teams={teams}
           dept={dept}
-          setCheck={setCheck}
           check={check}
+          setCheck={setCheck}
+          handleModal={handleModal}
+          setHandleModal={setHandleModal}
         />
       </div>
     </>
