@@ -9,24 +9,29 @@ import { BoardTypeStyle, BoardButtonStyle } from '../../component/Board/BoardCSS
 import { UpdateBoard } from '../../component/Board/BoardFunction';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs'; // 작성일자때문에 넣음
-
+import { WhoAmIAPI } from '../../api/employeeAPI';
+import { GetAllCommentAPI } from '../../api/commentAPI';
+import BoardComment from './BoardComment';
 export default function BoardSelect() {
   const boardId = useParams().boardId;
   const [data, setData] = React.useState();
-
+  const [whoAmI, setWhoAmI] = React.useState();
+  const [commentData, setCommentData] = React.useState(); // 모든 댓글 가져오는 것
   React.useEffect(() => {
+    GetAllCommentAPI(boardId, setCommentData); // 모든 댓글 받아오는것
     BoardSelectAPI(boardId, setData);
+    WhoAmIAPI(setWhoAmI);
   }, []);
   return (
     <div>
-      {data && (
+      {commentData && whoAmI && data && (
         <div className={styles.OutterBox}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} sx={{ fontSize: '80%' }}>
               등록일 : {dayjs(data.registeredDate).format('YYYY-MM-DD HH:mm:ss')}
             </Grid>
             <Grid item xs={12} sm={6} sx={{ fontSize: '80%', textAlign: 'right' }}>
-              조회수 : {data.count} | 댓글 : {data.comments === null ? '0' : data.comments}
+              조회수 : {data.count} | 댓글 :{commentData.length}
             </Grid>
             <Grid item xs={12} sx={BoardTypeStyle}>
               {data.boardType === 0 ? '공지 게시판' : '자유 게시판'}
@@ -35,7 +40,7 @@ export default function BoardSelect() {
               <div>작성자</div>
             </Grid>
             <Grid item xs={12}>
-              <TextField fullWidth value={data.employee.name} />
+              <TextField fullWidth value={`${data.employee.name} ( ${data.employee.empId} )`} />
             </Grid>
             <Grid item xs={12}>
               <div>제목</div>
@@ -50,17 +55,24 @@ export default function BoardSelect() {
               <Editor value={data.boardContent} />
             </Grid>
           </Grid>
-          <Grid container>
+
+          <hr />
+          {/* ----------------------------------여기부터 댓글 ---------------------------------- */}
+          <BoardComment boardId={boardId} whoAmI={whoAmI && whoAmI} commentData={commentData} />
+          {/* ----------------------------------이상부터 댓글 ---------------------------------- */}
+          <Grid container sx={{ marginTop: '10%', marginBottom: '4%' }}>
             <Grid item xs={12} sm={6}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={BoardButtonStyle}
-                onClick={() => {
-                  UpdateBoard(data.boardId);
-                }}>
-                게시글 수정
-              </Button>
+              {whoAmI === data.employee.empNum && (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={BoardButtonStyle}
+                  onClick={() => {
+                    UpdateBoard(data.boardId);
+                  }}>
+                  게시글 수정
+                </Button>
+              )}
             </Grid>
             <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
               <Button

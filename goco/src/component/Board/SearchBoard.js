@@ -9,9 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'; //달력
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; //달력
 import dayjs from 'dayjs'; //달력
-import Box from '@mui/material/Box';
 import styles from '../../CSS/board/NoticeBoard.module.css';
-import { DatePickerCSS } from '../../component/Board/BoardCSS';
 import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 export default function SearchBoard({ data, setShowData, DATE }) {
   const [info, setInfo] = React.useState({
@@ -64,38 +62,35 @@ export default function SearchBoard({ data, setShowData, DATE }) {
   return (
     <>
       <div className={styles.SearchDate}>
-        <Box sx={DatePickerCSS}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              inputFormat="yyyy-MM-dd"
-              label="시작 날짜"
-              value={dateInfo.start}
-              onChange={(e) => {
-                setDateInfo({
-                  ...dateInfo,
-                  start: dayjs(new Date(e)).format('YYYY-MM-DD'),
-                });
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </Box>
-        <Box sx={DatePickerCSS}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              inputFormat="yyyy-MM-dd"
-              label="종료 날짜"
-              value={dateInfo.end}
-              onChange={(e) => {
-                setDateInfo({
-                  ...dateInfo,
-                  end: dayjs(new Date(e)).format('YYYY-MM-DD'),
-                });
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </Box>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            inputFormat="yyyy-MM-dd"
+            label="시작 날짜"
+            value={dateInfo.start}
+            onChange={(e) => {
+              setDateInfo({
+                ...dateInfo,
+                start: dayjs(new Date(e)).format('YYYY-MM-DD'),
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            inputFormat="yyyy-MM-dd"
+            label="종료 날짜"
+            value={dateInfo.end}
+            onChange={(e) => {
+              setDateInfo({
+                ...dateInfo,
+                end: dayjs(new Date(e)).format('YYYY-MM-DD'),
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
       </div>
       {/* ===============================이상 날짜 검색======================================= */}
       <div className={styles.Margin}>

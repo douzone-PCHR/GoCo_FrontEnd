@@ -5,27 +5,39 @@ import { sweetAlertSuccess, sweetAlert2 } from '../component/auth/AuthSweetAlert
 // 공지사항 받아오기
 const urlNoticeBoard = 'http://localhost:8080/api/user/board/notice';
 export const NoticeBoardAPI = async (setData, setShowData) => {
-  await axios
-    .get(urlNoticeBoard)
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+    url: urlNoticeBoard,
+  };
+  await axios(options)
     .then((response) => {
       setData(response.data);
       setShowData(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      sweetAlert2(`에러 발생 : ${error}`, 'error');
     });
 };
 // 자유게시판 받아오기
 const urlFreeBoard = 'http://localhost:8080/api/user/board';
 export const FreeBoardAPI = async (setData, setShowData) => {
-  await axios
-    .get(urlFreeBoard)
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+    url: urlFreeBoard,
+  };
+  await axios(options)
     .then((response) => {
       setData(response.data);
       setShowData(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      sweetAlert2(`에러 발생 : ${error}`, 'error');
     });
 };
 // 게시글 작성
@@ -49,7 +61,7 @@ export const BoardInsertAPI = async (insertData) => {
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log('에러 : ', error);
+      sweetAlert2(`에러 발생 : ${error}`, 'error');
     });
 };
 // 게시글 수정
@@ -88,10 +100,9 @@ export const BoardSelectAPI = async (boardId, setData) => {
   await axios(options)
     .then((response) => {
       setData(response.data);
-      console.log(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      sweetAlert2(`에러 발생 : ${error}`, 'error');
     });
 };
 // 게시글 삭제
@@ -109,6 +120,6 @@ export const deleteBoardAPI = async (boardId) => {
       sweetAlertSuccess('게시글이 삭제되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log(error);
+      sweetAlert2(`${error.response.data.message}`, 'warning');
     });
 };

@@ -37,28 +37,27 @@ export default function Login() {
   return (
     <div className={styles.BackGround}>
       <div className={styles.Border}>
-        <form method="POST">
-          <div className={styles.LoginText}>로그인</div>
-          {/* ----------------------아이디 입력 컴포넌트-------------------- */}
-          <LoginInsertID handleChange={handleChange} values={values} />
-          {/* ----------------------비밀번호-------------------- */}
-          <LoginInsertPwd handleChange={handleChange} values={values} setValues={setValues} />
-          {/* ------------------------------------------ */}
-          <div className={styles.LoginButton}>
-            <Button
-              sx={{
-                backgroundColor: '#64a1bd',
-                '&:hover': {
-                  backgroundColor: '#267194',
-                },
-              }}
-              className={styles.LoginButton}
-              variant="contained"
-              onClick={LoginClick}>
-              로그인
-            </Button>
-          </div>
-        </form>
+        <div className={styles.LoginText}>로그인</div>
+        {/* ----------------------아이디 입력 컴포넌트-------------------- */}
+        <LoginInsertID handleChange={handleChange} values={values} />
+        {/* ----------------------비밀번호-------------------- */}
+        <LoginInsertPwd handleChange={handleChange} values={values} setValues={setValues} />
+        {/* ------------------------------------------ */}
+        <div className={styles.LoginButton}>
+          <Button
+            sx={{
+              backgroundColor: '#64a1bd',
+              '&:hover': {
+                backgroundColor: '#267194',
+              },
+            }}
+            className={styles.LoginButton}
+            variant="contained"
+            onClick={LoginClick}>
+            로그인
+          </Button>
+        </div>
+
         {/* --------------------위까지 로그인 form 안이다.---------------------- */}
         <hr className={styles.Horizontal} />
         {/* --------------------버튼3개---------------------- */}
