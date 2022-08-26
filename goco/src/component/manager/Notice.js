@@ -78,7 +78,6 @@ export default function Notice() {
         <Table sx={{ width: '100%' }} aria-label="custom pagination table">
           <TableBody>
             {pageData.currentData().map((data, index) => {
-              // console.log(data);
               return (
                 <TableRow key={data.boardId}>
                   <TableCell

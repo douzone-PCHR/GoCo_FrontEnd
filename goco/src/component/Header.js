@@ -13,16 +13,18 @@ const Header = () => {
 
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [modeChange, setModeChange] = useState(0);
   const [loginEmp, setLoginEmp] = useState();
-  const mediaQuery = window.matchMedia('(max-width: 1100px)');
+  const [urlValue, setUrlValue] = useState(window.location.href.split('http://localhost:3000/')[1]);
+  const mediaQuery = window.matchMedia('(max-width: 1600px)');
   useEffect(() => {
     loginDefaultValue(setLoginEmp);
 
-    mediaQuery.addListener(handleMediaQueryChange);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
     handleMediaQueryChange(mediaQuery);
 
     return () => {
-      mediaQuery.removeListener(handleMediaQueryChange);
+      mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
 
@@ -37,58 +39,61 @@ const Header = () => {
   const toggleNav = () => {
     setNavVisibility(!isNavVisible);
   };
-
+  console.log(loginEmp);
   return (
-    // <>
-    //   <AppBar position="static">
-    //     <Tabs value={value} onChange={handleChange} aria-label="Main Tabs">
-    //       <Tab label="Home" href="/" />
-    //       <Tab label="결재관리" href="/approve"></Tab>
+    <>
+      {/* {modeChange === 0 && (
+        
+      )} */}
 
-    //       <Tab label="Profile" />
-    //     </Tabs>
-    //   </AppBar>
-    // </>
+      {/* 컴포넌트로 1개로 props로 전달  */}
+      {modeChange === 0 && (
+        <header className="Header">
+          <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
+          <CSSTransition
+            in={!isSmallScreen || isNavVisible}
+            timeout={350}
+            classNames="NavAnimation"
+            unmountOnExit>
+            <nav className="Nav">
+              {/* 미리 배열로 선언해서 map 으로 뿌리는 방법 고려 */}
+              <Link
+                to="/goco"
+                onClick={() => setUrlValue('goco')}
+                style={{ color: urlValue === 'goco' ? '#00AAFF' : '#A8A8A8' }}>
+                팀원 근무 현황
+              </Link>
+              <Link
+                to="/approve"
+                onClick={() => setUrlValue('approve')}
+                style={{ color: urlValue === 'approve' ? '#00AAFF' : '#A8A8A8' }}>
+                요청 관리
+              </Link>
+              <Link
+                to="/board"
+                onClick={() => setUrlValue('board')}
+                style={{ color: urlValue === 'board' ? '#00AAFF' : '#A8A8A8' }}>
+                공지사항
+              </Link>
 
-    <header className="Header">
-      <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
-      <CSSTransition
-        in={!isSmallScreen || isNavVisible}
-        timeout={350}
-        classNames="NavAnimation"
-        unmountOnExit>
-        <nav className="Nav">
-          <Link to="/goco">일정 관리</Link>
-          <Link to="/">휴가 신청</Link>
-          <Link to="/">요청 내역</Link>
-          <Link to="/">게시판</Link>
-          <Link to="/">근무중</Link>
-          {loginEmp !== undefined && loginEmp.authority === 'ROLE_MANAGER' ? (
-            <button className="mangerChangeBtn">
-              <Link to="/manager">매니저 모드 전환</Link>
-            </button>
-          ) : (
-            ''
-          )}
+              <Link to="/goco">
+                <button className="user-change-btn" onClick={() => setModeChange(0)}>
+                  사원 모드 전환
+                </button>
+              </Link>
 
-          <div className="dropdown">
-            <button className="dropbtn">
-              조명윤
-              <i className="fa fa-caret-down"></i>
-            </button>
-            <div className="dropdown-content">
-              <a href="#">Logout</a>
-              <a href="#">설정</a>
-            </div>
-          </div>
-          {/* <button>Logout</button> */}
-        </nav>
-      </CSSTransition>
+              <div className="nav-text">{loginEmp !== undefined && loginEmp.name}</div>
+              <div className="nav-text leader">개발 2팀 팀장</div>
+              {/* <button>Logout</button> */}
+            </nav>
+          </CSSTransition>
 
-      <button onClick={toggleNav} className="Burger">
-        <FiMenu />
-      </button>
-    </header>
+          <button onClick={toggleNav} className="Burger">
+            <FiMenu />
+          </button>
+        </header>
+      )}
+    </>
   );
 };
 

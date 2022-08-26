@@ -16,7 +16,7 @@ import CalendarModalListDeTail from './CalendarModalListDeTail';
 import AddWork from './AddWork';
 import { style } from '@mui/system';
 
-export default function CalendarModal({ open, setOpenInsert, requestDate, user }) {
+export default function CalendarModal({ open, setOpenInsert, requestDate, user, getEmpId }) {
   const [detailList, setDetailList] = useState([]);
 
   const [secondOpen, setSecondOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user }
   };
 
   useEffect(() => {
-    dateWorkList(requestDate, setDetailList);
+    dateWorkList(requestDate, setDetailList, getEmpId);
   }, []);
 
   const handleClose = () => setOpenInsert(false);
