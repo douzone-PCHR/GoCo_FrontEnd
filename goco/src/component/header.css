@@ -15,7 +15,22 @@
   height: 70px;
   margin-left: 30px;
 }
-
+.nav-text {
+  color: #a8a8a8;
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+}
+.leader {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+}
 .Nav {
   display: grid;
   grid-area: nav;
@@ -28,7 +43,7 @@
   color: #a8a8a8;
   font-family: 'Inter';
   font-weight: 600;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 36px;
   text-align: center;
   text-decoration: none;
@@ -36,6 +51,7 @@
 .Nav a:hover {
   transform: scale(1.1);
 }
+
 .Nav .mangerChangeBtn {
   width: 224px;
   height: 69px;
@@ -44,12 +60,31 @@
   border-radius: 10px;
   cursor: pointer;
 }
-.Nav .mangerChangeBtn a {
+
+.Nav a .mangerChangeBtn {
   font-family: 'Inter';
   font-weight: 500;
   font-size: 24px;
   text-align: center;
   color: #ffffff;
+}
+
+.Nav .user-change-btn {
+  width: 224px;
+  height: 69px;
+  background: #ffffff;
+  border: 1px solid #616161;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.Nav a .user-change-btn {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  color: #616161;
 }
 
 .Nav button:active {
@@ -63,7 +98,7 @@
   margin: 0 20px 0 0;
   padding: 0;
   justify-self: end;
-  font-size: 40px;
+  font-size: 24px;
   border: none;
   background: none;
   outline: none;
@@ -81,7 +116,7 @@
 .dropdown .dropbtn {
   font-family: 'Inter';
   font-weight: 500;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 36px;
   text-align: center;
   border: none;

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import FullCalendar, { CalendarApi } from '@fullcalendar/react'; // must go before plugins
+import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
 import { workGetData } from '../../api/work/workAPI';
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 export default function CalendarComponent({ user, empList }) {
   const [getWorkList, setGetWorkList] = useState([]);
   const [getEmpId, setEmpId] = useState(user.empId);
@@ -21,11 +21,16 @@ export default function CalendarComponent({ user, empList }) {
   };
 
   useEffect(() => {
-    workGetData(setGetWorkList, getEmpId);
-  }, [getEmpId]);
+    workGetData(setGetWorkList, getEmpId, user.empId);
+  }, [getEmpId, user.empId]);
 
   return (
-    <Box component="div" sx={{ width: '100%', marginTop: '50px' }}>
+    <Box
+      component="div"
+      sx={{
+        width: '100%',
+        marginTop: '50px',
+      }}>
       <Box
         sx={{
           '& > :not(style)': {
@@ -78,6 +83,7 @@ export default function CalendarComponent({ user, empList }) {
           setOpenInsert={setOpenInsert}
           requestDate={requestDate}
           user={user.empNum}
+          getEmpId={getEmpId}
         />
       )}
     </Box>

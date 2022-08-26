@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import { getCookie } from '../authAPI';
 
 // export const getCurrentStatus = async (setCurrentStatus) => {
@@ -24,6 +25,7 @@ export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
       },
     })
     .then((response) => {
+      console.log(response.data);
       setCurrentStatus(response.data);
     });
 };
@@ -95,7 +97,12 @@ export const getRequestList = async (setData) => {
       },
     })
     .then((response) => {
-      setData(response.data);
+      console.log(response.data);
+      const filterData = response.data.filter(
+        (data) =>
+          moment(data.clock_in).format('YYYY-MM-DD') >= moment(new Date()).format('YYYY-MM-DD')
+      );
+      setData(filterData);
     });
 };
 

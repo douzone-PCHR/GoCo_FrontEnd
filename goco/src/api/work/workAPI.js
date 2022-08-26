@@ -1,8 +1,10 @@
 import axios from 'axios';
 import moment from 'moment';
+import { sweetAlert2, sweetAlertSuccess } from '../../component/auth/AuthSweetAlert.js/sweetAlert2';
 import { getCookie } from '../authAPI';
 
-export const workGetData = async (setGetWorkList, getEmpId) => {
+export const workGetData = async (setGetWorkList, getEmpId, user) => {
+  console.log(user);
   const response = await axios.get(
     `http://localhost:8080/api/user/work/calendar?empId=${getEmpId}`,
     {
@@ -92,11 +94,16 @@ export const loginDefaultValue = async (setLoginEmp) => {
     });
 };
 
-export const dateWorkList = async (requestDate, setDetailList) => {
+export const dateWorkList = async (requestDate, setDetailList, getEmpId) => {
   await axios
     .post(
-      'http://localhost:8080/api/user/work/detail',
-      new Date(moment(requestDate).format('YYYY-MM-DD')),
+      `http://localhost:8080/api/user/work/detail?empId=${getEmpId}`,
+      {
+        workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
+        employee: {
+          empId: getEmpId,
+        },
+      },
       {
         headers: {
           'access-control-allow-origin': 'true',
@@ -182,10 +189,10 @@ export const commuteUpdate = async (work) => {
       },
     })
     .then((response) => {
-      if (response.data) {
-        window.location.replace('/goco');
-      } else {
-        alert('다시 한번 눌러 주세요.');
+      if (response.data.status === 'ALREADY_DONE') {
+        sweetAlertSuccess(response.data.message, 'error', '/goco');
+      } else if (response.data.status === 'OK') {
+        sweetAlertSuccess(response.data.message, 'success', '/goco');
       }
     });
 };

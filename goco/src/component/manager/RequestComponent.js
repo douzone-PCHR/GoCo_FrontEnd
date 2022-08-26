@@ -1,6 +1,6 @@
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import React, { useEffect, useState } from "react";
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -12,28 +12,24 @@ import {
   TableContainer,
   TableRow,
   Typography,
-} from "@mui/material";
-import {
-  getRequestList,
-  getRequestList1,
-  getRequestList2,
-} from "../../api/manager/ManagerAPI";
-import { loginDefaultValue } from "../../api/work/workAPI";
-import usePagination from "../../util/Pagination";
+} from '@mui/material';
+import { getRequestList, getRequestList1, getRequestList2 } from '../../api/manager/ManagerAPI';
+import { loginDefaultValue } from '../../api/work/workAPI';
+import usePagination from '../../util/Pagination';
 function typeName(vacationType) {
-  let result = "";
+  let result = '';
   switch (vacationType) {
-    case "0":
-      result = "연차 신청";
+    case '0':
+      result = '연차 신청';
       break;
-    case "1":
-      result = "휴가 신청";
+    case '1':
+      result = '휴가 신청';
       break;
-    case "2":
-      result = "병가 신청";
+    case '2':
+      result = '병가 신청';
       break;
-    case "10":
-      result = "출장 신청";
+    case '10':
+      result = '출장 신청';
       break;
   }
 
@@ -62,37 +58,34 @@ export default function RequestComponent(unit) {
   return (
     <Box
       sx={{
-        position: "relative",
-        width: "100%",
-        height: "100%",
-        bgcolor: "rgba(255, 255, 255, 0.6)",
-        padding: "10px",
-        minHeight: "450px",
-      }}
-    >
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        bgcolor: 'rgba(255, 255, 255, 0.6)',
+        padding: '10px',
+        minHeight: '450px',
+      }}>
       <Typography
-        sx={{ mt: 4, mb: 2, marginTop: "1px", padding: "15px" }}
+        sx={{ mt: 4, mb: 2, marginTop: '1px', padding: '15px' }}
         variant="h6"
         component="div"
         style={{
-          fontFamily: "Inter",
-          fontStyle: "normal",
-          fontWeight: "700",
-          fontSize: "24px",
-        }}
-      >
+          fontFamily: 'Inter',
+          fontStyle: 'normal',
+          fontWeight: '700',
+          fontSize: '24px',
+        }}>
         요청사항
         <Button
           style={{
-            color: "black",
-            fontFamily: "Inter",
-            fontStyle: "normal",
-            fontSize: "20px",
-            fontWeight: "700",
-            float: "right",
-            lineHeight: "24px",
-          }}
-        >
+            color: 'black',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontSize: '20px',
+            fontWeight: '700',
+            float: 'right',
+            lineHeight: '24px',
+          }}>
           더보기
         </Button>
       </Typography>
@@ -101,10 +94,9 @@ export default function RequestComponent(unit) {
       <TableContainer>
         <Table
           sx={{
-            width: "100%",
+            width: '100%',
           }}
-          aria-label="custom pagination table"
-        >
+          aria-label="custom pagination table">
           <TableBody>
             {pageData.currentData().map((data, index) => {
               // console.log(data);
@@ -112,30 +104,27 @@ export default function RequestComponent(unit) {
                 <TableRow key={index}>
                   <TableCell
                     style={{
-                      fontSize: "20px",
-                      fontWeight: "700",
-                    }}
-                  >
-                    {data.ename && data.ename}
+                      fontSize: '20px',
+                      fontWeight: '700',
+                    }}>
+                    {data.name && data.name}
                   </TableCell>
                   <TableCell
                     style={{
-                      fontSize: "20px",
-                      fontWeight: "700",
-                    }}
-                  >
-                    {typeName(data.vacation_type)}
+                      fontSize: '20px',
+                      fontWeight: '700',
+                    }}>
+                    {typeName(data.vacationType)}
                   </TableCell>
                   <TableCell>
                     <Button
                       variant="outlined"
                       style={{
-                        backgroundColor: "#FF8B8B",
-                        color: "#FFFFFF",
-                        fontSize: "24px",
-                        border: "#FF8B8B",
-                      }}
-                    >
+                        backgroundColor: '#FF8B8B',
+                        color: '#FFFFFF',
+                        fontSize: '24px',
+                        border: '#FF8B8B',
+                      }}>
                       승인 대기
                     </Button>
                   </TableCell>
@@ -148,10 +137,10 @@ export default function RequestComponent(unit) {
 
       <Pagination
         style={{
-          position: "absolute",
-          left: "20px",
-          bottom: "10px",
-          height: "40px",
+          position: 'absolute',
+          left: '20px',
+          bottom: '10px',
+          height: '40px',
         }}
         count={count}
         size="large"
