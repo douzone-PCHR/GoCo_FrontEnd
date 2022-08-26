@@ -6,22 +6,25 @@ const url = 'http://localhost:8080/';
 export const employee = () => {
   axios.get();
 };
+export const updateEmpAPI = async (type, updateValue, setResult) => {
+  let updateType = null;
 
-export const updateEmpAPI = async (empId, updateValue) => {
-  const data = {
-    jobTitle: {
-      jobTitleId: updateValue.jobTitle,
-    },
-    teamPosition: {
-      teamPositionId: updateValue.teamPosition || 2,
-    },
-    unit: {
-      unitId: updateValue.team,
-    },
-  };
-  return await axios.put(`/api/admin/emp/${empId}`, data).then((response) => {
-    return response.data;
-  });
+  switch (type.type) {
+    case '부서':
+      updateType = 1;
+      break;
+    case '직책':
+      updateType = 2;
+      break;
+    case '직급':
+      updateType = 3;
+      break;
+  }
+  return await axios
+    .put(`${url}api/admin/emp/jobtitle/${type.empInfo.id}/${updateType}/${updateValue}`)
+    .then((response) => {
+      return response.data;
+    });
 };
 
 //////회원 정보확인 userMe

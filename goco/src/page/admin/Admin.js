@@ -7,6 +7,7 @@ import { AdminSideBar } from '../../component/Admin/AdminSideBar';
 import { getEmp, getResignationAPI } from '../../api/employeeAPI';
 import { getUnitsAPI } from '../../api/unitAPI';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
+import { getUser } from '../../component/auth/Login/sessionLogin';
 const unitProcessing = (units) => {
   let teams, depts, check;
   let processing = {
@@ -57,6 +58,9 @@ export const Admin = () => {
   const [check, setCheck] = useState(false);
   const [tabValue, setTabValue] = useState(1);
   const [resignation, setResignation] = useState();
+  function checkFnc() {
+    setCheck(!check);
+  }
   let processingData = {
     deptId: null,
     teamId: null,
@@ -64,12 +68,14 @@ export const Admin = () => {
   useEffect(() => {
     getEmp(setEmp, null);
     getUnitsAPI(setUnits);
-  }, [check]);
+  }, [check, tabValue]);
+
   useEffect(() => {
     getResignationAPI(setResignation);
   }, [tabValue === 2]);
+
   processingData = units && unitProcessing(units);
-  console.log(resignation);
+  console.log(tabValue);
   return (
     <div className={style.Container}>
       <AdminSideBar />
@@ -79,18 +85,12 @@ export const Admin = () => {
           onChange={(e, newValue) => {
             setTabValue(newValue);
           }}>
-          <Tab label="퇴사자" value={1}></Tab>
-          <Tab label="재직자" value={2}></Tab>
+          <Tab label="재직자" value={1}></Tab>
+          <Tab label="퇴사자" value={2}></Tab>
         </Tabs>
         <div>
           {tabValue === 1 ? (
-            <Incumbent
-              processingData={processingData}
-              check={check}
-              setCheck={setCheck}
-              emp={emp}
-              setEmp={setEmp}
-            />
+            <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
           ) : (
             <></>
           )}

@@ -12,7 +12,7 @@ export const AdminSideBar = () => {
           <Link to={'/admin'}>AdminPage</Link>
         </Box>
         <Box className={styled.box}>
-          <Link to={'/admin'}>AdminPage</Link>
+          <Link to={'/management'}>management</Link>
         </Box>
         <Box className={styled.box}>
           <Link to={'/admin'}>AdminPage</Link>
