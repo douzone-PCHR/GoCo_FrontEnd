@@ -11,6 +11,8 @@ import { getVacations } from '../../../api/vacationAPI';
 import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
 import { getUser } from '../../../component/auth/Login/sessionLogin';
+import { userMeAPI } from '../../../api/employeeAPI';
+import { getEmployeeList } from '../../../api/work/workAPI';
 
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
@@ -19,17 +21,26 @@ export default function Approve() {
   const [check, setCheck] = useState(false);
   const [state, setState] = useState('ALL');
   const [dateFilter, setDateFilter] = useState();
-  const user = getUser();
+  const [userInfo, setUserInfo] = useState({});
+  const [page, setPage] = useState(0);
+
+  // const user = getUser();
   // const [approve, setApprove] = useState([]);
   // const [check, setCheck] = useState(false);
 
   useEffect(() => {
-    if (value === '휴가') {
-      getVacations(setApproveList, user.empNum);
-    } else if (value === '출장') {
-      getBusinessTrip(setApproveList, user.empNum);
+    userMeAPI(setUserInfo);
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.empNum) {
+      if (value === '휴가') {
+        getVacations(setApproveList, userInfo.empNum);
+      } else if (value === '출장') {
+        getBusinessTrip(setApproveList, userInfo.empNum);
+      }
     }
-  }, [check, value]);
+  }, [check, value, userInfo.empNum]);
   // useEffect(() => {
   //   if (value == '휴가') {
   //     getVacations(setApprove, 1);
@@ -41,7 +52,6 @@ export default function Approve() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <>
       <Box sx={{ display: 'flex' }} justifyContent={'center'}>
@@ -49,6 +59,8 @@ export default function Approve() {
           approveList={approveList}
           setState={setState}
           setDateFilter={setDateFilter}
+          dateFilter={dateFilter}
+          setPage={setPage}
         />
 
         <Box sx={{ display: 'flex' }} flexDirection="column" position="sticky">
@@ -70,6 +82,8 @@ export default function Approve() {
                 setCheck={setCheck}
                 state={state}
                 dateFilter={dateFilter}
+                setPage={setPage}
+                page={page}
               />
             ) : (
               <BusinessTrips
@@ -78,6 +92,8 @@ export default function Approve() {
                 setCheck={setCheck}
                 state={state}
                 dateFilter={dateFilter}
+                setPage={setPage}
+                page={page}
               />
             )}
             <ApproveForm
@@ -85,7 +101,8 @@ export default function Approve() {
               setOpen={setOpen}
               type={value}
               check={check}
-              setCheck={setCheck}></ApproveForm>
+              setCheck={setCheck}
+              userInfo={userInfo}></ApproveForm>
           </Box>
         </Box>
         <Box />

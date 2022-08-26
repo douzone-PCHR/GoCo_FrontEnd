@@ -25,6 +25,7 @@ export default function CheckDateModal(props) {
   const { checkOpen, setCheckOpen, type, newApprove } = props;
   const [check, setCheck] = useState(false);
   const [checkDate, setCheckDate] = useState([]);
+  const [page, setPage] = useState(0);
   useEffect(() => {
     if (type === '출장') {
       checkBusiness(setCheckDate, newApprove);
@@ -32,7 +33,6 @@ export default function CheckDateModal(props) {
       checkVacation(setCheckDate, newApprove);
     }
   }, [check]);
-
   return (
     <Modal id="modal2" open={checkOpen}>
       <Box sx={style}>
@@ -41,9 +41,23 @@ export default function CheckDateModal(props) {
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
         {type === '휴가' ? (
-          <Vacations vacationList={checkDate} check={check} setCheck={setCheck} state={'ALL'} />
+          <Vacations
+            vacationList={checkDate}
+            check={check}
+            setCheck={setCheck}
+            state={'ALL'}
+            page={page}
+            setPage={setPage}
+          />
         ) : (
-          <BusinessTrips businessList={checkDate} check={check} setCheck={setCheck} state={'ALL'} />
+          <BusinessTrips
+            businessList={checkDate}
+            check={check}
+            setCheck={setCheck}
+            state={'ALL'}
+            page={page}
+            setPage={setPage}
+          />
         )}
         <Button
           onClick={() => {

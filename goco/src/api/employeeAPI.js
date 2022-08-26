@@ -35,9 +35,9 @@ export const userMeAPI = async (setData) => {
     url: urlUserMe,
   };
   await axios(options).then((response) => {
-    // setData(response.data);
-    console.log(response.data);
-    setUser(response.data);
+    setData(response.data);
+    // console.log(response.data);
+    // setUser(response.data);
   });
 };
 ////// 내가누군지 알려주는 것  userMe / empNum 반환해줌

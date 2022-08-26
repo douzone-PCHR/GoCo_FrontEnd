@@ -139,10 +139,18 @@ function Row(props) {
   );
 }
 
-export default function ManagerVacations({ vacationList, check, setCheck, state, dateFilter }) {
+export default function ManagerVacations({
+  page,
+  setPage,
+  vacationList,
+  check,
+  setCheck,
+  state,
+  dateFilter,
+}) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

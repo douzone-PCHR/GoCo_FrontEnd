@@ -29,7 +29,7 @@ const style = {
   p: 2,
 };
 
-export default function ApproveForm({ open, setOpen, type, check, setCheck }) {
+export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const handleClose = () => setOpen(false);
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
@@ -127,7 +127,10 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck }) {
                       newApprove.businessTripEndDate = new Date(
                         date[0].endDate - new Date().getTimezoneOffset() * 60000
                       ).toISOString();
-                      newApprove.employee = { empNum: 1, unit: { unitId: 1 } };
+                      newApprove.employee = {
+                        empNum: userInfo.empNum,
+                        unit: { unitId: userInfo.unit.unitId },
+                      };
                       addBusinessTrip(newApprove, file, setOpen, setCheckOpen);
                     } else if (type === '휴가') {
                       newApprove.vacationContent = document.getElementById('content').value;
@@ -139,7 +142,10 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck }) {
                       newApprove.vacationEndDate = new Date(
                         date[0].endDate - new Date().getTimezoneOffset() * 60000
                       ).toISOString();
-                      newApprove.employee = { empNum: 1, unit: { unitId: 1 } };
+                      newApprove.employee = {
+                        empNum: userInfo.empNum,
+                        unit: { unitId: userInfo.unit.unitId },
+                      };
                       addVacation(newApprove, file, setOpen, setCheckOpen);
                     }
                     setNewApprove(newApprove);

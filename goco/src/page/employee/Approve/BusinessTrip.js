@@ -117,10 +117,18 @@ function Row(props) {
     </Fragment>
   );
 }
-export default function BusinessTrips({ businessList, check, setCheck, state, dateFilter }) {
+export default function BusinessTrips({
+  page,
+  setPage,
+  businessList,
+  check,
+  setCheck,
+  state,
+  dateFilter,
+}) {
   // const [businessList, setBusinessList] = useState([]);
   // const [check, setCheck] = useState(false);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -129,8 +137,6 @@ export default function BusinessTrips({ businessList, check, setCheck, state, da
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log(businessList);
-
   // useEffect(() => {
   //   getBusinessTrip(setBusinessList, 1);
   // }, [check]);

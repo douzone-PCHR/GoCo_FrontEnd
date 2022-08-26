@@ -40,7 +40,6 @@ const approveType = {
 function Row(props) {
   const { row, check, setCheck } = props;
   const [open, setOpen] = useState(false);
-
   return (
     <Fragment>
       <TableRow>
@@ -121,10 +120,18 @@ function Row(props) {
   );
 }
 
-export default function Vacations({ vacationList, check, setCheck, state, dateFilter }) {
+export default function Vacations({
+  page,
+  setPage,
+  vacationList,
+  check,
+  setCheck,
+  state,
+  dateFilter,
+}) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -186,7 +193,6 @@ export default function Vacations({ vacationList, check, setCheck, state, dateFi
         );
       });
   }
-  console.log(vacationList);
   return (
     <Box>
       <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 700 }}>
@@ -207,9 +213,9 @@ export default function Vacations({ vacationList, check, setCheck, state, dateFi
             {(rowsPerPage > 0
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
-            ).map((row, index) => (
-              <Row key={index} row={row} check={check} setCheck={setCheck} />
-            ))}
+            ).map((row, index) => {
+              return <Row key={index} row={row} check={check} setCheck={setCheck} />;
+            })}
           </TableBody>
         </Table>
         <TablePagination

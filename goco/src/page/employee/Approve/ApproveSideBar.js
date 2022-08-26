@@ -19,7 +19,13 @@ import {
 } from '@mui/material';
 import { resultConfirm } from '../../../common/confirm';
 
-export default function ApproveSideBar({ approveList, setState, setDateFilter }) {
+export default function ApproveSideBar({
+  approveList,
+  setState,
+  setDateFilter,
+  dateFilter,
+  setPage,
+}) {
   const today = new Date();
   const [startDate, setStartDate] = useState(
     moment(today).hours('00').minutes('00').seconds('00').format()
@@ -32,9 +38,9 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
     setEndDate(moment(today).hours('23').minutes('59').seconds('59').format());
     setDateFilter();
   };
-  console.log(startDate);
-  console.log(endDate);
-  console.log(approveList);
+  //   console.log(startDate);
+  //   console.log(endDate);
+  //   console.log(approveList);
   return (
     <Box
       display="flex"
@@ -93,7 +99,12 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
           <Button size="small" onClick={resetHandler}>
             날짜 초기화
           </Button>
-          <Button size="small" onClick={() => setDateFilter({ startDate, endDate })}>
+          <Button
+            size="small"
+            onClick={() => {
+              setPage(0);
+              setDateFilter({ startDate, endDate });
+            }}>
             검색
           </Button>
         </Box>
@@ -107,10 +118,12 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
           대기 요청 수
           <Button>
             {
-              approveList.filter(
-                (approve) =>
-                  approve.approveYn === 'APPROVE_WAITTING' &&
-                  startDate <= approve.vacationRequestDate <= endDate
+              approveList.filter((approve) =>
+                dateFilter
+                  ? approve.approveYn === 'APPROVE_WAITTING' &&
+                    startDate <= approve.vacationRequestDate &&
+                    approve.vacationRequestDate <= endDate
+                  : approve.approveYn === 'APPROVE_WAITTING'
               ).length
             }
           </Button>
@@ -125,10 +138,12 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
           승인 요청 수
           <Button>
             {
-              approveList.filter(
-                (approve) =>
-                  approve.approveYn === 'APPROVE_SUCCESS' &&
-                  startDate <= approve.vacationRequestDate <= endDate
+              approveList.filter((approve) =>
+                dateFilter
+                  ? approve.approveYn === 'APPROVE_SUCCESS' &&
+                    startDate <= approve.vacationRequestDate &&
+                    approve.vacationRequestDate <= endDate
+                  : approve.approveYn === 'APPROVE_SUCCESS'
               ).length
             }
           </Button>
@@ -136,13 +151,29 @@ export default function ApproveSideBar({ approveList, setState, setDateFilter })
         <Typography id="sidebar-content" variant="button" gutterBottom component="div">
           반려 요청 수
           <Button>
-            {approveList.filter((approve) => approve.approveYn === 'APPROVE_REFUSE').length}
+            {
+              approveList.filter((approve) =>
+                dateFilter
+                  ? approve.approveYn === 'APPROVE_REFUSE' &&
+                    startDate <= approve.vacationRequestDate &&
+                    approve.vacationRequestDate <= endDate
+                  : approve.approveYn === 'APPROVE_REFUSE'
+              ).length
+            }
           </Button>
         </Typography>
         <Typography id="sidebar-content" variant="button" gutterBottom component="div">
           취소 요청 수
           <Button>
-            {approveList.filter((approve) => approve.approveYn === 'APPROVE_CANCEL').length}
+            {
+              approveList.filter((approve) =>
+                dateFilter
+                  ? approve.approveYn === 'APPROVE_CANCEL' &&
+                    startDate <= approve.vacationRequestDate &&
+                    approve.vacationRequestDate <= endDate
+                  : approve.approveYn === 'APPROVE_CANCEL'
+              ).length
+            }
           </Button>
         </Typography>
         <Divider variant="middle" />
