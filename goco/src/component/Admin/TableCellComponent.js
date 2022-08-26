@@ -2,11 +2,11 @@ import { TableCell, TableRow } from '@mui/material';
 import { useState } from 'react';
 import { TableModalComponent } from './TableModalComponent';
 
-export const TableCellComponent = ({ processingData, data, check, setCheck }) => {
+export const TableCellComponent = ({ processingData, data, checkFnc }) => {
   const [open, setOpen] = useState(false);
-  const empInfo = {
-    id: data.empNum, //id값을 넘겨받으며 사원 수정
-    name: data.name,
+  const empInfo = data && {
+    id: data?.empNum, //id값을 넘겨받으며 사원 수정
+    name: data?.name,
     jobTitle: {
       jobTitleName: data.jobTitle?.jobTitleName,
       jobTitleId: data.jobTitle?.jobTitleId,
@@ -20,7 +20,7 @@ export const TableCellComponent = ({ processingData, data, check, setCheck }) =>
       teamId: data.unit?.unitId,
     },
     teamPosition: {
-      teamPositionName: data.teamPosition.teampPositionName,
+      teamPositionName: data.teamPosition?.teampPositionName,
       teamPositionId: data.teamPosition?.teamPositionId,
     },
     phoneNumber: data.phoneNumber,
@@ -47,8 +47,7 @@ export const TableCellComponent = ({ processingData, data, check, setCheck }) =>
         open={open}
         setOpen={setOpen}
         empInfo={empInfo}
-        check={check}
-        setCheck={setCheck}
+        checkFnc={checkFnc}
       />
     </>
   );

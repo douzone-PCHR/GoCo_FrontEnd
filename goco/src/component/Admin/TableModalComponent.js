@@ -1,24 +1,36 @@
-import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Button,
+  IconButton,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import style from '../../CSS/admin.module.css';
 import { Fragment, useEffect, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
-
-export const TableModalComponent = ({
-  processingData,
-  open,
-  setOpen,
-  empInfo,
-  check,
-  setCheck,
-}) => {
+import EditIcon from '@mui/icons-material/Edit';
+import Swal from 'sweetalert2';
+import { deleteAdminEmpAPI } from '../../api/employeeAPI';
+import jobTitles from './jobTitle.json';
+import teamPositions from './teamPosition.json';
+function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
+  setUpdateModal(true);
+  setType({ empInfo: empInfo, type: typeName, data: data });
+}
+export const TableModalComponent = ({ processingData, open, setOpen, empInfo, checkFnc }) => {
   // const [units, setUnit] = useState();
   const [updateModal, setUpdateModal] = useState(false);
+  const [type, setType] = useState();
   return (
     <Fragment>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+        id="emp-info-modal">
         <div className={style.modal}>
           <Table align="center">
             <TableHead>
@@ -27,10 +39,30 @@ export const TableModalComponent = ({
                 <TableCell sx={{ padding: '0px 0px 0px 10px', width: 'auto', fontWeight: 'bold' }}>
                   사원명
                 </TableCell>
-                <TableCell sx={{ padding: '16px 0px 16px 0px', textAlign: 'center' }}>
-                  {empInfo.name}
+                <TableCell sx={{ textAlign: 'left' }}>{empInfo.name}</TableCell>
+                <TableCell sx={{ padding: '0px' }} colSpan={10} align="right">
+                  <Button
+                    sx={{ color: '#dd2c00' }}
+                    onClick={() => {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: '퇴사처리 하시겠습니까?',
+                        text: '* 퇴사 처리시 되돌릴 수 없습니다.',
+                        iconColor: 'red',
+                        color: 'red',
+                        showConfirmButton: true,
+                        confirmButtonText: '퇴사처리',
+                        cancelButtonText: '취소',
+                        confirmButtonColor: '#ef4f00',
+                        showCancelButton: true,
+                        target: '#emp-update-modal',
+                      }).then(() => {
+                        deleteAdminEmpAPI(empInfo.id).then((result) => {});
+                      });
+                    }}>
+                    퇴사처리
+                  </Button>
                 </TableCell>
-                <TableCell colSpan={10} />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -41,56 +73,71 @@ export const TableModalComponent = ({
                   직급
                 </TableCell>
                 <TableCell>{empInfo.jobTitle.jobTitleName}</TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      handlemodal(setUpdateModal, jobTitles, setType, '직급', empInfo);
+                    }}>
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
                 <TableCell sx={{ width: '10%', fontWeight: 'bold' }}>이메일</TableCell>
                 <TableCell>{empInfo.email}</TableCell>
+                <TableCell colSpan={10} />
               </TableRow>
               {/* 부서 */}
-              <TableRow>
-                <TableCell sx={{ padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>부서</TableCell>
-                <TableCell>{empInfo.dept.deptName || '-'}</TableCell>
-                <TableCell sx={{ padding: 'none', fontWeight: 'bold' }}>입사일</TableCell>
-                <TableCell>{empInfo.hiredate} </TableCell>
-              </TableRow>
               {/* 팀 */}
               <TableRow>
                 <TableCell sx={{ width: '10px', padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>
-                  팀
+                  부서 / 팀
                 </TableCell>
-                <TableCell>{empInfo.team.teamName || '-'}</TableCell>
+                <TableCell>
+                  {empInfo.dept.deptName || '-'} / {empInfo.team.teamName || '-'}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      handlemodal(setUpdateModal, processingData, setType, '부서', empInfo);
+                    }}>
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }}>휴대폰 번호</TableCell>
                 <TableCell> {empInfo.phoneNumber} </TableCell>
+                <TableCell colSpan={10} />
               </TableRow>
 
               {/* 직책 */}
               <TableRow>
                 <TableCell sx={{ padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>직책</TableCell>
                 <TableCell>{empInfo.teamPosition.teamPositionName}</TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      handlemodal(setUpdateModal, teamPositions, setType, '직책', empInfo);
+                    }}>
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell sx={{ padding: 'none', fontWeight: 'bold' }}>입사일</TableCell>
+                <TableCell>{empInfo.hiredate} </TableCell>
                 <TableCell colSpan={10} />
               </TableRow>
             </TableBody>
           </Table>
           <Button
             onClick={() => {
-              // updateDatafnc(updateData);
-              setUpdateModal(true);
-            }}>
-            정보 수정하기
-          </Button>
-          <Button
-            onClick={() => {
               setOpen(false);
             }}>
-            취소
+            확인
           </Button>
         </div>
       </Modal>
       <EmpUpdateModal
-        processingData={processingData}
+        type={type}
         updateModal={updateModal}
         setUpdateModal={setUpdateModal}
-        empInfo={empInfo}
-        check={check}
-        setCheck={setCheck}
+        checkFnc={checkFnc}
       />
     </Fragment>
   );

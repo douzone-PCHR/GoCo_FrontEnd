@@ -12,6 +12,7 @@ import {
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getUnitsAPI, insertUnitAPI } from '../../api/unitAPI';
+import { AdminSideBar } from '../../component/Admin/AdminSideBar';
 import { UnitModalComponent } from '../../component/Admin/Management/UnitModalComponent';
 import styled from '../../CSS/admin.module.css';
 
@@ -45,6 +46,7 @@ export const Management = () => {
   return (
     <>
       <div className={styled.Container}>
+        <AdminSideBar />
         <div className={styled.item}>
           <div className={styled.btn}></div>
           <Table>
@@ -165,6 +167,7 @@ export const Management = () => {
           handleModal={handleModal}
           setHandleModal={setHandleModal}
         />
+        <div />
       </div>
     </>
   );

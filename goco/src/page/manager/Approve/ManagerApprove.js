@@ -10,7 +10,6 @@ import ApproveSideBar from '../../employee/Approve/ApproveSideBar';
 import { userMeAPI } from '../../../api/employeeAPI';
 import { getUser } from '../../../component/auth/Login/sessionLogin';
 
-console.log(getUser());
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
   const [value, setValue] = useState('휴가결재');
