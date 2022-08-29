@@ -1,6 +1,6 @@
-import { Box, Divider, TableHead } from "@mui/material";
-import { Container } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import { Box, Divider, TableHead } from '@mui/material';
+import { Container } from '@mui/system';
+import React, { useEffect, useState } from 'react';
 import {
   Pagination,
   Table,
@@ -9,10 +9,11 @@ import {
   TableContainer,
   TableRow,
   Typography,
-} from "@mui/material";
-import { myTeamStatus } from "../../util/Utilfunction";
-import usePagination from "../../util/Pagination";
-import { getMyTeamCurrentStatus } from "../../api/manager/ManagerAPI";
+} from '@mui/material';
+import { myTeamStatus } from '../../util/Utilfunction';
+import usePagination from '../../util/Pagination';
+import { getMyTeamCurrentStatus } from '../../api/manager/ManagerAPI';
+import * as api from '../../api/index';
 const Myteamcurrentstatus = () => {
   const [myTeamcurrentStatus, setMyTeamCurrentStatus] = useState([]);
 
@@ -26,37 +27,43 @@ const Myteamcurrentstatus = () => {
     pageData.jump(p);
   };
   useEffect(() => {
-    getMyTeamCurrentStatus(setMyTeamCurrentStatus);
+    myTeamAPI();
   }, []);
+
+  const myTeamAPI = async () => {
+    await api.getMyTeamCurrentStatus().then((response) => {
+      setMyTeamCurrentStatus(response.data);
+    });
+  };
+  // getMyTeamCurrentStatus(setMyTeamCurrentStatus);
+
   return (
     <Container>
       <Box
         sx={{
-          position: "relative",
-          width: "100%",
-          minHeight: "500px",
-          bgcolor: "rgba(255, 255, 255, 0.6)",
-          padding: "10px",
-        }}
-      >
+          position: 'relative',
+          width: '100%',
+          minHeight: '500px',
+          bgcolor: 'rgba(255, 255, 255, 0.6)',
+          padding: '10px',
+        }}>
         <Typography
-          sx={{ mt: 4, mb: 2, marginTop: "1px", padding: "15px" }}
+          sx={{ mt: 4, mb: 2, marginTop: '1px', padding: '15px' }}
           variant="h6"
           component="div"
           style={{
-            fontFamily: "Inter",
-            fontStyle: "normal",
-            fontWeight: "700",
-            fontSize: "24px",
-          }}
-        >
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            fontSize: '24px',
+          }}>
           현재 우리팀 근무 현황
         </Typography>
 
         <Divider />
 
         <TableContainer>
-          <Table sx={{ width: "100%" }} aria-label="custom pagination table">
+          <Table sx={{ width: '100%' }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">팀원명</TableCell>
@@ -72,22 +79,20 @@ const Myteamcurrentstatus = () => {
                   <TableRow key={index}>
                     <TableCell
                       style={{
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "16px",
-                      }}
-                    >
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                      }}>
                       {data.name}
                     </TableCell>
                     <TableCell
                       style={{
-                        fontFamily: "Inter",
-                        fontStyle: "normal",
-                        fontWeight: "700",
-                        fontSize: "16px",
-                      }}
-                    >
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                      }}>
                       {myTeamStatus(data).result}
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
@@ -102,10 +107,10 @@ const Myteamcurrentstatus = () => {
 
         <Pagination
           style={{
-            position: "absolute",
-            left: "20px",
-            bottom: "10px",
-            height: "40px",
+            position: 'absolute',
+            left: '20px',
+            bottom: '10px',
+            height: '40px',
           }}
           count={count}
           size="large"
