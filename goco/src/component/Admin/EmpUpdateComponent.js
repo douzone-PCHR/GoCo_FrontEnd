@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from '@mui/material';
+import { Box, Button, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { updateEmpAPI } from '../../api/employeeAPI';
@@ -113,7 +113,8 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
       </Button>
     </div>
   ) : (
-    <div>
+    // type이 팀인 경우
+    <Box sx={{ paddingTop: '20px' }}>
       {type?.type}
       <Select
         value={value || ''}
@@ -127,7 +128,7 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
           );
         })}
       </Select>
-      <br />팀
+      팀
       <Select value={teamvalue || ''} onChange={(e) => handleChange(e, setTeamValue)}>
         {type?.data?.teams.map((team) => {
           return (
@@ -139,6 +140,7 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
           );
         })}
       </Select>
+      <br />
       <Button onClick={() => updateEmployee(type, teamvalue)}>수정</Button>
       <Button
         onClick={() => {
@@ -147,6 +149,6 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
         }}>
         취소
       </Button>
-    </div>
+    </Box>
   );
 };

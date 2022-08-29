@@ -15,7 +15,7 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer sx={{ height: '45vh' }}>
       <Table>
         <AdminTableHead />
         <TableBody>
@@ -38,7 +38,7 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
       <TablePagination
         rowsPerPageOptions={[5]}
         component="div"
-        count={emp?.length}
+        count={emp?.length || 1}
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={handleChangePage}
