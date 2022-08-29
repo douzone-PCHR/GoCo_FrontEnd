@@ -17,7 +17,7 @@ import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutl
 import { checkBusiness, deleteBusinessTrip, getBusinessTrip } from '../../../api/businessTripAPI';
 import Swal from 'sweetalert2';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { TablePagination, Tooltip } from '@mui/material';
+import { Chip, TablePagination, Tooltip } from '@mui/material';
 
 function createData(startDate, endDate, requestDate, approve, detail, business) {
   return {
@@ -31,8 +31,8 @@ function createData(startDate, endDate, requestDate, approve, detail, business) 
 }
 const approveType = {
   APPROVE_WAITTING: '결재대기',
-  APPROVE_SUCCESS: '승인',
-  APPROVE_REFUSE: '반려',
+  APPROVE_SUCCESS: '결재승인',
+  APPROVE_REFUSE: '결재반려',
   APPROVE_CANCEL: '승인취소',
 };
 function Row(props) {
@@ -52,7 +52,21 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="right">{approveType[row.approve]}</TableCell>
+        <TableCell align="right">
+          {' '}
+          {approveType[row.approve] === '결재대기' && (
+            <Chip color="primary" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재승인' && (
+            <Chip color="success" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재반려' && (
+            <Chip color="error" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '승인취소' && (
+            <Chip color="default" label={approveType[row.approve]} />
+          )}
+        </TableCell>
 
         <TableCell>
           {row.approve === 'APPROVE_WAITTING' ? (

@@ -16,11 +16,10 @@ import Swal from 'sweetalert2';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { approveVacationList, approveVacation, deleteVacation } from '../../../api/vacationAPI';
-import { Button, TablePagination } from '@mui/material';
+import { Button, Chip, TablePagination } from '@mui/material';
 import { confirm } from '../../../common/confirm';
 
 function createData(name, count, type, startDate, endDate, requestDate, approve, detail, vacation) {
-  console.log(vacation);
   return {
     name,
     count,
@@ -35,8 +34,8 @@ function createData(name, count, type, startDate, endDate, requestDate, approve,
 }
 const approveType = {
   APPROVE_WAITTING: '결재대기',
-  APPROVE_SUCCESS: '승인',
-  APPROVE_REFUSE: '반려',
+  APPROVE_SUCCESS: '결재승인',
+  APPROVE_REFUSE: '결재반려',
   APPROVE_CANCEL: '승인취소',
 };
 
@@ -60,7 +59,20 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="center">{approveType[row.approve]}</TableCell>
+        <TableCell align="center">
+          {approveType[row.approve] === '결재대기' && (
+            <Chip color="primary" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재승인' && (
+            <Chip color="success" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재반려' && (
+            <Chip color="error" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '승인취소' && (
+            <Chip color="default" label={approveType[row.approve]} />
+          )}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
@@ -147,6 +159,7 @@ export default function ManagerVacations({
   setCheck,
   state,
   dateFilter,
+  selectMember,
 }) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
@@ -159,34 +172,59 @@ export default function ManagerVacations({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   // useEffect(() => {
   //   approveVacationList(setVacationList, 1);
   // }, [check]);
   const rows = [];
+
   if (vacationList.length) {
-    console.log(vacationList);
     vacationList
       .filter((vacation) => {
-        if (dateFilter) {
-          if (
-            state === 'ALL' &&
-            vacation.vacationRequestDate >= dateFilter.startDate &&
-            vacation.vacationRequestDate <= dateFilter.endDate
-          ) {
-            return vacation;
-          } else if (
-            vacation.approveYn === state &&
-            vacation.vacationRequestDate >= dateFilter.startDate &&
-            vacation.vacationRequestDate <= dateFilter.endDate
-          ) {
-            return vacation;
+        if (selectMember === '전체보기' || !selectMember) {
+          if (dateFilter) {
+            if (
+              state === 'ALL' &&
+              vacation.vacationRequestDate >= dateFilter.startDate &&
+              vacation.vacationRequestDate <= dateFilter.endDate
+            ) {
+              return vacation;
+            } else if (
+              vacation.approveYn === state &&
+              vacation.vacationRequestDate >= dateFilter.startDate &&
+              vacation.vacationRequestDate <= dateFilter.endDate
+            ) {
+              return vacation;
+            }
+          } else {
+            if (state === 'ALL') {
+              return vacation;
+            } else if (vacation.approveYn === state) {
+              return vacation;
+            }
           }
         } else {
-          if (state === 'ALL') {
-            return vacation;
-          } else if (vacation.approveYn === state) {
-            return vacation;
+          if (selectMember === vacation.employee.name) {
+            if (dateFilter) {
+              if (
+                state === 'ALL' &&
+                vacation.vacationRequestDate >= dateFilter.startDate &&
+                vacation.vacationRequestDate <= dateFilter.endDate
+              ) {
+                return vacation;
+              } else if (
+                vacation.approveYn === state &&
+                vacation.vacationRequestDate >= dateFilter.startDate &&
+                vacation.vacationRequestDate <= dateFilter.endDate
+              ) {
+                return vacation;
+              }
+            } else {
+              if (state === 'ALL') {
+                return vacation;
+              } else if (vacation.approveYn === state) {
+                return vacation;
+              }
+            }
           }
         }
       })
@@ -211,7 +249,7 @@ export default function ManagerVacations({
         );
       });
   }
-  console.log(rows);
+
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 700, minWidth: 785 }}>
       <Table stickyHeader aria-label="collapsible table">
@@ -232,9 +270,9 @@ export default function ManagerVacations({
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
-          ).map((row, index) => (
-            <Row key={index} row={row} check={check} setCheck={setCheck} />
-          ))}
+          ).map((row, index) => {
+            return <Row key={index} row={row} check={check} setCheck={setCheck} />;
+          })}
         </TableBody>
       </Table>
       <TablePagination

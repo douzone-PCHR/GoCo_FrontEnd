@@ -16,6 +16,7 @@ import { border } from '@mui/system';
 import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
 import { addVacation, checkVacationCount } from '../../../api/vacationAPI';
+import moment from 'moment';
 
 const style = {
   position: 'absolute',
@@ -30,6 +31,7 @@ const style = {
 };
 
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
+  const today = new Date();
   const handleClose = () => setOpen(false);
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
@@ -44,6 +46,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
       key: 'selection',
     },
   ]);
+  console.log(date);
 
   return (
     // <div>
@@ -65,7 +68,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             onChange={(item) => {
               let count = 0;
               console.log(date);
-              const today = new Date();
+              console.log();
               console.log(today.getTime / (60 * 60 * 24 * 1000));
               console.log(today.toISOString());
               console.log(item.selection.startDate.toISOString());
@@ -73,12 +76,16 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               if (vacationType === '반차') {
                 item.selection.endDate = item.selection.startDate;
                 count = 0.5;
-                checkVacationCount(1, count, item.selection);
+                checkVacationCount(userInfo.empNum, count, item.selection);
               } else if (vacationType === '연차') {
                 count =
                   (item.selection.endDate - item.selection.startDate) / (60 * 60 * 24 * 1000) + 1;
-                checkVacationCount(1, count, item.selection);
+                checkVacationCount(userInfo.empNum, count, item.selection);
               }
+              const t1 = moment(item.selection.startDate).format('YYYY-MM-DD');
+              const t2 = moment(item.selection.endDate).format('YYYY-MM-DD');
+              t1 && t2 && console.log(moment.duration(t2.diff(t1)).asDays());
+
               setDate([item.selection]);
             }}
             locale={ko}

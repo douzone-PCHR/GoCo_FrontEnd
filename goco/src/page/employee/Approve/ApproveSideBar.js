@@ -25,6 +25,7 @@ export default function ApproveSideBar({
   setDateFilter,
   dateFilter,
   setPage,
+  selectMember,
 }) {
   const today = new Date();
   const [startDate, setStartDate] = useState(
@@ -40,7 +41,6 @@ export default function ApproveSideBar({
   };
   //   console.log(startDate);
   //   console.log(endDate);
-  //   console.log(approveList);
   return (
     <Box
       display="flex"
@@ -114,19 +114,28 @@ export default function ApproveSideBar({
           variant="button"
           gutterBottom
           component="div"
-          justifyContent="space-between">
+          marginTop="1vh">
           대기 요청 수
-          <Button>
-            {
-              approveList.filter((approve) =>
-                dateFilter
-                  ? approve.approveYn === 'APPROVE_WAITTING' &&
-                    startDate <= approve.vacationRequestDate &&
-                    approve.vacationRequestDate <= endDate
-                  : approve.approveYn === 'APPROVE_WAITTING'
-              ).length
-            }
-          </Button>
+          <Chip
+            size="small"
+            sx={{ borderRadius: 2, marginLeft: '2vw' }}
+            color="primary"
+            label={
+              approveList.filter((approve) => {
+                console.log(selectMember);
+                if (
+                  selectMember === approve.employee.name ||
+                  selectMember === '전체보기' ||
+                  !selectMember
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_WAITTING' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_WAITTING';
+                }
+              }).length
+            }></Chip>
         </Typography>
 
         <Typography
@@ -134,47 +143,83 @@ export default function ApproveSideBar({
           variant="button"
           gutterBottom
           component="div"
+          marginTop="1vh"
           justifyContent="space-between">
           승인 요청 수
-          <Button>
-            {
-              approveList.filter((approve) =>
-                dateFilter
-                  ? approve.approveYn === 'APPROVE_SUCCESS' &&
-                    startDate <= approve.vacationRequestDate &&
-                    approve.vacationRequestDate <= endDate
-                  : approve.approveYn === 'APPROVE_SUCCESS'
-              ).length
-            }
-          </Button>
+          <Chip
+            size="small"
+            sx={{ borderRadius: 2, marginLeft: '2vw' }}
+            color="success"
+            label={
+              approveList.filter((approve) => {
+                if (
+                  selectMember === approve.employee.name ||
+                  selectMember === '전체보기' ||
+                  !selectMember
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_SUCCESS' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_SUCCESS';
+                }
+              }).length
+            }></Chip>
         </Typography>
-        <Typography id="sidebar-content" variant="button" gutterBottom component="div">
+        {console.log(approveList)}
+        <Typography
+          marginTop="1vh"
+          id="sidebar-content"
+          variant="button"
+          gutterBottom
+          component="div">
           반려 요청 수
-          <Button>
-            {
-              approveList.filter((approve) =>
-                dateFilter
-                  ? approve.approveYn === 'APPROVE_REFUSE' &&
-                    startDate <= approve.vacationRequestDate &&
-                    approve.vacationRequestDate <= endDate
-                  : approve.approveYn === 'APPROVE_REFUSE'
-              ).length
-            }
-          </Button>
+          <Chip
+            size="small"
+            sx={{ borderRadius: 2, marginLeft: '2vw' }}
+            color="error"
+            label={
+              approveList.filter((approve) => {
+                if (
+                  selectMember === approve.employee.name ||
+                  selectMember === '전체보기' ||
+                  !selectMember
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_REFUSE' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_REFUSE';
+                }
+              }).length
+            }></Chip>
         </Typography>
-        <Typography id="sidebar-content" variant="button" gutterBottom component="div">
+        <Typography
+          margin="1vh  0vh"
+          id="sidebar-content"
+          variant="button"
+          gutterBottom
+          component="div">
           취소 요청 수
-          <Button>
-            {
-              approveList.filter((approve) =>
-                dateFilter
-                  ? approve.approveYn === 'APPROVE_CANCEL' &&
-                    startDate <= approve.vacationRequestDate &&
-                    approve.vacationRequestDate <= endDate
-                  : approve.approveYn === 'APPROVE_CANCEL'
-              ).length
-            }
-          </Button>
+          <Chip
+            size="small"
+            sx={{ borderRadius: 2, marginLeft: '2vw' }}
+            color="default"
+            label={
+              approveList.filter((approve) => {
+                if (
+                  selectMember === approve.employee.name ||
+                  selectMember === '전체보기' ||
+                  !selectMember
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_CANCEL' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_CANCEL';
+                }
+              }).length
+            }></Chip>
         </Typography>
         <Divider variant="middle" />
         <FormControl>

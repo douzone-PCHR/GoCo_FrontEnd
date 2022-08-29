@@ -64,14 +64,20 @@ export default function Approve() {
         />
 
         <Box sx={{ display: 'flex' }} flexDirection="column" position="sticky">
-          <Tabs value={value} onChange={handleChange} textColor="primary" indicatorColor="primary">
-            <Tab value="휴가" label="휴가"></Tab>
-            <Tab value="출장" label="출장"></Tab>
-          </Tabs>
-          <Box position={'fixed'} right={100}>
-            <IconButton onClick={() => setOpen(true)}>
-              <AddIcon></AddIcon>
-            </IconButton>
+          <Box sx={{ display: 'flex' }} justifyContent="space-between">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              textColor="primary"
+              indicatorColor="primary">
+              <Tab value="휴가" label="휴가"></Tab>
+              <Tab value="출장" label="출장"></Tab>
+            </Tabs>
+            <Box>
+              <IconButton onClick={() => setOpen(true)}>
+                <AddIcon></AddIcon>
+              </IconButton>
+            </Box>
           </Box>
 
           <Box>
