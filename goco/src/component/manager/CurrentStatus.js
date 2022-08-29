@@ -16,7 +16,7 @@ import { getCurrentStatus, getMyTeamCurrentStatus } from '../../api/manager/Mana
 import usePagination from '../../util/Pagination';
 import { Link } from 'react-router-dom';
 import { myTeamStatus } from '../../util/Utilfunction';
-
+import * as api from '../../api/index';
 export default function CurrentStatus() {
   const [selectedIndex, setSelectedIndex] = useState(1);
   const [currentStatus, setCurrentStatus] = useState([]);
@@ -30,8 +30,14 @@ export default function CurrentStatus() {
     pageData.jump(p);
   };
   useEffect(() => {
-    getMyTeamCurrentStatus(setCurrentStatus);
+    myTeamAPI();
   }, []);
+  const myTeamAPI = async () => {
+    await api.getMyTeamCurrentStatus().then((response) => {
+      setCurrentStatus(response.data);
+    });
+    // await api.getMyTeamCurrentStatus()
+  };
   return (
     <Box
       sx={{

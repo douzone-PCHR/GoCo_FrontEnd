@@ -2,33 +2,19 @@ import axios from 'axios';
 import moment from 'moment';
 import { getCookie } from '../authAPI';
 
-// export const getCurrentStatus = async (setCurrentStatus) => {
+// export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
 //   await axios
-//     .get('http://localhost:8080/api/commute/myteam', {
-//       // .get("http://localhost:8080/api/commute/status", {
+//     .get('http://localhost:8080/api/manager/commute/myteam', {
 //       headers: {
 //         'access-control-allow-origin': 'true',
 //         Authorization: `Bearer ${getCookie('accessToken')}`,
 //       },
 //     })
 //     .then((response) => {
+//       console.log(response.data);
 //       setCurrentStatus(response.data);
 //     });
 // };
-
-export const getMyTeamCurrentStatus = async (setCurrentStatus) => {
-  await axios
-    .get('http://localhost:8080/api/manager/commute/myteam', {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      setCurrentStatus(response.data);
-    });
-};
 
 export const getCommuteCheck = async (setCommuteCheckData) => {
   await axios
