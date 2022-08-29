@@ -94,6 +94,19 @@ export const loginDefaultValue = async (setLoginEmp) => {
     });
 };
 
+export const headerData = async (setStatusData) => {
+  await axios
+    .get('http://localhost:8080/api/user/menu/commute', {
+      headers: {
+        'access-control-allow-origin': 'true',
+        Authorization: `Bearer ${getCookie('accessToken')}`,
+      },
+    })
+    .then((response) => {
+      setStatusData(response.data);
+    });
+};
+
 export const dateWorkList = async (requestDate, setDetailList, getEmpId) => {
   await axios
     .post(
