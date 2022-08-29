@@ -19,7 +19,7 @@ import {
   deleteBusinessTrip,
   getBusinessTrip,
 } from '../../../api/businessTripAPI';
-import { Button, TablePagination } from '@mui/material';
+import { Button, Chip, TablePagination } from '@mui/material';
 import Swal from 'sweetalert2';
 import { confirm } from '../../../common/confirm';
 
@@ -37,8 +37,8 @@ function createData(name, startDate, endDate, requestDate, approve, detail, busi
 
 const approveType = {
   APPROVE_WAITTING: '결재대기',
-  APPROVE_SUCCESS: '승인',
-  APPROVE_REFUSE: '반려',
+  APPROVE_SUCCESS: '결재승인',
+  APPROVE_REFUSE: '결재반려',
   APPROVE_CANCEL: '승인취소',
 };
 
@@ -61,7 +61,20 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="center">{approveType[row.approve]}</TableCell>
+        <TableCell align="center">
+          {approveType[row.approve] === '결재대기' && (
+            <Chip color="primary" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재승인' && (
+            <Chip color="success" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '결재반려' && (
+            <Chip color="error" label={approveType[row.approve]} />
+          )}
+          {approveType[row.approve] === '승인취소' && (
+            <Chip color="default" label={approveType[row.approve]} />
+          )}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
@@ -140,7 +153,14 @@ function Row(props) {
     </Fragment>
   );
 }
-export default function ManagerBusinessTrips({ businessList, check, setCheck, state, dateFilter }) {
+export default function ManagerBusinessTrips({
+  businessList,
+  check,
+  setCheck,
+  state,
+  dateFilter,
+  selectMember,
+}) {
   // const [businessList, setBusinessList] = useState([]);
   // const [check, setCheck] = useState(false);
   const [page, setPage] = useState(0);
@@ -157,25 +177,75 @@ export default function ManagerBusinessTrips({ businessList, check, setCheck, st
   // }, [check]);
   const rows = [];
   if (businessList.length) {
-    businessList.map((business) => {
-      console.log(business);
-      let detail = {
-        content: business.businessTripContent,
-        approveDate: business.businessTripApproveDate,
-        file: business.file,
-      };
-      rows.push(
-        createData(
-          business.employee.name,
-          business.businessTripStartDate,
-          business.businessTripEndDate,
-          business.businessTripRequestDate,
-          business.approveYn,
-          detail,
-          business
-        )
-      );
-    });
+    businessList
+      .filter((business) => {
+        if (selectMember === '전체보기' || !selectMember) {
+          if (dateFilter) {
+            if (
+              state === 'ALL' &&
+              business.businessRequestDate >= dateFilter.startDate &&
+              business.businessRequestDate <= dateFilter.endDate
+            ) {
+              return business;
+            } else if (
+              business.approveYn === state &&
+              business.businessRequestDate >= dateFilter.startDate &&
+              business.businessRequestDate <= dateFilter.endDate
+            ) {
+              return business;
+            }
+          } else {
+            if (state === 'ALL') {
+              return business;
+            } else if (business.approveYn === state) {
+              return business;
+            }
+          }
+        } else {
+          if (selectMember === business.employee.name) {
+            if (dateFilter) {
+              if (
+                state === 'ALL' &&
+                business.businessRequestDate >= dateFilter.startDate &&
+                business.businessRequestDate <= dateFilter.endDate
+              ) {
+                return business;
+              } else if (
+                business.approveYn === state &&
+                business.businessRequestDate >= dateFilter.startDate &&
+                business.businessRequestDate <= dateFilter.endDate
+              ) {
+                return business;
+              }
+            } else {
+              if (state === 'ALL') {
+                return business;
+              } else if (business.approveYn === state) {
+                return business;
+              }
+            }
+          }
+        }
+      })
+      .map((business) => {
+        console.log(business);
+        let detail = {
+          content: business.businessTripContent,
+          approveDate: business.businessTripApproveDate,
+          file: business.file,
+        };
+        rows.push(
+          createData(
+            business.employee.name,
+            business.businessTripStartDate,
+            business.businessTripEndDate,
+            business.businessTripRequestDate,
+            business.approveYn,
+            detail,
+            business
+          )
+        );
+      });
   }
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 700, minWidth: 785 }}>

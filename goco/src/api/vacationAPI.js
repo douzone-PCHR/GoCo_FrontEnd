@@ -42,7 +42,7 @@ export function addVacation(vacation, file, setOpen, setCheckOpen) {
       } else {
         resultConfirm(
           '중복되는 신청일이 있습니다!',
-          '',
+          '삭제 후 다시 신청 해주십시오',
           'error',
           document.getElementById('modal')
         ).then(() => {
