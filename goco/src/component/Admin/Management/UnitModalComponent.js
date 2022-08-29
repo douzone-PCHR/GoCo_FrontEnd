@@ -189,8 +189,8 @@ export const UnitModalComponent = ({
                   showCancelButton: true,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    // if()
                     deleteUnitAPI(dept.unitId, 1).then((data) => {
+                      console.log(data);
                       switch (data) {
                         case -1:
                           break;

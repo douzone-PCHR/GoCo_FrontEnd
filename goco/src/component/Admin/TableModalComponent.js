@@ -16,6 +16,8 @@ import Swal from 'sweetalert2';
 import { deleteAdminEmpAPI } from '../../api/employeeAPI';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
+import { confirm, resultConfirm } from '../../common/confirm';
+
 function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
   setUpdateModal(true);
   setType({ empInfo: empInfo, type: typeName, data: data });
@@ -55,9 +57,28 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                         cancelButtonText: '취소',
                         confirmButtonColor: '#ef4f00',
                         showCancelButton: true,
-                        target: '#emp-update-modal',
-                      }).then(() => {
-                        deleteAdminEmpAPI(empInfo.id).then((result) => {});
+                        target: document.getElementById('emp-info-modal'),
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          deleteAdminEmpAPI(empInfo.id).then((result) => {
+                            if (result.data === 1) {
+                              resultConfirm(
+                                '퇴사처리 되었습니다.',
+                                '',
+                                'success',
+                                document.getElementById('emp-info-modal')
+                              );
+                            } else {
+                              resultConfirm(
+                                '퇴사처리 할 수 없습니다.',
+                                '',
+                                'error',
+                                document.getElementById('emp-info-modal')
+                              );
+                            }
+                            checkFnc();
+                          });
+                        }
                       });
                     }}>
                     퇴사처리

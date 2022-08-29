@@ -8,6 +8,7 @@ import { getEmp, getResignationAPI } from '../../api/employeeAPI';
 import { getUnitsAPI } from '../../api/unitAPI';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { getUser } from '../../component/auth/Login/sessionLogin';
+import { Resignation } from '../../component/Admin/Resignation';
 const unitProcessing = (units) => {
   let teams, depts, check;
   let processing = {
@@ -57,7 +58,7 @@ export const Admin = () => {
   const [units, setUnits] = useState([]);
   const [check, setCheck] = useState(false);
   const [tabValue, setTabValue] = useState(1);
-  const [resignation, setResignation] = useState();
+  const [resignations, setResignations] = useState();
   function checkFnc() {
     setCheck(!check);
   }
@@ -68,14 +69,13 @@ export const Admin = () => {
   useEffect(() => {
     getEmp(setEmp, null);
     getUnitsAPI(setUnits);
-  }, [check, tabValue]);
+  }, [check, tabValue === 1]);
 
   useEffect(() => {
-    getResignationAPI(setResignation);
-  }, [tabValue === 2]);
+    getResignationAPI(setResignations);
+  }, [check, tabValue === 2]);
 
   processingData = units && unitProcessing(units);
-  console.log(tabValue);
   return (
     <div className={style.Container}>
       <AdminSideBar />
@@ -92,7 +92,7 @@ export const Admin = () => {
           {tabValue === 1 ? (
             <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
           ) : (
-            <></>
+            <Resignation resignations={resignations} />
           )}
         </div>
       </div>
