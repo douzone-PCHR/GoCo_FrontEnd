@@ -26,7 +26,8 @@ export const TableCellComponent = ({ processingData, data, checkFnc }) => {
     phoneNumber: data.phoneNumber,
     email: data.email,
     hiredate:
-      data.hiredate && data.hiredate.split('T', 1)[0].replace('-', '년').replace('-', '월') + `일`,
+      data.hiredate &&
+      data.hiredate.split('T', 1)[0].replace('-', '년 ').replace('-', '월 ') + `일`,
   };
 
   return (

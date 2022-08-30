@@ -41,15 +41,15 @@
 .modal {
   position: fixed;
   border-radius: 10px;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   min-height: 50%;
   min-width: 50%;
   background-color: rgb(255, 255, 255);
-  align-items: center;
   text-align: center;
-  justify-items: center;
+  padding-left: 4vw;
+  padding-right: 4vw;
 }
 
 /* Modal- 근무상태 */
