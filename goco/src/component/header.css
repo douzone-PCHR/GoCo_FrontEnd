@@ -6,7 +6,7 @@
   width: 98%;
   display: grid;
   grid-template-areas: 'logo nav';
-  background-color: #ffffff;
+  background-color: rgb(230, 247, 255);
   margin-bottom: 10px;
 }
 
@@ -24,9 +24,9 @@
   text-align: center;
 }
 .leader {
-  font-family: 'Inter';
+  font-family: 'GmarketSans';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   font-size: 20px;
   line-height: 24px;
   text-align: center;
@@ -41,9 +41,9 @@
 }
 .Nav a {
   color: #a8a8a8;
-  font-family: 'Inter';
-  font-weight: 600;
-  font-size: 24px;
+  font-family: 'GmarketSans';
+  font-weight: 500;
+  font-size: 25px;
   line-height: 36px;
   text-align: center;
   text-decoration: none;
@@ -79,7 +79,7 @@
 }
 
 .Nav a .user-change-btn {
-  font-family: 'Inter';
+  font-family: 'GmarketSans';
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;
@@ -114,7 +114,7 @@
 }
 
 .dropdown .dropbtn {
-  font-family: 'Inter';
+  font-family: 'GmarketSans';
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;

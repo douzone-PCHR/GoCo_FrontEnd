@@ -1,5 +1,7 @@
 import {
+  Avatar,
   Button,
+  Divider,
   IconButton,
   Modal,
   Table,
@@ -7,7 +9,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextField,
+  Typography,
 } from '@mui/material';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import style from '../../CSS/admin.module.css';
 import { Fragment, useEffect, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
@@ -34,15 +39,23 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
         aria-describedby="modal-modal-description"
         id="emp-info-modal">
         <div className={style.modal}>
-          <Table align="center">
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            fontWeight={'bold'}
+            padding={2}>
+            사원정보
+          </Typography>
+          <Table sx={{ marginTop: '3%' }}>
             <TableHead>
               <TableRow>
                 {/* 이름 */}
-                <TableCell sx={{ padding: '0px 0px 0px 10px', width: 'auto', fontWeight: 'bold' }}>
-                  사원명
+                <TableCell>
+                  <Avatar></Avatar>
                 </TableCell>
-                <TableCell sx={{ textAlign: 'left' }}>{empInfo.name}</TableCell>
-                <TableCell sx={{ padding: '0px' }} colSpan={10} align="right">
+                <TableCell>{empInfo.name}</TableCell>
+                <TableCell colSpan={10} align="right">
                   <Button
                     sx={{ color: '#dd2c00' }}
                     onClick={() => {
@@ -90,10 +103,8 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
               {/* <TableRow> */}
               {/* 직급 */}
               <TableRow>
-                <TableCell sx={{ width: '10%', padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>
-                  직급
-                </TableCell>
-                <TableCell>{empInfo.jobTitle.jobTitleName}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>직급</TableCell>
+                <TableCell align="center">{empInfo.jobTitle.jobTitleName}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => {
@@ -102,17 +113,16 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                     <EditIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell sx={{ width: '10%', fontWeight: 'bold' }}>이메일</TableCell>
-                <TableCell>{empInfo.email}</TableCell>
+                <TableCell></TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>이메일</TableCell>
+                <TableCell align="center">{empInfo.email}</TableCell>
                 <TableCell colSpan={10} />
               </TableRow>
               {/* 부서 */}
               {/* 팀 */}
-              <TableRow>
-                <TableCell sx={{ width: '10px', padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>
-                  부서 / 팀
-                </TableCell>
-                <TableCell>
+              <TableRow sx={{ justifyContent: 'space-between' }}>
+                <TableCell sx={{ fontWeight: 'bold' }}>부서 / 팀</TableCell>
+                <TableCell align="center">
                   {empInfo.dept.deptName || '-'} / {empInfo.team.teamName || '-'}
                 </TableCell>
                 <TableCell>
@@ -123,15 +133,17 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                     <EditIcon />
                   </IconButton>
                 </TableCell>
+                <TableCell></TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }}>휴대폰 번호</TableCell>
-                <TableCell> {empInfo.phoneNumber} </TableCell>
+                <TableCell align="center"> {empInfo.phoneNumber} </TableCell>
                 <TableCell colSpan={10} />
               </TableRow>
 
+              <TableRow></TableRow>
               {/* 직책 */}
               <TableRow>
-                <TableCell sx={{ padding: '0px 0px 0px 10px', fontWeight: 'bold' }}>직책</TableCell>
-                <TableCell>{empInfo.teamPosition.teamPositionName}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>직책</TableCell>
+                <TableCell align="center">{empInfo.teamPosition.teamPositionName}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => {
@@ -140,13 +152,15 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                     <EditIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell sx={{ padding: 'none', fontWeight: 'bold' }}>입사일</TableCell>
-                <TableCell>{empInfo.hiredate} </TableCell>
+                <TableCell></TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>입사일</TableCell>
+                <TableCell align="center">{empInfo.hiredate} </TableCell>
                 <TableCell colSpan={10} />
               </TableRow>
             </TableBody>
           </Table>
           <Button
+            sx={{ marginTop: '5%' }}
             onClick={() => {
               setOpen(false);
             }}>

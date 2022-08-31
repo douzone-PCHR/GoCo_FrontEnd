@@ -118,6 +118,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
             <FormControl style={{ width: '50%' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
+                  inputFormat="yyyy/MM/dd hh:mm aa "
                   label="시작일"
                   value={startValue}
                   onChange={startChange}
@@ -136,6 +137,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
             <FormControl style={{ width: '50%' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
+                  inputFormat="yyyy/MM/dd hh:mm aa "
                   label="종료일"
                   id="endDate"
                   value={endValue}

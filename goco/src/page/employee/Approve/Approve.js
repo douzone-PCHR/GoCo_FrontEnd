@@ -4,15 +4,14 @@ import react, { useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Fab, Grid, IconButton, Stack, Tooltip } from '@mui/material';
+import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ApproveForm from './ApproveForm';
 import { getVacations } from '../../../api/vacationAPI';
 import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
-import { getUser } from '../../../component/auth/Login/sessionLogin';
 import { userMeAPI } from '../../../api/employeeAPI';
-import { getEmployeeList } from '../../../api/work/workAPI';
+import style from '../../../CSS/approve.module.css';
 
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
@@ -70,8 +69,8 @@ export default function Approve() {
               onChange={handleChange}
               textColor="primary"
               indicatorColor="primary">
-              <Tab value="휴가" label="휴가"></Tab>
-              <Tab value="출장" label="출장"></Tab>
+              <Tab className={style.tab} value="휴가" label="휴가"></Tab>
+              <Tab className={style.tab} value="출장" label="출장"></Tab>
             </Tabs>
             <Box>
               <IconButton onClick={() => setOpen(true)}>

@@ -18,6 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { resultConfirm } from '../../../common/confirm';
+import style from '../../../CSS/approve.module.css';
 
 export default function ApproveSideBar({
   approveList,
@@ -42,22 +43,12 @@ export default function ApproveSideBar({
   //   console.log(startDate);
   //   console.log(endDate);
   return (
-    <Box
-      display="flex"
-      position="sticky"
-      minHeight="75vh"
-      alignItems="center"
-      marginTop="2%"
-      marginRight="5%"
-      border="solid black 1px"
-      width="23%"
-      justifyContent="space-around"
-      flexDirection="column">
-      <Box textAlign={'center'}>
-        <Box maxHeight={'30%'}>
+    <Box className={style.sidebar_container}>
+      <Box>
+        <Box>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={2}>
-              <Typography>신청일자검색</Typography>
+              <Typography fontFamily={'GmarketSans'}>신청일자검색</Typography>
               <DesktopDatePicker
                 label="시작일"
                 inputFormat="yyyy/MM/dd"
@@ -224,7 +215,7 @@ export default function ApproveSideBar({
         <Divider variant="middle" />
         <FormControl>
           <br></br>
-          <FormLabel id="demo-radio-buttons-group-label">승인 상태별 요청</FormLabel>
+          <Typography className={style.title}>승인 상태별 요청</Typography>
           <RadioGroup
             onChange={(e) => setState(e.currentTarget.value)}
             aria-labelledby="demo-radio-buttons-group-label"
@@ -242,3 +233,19 @@ export default function ApproveSideBar({
     </Box>
   );
 }
+
+// const CustomBox = withStyles({
+//   root: {
+//     fontSize: "1.1rem",
+//     textAlign: "center",
+//     outline: "none!important",
+//     fontWeight: "bold",
+//     background: "#ffffff",
+//     color: "#000000",
+//   },
+//   selected: {
+//     color: "#ffffff",
+//     background: "#8BC7FF",
+//     fontWeight: "bolder",
+//   },
+// })(Box);
