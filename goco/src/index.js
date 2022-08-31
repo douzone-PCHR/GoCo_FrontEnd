@@ -25,14 +25,14 @@ import Board from './page/board/Board';
 import BoardInsert from './page/board/BoardInsert';
 import BoardSelect from './page/board/BoardSelect';
 import BoardUpdate from './page/board/BoardUpdate';
-import store from './store/store';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>
-  <Provider store={store}>
+
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
@@ -61,7 +61,6 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
-  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
