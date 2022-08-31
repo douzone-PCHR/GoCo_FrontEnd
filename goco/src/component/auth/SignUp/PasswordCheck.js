@@ -8,8 +8,11 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 
-export default function PasswordCheck({ okPasswordCheck, handleChange, signupDataError }) {
+export default function PasswordCheck({ okPasswordCheck, signupDataError, data, setData }) {
   const [values, setShowPassword] = React.useState({}); // 비밀번호 가리는데 쓰임
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
+  };
   const handleClickShowPassword = () => {
     // 비밀번호 입력관련
     setShowPassword({
@@ -57,8 +60,7 @@ export default function PasswordCheck({ okPasswordCheck, handleChange, signupDat
         </Grid>
         {signupDataError.valid_password !== '' && (
           <>
-            <Grid item xs={12} sm={6}></Grid>
-            <Grid item xs={12} sm={6} sx={{ color: 'red', fontSize: 'small' }}>
+            <Grid item xs={12} sx={{ color: 'red', fontSize: 'small', marginTop: '10px' }}>
               {signupDataError.valid_password}
             </Grid>
           </>
@@ -99,8 +101,7 @@ export default function PasswordCheck({ okPasswordCheck, handleChange, signupDat
         </Grid>
         {okPasswordCheck === false && (
           <>
-            <Grid item xs={12} sm={6}></Grid>
-            <Grid item xs={12} sm={6} sx={{ color: 'red', fontSize: 'small' }}>
+            <Grid item xs={12} sx={{ color: 'red', fontSize: 'small', marginTop: '10px' }}>
               비밀번호를 일치시켜 주세요
             </Grid>
           </>

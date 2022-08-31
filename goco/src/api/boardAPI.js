@@ -3,7 +3,7 @@ import { getCookie } from './authAPI';
 import { sweetAlertSuccess, sweetAlert2 } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 
 // 공지사항 받아오기
-const urlNoticeBoard = 'http://localhost:8080/api/user/board/notice';
+const urlNoticeBoard = '/api/user/board/notice';
 export const NoticeBoardAPI = async (setData, setShowData) => {
   const options = {
     method: 'GET',
@@ -22,7 +22,7 @@ export const NoticeBoardAPI = async (setData, setShowData) => {
     });
 };
 // 자유게시판 받아오기
-const urlFreeBoard = 'http://localhost:8080/api/user/board';
+const urlFreeBoard = '/api/user/board';
 export const FreeBoardAPI = async (setData, setShowData) => {
   const options = {
     method: 'GET',
@@ -41,7 +41,7 @@ export const FreeBoardAPI = async (setData, setShowData) => {
     });
 };
 // 게시글 작성
-const urlBoardInsert = 'http://localhost:8080/api/user/board';
+const urlBoardInsert = '/api/user/board';
 export const BoardInsertAPI = async (insertData) => {
   if ((insertData.boardTitle === '') | (insertData.boardContent === '')) {
     sweetAlert2('제목과 내용은 필수 입력 사항입니다.', 'warning');
@@ -65,7 +65,7 @@ export const BoardInsertAPI = async (insertData) => {
     });
 };
 // 게시글 수정
-const urlBoardUpdate = 'http://localhost:8080/api/user/board';
+const urlBoardUpdate = '/api/user/board';
 export const BoardUpdateAPI = async (updateData, boardId) => {
   if ((updateData.boardTitle === '') | (updateData.boardContent === '')) {
     sweetAlert2('제목과 내용은 필수 입력 사항입니다.', 'warning');
@@ -88,7 +88,7 @@ export const BoardUpdateAPI = async (updateData, boardId) => {
     });
 };
 // 게시글 상세 보기
-const urlBoardSelect = 'http://localhost:8080/api/user/board';
+const urlBoardSelect = '/api/user/board';
 export const BoardSelectAPI = async (boardId, setData) => {
   const options = {
     method: 'GET',
@@ -106,7 +106,7 @@ export const BoardSelectAPI = async (boardId, setData) => {
     });
 };
 // 게시글 삭제
-const urlBoardDelete = 'http://localhost:8080/api/user/board';
+const urlBoardDelete = '/api/user/board';
 export const deleteBoardAPI = async (boardId) => {
   const options = {
     method: 'DELETE',
