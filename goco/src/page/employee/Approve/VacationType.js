@@ -13,15 +13,20 @@ export default function VacationType(props) {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small">휴가 유형</InputLabel>
+    <FormControl sx={{ m: 1, width: 120 }} size="small">
+      <InputLabel id="demo-simple-select-label" style={{ fontFamily: 'GmarketSans' }}>
+        휴가 유형
+      </InputLabel>
       <Select
-        labelId="demo-select-small"
-        id="demo-select-small"
+        style={{ fontFamily: 'GmarketSans' }}
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
         value={vacationType}
-        label="vacationType"
+        label="휴가 유형"
         onChange={handleChange}>
-        <MenuItem value={'연차'}>연차</MenuItem>
+        <MenuItem className="" value={'연차'}>
+          연차
+        </MenuItem>
         <MenuItem value={'반차'}>반차</MenuItem>
         <MenuItem value={'병가'}>병가</MenuItem>
       </Select>

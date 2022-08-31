@@ -1,0 +1,37 @@
+* {
+  font-family: 'GmarketSans';
+}
+
+.tab {
+  font-family: 'GmarketSans';
+  font-size: large;
+  font-weight: 500;
+}
+
+.title {
+  font-family: 'GmarketSans';
+  font-size: large;
+  font-weight: 500;
+  color: gray;
+}
+
+.select {
+  font-family: 'GmarketSans';
+  font-size: small;
+  font-weight: 500;
+  color: gray;
+}
+
+.sidebar_container {
+  display: flex;
+  position: relative;
+  right: 20%;
+  min-height: 75vh;
+  align-items: center;
+  padding-top: 2%;
+  border: solid black 1px;
+  width: 20%;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+}

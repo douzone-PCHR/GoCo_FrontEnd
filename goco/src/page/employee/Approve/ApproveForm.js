@@ -23,7 +23,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '50%',
+  width: '55%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -82,9 +82,6 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                   (item.selection.endDate - item.selection.startDate) / (60 * 60 * 24 * 1000) + 1;
                 checkVacationCount(userInfo.empNum, count, item.selection);
               }
-              const t1 = moment(item.selection.startDate).format('YYYY-MM-DD');
-              const t2 = moment(item.selection.endDate).format('YYYY-MM-DD');
-              t1 && t2 && console.log(moment.duration(t2.diff(t1)).asDays());
 
               setDate([item.selection]);
             }}
@@ -95,87 +92,99 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             endDatePlaceholder={'종료일'}
             // retainEndDateOnFirstSelection={false}
           />
-        </Box>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
-        {type === '휴가' && (
-          <VacationType vacationType={vacationType} setVacationType={setVacationType} />
-        )}
-        <TextareaAutosize
-          id="content"
-          maxRows={10}
-          aria-label="maximum height"
-          placeholder=" 신청 사유를 입력하세요 "
-          style={{ marginTop: 10, paddingTop: 10, minHeight: 200, width: '100%', resize: 'none' }}
-        />
-        <hr></hr>
+          <Box display="flex" flexDirection="column">
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
+            {type === '휴가' && (
+              <VacationType vacationType={vacationType} setVacationType={setVacationType} />
+            )}
+            <TextareaAutosize
+              id="content"
+              maxRows={10}
+              // aria-label="maximum height"
+              placeholder=" 신청 사유를 입력하세요 "
+              style={{
+                marginTop: 10,
+                minHeight: 200,
+                minWidth: 100,
+                resize: 'none',
+              }}
+            />
+            <hr></hr>
 
-        <input
-          type="file"
-          onChange={(e) => {
-            console.log(e.target.files);
-            setFile(e.target.files[0]);
-          }}></input>
+            <input
+              type="file"
+              onChange={(e) => {
+                console.log(e.target.files);
+                setFile(e.target.files[0]);
+              }}></input>
+          </Box>
 
-        <hr></hr>
-        <Button
-          onClick={() => {
-            if (date[0].endDate) {
-              addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
-                (result) => {
-                  if (result.isConfirmed) {
-                    const newApprove = {};
-                    if (type === '출장') {
-                      newApprove.businessTripContent = document.getElementById('content').value;
+          <hr></hr>
+          <Button
+            onClick={() => {
+              if (date[0].endDate) {
+                addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
+                  (result) => {
+                    if (result.isConfirmed) {
+                      const newApprove = {};
+                      if (type === '출장') {
+                        newApprove.businessTripContent = document.getElementById('content').value;
 
-                      newApprove.businessTripStartDate = new Date(
-                        date[0].startDate - new Date().getTimezoneOffset() * 60000
-                      ).toISOString();
+                        newApprove.businessTripStartDate = new Date(
+                          date[0].startDate - new Date().getTimezoneOffset() * 60000
+                        ).toISOString();
 
-                      newApprove.businessTripEndDate = new Date(
-                        date[0].endDate - new Date().getTimezoneOffset() * 60000
-                      ).toISOString();
-                      newApprove.employee = {
-                        empNum: userInfo.empNum,
-                        unit: { unitId: userInfo.unit.unitId },
-                      };
-                      addBusinessTrip(newApprove, file, setOpen, setCheckOpen);
-                    } else if (type === '휴가') {
-                      newApprove.vacationContent = document.getElementById('content').value;
-                      newApprove.vacationType = vacationType;
-                      newApprove.vacationStartDate = new Date(
-                        date[0].startDate - new Date().getTimezoneOffset() * 60000
-                      ).toISOString();
+                        newApprove.businessTripEndDate = new Date(
+                          date[0].endDate - new Date().getTimezoneOffset() * 60000
+                        ).toISOString();
+                        newApprove.employee = {
+                          empNum: userInfo.empNum,
+                          unit: { unitId: userInfo.unit.unitId },
+                        };
+                        addBusinessTrip(newApprove, file, setOpen, setCheckOpen);
+                      } else if (type === '휴가') {
+                        newApprove.vacationContent = document.getElementById('content').value;
+                        newApprove.vacationType = vacationType;
+                        newApprove.vacationStartDate = new Date(
+                          date[0].startDate - new Date().getTimezoneOffset() * 60000
+                        ).toISOString();
 
-                      newApprove.vacationEndDate = new Date(
-                        date[0].endDate - new Date().getTimezoneOffset() * 60000
-                      ).toISOString();
-                      newApprove.employee = {
-                        empNum: userInfo.empNum,
-                        unit: { unitId: userInfo.unit.unitId },
-                      };
-                      addVacation(newApprove, file, setOpen, setCheckOpen);
+                        newApprove.vacationEndDate = new Date(
+                          date[0].endDate - new Date().getTimezoneOffset() * 60000
+                        ).toISOString();
+                        newApprove.employee = {
+                          empNum: userInfo.empNum,
+                          unit: { unitId: userInfo.unit.unitId },
+                        };
+                        addVacation(newApprove, file, setOpen, setCheckOpen);
+                      }
+                      setNewApprove(newApprove);
+                      setCheck(!check);
                     }
-                    setNewApprove(newApprove);
-                    setCheck(!check);
                   }
-                }
-              );
-            } else {
-              console.log(date[0].endDate);
-              resultConfirm('종료일을 지정해주세요', '', 'error', document.getElementById('modal'));
-            }
-          }}>
-          신청
-        </Button>
-        <Button onClick={handleClose}>취소</Button>
-        {checkOpen && (
-          <CheckDateModal
-            checkOpen={checkOpen}
-            setCheckOpen={setCheckOpen}
-            type={type}
-            newApprove={newApprove}
-          />
-        )}
+                );
+              } else {
+                console.log(date[0].endDate);
+                resultConfirm(
+                  '종료일을 지정해주세요',
+                  '',
+                  'error',
+                  document.getElementById('modal')
+                );
+              }
+            }}>
+            신청
+          </Button>
+          <Button onClick={handleClose}>취소</Button>
+          {checkOpen && (
+            <CheckDateModal
+              checkOpen={checkOpen}
+              setCheckOpen={setCheckOpen}
+              type={type}
+              newApprove={newApprove}
+            />
+          )}
+        </Box>
       </Box>
     </Modal>
     // </div>
