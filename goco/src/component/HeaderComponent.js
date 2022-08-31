@@ -33,7 +33,7 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
   };
 
   const [urlValue, setUrlValue] = useState(window.location.href.split('http://localhost:3000/')[1]);
-  if (statusData[0].employee.authority === 'ROLE_MANAGER' && modeChange === 1) {
+  if (statusData[0]?.employee?.authority === 'ROLE_MANAGER' && modeChange === 1) {
     return (
       <nav className="Nav">
         <Link
@@ -61,8 +61,8 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
           </button>
         </Link>
 
-        <div className="nav-text">{statusData[0].employee.name}</div>
-        <div className="nav-text leader">{statusData[0].employee.unit.unitName} </div>
+        <div className="nav-text">{statusData[0]?.employee?.name}</div>
+        <div className="nav-text leader">{statusData[0]?.employee?.unit.unitName} </div>
       </nav>
     );
   } else if (modeChange === 0) {
@@ -88,10 +88,10 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
         </Link>
 
         <Link to="/goco" style={{ color: '#00AAFF' }}>
-          {status(statusData[0].commuteStatus)}
+          {status(statusData[0]?.commuteStatus)}
         </Link>
 
-        {statusData[0].employee.authority === 'ROLE_MANAGER' ? (
+        {statusData[0]?.employee?.authority === 'ROLE_MANAGER' ? (
           <Link to="/manager">
             <button
               className="mangerChangeBtn"
@@ -103,7 +103,7 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
           ''
         )}
 
-        {statusData[0].employee.authority === 'ROLE_ADMIN' ? (
+        {statusData[0]?.employee.authority === 'ROLE_ADMIN' ? (
           <Link to="/admin">
             <button
               className="mangerChangeBtn"
@@ -117,7 +117,7 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
 
         <div className="dropdown">
           <button className="dropbtn">
-            {statusData !== undefined && statusData[0].employee.name}
+            {statusData !== undefined && statusData[0]?.employee.name}
             <i className="fa fa-caret-down"></i>
           </button>
           <div className="dropdown-content">
@@ -131,7 +131,7 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
         </button>
       </nav>
     );
-  } else if (statusData[0].employee.authority === 'ROLE_ADMIN') {
+  } else if (statusData[0]?.employee.authority === 'ROLE_ADMIN') {
     return (
       //   // link to 주소값
       <nav className="Nav">

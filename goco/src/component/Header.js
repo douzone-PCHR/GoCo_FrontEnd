@@ -23,7 +23,6 @@ const Header = () => {
       mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
-  console.log(statusData);
   const handleMediaQueryChange = (mediaQuery) => {
     if (mediaQuery.matches) {
       setIsSmallScreen(true);

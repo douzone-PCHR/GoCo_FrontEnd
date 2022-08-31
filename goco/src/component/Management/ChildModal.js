@@ -8,13 +8,15 @@ import {
   TextField,
   Typography,
   Button,
+  Box,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { getEmp } from '../../../api/employeeAPI';
-import { insertUnitAPI } from '../../../api/unitAPI';
-import style from '../../../CSS/admin.module.css';
-
+import { getEmp } from '../../api/employeeAPI';
+import { insertUnitAPI } from '../../api/unitAPI';
+import style from '../../CSS/admin.module.css';
+import { confirm, resultConfirm } from '../../common/confirm';
+import { fontSize } from '@mui/system';
 export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
   const [empTeamMembers, setEmpTeamMembers] = useState({ userRoles: [] });
   const [emps, setEmp] = useState();
@@ -33,14 +35,16 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
     <Modal open={handleModal} id="child-modal">
       <div className={style.modal}>
         <Typography variant="h3">팀 추가</Typography>
-        <br />
-        <br />
+
+        <Box sx={{ margin: '1vw 0px 2vw 10px', fontWeight: 'bold' }} align="left">
+          {dept && `부서명 : ${dept.unitName}`}
+        </Box>
         <div style={{ display: 'flex', marginLeft: '10px' }}>
           <Input
             align="center"
             name="teamName"
             placeholder="팀이름"
-            sx={{ fontSize: 'small', border: 'solid', marginRight: '10px', width: '15%' }}
+            sx={{ fontSize: 'small', border: '1px solid', marginRight: '10px', width: '15%' }}
           />
           <FormControl sx={{ marginRight: '10px', fontSize: 'small', width: '20%' }}>
             <InputLabel id="InputLabelTeamk">팀장 선택</InputLabel>
@@ -77,14 +81,12 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
               }}>
               {emps &&
                 emps.map((emp) => {
-                  if (!emp.unit) {
-                    if (mgrNum !== emp.empNum) {
-                      return (
-                        <MenuItem key={emp.empNum} value={emp.empNum}>
-                          {emp.name}
-                        </MenuItem>
-                      );
-                    }
+                  if (mgrNum !== emp.empNum) {
+                    return (
+                      <MenuItem key={emp.empNum} value={emp.empNum}>
+                        {emp.name}
+                      </MenuItem>
+                    );
                   }
                   return null;
                 })}
@@ -114,25 +116,21 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
                     setEmpTeamMembers
                   ).then((data) => {
                     data
-                      ? Swal.fire({
-                          title: `팀이 추가되었습니다.`,
-                          text: `팀명 : ${teamName}`,
-                          icon: 'success',
-                          target: '#child-modal',
-                          showConfirmButton: true,
-                          confirmButtonText: '확인',
-                          // cancelButtonColor: 'gray',
-                        }).then(() => {
+                      ? resultConfirm(
+                          `팀이 추가되었습니다.`,
+                          `팀명 : ${teamName}`,
+                          'success',
+                          '#child-modal'
+                        ).then(() => {
                           setHandleModal(false);
                           setCheck(!check);
                         })
-                      : Swal.fire({
-                          title: `중복된 이름입니다.`,
-                          text: `${teamName}`,
-                          icon: 'warning',
-                          target: '#child-modal',
-                          confirmButtonText: '완료',
-                        });
+                      : resultConfirm(
+                          `${teamName}은 중복된 이름입니다.`,
+                          '',
+                          'warning',
+                          '#child-modal'
+                        );
                   });
                 }
               });
