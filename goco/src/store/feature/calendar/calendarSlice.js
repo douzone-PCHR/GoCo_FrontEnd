@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const getData = createAsyncThunk("")
-
+// const getData = createAsyncThunk("")
 
 const calendarSlice = createSlice({
   name: 'calendar',
