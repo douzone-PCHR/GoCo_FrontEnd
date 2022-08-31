@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
-import { Divider, FormLabel, TableHead, Typography } from '@mui/material';
-import { commuteTime } from '../../api/work/workAPI';
+import { Divider, TableHead, Typography } from '@mui/material';
 
-export default function WorkTime() {
-  const [commuteTimeData, setCommuteTimeData] = useState([]);
-  useEffect(() => {
-    commuteTime(setCommuteTimeData);
-  }, []);
-
+export default function WorkTime({ commuteTimeData }) {
   return (
     <>
       <Box
@@ -200,10 +194,9 @@ export default function WorkTime() {
                     fontSize: '15px',
                     textAlign: 'center',
                   }}>
-                  {/* {parseInt(commuteTimeData.vacation_count) === parseInt(11)
-                    ? parseInt(0)
-                    : parseInt(11) - parseInt(commuteTimeData.vacation_count)} */}
-                  {String(parseInt(11) - commuteTimeData.vacation_count)}
+                  {String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
+                    ? String(parseInt(11) - commuteTimeData.vacation_count)
+                    : 0}
                 </TableCell>
                 <TableCell
                   style={{

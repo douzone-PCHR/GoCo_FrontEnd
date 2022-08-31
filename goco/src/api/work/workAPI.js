@@ -4,7 +4,7 @@ import { sweetAlert2, sweetAlertSuccess } from '../../component/auth/AuthSweetAl
 import { getCookie } from '../authAPI';
 
 export const workGetData = async (setGetWorkList, getEmpId, user) => {
-  console.log(user);
+  console.log(getEmpId);
   const response = await axios.get(
     `http://localhost:8080/api/user/work/calendar?empId=${getEmpId}`,
     {
@@ -16,12 +16,13 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
   );
   let data;
 
+  console.log(response.data);
   if (response.data.length !== 0) {
     data = response.data.map((rowData) => ({
-      id: rowData.workId,
-      title: rowData.workTitle,
-      start: rowData.workStartDate,
-      end: rowData.workEndDate,
+      id: rowData.id,
+      title: rowData.title,
+      start: rowData.start,
+      end: rowData.end,
     }));
   } else {
     data = {
@@ -31,6 +32,7 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
       end: '',
     };
   }
+
   setGetWorkList(data);
 };
 

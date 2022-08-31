@@ -1,6 +1,6 @@
 import { Box, Divider, TableHead } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Pagination,
   Table,
@@ -12,30 +12,19 @@ import {
 } from '@mui/material';
 import { myTeamStatus } from '../../util/Utilfunction';
 import usePagination from '../../util/Pagination';
-import { getMyTeamCurrentStatus } from '../../api/manager/ManagerAPI';
-import * as api from '../../api/index';
+import { useLocation } from 'react-router-dom';
 const Myteamcurrentstatus = () => {
-  const [myTeamcurrentStatus, setMyTeamCurrentStatus] = useState([]);
-
+  const location = useLocation();
+  const data = location.state?.currentStatus;
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
-  const count = Math.ceil(myTeamcurrentStatus.length / PER_PAGE);
-  const pageData = usePagination(myTeamcurrentStatus, PER_PAGE);
+  const count = Math.ceil(data.length / PER_PAGE);
+  const pageData = usePagination(data, PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);
   };
-  useEffect(() => {
-    myTeamAPI();
-  }, []);
-
-  const myTeamAPI = async () => {
-    await api.getMyTeamCurrentStatus().then((response) => {
-      setMyTeamCurrentStatus(response.data);
-    });
-  };
-  // getMyTeamCurrentStatus(setMyTeamCurrentStatus);
 
   return (
     <Container>
