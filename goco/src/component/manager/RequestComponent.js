@@ -1,10 +1,9 @@
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
-  ListItem,
   Pagination,
   Table,
   TableBody,
@@ -13,8 +12,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { getRequestList, getRequestList1, getRequestList2 } from '../../api/manager/ManagerAPI';
-import { loginDefaultValue } from '../../api/work/workAPI';
 import usePagination from '../../util/Pagination';
 function typeName(vacationType) {
   let result = '';
@@ -31,30 +28,22 @@ function typeName(vacationType) {
     case '10':
       result = '출장 신청';
       break;
+    default:
+      result = '신청';
   }
 
   return result;
 }
-export default function RequestComponent(unit) {
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const [LoginEmp, setLoginEmp] = useState([]);
-  const [getData, setData] = useState([]);
-
+export default function RequestComponent({ getRequsetData }) {
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
-  const count = Math.ceil(getData.length / PER_PAGE);
-  const pageData = usePagination(getData, PER_PAGE);
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
+  const count = Math.ceil(getRequsetData.length / PER_PAGE);
+  const pageData = usePagination(getRequsetData, PER_PAGE);
+
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);
   };
-  useEffect(() => {
-    getRequestList(setData);
-  }, []);
-
   return (
     <Box
       sx={{

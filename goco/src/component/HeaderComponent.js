@@ -4,6 +4,7 @@ import { FiMenu } from 'react-icons/fi';
 function HeaderComponent({ statusData, modeChange, setModeChange }) {
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+
   const status = (data) => {
     let result = '';
     switch (data) {

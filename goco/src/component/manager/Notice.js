@@ -1,42 +1,32 @@
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'moment/locale/ko';
 import {
   Button,
-  ListItem,
   Pagination,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   TableRow,
   Typography,
 } from '@mui/material';
-import { getNoticeList } from '../../api/manager/ManagerAPI';
 import usePagination from '../../util/Pagination';
-import moment, { now, Moment } from 'moment';
+import moment from 'moment';
 
-export default function Notice() {
-  const [selectedIndex, setSelectedIndex] = useState(1);
+export default function Notice({ noticeList }) {
   let [page, setPage] = useState(1);
-  let [pageList, setPageList] = useState([]);
+
   const PER_PAGE = 4;
-  const count = Math.ceil(pageList.length / PER_PAGE);
-  const pageData = usePagination(pageList, PER_PAGE);
+  const count = Math.ceil(noticeList.length / PER_PAGE);
+  const pageData = usePagination(noticeList, PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);
   };
 
-  useEffect(() => {
-    getNoticeList(setPageList);
-  }, []);
   return (
     <Box
       sx={{

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
@@ -12,14 +12,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { getCurrentStatus, getMyTeamCurrentStatus } from '../../api/manager/ManagerAPI';
+
 import usePagination from '../../util/Pagination';
 import { Link } from 'react-router-dom';
 import { myTeamStatus } from '../../util/Utilfunction';
-import * as api from '../../api/index';
-export default function CurrentStatus() {
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const [currentStatus, setCurrentStatus] = useState([]);
+export default function CurrentStatus({ currentStatus }) {
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
   const count = Math.ceil(currentStatus.length / PER_PAGE);
@@ -29,15 +26,7 @@ export default function CurrentStatus() {
     setPage(p);
     pageData.jump(p);
   };
-  useEffect(() => {
-    myTeamAPI();
-  }, []);
-  const myTeamAPI = async () => {
-    await api.getMyTeamCurrentStatus().then((response) => {
-      setCurrentStatus(response.data);
-    });
-    // await api.getMyTeamCurrentStatus()
-  };
+
   return (
     <Box
       sx={{
@@ -69,7 +58,7 @@ export default function CurrentStatus() {
           }}>
           <Link
             to="/currentStatus"
-            // state={{ currentStatusKey: currentStatus }}
+            state={{ currentStatus }}
             style={{ color: 'black', textDecoration: 'none' }}>
             더보기
           </Link>

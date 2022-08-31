@@ -7,7 +7,6 @@ import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
 import { workGetData } from '../../api/work/workAPI';
-import useMediaQuery from '@mui/material/useMediaQuery';
 export default function CalendarComponent({ user, empList }) {
   const [getWorkList, setGetWorkList] = useState([]);
   const [getEmpId, setEmpId] = useState(user.empId);
@@ -23,7 +22,7 @@ export default function CalendarComponent({ user, empList }) {
   useEffect(() => {
     workGetData(setGetWorkList, getEmpId, user.empId);
   }, [getEmpId, user.empId]);
-
+  // 일정표 받기
   return (
     <Box
       component="div"

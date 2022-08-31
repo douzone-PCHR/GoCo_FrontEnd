@@ -137,7 +137,7 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user }) => {
             {empList.map((data) => {
               return (
                 <MenuItem key={data.empId} value={data.empId}>
-                  {data.name}
+                  {data.name},{data.empId}
                 </MenuItem>
               );
             })}
