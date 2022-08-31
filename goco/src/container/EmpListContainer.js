@@ -1,5 +1,4 @@
 import { Box, Container, Pagination } from '@mui/material';
-import { AdminSideBar } from '../component/Admin/AdminSideBar';
 
 export const EmpListContainer = () => {
   return (

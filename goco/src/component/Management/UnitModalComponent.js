@@ -1,28 +1,24 @@
 import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { getManager } from '../../../api/employeeAPI';
-import { deleteUnitAPI, updateUnitAPI } from '../../../api/unitAPI';
-import style from '../../../CSS/admin.module.css';
+import { getManager } from '../../api/employeeAPI';
+import { deleteUnitAPI, updateUnitAPI } from '../../api/unitAPI';
+import style from '../../CSS/admin.module.css';
 import { ChildModal } from './ChildModal';
-export const handleChange = (e, setHandleDept) => {
-  setHandleDept(e.target.value);
-};
 
 export const UnitModalComponent = ({
   open,
   setOpen,
   teams,
   dept,
-  check,
-  setCheck,
   handleModal,
   setHandleModal,
+  render,
 }) => {
-  const [teamManagers, setteamManagers] = useState();
+  const [managers, setManagers] = useState([]);
   useEffect(() => {
-    dept?.unitId && getManager(dept.unitId, setteamManagers);
-  }, [dept?.unitId, open, handleModal]);
+    dept?.unitId && getManager(dept.unitId, setManagers);
+  }, [dept?.unitId, handleModal]);
   return (
     <>
       <Modal
@@ -36,27 +32,30 @@ export const UnitModalComponent = ({
             <TableHead>
               <TableRow>
                 <TableCell sx={{ width: '30%' }}>부서: {dept?.unitName}</TableCell>
-                <TableCell colSpan={5}>
-                  <span>팀장</span>
-                </TableCell>
+                <TableCell colSpan={5}>팀장</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {teams &&
                 teams.map((team, idx) => {
+                  let check = false;
                   return dept && dept.unitName === team.parentUnit.unitName ? (
                     <TableRow key={idx}>
                       <TableCell>{team.unitName}</TableCell>
-                      {teamManagers &&
-                        teamManagers.map((teamManager) => {
-                          return teamManager.unit.unitId === team.unitId ? (
-                            <TableCell key={teamManager.empNum}>{teamManager.name}</TableCell>
-                          ) : (
-                            <Fragment key={teamManager.empNum} />
-                          );
+                      {managers.length !== 0 &&
+                        managers.map((manager, key) => {
+                          if (manager.unit.unitName === team.unitName) {
+                            check = true;
+                            return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
+                          }
+                          // return manager.unit.unitName === team.unitName ? (
+                          //   <TableCell key={manager.empNum}>{manager.name}</TableCell>
+                          // ) : (
+                          //   <TableCell key={manager.empNum}></TableCell>
+                          // );
                         })}
-
-                      <TableCell padding="none" align="right">
+                      {check === false && <TableCell>없음</TableCell>}
+                      <TableCell padding="none" align="right" colSpan={10}>
                         <Button
                           onClick={() => {
                             Swal.fire({
@@ -64,20 +63,8 @@ export const UnitModalComponent = ({
                               input: 'text',
                               toast: true,
                               inputPlaceholder: '변경할 팀 이름을 입력해주세요:',
-                              // html: `<Select
-                              //     onChange={(e) => {
-                              //       handleChange(e, setHandleDept);
-                              //     }}
-                              //     value={handleDept}>
-                              //     {/* {resultDept.map((data, index) => {
-                              //       <MenuItem value={data.unitId} key={index}>
-                              //         {data.unitName}
-                              //       </MenuItem>;
-                              //     })} */}
-                              //   </Select>`,
                               target: '#parent-modal',
                               showCancelButton: true,
-                              // showConfirmButton: true,
                             }).then((result) => {
                               if (result.isConfirmed) {
                                 updateUnitAPI(team.unitId, result.value).then((results) => {
@@ -87,7 +74,6 @@ export const UnitModalComponent = ({
                                       title: '팀명이 변경되었습니다.',
                                       target: '#parent-modal',
                                       text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
-                                      // showConfirmButton: true,
                                       confirmButtonText: '확인',
                                     }).then((result) => {
                                       if (result.isConfirmed) {
@@ -134,7 +120,7 @@ export const UnitModalComponent = ({
                                         confirmButtonText: '확인',
                                         icon: 'warning',
                                       }).then(() => {
-                                        setCheck(!check);
+                                        render();
                                       });
                                       break;
                                     case 2:
@@ -144,7 +130,7 @@ export const UnitModalComponent = ({
                                         confirmButtonText: '확인',
                                         icon: 'success',
                                       }).then(() => {
-                                        setCheck(!check);
+                                        render();
                                       });
                                       break;
                                     default:
@@ -211,7 +197,7 @@ export const UnitModalComponent = ({
                           }).then((result) => {
                             if (result.isConfirmed) {
                               setOpen(false);
-                              setCheck(!check);
+                              render();
                             }
                           });
                           break;
@@ -233,13 +219,7 @@ export const UnitModalComponent = ({
           </div>
         </div>
       </Modal>
-      <ChildModal
-        handleModal={handleModal}
-        setHandleModal={setHandleModal}
-        dept={dept}
-        check={check}
-        setCheck={setCheck}
-      />
+      <ChildModal handleModal={handleModal} setHandleModal={setHandleModal} dept={dept} />
     </>
   );
 };

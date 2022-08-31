@@ -181,13 +181,14 @@ export const changePhoneNumberAPI = async (textData) => {
     });
 };
 
+//매니저 조회
 export const getManager = (unitId, setManager) => {
   axios.get(`http://localhost:8080/api/admin/findmanager/${unitId}`).then((response) => {
     setManager(response.data);
   });
 };
 
-//모든 유저
+//모든 유저 조회
 export const getEmp = (setEmp, setmgrNum) => {
   axios
     .get('http://localhost:8080/api/admin/findAll')
@@ -200,12 +201,14 @@ export const getEmp = (setEmp, setmgrNum) => {
     });
 };
 
+// 재직자 삭제(퇴사처리)
 export const deleteAdminEmpAPI = async (id) => {
   return await axios.delete(`http://localhost:8080/api/admin/delete/${id}`).then((response) => {
     return response.data;
   });
 };
 
+// 퇴사자 조회
 export const getResignationAPI = async (setResignation) => {
   axios.get(`http://localhost:8080/api/admin/ResignationAll`).then((response) => {
     setResignation(response.data);

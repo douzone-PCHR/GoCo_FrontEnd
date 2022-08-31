@@ -3,7 +3,6 @@ import style from '../../CSS/admin.module.css';
 import { TableCellComponent } from '../../component/Admin/TableCellComponent';
 import { Fragment, useEffect, useState } from 'react';
 import { AdminTableHead } from '../../component/Admin/TableHead';
-import { AdminSideBar } from '../../component/Admin/AdminSideBar';
 import { getEmp, getResignationAPI } from '../../api/employeeAPI';
 import { getUnitsAPI } from '../../api/unitAPI';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
@@ -78,7 +77,6 @@ export const Admin = () => {
   processingData = units && unitProcessing(units);
   return (
     <div className={style.Container}>
-      <AdminSideBar />
       <div className={style.item}>
         <Tabs
           value={tabValue}

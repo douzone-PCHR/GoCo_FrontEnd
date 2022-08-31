@@ -57,12 +57,15 @@ export default function CalendarComponent({ user, empList }) {
             dayMaxEvents={2}
             titleFormat={{ year: 'numeric', month: 'long' }}
             aspectRatio={'1.2'}
-            events={{
-              googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-              color: 'red',
-            }}
+            // events={}
             googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
-            eventSources={[getWorkList]}
+            eventSources={[
+              getWorkList,
+              {
+                googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+                color: 'red',
+              },
+            ]}
             eventClick={(info) => {
               if (info.event.url) {
                 info.jsEvent.preventDefault();
