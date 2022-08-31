@@ -2,7 +2,10 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
-export const insertName = (handleChange, signupDataError) => {
+export const insertName = (data, setData, signupDataError) => {
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
+  };
   return (
     <Grid item xs={12} sm={6}>
       <Grid container spacing={3}>
@@ -31,7 +34,10 @@ export const insertName = (handleChange, signupDataError) => {
   );
 };
 
-export const insertPhoneNumber = (handleChange, signupDataError) => {
+export const insertPhoneNumber = (data, setData, signupDataError) => {
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
+  };
   return (
     <Grid item xs={12} sm={6}>
       <Grid container spacing={3}>

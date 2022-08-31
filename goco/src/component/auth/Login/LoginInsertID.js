@@ -5,7 +5,10 @@ import TextField from '@mui/material/TextField';
 
 import styles from '../../../CSS/authcss/Login.module.css';
 
-export default function LoginInsertID({ handleChange, values }) {
+export default function LoginInsertID({ setValues, values }) {
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
   return (
     <>
       <div className={styles.InputText}>　아이디</div>

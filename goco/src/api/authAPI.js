@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
-import { userMeAPI } from './employeeAPI';
 const cookies = new Cookies();
 
 export const setCookie = (name, value, option) => {
@@ -22,7 +21,7 @@ export const deleteCookie = () => {
 };
 
 //////////////////// 로그인 하는 것
-const urlLogin = 'http://localhost:8080/api/auth/login';
+const urlLogin = '/api/auth/login';
 export const loginAPI = async (id, password) => {
   await axios
     .post(urlLogin, {
@@ -38,14 +37,13 @@ export const loginAPI = async (id, password) => {
         expires,
       });
       sweetAlertSuccess('로그인 성공', 'success', '/goco');
-      userMeAPI();
     })
     .catch(() => {
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
     });
 };
 //////////////////// 아이디 찾을 때 이메일 보내는 함수
-const urlFindId = 'http://localhost:8080/api/auth/sendEmailForId';
+const urlFindId = '/api/auth/sendEmailForId';
 export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
   handleOpen(); // 모달창 띄우는 함수
   await axios
@@ -63,7 +61,7 @@ export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
     });
 };
 //////////////////// 아이디 찾을 때 인증 번호 확인하는 함수
-const urlAuthCheck = `http://localhost:8080/api/auth/find/2`;
+const urlAuthCheck = `/api/auth/find/2`;
 export const AuthCheckAPI = async (authNum, email, setId) => {
   await axios
     .post(urlAuthCheck, {
@@ -84,7 +82,7 @@ export const AuthCheckAPI = async (authNum, email, setId) => {
     });
 };
 ///////////////////pwd 찾기위해 인증번호 보내는 함수
-const urlFindPwd = 'http://localhost:8080/api/auth/sendEmailForPwd';
+const urlFindPwd = '/api/auth/sendEmailForPwd';
 export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
   handleOpen(); // 메일 보내는 중 표시하는 것
   await axios
@@ -102,7 +100,7 @@ export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
     });
 };
 /////////////// 인증 번호로 새로운 비번 받는 함수
-const urlFindPassword = `http://localhost:8080/api/auth/find/3`;
+const urlFindPassword = `/api/auth/find/3`;
 export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) => {
   handleOpen(); //인증번호가 맞을 경우 '메일 보내는 중' 이라고 뜨게 만든다.
   if ((email === '') | (email === null) | (email === undefined)) {
@@ -133,7 +131,7 @@ export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) =
 };
 
 /////////////////////////// ID 중복 체크
-const urlCheckId = 'http://localhost:8080/api/auth/checkInfo?info=';
+const urlCheckId = '/api/auth/checkInfo?info=';
 export const IDCheck = async (data, setOkIdCheck, setSignupDataError) => {
   if (data.empId === '') {
     sweetAlert2('아이디 값이 입력되지 않았습니다.', 'warning');
@@ -156,7 +154,7 @@ export const IDCheck = async (data, setOkIdCheck, setSignupDataError) => {
     });
 };
 ///////////////////////////// 회원 가입시 유효한 이메일인지 확인하는 것
-const urlCheckEmail = 'http://localhost:8080/api/auth/sendEmailForEmail';
+const urlCheckEmail = '/api/auth/sendEmailForEmail';
 export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setAuthNumberOpen) => {
   handleOpen();
   await axios
@@ -174,7 +172,7 @@ export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setA
     });
 };
 /////////////////////////// 회원 가입시 이메일 인증번호 확인하는 것
-const urlCheckAuth = 'http://localhost:8080/api/auth/find/1';
+const urlCheckAuth = '/api/auth/find/1';
 export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupDataError) => {
   await axios
     .post(urlCheckAuth, {
@@ -198,14 +196,14 @@ export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupData
     });
 };
 ///////////////////////// 회원 가입시 unit 불러오기
-const urlUnit = 'http://localhost:8080/api/auth/getAllUnit';
+const urlUnit = '/api/auth/getAllUnit';
 export const getUnitAPI = (setUnit) => {
   axios.get(urlUnit).then((response) => {
     setUnit(response.data);
   });
 };
 //////////////////////// 회원 가입 버튼
-const urlSignup = 'http://localhost:8080/api/auth/signup';
+const urlSignup = '/api/auth/signup';
 export const signupAPI = (data, setSignupDataError) => {
   const signupData = {
     empId: data.empId,

@@ -1,9 +1,21 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-export default function AuthNumButton({ SendAuth }) {
+import { FindIdAPI } from '../../../api/authAPI';
+import { ModalSendMail } from '../Modal';
+export default function AuthNumButton({ data }) {
+  const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
+  const handleOpen = () => setOpen(true); //메일보내는 중 모달
+  const handleClose = () => setOpen(false); //메일보내는 중 모달
+  const SendAuth = () => {
+    // 이메일 전달하는 함수
+    FindIdAPI(data.name, data.email, handleOpen, handleClose);
+  };
+
   return (
     <>
+      {/* ----------------------------------메일보내는 중 모달함수----------------------------------*/}
+      {ModalSendMail(open, handleClose)}
       <Grid item xs={12} sm={6}>
         <Button
           variant="outlined"

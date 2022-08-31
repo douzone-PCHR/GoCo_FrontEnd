@@ -1,9 +1,13 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-
+import { AuthCheckAPI } from '../../../api/authAPI';
 import Grid from '@mui/material/Grid';
 
-export default function MoveShowIdPage({ AuthCheck }) {
+export default function MoveShowIdPage({ data, setId }) {
+  const AuthCheck = () => {
+    // 인증번호를 체크하고 맞다면 id 셋팅
+    AuthCheckAPI(data.authNum, data.email, setId);
+  };
   return (
     <>
       <Grid item xs={12} sm={6}>
