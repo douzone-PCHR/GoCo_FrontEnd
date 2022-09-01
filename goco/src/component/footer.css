@@ -1,6 +1,6 @@
 .footer {
-  background-color: #fffefe;
-  margin-top: 10%;
+  background-color: rgb(230, 247, 255);
+  margin-top: 5%;
 }
 .footer-container {
   display: flex;

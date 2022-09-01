@@ -3,7 +3,10 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 
-export default function InsertAuthNum({ handleChange }) {
+export default function InsertAuthNum({ data, setData }) {
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
+  };
   return (
     <>
       <Grid item xs={12}>

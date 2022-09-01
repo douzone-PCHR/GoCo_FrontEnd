@@ -22,8 +22,10 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
   const [secondOpen, setSecondOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [workId, setWorkId] = useState(0);
-  const detailListOpen = (workId) => {
+  const [workType, setWorkType] = useState(100);
+  const detailListOpen = (workId, workType) => {
     setWorkId(workId);
+    setWorkType(workType);
     setSecondOpen(true);
   };
 
@@ -34,7 +36,6 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
   useEffect(() => {
     dateWorkList(requestDate, setDetailList, getEmpId);
   }, []);
-
   const handleClose = () => setOpenInsert(false);
   return (
     <div>
@@ -74,12 +75,12 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
               <ListItem
                 style={{
                   margin: '30px 0px',
-                  borderLeft: data.workType === true ? '4px solid #FF6363' : '4px solid #17A1FA',
-                  backgroundColor: data.workType === true ? '#ff636359' : '#b3b3b354',
+                  borderLeft: data.workType === 1 ? '4px solid #FF6363' : '4px solid #17A1FA',
+                  backgroundColor: data.workType === 1 ? '#ff636359' : '#b3b3b354',
                 }}
                 button
                 onClick={() => {
-                  detailListOpen(data.workId);
+                  detailListOpen(data.id , data.workType);
                 }}
                 key={index}>
                 <ListItemText
@@ -92,7 +93,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                         color: '#616161',
                         fontWeight: '500',
                       }}>
-                      {moment(data.workStartDate).format('hh:mm')}
+                      {moment(data.start).format('hh:mm')}
                     </Typography>
                   }
                 />
@@ -106,7 +107,9 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                         color: '#616161',
                         fontWeight: '500',
                       }}>
-                      {data.workTitle}
+                      { console.log(data.title)}
+                      {data.title}
+                      {/* {data.title === 0 ? : } */}
                     </Typography>
                   }
                 />
@@ -155,8 +158,8 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
         </Dialog>
       )}
 
-      {secondOpen && workId !== 0 && (
-        <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} />
+      {secondOpen && workId !== 0 && (workType !== 3 && workType !== 4) && (
+        <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} workType={workType} />
       )}
       {addOpen && (
         <AddWork addOpen={addOpen} setAddOpen={setAddOpen} user={user} requestDate={requestDate} />

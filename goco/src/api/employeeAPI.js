@@ -28,7 +28,7 @@ export const updateEmpAPI = async (type, updateValue, setResult) => {
 };
 
 //////회원 정보확인 userMe
-const urlUserMe = 'http://localhost:8080/api/user/me';
+const urlUserMe = '/api/user/me';
 export const userMeAPI = async (setData) => {
   const options = {
     method: 'GET',
@@ -39,8 +39,6 @@ export const userMeAPI = async (setData) => {
   };
   await axios(options).then((response) => {
     setData(response.data);
-    // console.log(response.data);
-    // setUser(response.data);
   });
 };
 ////// 내가누군지 알려주는 것  userMe / empNum 반환해줌
@@ -58,7 +56,7 @@ export const WhoAmIAPI = async (setWhoAmI) => {
 };
 
 ////// 회원 삭제
-const urlDeleteEmp = 'http://localhost:8080/api/user/delete';
+const urlDeleteEmp = '/api/user/delete';
 export const deleteEmpAPI = async () => {
   const options = {
     method: 'DELETE',
@@ -79,7 +77,7 @@ export const deleteEmpAPI = async () => {
     });
 };
 ////회원 비번 변경
-const urlPwdChange = 'http://localhost:8080/api/user/changePwd';
+const urlPwdChange = '/api/user/changePwd';
 export const pwdChangeAPI = async (textData) => {
   console.log('textData.password1 : ', textData.password1);
   const text = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=*()]).*$/;
@@ -116,7 +114,7 @@ export const pwdChangeAPI = async (textData) => {
 };
 
 // 회원 이메일 변경
-const urlChangeEmail = 'http://localhost:8080/api/user/changeEmail';
+const urlChangeEmail = '/api/user/changeEmail';
 export const changeEmailAPI = async (textData) => {
   const text =
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -147,7 +145,7 @@ export const changeEmailAPI = async (textData) => {
     });
 };
 // 회원 번호 변경
-const urlChangePhoneNumber = 'http://localhost:8080/api/user/changePhone';
+const urlChangePhoneNumber = '/api/user/changePhone';
 export const changePhoneNumberAPI = async (textData) => {
   const text = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
   if (
@@ -183,7 +181,7 @@ export const changePhoneNumberAPI = async (textData) => {
 
 //매니저 조회
 export const getManager = (unitId, setManager) => {
-  axios.get(`http://localhost:8080/api/admin/findmanager/${unitId}`).then((response) => {
+  axios.get(`/api/admin/findmanager/${unitId}`).then((response) => {
     setManager(response.data);
   });
 };
@@ -191,7 +189,7 @@ export const getManager = (unitId, setManager) => {
 //모든 유저 조회
 export const getEmp = (setEmp, setmgrNum) => {
   axios
-    .get('http://localhost:8080/api/admin/findAll')
+    .get('/api/admin/findAll')
     .then((response) => {
       setEmp(response.data);
       setmgrNum && setmgrNum(response.data[0].empNum);
@@ -203,14 +201,14 @@ export const getEmp = (setEmp, setmgrNum) => {
 
 // 재직자 삭제(퇴사처리)
 export const deleteAdminEmpAPI = async (id) => {
-  return await axios.delete(`http://localhost:8080/api/admin/delete/${id}`).then((response) => {
+  return await axios.delete(`/api/admin/delete/${id}`).then((response) => {
     return response.data;
   });
 };
 
 // 퇴사자 조회
 export const getResignationAPI = async (setResignation) => {
-  axios.get(`http://localhost:8080/api/admin/ResignationAll`).then((response) => {
+  axios.get(`/api/admin/ResignationAll`).then((response) => {
     setResignation(response.data);
   });
 };

@@ -36,8 +36,13 @@ const Header = () => {
 
   return (
     <header className="Header">
+      {statusData !== undefined && statusData.length !== 0 ? (
+      <Link to="/goco" className='link-logo'>
       <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
-
+      </Link>
+      ) :
+      (<img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />)
+      }
       {statusData !== undefined && statusData.length !== 0 ? (
         <HeaderComponent
           statusData={statusData}
@@ -64,6 +69,7 @@ const Header = () => {
             style={{ color: urlValue === 'board' ? '#00AAFF' : '#A8A8A8' }}>
             게시판
           </Link>
+
         </nav>
       )}
     </header>

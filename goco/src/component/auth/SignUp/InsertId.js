@@ -3,16 +3,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { IDCheck } from '../../../api/authAPI';
-export const InsertId = ({
-  handleChange,
-  setOkIdCheck,
-  data,
-  signupDataError,
-  setSignupDataError,
-}) => {
+export const InsertId = ({ setOkIdCheck, data, setData, signupDataError, setSignupDataError }) => {
   // ID 중복확인 함수 // 중복확인될경우 setOkIdCheck를 true로 바꿔줌
   const idCheck = () => {
     IDCheck(data, setOkIdCheck, setSignupDataError, setOkIdCheck);
+  };
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
   };
   return (
     <>

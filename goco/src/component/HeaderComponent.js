@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
+import { deleteCookie } from '../api/authAPI';
 function HeaderComponent({ statusData, modeChange, setModeChange }) {
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -122,8 +123,8 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
             <i className="fa fa-caret-down"></i>
           </button>
           <div className="dropdown-content">
-            <a href="#">Logout</a>
-            <a href="#">설정</a>
+            <a href="/login" onClick={deleteCookie}>Logout</a>
+            <Link to="/userupdate">설정</Link>
           </div>
         </div>
 

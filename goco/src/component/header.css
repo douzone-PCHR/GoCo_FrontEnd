@@ -9,6 +9,10 @@
   background-color: rgb(230, 247, 255);
   margin-bottom: 10px;
 }
+.link-logo {
+  width: 10%;
+}
+  
 
 .Logo {
   grid-area: logo;

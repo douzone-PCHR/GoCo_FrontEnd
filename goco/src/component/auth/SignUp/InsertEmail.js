@@ -4,18 +4,23 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { CheckAuthForSignUpAPI, SendEmailForSignUpAPI } from '../../../api/authAPI';
 import { sweetAlert2 } from '../AuthSweetAlert.js/sweetAlert2';
+import { ModalSendMail } from '../Modal';
 export const InsertEmail = ({
-  handleChange,
   signupDataError,
   okEmailCheck,
   data,
-  handleOpen,
-  handleClose,
+  setData,
   setOkEmailCheck,
   setSignupDataError,
 }) => {
   const [authNumberOpen, setAuthNumberOpen] = React.useState(false);
   // 회원 가입시 메일 보내는 함수
+  const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
+  const handleOpen = () => setOpen(true); //메일보내는 중 모달
+  const handleClose = () => setOpen(false); //메일보내는 중 모달
+  const handleChange = (prop) => (event) => {
+    setData({ ...data, [prop]: event.target.value });
+  };
   const SendEmailForSignUp = () => {
     if ((data.email === '') | (data.email === undefined)) {
       sweetAlert2('이메일이 입력되지 않았습니다.', 'warning');
@@ -29,6 +34,8 @@ export const InsertEmail = ({
   };
   return (
     <>
+      {/* ----------------------------------메일보내는 중 모달함수----------------------------------*/}
+      {ModalSendMail(open, handleClose)}
       <Grid item xs={12} sm={12}>
         이메일
       </Grid>
