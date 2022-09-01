@@ -12,7 +12,7 @@
   font-family: 'GmarketSans';
   font-size: large;
   font-weight: 500;
-  color: gray;
+  color: grey;
 }
 
 .select {
@@ -25,13 +25,16 @@
 .sidebar_container {
   display: flex;
   position: relative;
-  right: 20%;
+  /* right: 20%; */
   min-height: 75vh;
   align-items: center;
   padding-top: 2%;
-  border: solid black 1px;
   width: 20%;
   justify-content: space-between;
   flex-direction: column;
   text-align: center;
+}
+
+.css-ahj2mt-MuiTypography-root {
+  font-family: 'GmarketSans';
 }

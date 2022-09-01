@@ -209,7 +209,7 @@ export default function Vacations({
   }
   return (
     <Box>
-      <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 700 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 1000 }}>
         <Table stickyHeader aria-label="collapsible table">
           <TableHead>
             <TableRow>

@@ -29,6 +29,10 @@ const Header = () => {
       setIsSmallScreen(false);
     }
   };
+  // rgb(250,190,174)
+  // rgb(155,200,160)
+  // rgb(145,200,250)
+  // rgb(250,200,140)
 
   return (
     <header className="Header">
@@ -47,7 +51,25 @@ const Header = () => {
         />
       ) : (
         <nav className="Nav">
-        
+          <Link
+            to="/goco"
+            onClick={() => setUrlValue('goco')}
+            style={{ color: urlValue === 'goco' ? '#00AAFF' : '#A8A8A8' }}>
+            일정 관리
+          </Link>
+          <Link
+            to="/approve"
+            onClick={() => setUrlValue('approve')}
+            style={{ color: urlValue === 'approve' ? '#00AAFF' : '#A8A8A8' }}>
+            결재 관리
+          </Link>
+          <Link
+            to="/board"
+            onClick={() => setUrlValue('board')}
+            style={{ color: urlValue === 'board' ? '#00AAFF' : '#A8A8A8' }}>
+            게시판
+          </Link>
+
         </nav>
       )}
     </header>
