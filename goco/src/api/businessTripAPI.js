@@ -19,7 +19,7 @@ export function approveBusinessTripList(setData, unitId) {
 }
 
 // 출장 등록
-export function addBusinessTrip(business, file, setOpen, setCheckOpen) {
+export function addBusinessTrip(business, file, setOpen, setCheckOpen, setCheck, check) {
   const url = '/api/business';
   const fd = new FormData();
   fd.append('businessTripDTO', new Blob([JSON.stringify(business)], { type: 'application/json' }));
@@ -35,6 +35,7 @@ export function addBusinessTrip(business, file, setOpen, setCheckOpen) {
           document.getElementById('modal')
         ).then(() => {
           setOpen(false);
+          setCheck(!check);
         });
       } else {
         resultConfirm(

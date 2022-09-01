@@ -22,7 +22,7 @@ export function approveVacationList(setData, unitId) {
 }
 
 // 휴가 추가
-export function addVacation(vacation, file, setOpen, setCheckOpen) {
+export function addVacation(vacation, file, setOpen, setCheckOpen, setCheck, check) {
   const url = '/api/vacation';
   const fd = new FormData();
   fd.append('vacationDTO', new Blob([JSON.stringify(vacation)], { type: 'application/json' }));
@@ -38,6 +38,7 @@ export function addVacation(vacation, file, setOpen, setCheckOpen) {
           document.getElementById('modal')
         ).then(() => {
           setOpen(false);
+          setCheck(!check);
         });
       } else {
         resultConfirm(
