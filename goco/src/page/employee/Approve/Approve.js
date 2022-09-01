@@ -53,7 +53,8 @@ export default function Approve() {
   };
   return (
     <>
-      <Box sx={{ display: 'flex' }} justifyContent={'center'}>
+      {/* <Box sx={{ display: 'flex' }} justifyContent={'center'}> */}
+      <Box sx={{ display: 'flex' }}>
         <ApproveSideBar
           approveList={approveList}
           setState={setState}
@@ -62,7 +63,7 @@ export default function Approve() {
           setPage={setPage}
         />
 
-        <Box sx={{ display: 'flex' }} flexDirection="column" position="sticky">
+        <Box sx={{ display: 'flex', marginLeft: '10vw' }} flexDirection="column" position="sticky">
           <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}
