@@ -32,8 +32,13 @@ const Header = () => {
 
   return (
     <header className="Header">
+      {statusData !== undefined && statusData.length !== 0 ? (
+      <Link to="/goco" className='link-logo'>
       <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
-
+      </Link>
+      ) :
+      (<img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />)
+      }
       {statusData !== undefined && statusData.length !== 0 ? (
         <HeaderComponent
           statusData={statusData}
@@ -42,24 +47,7 @@ const Header = () => {
         />
       ) : (
         <nav className="Nav">
-          <Link
-            to="/goco"
-            onClick={() => setUrlValue('goco')}
-            style={{ color: urlValue === 'goco' ? '#00AAFF' : '#A8A8A8' }}>
-            일정 관리
-          </Link>
-          <Link
-            to="/approve"
-            onClick={() => setUrlValue('approve')}
-            style={{ color: urlValue === 'approve' ? '#00AAFF' : '#A8A8A8' }}>
-            요청 내역
-          </Link>
-          <Link
-            to="/board"
-            onClick={() => setUrlValue('board')}
-            style={{ color: urlValue === 'board' ? '#00AAFF' : '#A8A8A8' }}>
-            게시판
-          </Link>
+        
         </nav>
       )}
     </header>
