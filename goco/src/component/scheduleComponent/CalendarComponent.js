@@ -57,7 +57,6 @@ export default function CalendarComponent({ user, empList }) {
             dayMaxEvents={2}
             titleFormat={{ year: 'numeric', month: 'long' }}
             aspectRatio={'1.2'}
-            // events={}
             googleCalendarApiKey="AIzaSyAX2St6JzA6IiOvPp7iSxZ0iSEDDpzBWD4"
             eventSources={[
               getWorkList,

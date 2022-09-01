@@ -17,21 +17,67 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
   let data;
 
   console.log(response.data);
+  // backgroundColor: "rgb(0, 185, 186)",
   if (response.data.length !== 0) {
-    data = response.data.map((rowData) => ({
-      id: rowData.id,
-      title: rowData.title,
-      start: rowData.start,
-      end: rowData.end,
-    }));
-  } else {
-    data = {
-      id: 0,
-      title: '',
-      start: '',
-      end: '',
-    };
-  }
+    // if () {
+
+    // }
+    //     사내업무 0
+    // 개인업무 1
+    // 출장 4
+    // 휴가 3
+    // rgb(250,190,174)
+// rgb(155,200,160)
+// rgb(145,200,250)
+// rgb(250,200,140)
+    data = response.data.map((rowData) => {
+      if (rowData.workType === 0) {
+        return {
+          id: rowData.id,
+          title: rowData.title,
+          start: rowData.start,
+          end: rowData.end,
+          backgroundColor: "rgb(250,190,174)",
+          textColor: "black"
+        };
+      } else if (rowData.workType === 1){
+        return {
+          id: rowData.id,
+          title: rowData.title,
+          start: rowData.start,
+          end: rowData.end,
+          backgroundColor: "rgb(155,200,160)",
+          textColor: "black"
+        };
+      }else if (rowData.workType === 3){
+        return {
+          id: rowData.id,
+          title: rowData.title,
+          start: rowData.start,
+          end: rowData.end,
+          backgroundColor: "rgb(145,200,250)",
+          textColor: "black"
+        };
+      }else if (rowData.workType === 4){
+        return {
+          id: rowData.id,
+          title: rowData.title,
+          start: rowData.start,
+          end: rowData.end,
+          backgroundColor: "rgb(250,200,140)",
+          textColor: "black"
+        };
+      }
+    })
+  }else {
+      data = {
+        id: 0,
+        title: '',
+        start: '',
+        end: '',
+      };
+    }
+ 
 
   setGetWorkList(data);
 };
@@ -127,12 +173,16 @@ export const dateWorkList = async (requestDate, setDetailList, getEmpId) => {
       }
     )
     .then((response) => {
+      console.log(response.data);
       setDetailList(response.data);
     });
 };
 
-export const dialogDetailList = async (workId, setDetailWorkList) => {
-  await axios
+export const dialogDetailList = async (workId, setDetailWorkList, workType) => {
+  
+  
+  if (workType !== 3 || workType !== 4) { 
+    await axios
     .get(`http://localhost:8080/api/user/work/${workId}`, {
       headers: {
         'access-control-allow-origin': 'true',
@@ -142,6 +192,8 @@ export const dialogDetailList = async (workId, setDetailWorkList) => {
     .then((response) => {
       setDetailWorkList(response.data);
     });
+  }
+  
 };
 
 export const addWork = async (workData) => {

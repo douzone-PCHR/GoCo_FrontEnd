@@ -16,13 +16,13 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 
-const CalendarModalListDeTail = ({ open, setSecondOpen, workId }) => {
+const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
   const handleClose = () => setSecondOpen(false);
   const [textarea, setTextArea] = useState('');
 
   useEffect(() => {
-    dialogDetailList(workId, setDetailWorkList);
+    dialogDetailList(workId, setDetailWorkList , workType);
   }, []);
 
   const deleteHandler = () => {
