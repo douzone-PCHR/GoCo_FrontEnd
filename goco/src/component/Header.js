@@ -33,12 +33,12 @@ const Header = () => {
   return (
     <header className="Header">
       {statusData !== undefined && statusData.length !== 0 ? (
-      <Link to="/goco" className='link-logo'>
-      <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
-      </Link>
-      ) :
-      (<img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />)
-      }
+        <Link to="/goco" className="link-logo">
+          <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
+        </Link>
+      ) : (
+        <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
+      )}
       {statusData !== undefined && statusData.length !== 0 ? (
         <HeaderComponent
           statusData={statusData}
@@ -46,9 +46,7 @@ const Header = () => {
           setModeChange={setModeChange}
         />
       ) : (
-        <nav className="Nav">
-        
-        </nav>
+        <nav className="Nav"></nav>
       )}
     </header>
   );

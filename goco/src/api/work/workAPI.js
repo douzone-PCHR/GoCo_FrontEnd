@@ -5,15 +5,12 @@ import { getCookie } from '../authAPI';
 
 export const workGetData = async (setGetWorkList, getEmpId, user) => {
   console.log(getEmpId);
-  const response = await axios.get(
-    `http://localhost:8080/api/user/work/calendar?empId=${getEmpId}`,
-    {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    }
-  );
+  const response = await axios.get(`/work/calendar?empId=${getEmpId}`, {
+    headers: {
+      'access-control-allow-origin': 'true',
+      Authorization: `Bearer ${getCookie('accessToken')}`,
+    },
+  });
   let data;
 
   console.log(response.data);
@@ -27,9 +24,9 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
     // 출장 4
     // 휴가 3
     // rgb(250,190,174)
-// rgb(155,200,160)
-// rgb(145,200,250)
-// rgb(250,200,140)
+    // rgb(155,200,160)
+    // rgb(145,200,250)
+    // rgb(250,200,140)
     data = response.data.map((rowData) => {
       if (rowData.workType === 0) {
         return {
@@ -37,54 +34,53 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
           title: rowData.title,
           start: rowData.start,
           end: rowData.end,
-          backgroundColor: "rgb(250,190,174)",
-          textColor: "black"
+          backgroundColor: 'rgb(250,190,174)',
+          textColor: 'black',
         };
-      } else if (rowData.workType === 1){
+      } else if (rowData.workType === 1) {
         return {
           id: rowData.id,
           title: rowData.title,
           start: rowData.start,
           end: rowData.end,
-          backgroundColor: "rgb(155,200,160)",
-          textColor: "black"
+          backgroundColor: 'rgb(155,200,160)',
+          textColor: 'black',
         };
-      }else if (rowData.workType === 3){
+      } else if (rowData.workType === 3) {
         return {
           id: rowData.id,
           title: rowData.title,
           start: rowData.start,
           end: rowData.end,
-          backgroundColor: "rgb(145,200,250)",
-          textColor: "black"
+          backgroundColor: 'rgb(145,200,250)',
+          textColor: 'black',
         };
-      }else if (rowData.workType === 4){
+      } else if (rowData.workType === 4) {
         return {
           id: rowData.id,
           title: rowData.title,
           start: rowData.start,
           end: rowData.end,
-          backgroundColor: "rgb(250,200,140)",
-          textColor: "black"
+          backgroundColor: 'rgb(250,200,140)',
+          textColor: 'black',
         };
       }
-    })
-  }else {
-      data = {
-        id: 0,
-        title: '',
-        start: '',
-        end: '',
-      };
-    }
- 
+    });
+  } else {
+    data = {
+      id: 0,
+      title: '',
+      start: '',
+      end: '',
+    };
+  }
 
   setGetWorkList(data);
 };
 
 export const getWorkListData = async (privateSetData, publicSetData) => {
   await axios
-    .get('http://localhost:8080/api/user/work', {
+    .get('/api/user/work', {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -105,7 +101,7 @@ export const getWorkListData = async (privateSetData, publicSetData) => {
 
 export const commuteTime = async (setCommuteTimeData) => {
   await axios
-    .get(`http://localhost:8080/api/user/commute/time`, {
+    .get(`/api/user/commute/time`, {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -118,7 +114,7 @@ export const commuteTime = async (setCommuteTimeData) => {
 
 export const getEmployeeList = async (setEmp) => {
   await axios
-    .get('http://localhost:8080/api/user/work/emplist', {
+    .get('/api/user/work/emplist', {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -131,7 +127,7 @@ export const getEmployeeList = async (setEmp) => {
 
 export const loginDefaultValue = async (setLoginEmp) => {
   await axios
-    .get('http://localhost:8080/api/user/me', {
+    .get('/api/user/me', {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -144,7 +140,7 @@ export const loginDefaultValue = async (setLoginEmp) => {
 
 export const headerData = async (setStatusData) => {
   await axios
-    .get('http://localhost:8080/api/user/menu/commute', {
+    .get('/api/user/menu/commute', {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -158,7 +154,7 @@ export const headerData = async (setStatusData) => {
 export const dateWorkList = async (requestDate, setDetailList, getEmpId) => {
   await axios
     .post(
-      `http://localhost:8080/api/user/work/detail?empId=${getEmpId}`,
+      `/api/user/work/detail?empId=${getEmpId}`,
       {
         workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
         employee: {
@@ -179,26 +175,23 @@ export const dateWorkList = async (requestDate, setDetailList, getEmpId) => {
 };
 
 export const dialogDetailList = async (workId, setDetailWorkList, workType) => {
-  
-  
-  if (workType !== 3 || workType !== 4) { 
+  if (workType !== 3 || workType !== 4) {
     await axios
-    .get(`http://localhost:8080/api/user/work/${workId}`, {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-      setDetailWorkList(response.data);
-    });
+      .get(`/api/user/work/${workId}`, {
+        headers: {
+          'access-control-allow-origin': 'true',
+          Authorization: `Bearer ${getCookie('accessToken')}`,
+        },
+      })
+      .then((response) => {
+        setDetailWorkList(response.data);
+      });
   }
-  
 };
 
 export const addWork = async (workData) => {
   await axios
-    .post(`http://localhost:8080/api/user/work`, workData, {
+    .post(`/api/user/work`, workData, {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -215,7 +208,7 @@ export const addWork = async (workData) => {
 
 export const updateWork = async (workData) => {
   await axios
-    .put(`http://localhost:8080/api/user/work`, workData, {
+    .put(`/api/user/work`, workData, {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -232,7 +225,7 @@ export const updateWork = async (workData) => {
 
 export const deleteWork = async (workId) => {
   await axios
-    .delete(`http://localhost:8080/api/user/work/${workId}`, {
+    .delete(`/api/user/work/${workId}`, {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,
@@ -249,7 +242,7 @@ export const deleteWork = async (workId) => {
 
 export const commuteUpdate = async (work) => {
   await axios
-    .put(`http://localhost:8080/api/user/commute`, work, {
+    .put(`/api/user/commute`, work, {
       headers: {
         'access-control-allow-origin': 'true',
         Authorization: `Bearer ${getCookie('accessToken')}`,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8080/api/admin/unit';
+const url = '/api/admin/unit';
 export const getUnitsAPI = (setUnit) => {
   axios.get(url).then((response) => {
     setUnit(response.data);
@@ -29,7 +29,7 @@ export const insertUnitAPI = async (
     : //부서
       (unit = { unitName: unitName });
   // 일단 저장
-  return await axios.post(`/api/admin/unit`, unit).then((response) => {
+  return await axios.post(url, unit).then((response) => {
     setEmpTeamMembers && setEmpTeamMembers({ userRoles: [] });
     return response.data;
   });
@@ -37,7 +37,7 @@ export const insertUnitAPI = async (
 
 //유닛(부서/팀) 삭제
 export const deleteUnitAPI = async (unitId, type) => {
-  return await axios.delete(url + `/${type}/${unitId}`).then((response) => {
+  return await axios.delete(`${url}/${type}/${unitId}`).then((response) => {
     return response.data;
   });
 };
@@ -46,7 +46,7 @@ export const updateUnitAPI = async (unitId, unitName) => {
   const unit = {
     unitName: unitName,
   };
-  return await axios.put(url + `/${unitId}`, unit).then((response) => {
+  return await axios.put(`${url}/${unitId}`, unit).then((response) => {
     console.log(response.data);
     return response.data;
   });
@@ -54,7 +54,7 @@ export const updateUnitAPI = async (unitId, unitName) => {
 
 // import axios from 'axios';
 
-// const url = 'http://localhost:8080/api/admin/unit';
+// const url = '/api/admin/unit';
 // export const getUnitsAPI = (setUnit) => {
 //   axios.get(url).then((response) => {
 //     setUnit(response.data);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getCookie, deleteCookie } from './authAPI';
 import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 import { setUser } from '../component/auth/Login/sessionLogin';
-const url = 'http://localhost:8080/';
+const url = '/';
 export const employee = () => {
   axios.get();
 };

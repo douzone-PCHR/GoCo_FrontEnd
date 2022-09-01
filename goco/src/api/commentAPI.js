@@ -3,7 +3,7 @@ import { sweetAlert2, sweetAlertComment } from '../component/auth/AuthSweetAlert
 import { getCookie } from './authAPI';
 
 // 모든 댓글 받아오기
-const urlCommentAll = 'http://localhost:8080/api/user/comment';
+const urlCommentAll = '/api/user/comment';
 export const GetAllCommentAPI = async (boardId, setCommentData) => {
   const options = {
     method: 'GET',
@@ -22,7 +22,7 @@ export const GetAllCommentAPI = async (boardId, setCommentData) => {
     });
 };
 // 댓글 입력
-const urlCommentInsert = 'http://localhost:8080/api/user/comment';
+const urlCommentInsert = '/api/user/comment';
 export const CommentInsertAPI = async (comment) => {
   if (comment.commentContent === '') {
     sweetAlert2('댓글 내용은 반드시 입력되어야 합니다.', 'warning');
@@ -47,7 +47,7 @@ export const CommentInsertAPI = async (comment) => {
     });
 };
 // 댓글 삭제
-const urlCommentDelete = 'http://localhost:8080/api/user/comment';
+const urlCommentDelete = '/api/user/comment';
 export const CommentDeleteAPI = async (comment) => {
   const options = {
     method: 'DELETE',
@@ -69,7 +69,7 @@ export const CommentDeleteAPI = async (comment) => {
     });
 };
 // 댓글 업데이트
-const urlCommentUpdate = 'http://localhost:8080/api/user/comment';
+const urlCommentUpdate = '/api/user/comment';
 export const CommentUpdateAPI = async (comment, commentContent) => {
   if (
     (commentContent.commentContent === '') |

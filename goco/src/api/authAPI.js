@@ -35,6 +35,7 @@ export const loginAPI = async (id, password) => {
         secure: true,
         sameSite: 'none',
         expires,
+        domain: 'localhost',
       });
       sweetAlertSuccess('로그인 성공', 'success', '/goco');
     })
@@ -43,7 +44,7 @@ export const loginAPI = async (id, password) => {
     });
 };
 //////////////////// 아이디 찾을 때 이메일 보내는 함수
-const urlFindId = '/api/auth/sendEmailForId';
+const urlFindId = '/api/auth/sendemailforemail';
 export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
   handleOpen(); // 모달창 띄우는 함수
   await axios
@@ -154,7 +155,7 @@ export const IDCheck = async (data, setOkIdCheck, setSignupDataError) => {
     });
 };
 ///////////////////////////// 회원 가입시 유효한 이메일인지 확인하는 것
-const urlCheckEmail = '/api/auth/sendEmailForEmail';
+const urlCheckEmail = '/api/auth/sendemailforemail';
 export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setAuthNumberOpen) => {
   handleOpen();
   await axios

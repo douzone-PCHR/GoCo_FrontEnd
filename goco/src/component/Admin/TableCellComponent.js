@@ -20,7 +20,7 @@ export const TableCellComponent = ({ processingData, data, checkFnc }) => {
       teamId: data.unit?.unitId,
     },
     teamPosition: {
-      teamPositionName: data.teamPosition?.teampPositionName,
+      teamPositionName: data.teamPosition?.teamPositionName,
       teamPositionId: data.teamPosition?.teamPositionId,
     },
     phoneNumber: data.phoneNumber,
