@@ -1,16 +1,11 @@
-import axios from 'axios';
 import { Cookies } from 'react-cookie';
-import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 const cookies = new Cookies();
-
 export const setCookie = (name, value, option) => {
   return cookies.set(name, value, { ...option });
 };
-
 export const getCookie = (name) => {
   return cookies.get(name);
 };
-
 export const deleteCookie = () => {
   const expires = new Date(); //유효시간
   expires.setDate(expires.getDate() - 1);

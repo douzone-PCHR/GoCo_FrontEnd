@@ -40,6 +40,7 @@ export default function Approve() {
       }
     }
   }, [check, value, userInfo.empNum]);
+  console.log(check);
   // useEffect(() => {
   //   if (value == '휴가') {
   //     getVacations(setApprove, 1);
@@ -49,11 +50,13 @@ export default function Approve() {
   // }, [value, check]);
 
   const handleChange = (event, newValue) => {
+    setPage(0);
     setValue(newValue);
   };
   return (
     <>
-      <Box sx={{ display: 'flex' }} justifyContent={'center'}>
+      {/* <Box sx={{ display: 'flex' }} justifyContent={'center'}> */}
+      <Box sx={{ display: 'flex' }}>
         <ApproveSideBar
           approveList={approveList}
           setState={setState}
@@ -62,7 +65,7 @@ export default function Approve() {
           setPage={setPage}
         />
 
-        <Box sx={{ display: 'flex' }} flexDirection="column" position="sticky">
+        <Box sx={{ display: 'flex', marginLeft: '10vw' }} flexDirection="column" position="sticky">
           <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}

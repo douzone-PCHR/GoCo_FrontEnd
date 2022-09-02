@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
-import { deleteEmpAPI } from '../../../api/employeeAPI';
-import { deleteBoardAPI } from '../../../api/boardAPI';
+import { deleteBoardAPI, deleteEmpAPI } from '../../../api/AllAPI';
 export const sweetAlert2 = (text, icon) => {
   Swal.fire({
     text: text,

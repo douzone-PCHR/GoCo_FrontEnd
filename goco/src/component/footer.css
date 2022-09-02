@@ -1,4 +1,6 @@
 .footer {
+  width: 100%;
+  bottom: 0;
   background-color: rgb(230, 247, 255);
   margin-top: 5%;
 }
@@ -16,7 +18,7 @@
   height: 170px;
 }
 .footer-txt {
-  font-family: 'Inter';
+  font-family: 'GmarketSans';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

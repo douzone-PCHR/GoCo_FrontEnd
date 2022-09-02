@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import 'moment/locale/ko';
-import moment from 'moment';
-import { addWork, dateWorkList } from '../../api/work/workAPI';
-import dayjs from 'dayjs';
-import Stack from '@mui/material/Stack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -12,18 +7,11 @@ import {
   Box,
   Button,
   ButtonGroup,
-  Checkbox,
   Dialog,
   DialogTitle,
   Divider,
   FormControl,
   FormControlLabel,
-  FormGroup,
-  FormLabel,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
   Radio,
   RadioGroup,
   TextareaAutosize,
@@ -32,12 +20,14 @@ import {
 import CalendarModalListDeTail from './CalendarModalListDeTail';
 import { DatePicker, DateTimePicker, DesktopDatePicker } from '@mui/x-date-pickers';
 import { minWidth } from '@mui/system';
-
-export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
-  const [startValue, setStartValue] = useState(null);
-  const [endValue, setEndValue] = useState(null);
-  const [radioValue, setRadioValue] = useState(0);
-
+import * as api from '../../api/index';
+import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
+import moment from 'moment';
+export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOpenInsert }) {
+  const [startValue, setStartValue] = useState(requestDate);
+  const [endValue, setEndValue] = useState(requestDate);
+  const [radioValue, setRadioValue] = useState(0);  
+  
   const [textarea, setTextArea] = useState('');
   const [textTitle, setTextTitle] = useState('');
   useEffect(() => {}, []);
@@ -51,7 +41,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
     setEndValue(newValue);
   };
 
-  const addEvent = () => {
+  const addEvent = async () => {
     let workData = {
       workTitle: textTitle,
       workContent: textarea,
@@ -60,7 +50,16 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
       workType: radioValue,
       employee: { empNum: user },
     };
-    addWork(workData);
+    await api.addWork(workData).then((response) => { 
+      setAddOpen(false);
+      setOpenInsert(false);
+      if (response.data.status === 'OK') {
+        sweetAlertSuccess(response.data.message, 'success', '/goco');
+      } else {
+        sweetAlertSuccess(response.data.message, 'error', '/goco');
+      }
+     
+    })
   };
   return (
     <div>
@@ -117,6 +116,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
             }}>
             <FormControl style={{ width: '50%' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
+
                 <DateTimePicker
                   inputFormat="yyyy/MM/dd hh:mm aa "
                   label="시작일"
@@ -125,13 +125,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
                   renderInput={(params) => <TextField {...params} />}
                 />
 
-                {/* <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM/dd/yyyy"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
               </LocalizationProvider>
             </FormControl>
             <FormControl style={{ width: '50%' }}>
@@ -144,14 +137,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
                   onChange={endChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
-
-                {/* <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM/dd/yyyy"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
               </LocalizationProvider>
             </FormControl>
           </Box>
@@ -172,7 +157,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
               margin: '0px 15px',
               padding: '15px',
               backgroundColor: '#b3b3b354',
-              // marginLeft: '15px',
             }}
           />
 

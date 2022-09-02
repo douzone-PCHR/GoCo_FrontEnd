@@ -141,7 +141,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           empNum: userInfo.empNum,
                           unit: { unitId: userInfo.unit.unitId },
                         };
-                        addBusinessTrip(newApprove, file, setOpen, setCheckOpen);
+                        addBusinessTrip(newApprove, file, setOpen, setCheckOpen, setCheck, check);
                       } else if (type === '휴가') {
                         newApprove.vacationContent = document.getElementById('content').value;
                         newApprove.vacationType = vacationType;
@@ -156,10 +156,9 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           empNum: userInfo.empNum,
                           unit: { unitId: userInfo.unit.unitId },
                         };
-                        addVacation(newApprove, file, setOpen, setCheckOpen);
+                        addVacation(newApprove, file, setOpen, setCheckOpen, setCheck, check);
                       }
                       setNewApprove(newApprove);
-                      setCheck(!check);
                     }
                   }
                 );

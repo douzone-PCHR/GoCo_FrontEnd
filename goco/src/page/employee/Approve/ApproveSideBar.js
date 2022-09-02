@@ -48,7 +48,7 @@ export default function ApproveSideBar({
         <Box>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack spacing={2}>
-              <Typography fontFamily={'GmarketSans'}>신청일자검색</Typography>
+              <Typography className={style.title}>신청일자검색</Typography>
               <DesktopDatePicker
                 label="시작일"
                 inputFormat="yyyy/MM/dd"
@@ -87,10 +87,11 @@ export default function ApproveSideBar({
               />
             </Stack>
           </LocalizationProvider>
-          <Button size="small" onClick={resetHandler}>
+          <Button sx={{ fontFamily: 'GmarketSans' }} size="small" onClick={resetHandler}>
             날짜 초기화
           </Button>
           <Button
+            sx={{ fontFamily: 'GmarketSans' }}
             size="small"
             onClick={() => {
               setPage(0);

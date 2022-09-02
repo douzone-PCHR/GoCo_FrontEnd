@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './header.css';
 import { headerData } from '../api/work/workAPI';
 import HeaderComponent from './HeaderComponent';
-
+import * as api from '../api/index';
 const Header = () => {
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -13,7 +13,7 @@ const Header = () => {
 
   const mediaQuery = window.matchMedia('(max-width: 1600px)');
   useEffect(() => {
-    headerData(setStatusData);
+    headerAPI();
 
     mediaQuery.addEventListener('change', handleMediaQueryChange);
     handleMediaQueryChange(mediaQuery);
@@ -22,6 +22,13 @@ const Header = () => {
       mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
+
+  const headerAPI = async () => {
+    await api.headerData().then((response) => {
+      setStatusData(response.data);
+    });
+  };
+
   const handleMediaQueryChange = (mediaQuery) => {
     if (mediaQuery.matches) {
       setIsSmallScreen(true);
@@ -29,6 +36,10 @@ const Header = () => {
       setIsSmallScreen(false);
     }
   };
+  // rgb(250,190,174)
+  // rgb(155,200,160)
+  // rgb(145,200,250)
+  // rgb(250,200,140)
 
   return (
     <header className="Header">
@@ -46,7 +57,26 @@ const Header = () => {
           setModeChange={setModeChange}
         />
       ) : (
-        <nav className="Nav"></nav>
+        <nav className="Nav">
+          <Link
+            to="/goco"
+            onClick={() => setUrlValue('goco')}
+            style={{ color: urlValue === 'goco' ? '#00AAFF' : '#A8A8A8' }}>
+            일정 관리
+          </Link>
+          <Link
+            to="/approve"
+            onClick={() => setUrlValue('approve')}
+            style={{ color: urlValue === 'approve' ? '#00AAFF' : '#A8A8A8' }}>
+            결재 관리
+          </Link>
+          <Link
+            to="/board"
+            onClick={() => setUrlValue('board')}
+            style={{ color: urlValue === 'board' ? '#00AAFF' : '#A8A8A8' }}>
+            게시판
+          </Link>
+        </nav>
       )}
     </header>
   );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import styles from '../../../CSS/authcss/Login.module.css';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { loginAPI } from '../../../api/authAPI';
+import { loginAPI } from '../../../api/AllAPI';
 export function LoginButtonGroup() {
   const FindId = () => {
     window.location.href = '/findId';

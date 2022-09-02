@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import 'moment/locale/ko';
 import moment from 'moment';
 import { dateWorkList } from '../../api/work/workAPI';
+import * as api from '../../api/index';
 import {
   Button,
   Dialog,
@@ -34,8 +35,21 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
   };
 
   useEffect(() => {
-    dateWorkList(requestDate, setDetailList, getEmpId);
-  }, []);
+    calendarModalAPI();
+  },[]);
+  const calendarModalAPI = async () => { 
+    const data = {
+      workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
+      employee: {
+        empId: getEmpId,
+      },
+    }
+    await api.dateWorkList(data , getEmpId).then((response) => { 
+      setDetailList(response.data);
+    })
+  }
+
+
   const handleClose = () => setOpenInsert(false);
   return (
     <div>
@@ -107,9 +121,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                         color: '#616161',
                         fontWeight: '500',
                       }}>
-                      { console.log(data.title)}
                       {data.title}
-                      {/* {data.title === 0 ? : } */}
                     </Typography>
                   }
                 />
@@ -159,10 +171,10 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
       )}
 
       {secondOpen && workId !== 0 && (workType !== 3 && workType !== 4) && (
-        <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} workType={workType} />
+        <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} workType={workType} setOpenInsert={setOpenInsert} />
       )}
       {addOpen && (
-        <AddWork addOpen={addOpen} setAddOpen={setAddOpen} user={user} requestDate={requestDate} />
+        <AddWork addOpen={addOpen} setAddOpen={setAddOpen} user={user} requestDate={requestDate} setOpenInsert={setOpenInsert} />
       )}
     </div>
   );
