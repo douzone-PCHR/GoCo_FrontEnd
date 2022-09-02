@@ -48,7 +48,7 @@ export default function RequestComponent({ getRequsetData }) {
     <Box
       sx={{
         position: 'relative',
-        width: '100%',
+        width: '90%',
         height: '100%',
         bgcolor: 'rgba(255, 255, 255, 0.6)',
         padding: '10px',
