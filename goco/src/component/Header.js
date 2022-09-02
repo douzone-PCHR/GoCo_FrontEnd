@@ -23,7 +23,6 @@ const Header = () => {
     };
   }, []);
 
-
   const headerAPI = async () => { 
     await api.headerData().then((response) => { 
       setStatusData(response.data);
@@ -44,7 +43,6 @@ const Header = () => {
 
   return (
     <header className="Header">
-
     {statusData !== undefined && statusData.length !== 0 ? (
     <Link to="/goco" className='link-logo'>
     <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
