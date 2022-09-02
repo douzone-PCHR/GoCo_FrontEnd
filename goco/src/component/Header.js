@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './header.css';
 import { headerData } from '../api/work/workAPI';
 import HeaderComponent from './HeaderComponent';
-
+import * as api from '../api/index';
 const Header = () => {
   const [isNavVisible, setNavVisibility] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -13,7 +13,7 @@ const Header = () => {
 
   const mediaQuery = window.matchMedia('(max-width: 1600px)');
   useEffect(() => {
-    headerData(setStatusData);
+    headerAPI();
 
     mediaQuery.addEventListener('change', handleMediaQueryChange);
     handleMediaQueryChange(mediaQuery);
@@ -22,6 +22,13 @@ const Header = () => {
       mediaQuery.removeEventListener('change', handleMediaQueryChange);
     };
   }, []);
+
+  const headerAPI = async () => { 
+    await api.headerData().then((response) => { 
+      setStatusData(response.data);
+    })
+  }
+
   const handleMediaQueryChange = (mediaQuery) => {
     if (mediaQuery.matches) {
       setIsSmallScreen(true);

@@ -15,22 +15,43 @@ import {
   TextareaAutosize,
 } from '@mui/material';
 import { Box } from '@mui/system';
+import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
+import * as api from '../../api/index';
 
-const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType }) => {
+const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setOpenInsert }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
   const handleClose = () => setSecondOpen(false);
   const [textarea, setTextArea] = useState('');
 
   useEffect(() => {
-    dialogDetailList(workId, setDetailWorkList , workType);
+    // dialogDetailList(workId, setDetailWorkList , workType);
+    calendarDetailAPI();
   }, []);
 
-  const deleteHandler = () => {
-    deleteWork(detailWorkList.workId);
+  const calendarDetailAPI = async () => { 
+    if (workType !== 3 || workType !== 4) {
+      await api.dialogDetailList(workId).then((response) => { 
+        setDetailWorkList(response.data);
+      })
+    }
+  
+  }
+
+
+  const deleteHandler = async () => {
+    await api.deleteWork(detailWorkList.workId).then((response) => { 
+      setSecondOpen(false);
+      setOpenInsert(false);
+      if (response.data.status === 'OK') {
+        sweetAlertSuccess(response.data.message, 'success', '/goco');
+      } else {
+        sweetAlertSuccess(response.data.message, 'error', '/goco');
+      }
+    })
   };
 
-  const updateHandler = () => {
-    let workData = {
+  const updateHandler = async () => {
+    const updateData = {
       workId: detailWorkList.workId,
       workTitle: detailWorkList.workTitle,
       workContent: textarea,
@@ -38,9 +59,19 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType }) => 
       workEndDate: detailWorkList.workEndDate,
       workType: detailWorkList.workType,
       employee: { empNum: detailWorkList.employee.empNum },
-    };
+    }
+ 
 
-    updateWork(workData);
+    await api.updateWork(updateData).then((response) => { 
+      setSecondOpen(false);
+      setOpenInsert(false);
+      console.log(response.data);
+      if (response.data.status === 'OK') {
+        sweetAlertSuccess(response.data.message, 'success', '/goco');
+      } else {
+        sweetAlertSuccess(response.data.message, 'error', '/goco');
+      }
+    })
   };
 
   return (

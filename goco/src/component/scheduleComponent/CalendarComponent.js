@@ -7,9 +7,11 @@ import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
 import { workGetData } from '../../api/work/workAPI';
+import AddWork from './AddWork';
 export default function CalendarComponent({ user, empList }) {
   const [getWorkList, setGetWorkList] = useState([]);
   const [getEmpId, setEmpId] = useState(user.empId);
+  const [addOpen, setAddOpen] = useState(false);
   const [requestDate, setRequestDate] = useState();
   const calendarRef = useRef();
   const [openInsert, setOpenInsert] = useState(false);
@@ -42,6 +44,7 @@ export default function CalendarComponent({ user, empList }) {
           getEmpId={getEmpId}
           setEmpId={setEmpId}
           user={user.empNum}
+          setAddOpen={setAddOpen}
         />
         {getWorkList.length !== 0 && (
           <FullCalendar
@@ -86,6 +89,9 @@ export default function CalendarComponent({ user, empList }) {
           user={user.empNum}
           getEmpId={getEmpId}
         />
+      )}
+       {addOpen && (
+        <AddWork addOpen={addOpen} setAddOpen={setAddOpen}  user={user.empNum} requestDate={null} setOpenInsert={setOpenInsert} />
       )}
     </Box>
   );

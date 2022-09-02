@@ -22,6 +22,7 @@ const ManagerMain = () => {
   }, []);
   const myTeamAPI = async () => {
     await api.getMyTeamCurrentStatus().then((response) => {
+      console.log(response.data);
       setCurrentStatus(response.data);
     });
     await api.getRequestList().then((response) => {
@@ -89,20 +90,22 @@ const ManagerMain = () => {
       });
     });
   };
+  console.log(currentStatus);
   return (
     <div style={{ margin: '0 20%', height: '100%' }}>
       <>
+        
         <Grid container spacing={7} marginTop={1}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{backgroundColor : 'rgb(250,250,250)'}}>
             <CommuteCheck commuteCheckData={commuteCheckData} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{backgroundColor : 'rgb(250,250,250)'}}>
             <RequestComponent getRequsetData={getRequsetData} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{backgroundColor : 'rgb(250,250,250)'}}>
             <CurrentStatus currentStatus={currentStatus} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} style={{backgroundColor : 'rgb(250,250,250)'}}>
             <Notice noticeList={noticeList} />
           </Grid>
         </Grid>
