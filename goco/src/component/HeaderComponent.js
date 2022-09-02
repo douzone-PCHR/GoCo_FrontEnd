@@ -48,7 +48,7 @@ function HeaderComponent({ statusData, modeChange, setModeChange }) {
           to="/approve"
           onClick={() => setUrlValue('approve')}
           style={{ color: urlValue === 'approve' ? '#00AAFF' : '#A8A8A8' }}>
-          요청 관리
+           결재 관리
         </Link>
         <Link
           to="/board"

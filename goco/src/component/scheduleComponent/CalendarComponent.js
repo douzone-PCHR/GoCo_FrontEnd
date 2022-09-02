@@ -30,7 +30,8 @@ export default function CalendarComponent({ user, empList }) {
   const scheduleAPI = async () => {
     // 직원 목록
     await api.workGetData(getEmpId).then((response) => {
-      console.log(response.data);
+      console.log(response);
+      console.log(getEmpId);
       if (response.data.length !== 0) {
         setGetWorkList(response.data);
       } else { 
