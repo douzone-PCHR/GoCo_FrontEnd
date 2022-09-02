@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { pwdChangeAPI } from '../../api/AllAPI';
 import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
-export default function PasswordChange({ handleChange, textData }) {
+export default function PasswordChange({ setTextData, textData }) {
   const [values, setShowPassword] = React.useState({}); // 비밀번호 가리는데 쓰임
   const [passwordCheck, setPasswordCheck] = React.useState(true);
   const handleClickShowPassword = () => {
@@ -18,6 +18,9 @@ export default function PasswordChange({ handleChange, textData }) {
       ...values,
       showPassword: !values.showPassword,
     });
+  };
+  const handleChange = (prop) => (e) => {
+    setTextData({ ...textData, [prop]: e.target.value });
   };
   const handleMouseDownPassword = (e) => {
     // 비밀번호 입력관련

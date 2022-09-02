@@ -5,7 +5,10 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { sweetAlert2, sweetAlertDeleteUser } from '../auth/AuthSweetAlert.js/sweetAlert2';
 
-export default function DeleteEmp({ handleChange, textData }) {
+export default function DeleteEmp({ setTextData, textData }) {
+  const handleChange = (prop) => (e) => {
+    setTextData({ ...textData, [prop]: e.target.value });
+  };
   const deleteEmp = () => {
     if ('계정 탈퇴' === textData.text) {
       sweetAlertDeleteUser();
