@@ -7,7 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import { pwdChangeAPI } from '../../api/employeeAPI';
+import { pwdChangeAPI } from '../../api/AllAPI';
 import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 export default function PasswordChange({ handleChange, textData }) {
   const [values, setShowPassword] = React.useState({}); // 비밀번호 가리는데 쓰임

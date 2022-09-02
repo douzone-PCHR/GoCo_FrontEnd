@@ -6,7 +6,7 @@ import { Hiredate } from './Hiredate';
 import { InsertEmail } from './InsertEmail';
 import { insertName, insertPhoneNumber } from './InsertNamePhone';
 import { InsertId } from './InsertId';
-import { signupAPI } from '../../../api/authAPI';
+import { signupAPI } from '../../../api/AllAPI';
 import MoveLoginPage from './MoveLoginPage';
 import SignUpButton from './SignUpButton';
 export default function SignUpComponents() {

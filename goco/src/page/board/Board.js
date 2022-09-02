@@ -10,7 +10,7 @@ import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import SearchIcon from '@mui/icons-material/Search';
-import { NoticeBoardAPI, FreeBoardAPI } from '../../api/boardAPI';
+import { NoticeBoardAPI, FreeBoardAPI } from '../../api/AllAPI';
 import SearchBoard from '../../component/Board/SearchBoard';
 import { SelectBoard } from '../../component/Board/BoardFunction';
 import { ClickBoard } from '../../component/Board/BoardCSS';

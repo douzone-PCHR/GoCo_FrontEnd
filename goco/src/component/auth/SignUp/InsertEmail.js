@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { CheckAuthForSignUpAPI, SendEmailForSignUpAPI } from '../../../api/authAPI';
+import { CheckAuthForSignUpAPI, SendEmailForSignUpAPI } from '../../../api/AllAPI';
 import { sweetAlert2 } from '../AuthSweetAlert.js/sweetAlert2';
 import { ModalSendMail } from '../Modal';
 export const InsertEmail = ({

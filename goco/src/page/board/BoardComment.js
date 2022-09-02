@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { BoardCommentButton } from '../../component/Board/BoardCSS';
 import TextField from '@mui/material/TextField';
-import { GetAllCommentAPI, CommentInsertAPI } from '../../api/commentAPI';
+import { CommentInsertAPI } from '../../api/AllAPI';
 import BoardCommentShowAll from './BoardCommentShowAll';
 export default function BoardComment({ boardId, whoAmI, commentData }) {
   const [comment, setComment] = React.useState({

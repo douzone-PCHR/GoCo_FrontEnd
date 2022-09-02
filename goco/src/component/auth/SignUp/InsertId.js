@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { IDCheck } from '../../../api/authAPI';
+import { IDCheck } from '../../../api/AllAPI';
 export const InsertId = ({ setOkIdCheck, data, setData, signupDataError, setSignupDataError }) => {
   // ID 중복확인 함수 // 중복확인될경우 setOkIdCheck를 true로 바꿔줌
   const idCheck = () => {
