@@ -1,7 +1,7 @@
 import moment from 'moment';
 import client from './client';
 
-// -------로그인, 회원가입, 아이디 찾기, 로그인 한 아이디의 정보 (Login.js) ------------
+// -------로그인, 회원가입, 아이디 찾기, 로그인 한 아이디의 정보 (Login.js) -----------
   export const loginDefaultValue = () =>
   client({
     url: '/user/me',
