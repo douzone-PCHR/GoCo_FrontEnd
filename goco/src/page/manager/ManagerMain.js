@@ -22,7 +22,6 @@ const ManagerMain = () => {
   }, []);
   const myTeamAPI = async () => {
     await api.getMyTeamCurrentStatus().then((response) => {
-      console.log(response.data);
       setCurrentStatus(response.data);
     });
     await api.getRequestList().then((response) => {

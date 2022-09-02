@@ -16,12 +16,8 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
   let data;
 
   // backgroundColor: "rgb(0, 185, 186)",
+  console.log(response.data);
   if (response.data.length !== 0) {
-
-
-  
-
-
     data = response.data.map((rowData) => {
       if (rowData.workType === 0) { //  사내업무 0
         return {
@@ -72,68 +68,4 @@ export const workGetData = async (setGetWorkList, getEmpId, user) => {
  
 
   setGetWorkList(data);
-};
-
-
-export const addWork = async (workData,setAddOpen,setOpenInsert) => {
-  await axios
-    .post(`http://localhost:8080/api/user/work`, workData, {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-      setAddOpen(false);
-      setOpenInsert(false);
-      if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco')
-      } else {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
-      }
-    });
-};
-
-export const updateWork = async (workData,setSecondOpen , setOpenInsert) => {
-  await axios
-    .put(`http://localhost:8080/api/user/work`, workData, {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-     
-    
-    });
-};
-
-export const deleteWork = async (workId,setSecondOpen , setOpenInsert) => {
-  await axios
-    .delete(`http://localhost:8080/api/user/work/${workId}`, {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-   
-    });
-};
-
-export const commuteUpdate = async (work) => {
-  await axios
-    .put(`http://localhost:8080/api/user/commute`, work, {
-      headers: {
-        'access-control-allow-origin': 'true',
-        Authorization: `Bearer ${getCookie('accessToken')}`,
-      },
-    })
-    .then((response) => {
-      if (response.data.status === 'ALREADY_DONE') {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
-      } else if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco');
-      }
-    });
 };

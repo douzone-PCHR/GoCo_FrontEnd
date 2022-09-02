@@ -7,6 +7,7 @@ import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
 import { workGetData } from '../../api/work/workAPI';
+import * as api from '../../api/index';
 import AddWork from './AddWork';
 export default function CalendarComponent({ user, empList }) {
   const [getWorkList, setGetWorkList] = useState([]);
@@ -22,9 +23,27 @@ export default function CalendarComponent({ user, empList }) {
   };
 
   useEffect(() => {
-    workGetData(setGetWorkList, getEmpId, user.empId);
+    scheduleAPI();
+    // workGetData(setGetWorkList, getEmpId, user.empId);
   }, [getEmpId, user.empId]);
   // 일정표 받기
+  const scheduleAPI = async () => {
+    // 직원 목록
+    await api.workGetData(getEmpId).then((response) => {
+      console.log(response.data);
+      if (response.data.length !== 0) {
+        setGetWorkList(response.data);
+      } else { 
+        setGetWorkList({
+          id: 0,
+          title: '',
+          start: '',
+          end: '',
+        })
+      }
+
+    });
+  }
   return (
     <Box
       component="div"

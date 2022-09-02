@@ -11,14 +11,10 @@ import {
 import { useState } from 'react';
 import 'moment/locale/ko';
 import moment, { utc } from 'moment';
-import { lineHeight } from '@mui/system';
-import { commuteUpdate } from '../../api/work/workAPI';
 import { confirm } from '../../common/confirm';
+import * as api from '../../api/index';
+import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAddOpen}) => {
-  const initialFormData = Object.freeze({
-    empId: '',
-    name: '',
-  });
   const [dataEmpId, setDataEmpId] = useState(getEmpId);
   const [title, settitle] = useState(new moment().format('YYYY년 MM월'));
 
@@ -36,7 +32,7 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
   };
 
   const goToWork = () => {
-    confirm('지금 출근 하시겠습니까?').then((result) => {
+  confirm('지금 출근 하시겠습니까?').then( async (result) => {
       if (result.isConfirmed) {
         let work = {
           clockIn: new Date(),
@@ -44,13 +40,19 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
             empNum: user,
           },
         };
-        commuteUpdate(work);
+        await api.commuteUpdate(work).then((response) => { 
+          if (response.data.status === 'ALREADY_DONE') {
+            sweetAlertSuccess(response.data.message, 'error', '/goco');
+          } else if (response.data.status === 'OK') {
+            sweetAlertSuccess(response.data.message, 'success', '/goco');
+          }
+        });
       }
     });
   };
 
   const goToHome = () => {
-    confirm('지금 퇴근 하시겠습니까?').then((result) => {
+    confirm('지금 퇴근 하시겠습니까?').then(async (result) => {
       if (result.isConfirmed) {
         const HomeTime = new Date();
         let work = {
@@ -60,7 +62,13 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
           },
         };
 
-        commuteUpdate(work);
+        await api.commuteUpdate(work).then((response) => { 
+          if (response.data.status === 'ALREADY_DONE') {
+            sweetAlertSuccess(response.data.message, 'error', '/goco');
+          } else if (response.data.status === 'OK') {
+            sweetAlertSuccess(response.data.message, 'success', '/goco');
+          }
+        });
       }
     });
   };
