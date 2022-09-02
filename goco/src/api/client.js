@@ -13,15 +13,18 @@ client.interceptors.response.use(
   (error) => {
     if (error.response.status === 400) {
       console.error(error);
-      window.location.href = '/';
+      // window.location.href = '/';
     }
     if (error.response.status === 401) {
-      window.location.href = '/';
+      // window.location.href = '/';
+      console.error(error);
     }
     if (error.response.status === 403) {
-      window.location.href = '/';
+      // window.location.href = '/';
+      console.error(error);
     }
     if (error.response.status === 500) {
+      console.error(error);
     }
     return Promise.reject(error);
   }

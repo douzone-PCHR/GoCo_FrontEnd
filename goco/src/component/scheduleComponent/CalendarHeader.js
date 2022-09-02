@@ -14,7 +14,7 @@ import moment, { utc } from 'moment';
 import { lineHeight } from '@mui/system';
 import { commuteUpdate } from '../../api/work/workAPI';
 import { confirm } from '../../common/confirm';
-const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user }) => {
+const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAddOpen}) => {
   const initialFormData = Object.freeze({
     empId: '',
     name: '',
@@ -159,9 +159,29 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user }) => {
           }}>
           {title}
         </Typography>
+
+        <Button
+          style={{
+            marginRight: '20px',
+            width: '10%',
+            height: '10%',
+            color: '#000000',
+            fontFamily: 'Inter',
+            fontStyle: 'normal',
+            fontWeight: '700',
+            fontSize: '24px',
+            backgroundColor: '#FFFFFF',
+            borderRadius: '5px',
+            border : '3px solid black'
+          }}
+          onClick={() => setAddOpen(true)}
+        >
+          +
+        </Button>
       </ButtonGroup>
 
       <ButtonGroup style={{ width: '20%' }}>
+
         <Button
           style={{
             marginRight: '20px',

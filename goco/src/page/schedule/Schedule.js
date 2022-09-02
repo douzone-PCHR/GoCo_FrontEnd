@@ -25,6 +25,7 @@ export default function Schedule() {
     });
     // 이번주 소정 근로시간
     await api.commuteTime().then((response) => {
+      console.log(response.data);
       setCommuteTimeData(response.data);
     });
 

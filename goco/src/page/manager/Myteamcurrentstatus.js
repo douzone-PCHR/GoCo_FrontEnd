@@ -27,7 +27,9 @@ const Myteamcurrentstatus = () => {
   };
 
   return (
-    <Container>
+    <Container 
+      
+    >
       <Box
         sx={{
           position: 'relative',
@@ -35,6 +37,7 @@ const Myteamcurrentstatus = () => {
           minHeight: '500px',
           bgcolor: 'rgba(255, 255, 255, 0.6)',
           padding: '10px',
+          backgroundColor : 'rgb(250,250,250)',
         }}>
         <Typography
           sx={{ mt: 4, mb: 2, marginTop: '1px', padding: '15px' }}

@@ -33,9 +33,9 @@ import CalendarModalListDeTail from './CalendarModalListDeTail';
 import { DatePicker, DateTimePicker, DesktopDatePicker } from '@mui/x-date-pickers';
 import { minWidth } from '@mui/system';
 
-export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
-  const [startValue, setStartValue] = useState(null);
-  const [endValue, setEndValue] = useState(null);
+export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOpenInsert }) {
+  const [startValue, setStartValue] = useState(requestDate);
+  const [endValue, setEndValue] = useState(requestDate);
   const [radioValue, setRadioValue] = useState(0);
 
   const [textarea, setTextArea] = useState('');
@@ -60,7 +60,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
       workType: radioValue,
       employee: { empNum: user },
     };
-    addWork(workData);
+    addWork(workData,setAddOpen , setOpenInsert);
   };
   return (
     <div>
@@ -125,13 +125,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
                   renderInput={(params) => <TextField {...params} />}
                 />
 
-                {/* <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM/dd/yyyy"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
               </LocalizationProvider>
             </FormControl>
             <FormControl style={{ width: '50%' }}>
@@ -144,14 +137,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
                   onChange={endChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
-
-                {/* <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM/dd/yyyy"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params) => <TextField {...params} />}
-        /> */}
               </LocalizationProvider>
             </FormControl>
           </Box>
@@ -172,7 +157,6 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate }) {
               margin: '0px 15px',
               padding: '15px',
               backgroundColor: '#b3b3b354',
-              // marginLeft: '15px',
             }}
           />
 
