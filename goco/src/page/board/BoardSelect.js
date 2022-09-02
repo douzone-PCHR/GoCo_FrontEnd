@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { BoardSelectAPI } from '../../api/boardAPI';
+import { BoardSelectAPI } from '../../api/AllAPI';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -9,8 +9,7 @@ import { BoardTypeStyle, BoardButtonStyle } from '../../component/Board/BoardCSS
 import { UpdateBoard } from '../../component/Board/BoardFunction';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs'; // 작성일자때문에 넣음
-import { WhoAmIAPI } from '../../api/employeeAPI';
-import { GetAllCommentAPI } from '../../api/commentAPI';
+import { GetAllCommentAPI, WhoAmIAPI } from '../../api/AllAPI';
 import BoardComment from './BoardComment';
 export default function BoardSelect() {
   const boardId = useParams().boardId;

@@ -9,8 +9,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { userMeAPI } from '../../api/employeeAPI';
-import { BoardInsertAPI } from '../../api/boardAPI';
-import { sweetAlert2 } from '../../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { BoardInsertAPI } from '../../api/AllAPI';
+
 const NoticeWriteComponent = () => {
   const [user, setUser] = React.useState();
   const [data, setData] = React.useState({

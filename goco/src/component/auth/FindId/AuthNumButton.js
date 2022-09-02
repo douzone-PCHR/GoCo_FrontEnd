@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { FindIdAPI } from '../../../api/authAPI';
+import { FindIdAPI } from '../../../api/AllAPI';
 import { ModalSendMail } from '../Modal';
 export default function AuthNumButton({ data }) {
   const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
