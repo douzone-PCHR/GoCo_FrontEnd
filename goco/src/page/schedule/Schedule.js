@@ -30,6 +30,7 @@ export default function Schedule() {
     });
 
     await api.getWorkListData().then((response) => {
+      console.log(response);
       let privatedata = response.data.filter(
         (work) => work.workStartDate === null && work.workEndDate === null && work.workType === true
       );

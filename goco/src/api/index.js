@@ -16,6 +16,14 @@ export const headerData = () =>
 
 // -------Main (스케쥴, 주간 근로시간 , 날짜 없는 사내 및 개인 일정 등등) (Schedule.js) ----------
 
+// 출근 퇴근 버튼 클릭 후 근태 관리
+
+export const commuteUpdate = (data) =>
+client({
+  url: '/user/commute',
+  method: 'put',
+  data: data,
+});
 // 셀렉트 박스 직원 목록 출력
 export const getEmployeeList = () =>
   client({
