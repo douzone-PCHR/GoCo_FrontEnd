@@ -294,4 +294,3 @@ export const getChangePhoneNumber = (data) =>
     method: 'put',
     data: data,
   });
-//////////////////////////////////////////////////////////////////////여기까지  ky
