@@ -16,7 +16,6 @@ export default function BoardComment({ boardId, whoAmI, commentData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComment({ ...comment, [name]: value });
-    console.log('comment : ', comment);
   };
 
   return (

@@ -4,9 +4,12 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { changeEmailAPI } from '../../api/AllAPI';
 
-export default function ChangeEmail({ data, handleChange, textData }) {
+export default function ChangeEmail({ data, setTextData, textData }) {
   const changeEmail = () => {
     changeEmailAPI(textData);
+  };
+  const handleChange = (prop) => (e) => {
+    setTextData({ ...textData, [prop]: e.target.value });
   };
   return (
     <>
