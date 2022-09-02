@@ -1,8 +1,9 @@
 import moment from 'moment';
 import client from './client';
 
-// -------로그인, 회원가입, 아이디 찾기, 로그인 한 아이디의 정보 (Login.js) ------------
-export const loginDefaultValue = () =>
+// -------로그인, 회원가입, 아이디 찾기, 로그인 한 아이디의 정보 (Login.js) -----------
+  export const loginDefaultValue = () =>
+
   client({
     url: '/user/me',
     method: 'get',
@@ -280,4 +281,3 @@ export const getChangePhoneNumber = (data) =>
     method: 'put',
     data: data,
   });
-//////////////////////////////////////////////////////////////////////여기까지  ky
