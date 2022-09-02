@@ -5,7 +5,7 @@ import { getCookie } from '../authAPI';
 
 export const workGetData = async (setGetWorkList, getEmpId, user) => {
   console.log(getEmpId);
-  const response = await axios.get(`/work/calendar?empId=${getEmpId}`, {
+  const response = await axios.get(`api/user/work/calendar?empId=${getEmpId}`, {
     headers: {
       'access-control-allow-origin': 'true',
       Authorization: `Bearer ${getCookie('accessToken')}`,
