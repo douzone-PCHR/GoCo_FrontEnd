@@ -70,31 +70,32 @@ export default function CurrentStatus({ currentStatus }) {
       <TableContainer>
         <Table sx={{ width: '100%' }} aria-label="custom pagination table">
           <TableBody>
-            {pageData.currentData().map((data, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell
-                    style={{
-                      fontFamily: 'Inter',
-                      fontStyle: 'normal',
-                      fontWeight: '700',
-                      fontSize: '16px',
-                    }}>
-                    {data.name}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontFamily: 'Inter',
-                      fontStyle: 'normal',
-                      fontWeight: '700',
-                      fontSize: '16px',
-                    }}>
-                    {myTeamStatus(data).result}
-                  </TableCell>
-                  <TableCell>{myTeamStatus(data).check}</TableCell>
-                </TableRow>
-              );
-            })}
+            {pageData.currentData().length !== 0 &&
+              pageData.currentData().map((data, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell
+                      style={{
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                      }}>
+                      {data.name}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        fontFamily: 'Inter',
+                        fontStyle: 'normal',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                      }}>
+                      {myTeamStatus(data).result}
+                    </TableCell>
+                    <TableCell>{myTeamStatus(data).check}</TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
