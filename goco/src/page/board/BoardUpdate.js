@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { BoardSelectAPI } from '../../api/boardAPI';
+import { BoardSelectAPI } from '../../api/AllAPI';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -8,11 +8,9 @@ import Editor from '../../component/Board/UpdateEditorComponent';
 import { BoardTypeStyle, BoardButtonStyle } from '../../component/Board/BoardCSS';
 import { sweetAlertDeleteBoard } from '../../component/auth/AuthSweetAlert.js/sweetAlert2';
 import { errorCheck } from '../../component/Board/BoardFunction';
-import { BoardUpdateAPI } from '../../api/boardAPI';
+import { BoardUpdateAPI, GetAllCommentAPI, WhoAmIAPI } from '../../api/AllAPI';
 import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs'; // 작성일자때문에 넣음
-import { WhoAmIAPI } from '../../api/employeeAPI';
-import { GetAllCommentAPI } from '../../api/commentAPI';
 export default function BoardUpdate() {
   const boardId = useParams().boardId;
   const [data, setData] = React.useState();

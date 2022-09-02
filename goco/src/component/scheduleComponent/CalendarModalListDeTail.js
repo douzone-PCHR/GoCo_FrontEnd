@@ -34,9 +34,7 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setO
         setDetailWorkList(response.data);
       })
     }
-  
   }
-
 
   const deleteHandler = async () => {
     await api.deleteWork(detailWorkList.workId).then((response) => { 
