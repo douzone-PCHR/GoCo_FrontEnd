@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../../CSS/authcss/Signup.module.css';

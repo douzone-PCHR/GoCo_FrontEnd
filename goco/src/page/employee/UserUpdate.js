@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,15 +13,15 @@ import ReturnButton from '../../component/Employee/ReturnButton';
 const theme = createTheme();
 
 export default function UserDataUpdate() {
-  const [data, setData] = React.useState();
-  const [textData, setTextData] = React.useState({
+  const [data, setData] = useState();
+  const [textData, setTextData] = useState({
     email: '',
     phoneNumber: '',
     password1: '',
     password2: '',
     text: '',
   });
-  React.useEffect(() => {
+  useEffect(() => {
     userMeAPI(setData);
   }, []); //초기 데이터 받아오는 것
 

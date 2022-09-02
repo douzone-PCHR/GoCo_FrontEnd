@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import UnitSelect from './UnitSelect';
 import PasswordCheck from './PasswordCheck';
@@ -10,12 +10,12 @@ import { signupAPI } from '../../../api/AllAPI';
 import MoveLoginPage from './MoveLoginPage';
 import SignUpButton from './SignUpButton';
 export default function SignUpComponents() {
-  const [okIdCheck, setOkIdCheck] = React.useState(false);
-  const [okPasswordCheck, setOkPasswordCheck] = React.useState(false);
-  const [okEmailCheck, setOkEmailCheck] = React.useState(false);
-  const [okHiredateCheck, setOkHiredateCheck] = React.useState(false);
-  const [okUnitCheck, setOkUnitCheck] = React.useState(false);
-  const [signupDataError, setSignupDataError] = React.useState({
+  const [okIdCheck, setOkIdCheck] = useState(false);
+  const [okPasswordCheck, setOkPasswordCheck] = useState(false);
+  const [okEmailCheck, setOkEmailCheck] = useState(false);
+  const [okHiredateCheck, setOkHiredateCheck] = useState(false);
+  const [okUnitCheck, setOkUnitCheck] = useState(false);
+  const [signupDataError, setSignupDataError] = useState({
     valid_password: '',
     valid_name: '',
     valid_empId: '',
@@ -23,7 +23,7 @@ export default function SignUpComponents() {
     valid_email: '',
   });
 
-  const [data, setData] = React.useState({
+  const [data, setData] = useState({
     empId: '',
     password: '',
     password2: '',
@@ -48,17 +48,17 @@ export default function SignUpComponents() {
     }
     signupAPI(data, setSignupDataError, signupDataError);
   };
-  React.useEffect(() => {
+  useEffect(() => {
     setOkIdCheck(false);
   }, [data.empId]); // 아이디 입력을 바꿀때마다 id 체크 값이 false가 된다.
-  React.useEffect(() => {
+  useEffect(() => {
     if (data.password === data.password2) {
       setOkPasswordCheck(true);
     } else {
       setOkPasswordCheck(false);
     }
   }, [data.password, data.password2]); // 비밀번호가 다를 때마다 경고문구를 띄워 준다.
-  React.useEffect(() => {
+  useEffect(() => {
     setOkEmailCheck(false);
   }, [data.email]); // 입사일 지정 되었나 확인
 

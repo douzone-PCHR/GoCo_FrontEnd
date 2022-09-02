@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { ModalSendMail } from '../Modal';
 import { FindPasswordAPI } from '../../../api/AllAPI';
 export default function SendNewPassword({ data }) {
-  const [open, setOpen] = React.useState(false); //메일보내는 중 모달을 위해 쓰는 함수
+  const [open, setOpen] = useState(false); //메일보내는 중 모달을 위해 쓰는 함수
   const handleOpen = () => setOpen(true); //메일보내는 중 모달
   const handleClose = () => setOpen(false); //메일보내는 중 모달
 
