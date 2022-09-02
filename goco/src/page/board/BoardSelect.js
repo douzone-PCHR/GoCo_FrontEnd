@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BoardSelectAPI } from '../../api/AllAPI';
 import styles from '../../CSS/board/NoticeBoard.module.css';
@@ -13,10 +13,10 @@ import { GetAllCommentAPI, WhoAmIAPI } from '../../api/AllAPI';
 import BoardComment from './BoardComment';
 export default function BoardSelect() {
   const boardId = useParams().boardId;
-  const [data, setData] = React.useState();
-  const [whoAmI, setWhoAmI] = React.useState();
-  const [commentData, setCommentData] = React.useState(); // 모든 댓글 가져오는 것
-  React.useEffect(() => {
+  const [data, setData] = useState();
+  const [whoAmI, setWhoAmI] = useState();
+  const [commentData, setCommentData] = useState(); // 모든 댓글 가져오는 것
+  useEffect(() => {
     GetAllCommentAPI(boardId, setCommentData); // 모든 댓글 받아오는것
     BoardSelectAPI(boardId, setData);
     WhoAmIAPI(setWhoAmI);

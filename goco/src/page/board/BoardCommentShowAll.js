@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import { BoardCommentDeleteButton, BoardCommentUpdateButton } from '../../component/Board/BoardCSS';
 import Button from '@mui/material/Button';
 import { CommentDeleteAPI, CommentUpdateAPI } from '../../api/AllAPI';
 import TextField from '@mui/material/TextField';
 export default function BoardCommentShowAll({ comment, whoAmI }) {
-  const [updateText, setUpdateText] = React.useState(false);
-  const [commentContent, setCommentContent] = React.useState('');
+  const [updateText, setUpdateText] = useState(false);
+  const [commentContent, setCommentContent] = useState('');
 
   return (
     <>

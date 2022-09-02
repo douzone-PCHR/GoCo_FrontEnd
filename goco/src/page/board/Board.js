@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import Pagination from '@mui/material/Pagination';
 import { NoticeBoardAPI, FreeBoardAPI } from '../../api/AllAPI';
@@ -10,12 +10,12 @@ import BoardKategorieButton from '../../component/Board/BoardKategorieButton';
 import BoardTable from '../../component/Board/BoardTable';
 
 export default function Board() {
-  const [pageInfo, setPageInfo] = React.useState(false); // false는 공지사항게시판, true는 자유 게시판
-  const [data, setData] = React.useState(); // axios를 통해 data를 받아옴
-  const [showData, setShowData] = React.useState(); // axios를 통해 data를 받아옴 검색기능을 위해 2개 받아옴
-  const [search, setSearch] = React.useState(false);
+  const [pageInfo, setPageInfo] = useState(false); // false는 공지사항게시판, true는 자유 게시판
+  const [data, setData] = useState(); // axios를 통해 data를 받아옴
+  const [showData, setShowData] = useState(); // axios를 통해 data를 받아옴 검색기능을 위해 2개 받아옴
+  const [search, setSearch] = useState(false);
   //// 페이지 네이션
-  let [page, setPage] = React.useState(1);
+  let [page, setPage] = useState(1);
   const PER_PAGE = 10;
   const dataLength = data && data.length;
   const count = Math.ceil(dataLength / PER_PAGE);
@@ -31,7 +31,7 @@ export default function Board() {
     return moment(date).format('YYYY-MM-DD');
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     pageInfo ? FreeBoardAPI(setData, setShowData) : NoticeBoardAPI(setData, setShowData); // 자유게시판을 보여주는지, 공지사항을 보여준느지 css
     setSearch(false);
   }, [pageInfo]);
