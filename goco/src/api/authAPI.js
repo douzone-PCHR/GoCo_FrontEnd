@@ -29,13 +29,13 @@ export const loginAPI = async (id, password) => {
       password: password,
     })
     .then((response) => {
-      const expires = new Date(response.data.tokenExpiresIn); //유효시간
-      setCookie('accessToken', response.data.accessToken, {
-        path: '/',
-        secure: true,
-        sameSite: 'none',
-        expires,
-      });
+      // const expires = new Date(response.data.tokenExpiresIn); //유효시간
+      // setCookie('accessToken', response.data.accessToken, {
+      //   path: '/',
+      //   secure: true,
+      //   sameSite: 'none',
+      //   expires,
+      // });
       sweetAlertSuccess('로그인 성공', 'success', '/goco');
     })
     .catch(() => {
