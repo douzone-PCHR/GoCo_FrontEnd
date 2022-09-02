@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { AuthCheckAPI } from '../../../api/authAPI';
+import { AuthCheckAPI } from '../../../api/AllAPI';
 import Grid from '@mui/material/Grid';
 
 export default function MoveShowIdPage({ data, setId }) {

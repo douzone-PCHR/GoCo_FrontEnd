@@ -1,29 +1,13 @@
 import * as React from 'react';
 import styles from '../../CSS/board/NoticeBoard.module.css';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
-import Button from '@mui/material/Button';
-import EditIcon from '@mui/icons-material/Edit';
-import SearchIcon from '@mui/icons-material/Search';
-import { NoticeBoardAPI, FreeBoardAPI } from '../../api/boardAPI';
+import { NoticeBoardAPI, FreeBoardAPI } from '../../api/AllAPI';
 import SearchBoard from '../../component/Board/SearchBoard';
-import { SelectBoard } from '../../component/Board/BoardFunction';
-import { ClickBoard } from '../../component/Board/BoardCSS';
-import {
-  StyledTableCell,
-  StyledTableRow,
-  WriteButtonStyles,
-  MainButtonStyles1,
-  MainButtonStyles2,
-  BoardTitleStyles,
-} from '../../component/Board/BoardCSS';
+import BoardSearchInputButton from '../../component/Board/BoardSearchInputButton';
 import usePagination from '../../component/Board/Pagination';
 import moment from 'moment';
+import BoardKategorieButton from '../../component/Board/BoardKategorieButton';
+import BoardTable from '../../component/Board/BoardTable';
 
 export default function Board() {
   const [pageInfo, setPageInfo] = React.useState(false); // false는 공지사항게시판, true는 자유 게시판
@@ -56,78 +40,16 @@ export default function Board() {
       <div className={styles.OutterBox}>
         <div className={styles.headerBox}>
           <div className={styles.MainText}>
-            <Button
-              sx={pageInfo === false ? MainButtonStyles1 : MainButtonStyles2} // 버튼 클릭시마다 디자인 바뀜
-              onClick={() => setPageInfo(false)}>
-              공지사항 게시판
-            </Button>
-            <Button
-              sx={pageInfo === true ? MainButtonStyles1 : MainButtonStyles2} // 버튼 클릭시마다 디자인 바뀜
-              onClick={() => setPageInfo(true)}>
-              자유 게시판
-            </Button>
+            <BoardKategorieButton pageInfo={pageInfo} setPageInfo={setPageInfo} />
           </div>
         </div>
         &nbsp;
-        <div className={styles.MiddleText}>
-          <Button
-            onClick={() => {
-              setSearch(!search);
-            }}
-            sx={WriteButtonStyles}>
-            <SearchIcon fontSize="small" sx={{ marginRight: '6px' }} />
-            검색
-          </Button>
-          <Button sx={WriteButtonStyles} onClick={() => (window.location.href = '/boardinsert')}>
-            <EditIcon fontSize="small" sx={{ marginRight: '6px' }} />
-            게시글 등록
-          </Button>
-        </div>
+        <BoardSearchInputButton setSearch={setSearch} search={search} />
+        <div className={styles.MiddleText}></div>
         {/* ------------------------ 검색 --------------- */}
         {search && <SearchBoard data={data} setShowData={setShowData} DATE={DATE} />}
         <div className={styles.Board}>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 700, borderTop: '2px solid #00AAFF' }}
-              aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell sx={BoardTitleStyles} align="center">
-                    번호
-                  </StyledTableCell>
-                  <StyledTableCell sx={{ fontWeight: 'bold', fontSize: '100%' }} align="center">
-                    제목
-                  </StyledTableCell>
-                  <StyledTableCell sx={BoardTitleStyles} align="center">
-                    작성자
-                  </StyledTableCell>
-                  <StyledTableCell sx={BoardTitleStyles} align="center">
-                    작성 일자
-                  </StyledTableCell>
-                  <StyledTableCell sx={BoardTitleStyles} align="center">
-                    조회수
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {showData &&
-                  _DATA.currentData().map((list) => (
-                    <StyledTableRow
-                      key={list.boardId}
-                      sx={ClickBoard}
-                      onClick={() => {
-                        SelectBoard(list.boardId);
-                      }}>
-                      <StyledTableCell align="center">{list.boardId}</StyledTableCell>
-                      <StyledTableCell align="center">{list.boardTitle}</StyledTableCell>
-                      <StyledTableCell align="center">{list.employee.name}</StyledTableCell>
-                      <StyledTableCell align="center">{DATE(list.registeredDate)}</StyledTableCell>
-                      <StyledTableCell align="center">{list.count}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <BoardTable showData={showData} _DATA={_DATA} DATE={DATE} />
         </div>
         <div className={styles.Pagination}>
           <Pagination

@@ -1,22 +1,16 @@
 import * as React from 'react';
 import styles from '../../CSS/authcss/ShowId.module.css';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ShowIdButtonGroup from '../../component/auth/FindId/ShowIdButtonGroup';
 
 const theme = createTheme();
 export default function ShowId({ id }) {
-  const LoginPage = () => {
-    window.location.href = '/login';
-  };
-  const FindPwdPage = () => {
-    window.location.href = '/findPwd';
-  };
   return (
     <>
       <div className={styles.BackGround}>
@@ -42,43 +36,7 @@ export default function ShowId({ id }) {
                   <Grid item xs={12}>
                     <TextField fullWidth value={`ID : ${id}`} />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{
-                        mt: 3,
-                        mb: 2,
-                        backgroundColor: '#64a1bd',
-                        '&:hover': {
-                          backgroundColor: '#267194',
-                        },
-
-                        height: '60%',
-                      }}
-                      onClick={LoginPage}>
-                      로그인
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{
-                        mt: 3,
-                        mb: 2,
-                        backgroundColor: '#64a1bd',
-                        '&:hover': {
-                          backgroundColor: '#267194',
-                        },
-                        height: '60%',
-                      }}
-                      onClick={FindPwdPage}>
-                      비밀번호 찾기
-                    </Button>
-                  </Grid>
+                  <ShowIdButtonGroup />
                 </Grid>
               </Box>
             </Container>

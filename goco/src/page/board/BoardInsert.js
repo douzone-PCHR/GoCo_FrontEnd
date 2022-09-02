@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Editor from '../../component/Board/EditorComponent';
 import styles from '../../CSS/board/NoticeBoard.module.css';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -9,8 +8,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { userMeAPI } from '../../api/employeeAPI';
-import { BoardInsertAPI } from '../../api/boardAPI';
-import { sweetAlert2 } from '../../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { BoardInsertAPI } from '../../api/AllAPI';
+import BoardInsertButtonGroup from '../../component/Board/BoardInsertButtonGroup';
+
 const NoticeWriteComponent = () => {
   const [user, setUser] = React.useState();
   const [data, setData] = React.useState({
@@ -34,7 +34,6 @@ const NoticeWriteComponent = () => {
       employee: { empNum: user.empNum },
       boardType: data.boardType,
     };
-    console.log(insertData);
     BoardInsertAPI(insertData);
   };
 
@@ -76,47 +75,7 @@ const NoticeWriteComponent = () => {
         <Grid item xs={12} sx={{ marginBottom: '5%' }}>
           <Editor value={data.boardContent} onChange={onEditorChange} />
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              mb: 2,
-              backgroundColor: '#64a1bd',
-              '&:hover': {
-                backgroundColor: '#267194',
-              },
-
-              height: '60%',
-            }}
-            onClick={() => {
-              window.location.href = '/board';
-            }}>
-            돌아가기
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={4} />
-        <Grid item xs={12} sm={4}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              mb: 2,
-              backgroundColor: '#64a1bd',
-              '&:hover': {
-                backgroundColor: '#267194',
-              },
-
-              height: '60%',
-            }}
-            onClick={BoardInsert}>
-            저장
-          </Button>
-        </Grid>
+        <BoardInsertButtonGroup BoardInsert={BoardInsert} />
       </Grid>
     </div>
   );

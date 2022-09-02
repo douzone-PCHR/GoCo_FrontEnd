@@ -3,10 +3,13 @@ import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { changePhoneNumberAPI } from '../../api/employeeAPI';
-export default function ChangePhoneNumber({ data, handleChange, textData }) {
+import { changePhoneNumberAPI } from '../../api/AllAPI';
+export default function ChangePhoneNumber({ data, textData, setTextData }) {
   const changePhoneNumber = () => {
     changePhoneNumberAPI(textData);
+  };
+  const handleChange = (prop) => (e) => {
+    setTextData({ ...textData, [prop]: e.target.value });
   };
   return (
     <>
