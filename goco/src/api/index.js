@@ -1,14 +1,16 @@
 import moment from 'moment';
 import client from './client';
 
+
 // -------로그인, 회원가입, 아이디 찾기, 로그인 한 아이디의 정보 (Login.js) ------------
   export const loginDefaultValue = () =>
   client({
     url: '/user/me',
     method: 'get',
   });
-  // 
-  export const headerData = () =>
+
+export const headerData = () =>
+
   client({
     url: '/user/menu/commute',
     method: 'get',
@@ -51,6 +53,7 @@ client({
   });
 
 // 날짜 클릭 후 캘린더 리스트 값 출력
+
   export const dateWorkList = (data,getEmpId) => 
     client({
       url: `/user/work/detail?empId=${getEmpId}`,
@@ -89,7 +92,6 @@ client({
   method: 'delete',
 });
 
-
 // -------MangerMain (매니저 화면 우리팀 근태 관리 , 공지사항 게시판 , 요청 사항 등등) -------------
 
 // 나의 팀 상태 조회
@@ -119,10 +121,6 @@ export const getNoticeList = () =>
     url: '/user/board/notice',
     method: 'get',
   });
-
-
-
-
 
 //////////////////////////////이하 로그인 , 보드관련///////////////////////////////// kyj
 // 로그인 API

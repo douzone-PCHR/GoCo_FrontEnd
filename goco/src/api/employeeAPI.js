@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { getCookie } from './authAPI';
-
-const url = 'http://localhost:8080/';
+import { getCookie, deleteCookie } from './authAPI';
+import { sweetAlert2, sweetAlertSuccess } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { setUser } from '../component/auth/Login/sessionLogin';
 export const employee = () => {
   axios.get();
 };
@@ -20,7 +20,7 @@ export const updateEmpAPI = async (type, updateValue, setResult) => {
       break;
   }
   return await axios
-    .put(`${url}api/admin/emp/jobtitle/${type.empInfo.id}/${updateType}/${updateValue}`)
+    .put(`/api/admin/emp/jobtitle/${type.empInfo.id}/${updateType}/${updateValue}`)
     .then((response) => {
       return response.data;
     });

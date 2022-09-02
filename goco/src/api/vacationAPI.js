@@ -83,7 +83,7 @@ export function checkVacation(setCheckDate, vacation) {
 }
 
 // check vacationCount
-// http://localhost:8080/api/vacation/count/1?count=3
+// /api/vacation/count/1?count=3
 export function checkVacationCount(empNum, count, date, setDate) {
   const url = `api/vacation/count/${empNum}`;
   const today = new Date();

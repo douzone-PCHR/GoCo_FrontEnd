@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
   Box,
+  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
@@ -26,6 +27,7 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
     getEmp(setEmp, setmgrNum);
   }, []);
   const handleFieldChange = (event) => {
+    console.log(event.target.value);
     setEmpTeamMembers({
       ...empTeamMembers,
       [event.target.name]: event.target.value,
@@ -52,7 +54,8 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
               labelId="InputLabelTeamk"
               label="팀장 선택"
               id="empSelect"
-              defaultValue={emps ? emps[0]?.empNum : null}
+              // defaultValue={emps ? emps[0]?.empNum : null}
+              value={mgrNum || ''}
               onChange={(e) => {
                 setEmpTeamMembers({ userRoles: [] });
                 setmgrNum(e.target.value);
@@ -67,6 +70,7 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
                 })}
             </Select>
           </FormControl>
+
           <FormControl sx={{ width: '30%' }}>
             <TextField
               select
@@ -122,6 +126,8 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
                           'success',
                           '#child-modal'
                         ).then(() => {
+                          setmgrNum('');
+
                           setHandleModal(false);
                           setCheck(!check);
                         })
@@ -150,6 +156,7 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
           onClick={() => {
             setEmpTeamMembers({ userRoles: [] });
             setHandleModal(false);
+            setmgrNum('');
           }}>
           취소
         </Button>

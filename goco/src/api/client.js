@@ -3,7 +3,7 @@ import { getCookie } from './authAPI';
 
 const client = axios.create();
 
-client.defaults.baseURL = 'http://localhost:8080/api';
+client.defaults.baseURL = '/api';
 client.defaults.headers.common['Authorization'] = `Bearer ${getCookie('accessToken')}`;
 
 client.interceptors.response.use(
