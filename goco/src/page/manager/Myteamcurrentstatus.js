@@ -37,6 +37,8 @@ const Myteamcurrentstatus = () => {
           minHeight: '500px',
           bgcolor: 'rgba(255, 255, 255, 0.6)',
           padding: '10px',
+          height: '60vh',
+          margin:'0 auto',
           backgroundColor : 'rgb(250,250,250)',
         }}>
         <Typography

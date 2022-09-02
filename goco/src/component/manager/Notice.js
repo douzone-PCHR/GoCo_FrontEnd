@@ -31,7 +31,7 @@ export default function Notice({ noticeList }) {
     <Box
       sx={{
         position: 'relative',
-        width: '100%',
+        width: '90%',
         height: '75%',
         bgcolor: 'rgba(255, 255, 255, 0.6)',
         padding: '10px',
