@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import { CommentInsertAPI } from '../../api/AllAPI';
 import BoardCommentShowAll from './BoardCommentShowAll';
 export default function BoardComment({ boardId, whoAmI, commentData }) {
-  const [comment, setComment] = React.useState({
+  const [comment, setComment] = useState({
     boardId: boardId,
     empid: whoAmI,
     commentContent: '',

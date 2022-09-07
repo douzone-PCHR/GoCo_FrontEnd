@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
@@ -9,7 +9,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 
 export default function PasswordCheck({ okPasswordCheck, signupDataError, data, setData }) {
-  const [values, setShowPassword] = React.useState({}); // 비밀번호 가리는데 쓰임
+  const [values, setShowPassword] = useState({}); // 비밀번호 가리는데 쓰임
   const handleChange = (prop) => (event) => {
     setData({ ...data, [prop]: event.target.value });
   };

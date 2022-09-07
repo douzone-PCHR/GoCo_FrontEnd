@@ -1,6 +1,6 @@
-import * as React from 'react';
+import { useState } from 'react';
 function usePagination(data, itemsPerPage) {
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(data && data.length / itemsPerPage);
 
   function currentData() {

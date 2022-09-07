@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BoardSelectAPI } from '../../api/AllAPI';
 import styles from '../../CSS/board/NoticeBoard.module.css';
@@ -13,9 +13,9 @@ import TextField from '@mui/material/TextField';
 import dayjs from 'dayjs'; // 작성일자때문에 넣음
 export default function BoardUpdate() {
   const boardId = useParams().boardId;
-  const [data, setData] = React.useState();
-  const [whoAmI, setWhoAmI] = React.useState();
-  const [commentData, setCommentData] = React.useState(); // 모든 댓글 가져오는 것
+  const [data, setData] = useState();
+  const [whoAmI, setWhoAmI] = useState();
+  const [commentData, setCommentData] = useState(); // 모든 댓글 가져오는 것
   const onEditorChange = (value) => {
     setData({ ...data, boardContent: value });
   }; // 내용 받아오기
@@ -34,12 +34,12 @@ export default function BoardUpdate() {
     BoardUpdateAPI(updateData, boardId);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     WhoAmIAPI(setWhoAmI);
     BoardSelectAPI(boardId, setData);
     GetAllCommentAPI(boardId, setCommentData); // 모든 댓글 받아오는것
   }, []);
-  React.useEffect(() => {
+  useEffect(() => {
     errorCheck(data, whoAmI); //본인이 아닌 다른사람이 수정을 하려할 경우 에러 창을 표시해준다.
   }, [data]);
 
