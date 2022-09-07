@@ -4,6 +4,7 @@ import { BoardCommentDeleteButton, BoardCommentUpdateButton } from '../../compon
 import Button from '@mui/material/Button';
 import { CommentDeleteAPI, CommentUpdateAPI } from '../../api/AllAPI';
 import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs'; // 작성일자때문에 넣음
 export default function BoardCommentShowAll({ comment, whoAmI }) {
   const [updateText, setUpdateText] = useState(false);
   const [commentContent, setCommentContent] = useState('');
