@@ -15,7 +15,9 @@ export default function BoardCommentShowAll({ comment, whoAmI }) {
           <div className={styles.CommentName}>
             {comment.employeeDto.name} ( {comment.employeeDto.empId} )
           </div>
-          <div className={styles.CommentRegisterDate}>등록일시 : {comment.registeredDate}</div>
+          <div className={styles.CommentRegisterDate}>
+            등록일시 : {dayjs(comment.registeredDate).format('YYYY-MM-DD HH:mm:ss')}
+          </div>
         </div>
         {updateText ? (
           <>
