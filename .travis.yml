@@ -1,0 +1,67 @@
+language: node_js
+
+node_js:
+  - '16.15.0'
+
+cache:
+  directories:
+    - node_modules
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  keep-history: true
+  github-token: $GITHUB_TOKEN
+  local_dir: public
+  on:
+    branch: main
+
+install:
+  - chmod 775 ./goco
+  - cd ./goco
+  - npm install
+
+script:
+  - CI=''
+  - npm run build
+  - mkdir -p ~/beforeBuildFolder # 새로운 beforeBuildFolder 생성 (존재한다면 생성 x)
+  - cp -r build ~/beforeBuildFolder # npm run build를 통해 생긴 build 폴더 beforeBuildFolder로 복사
+  - cd ..
+  - pwd
+  - cp appspec.yml ~/beforeBuildFolder
+  - cd ~/beforeBuildFolder #beforeBuildFolder 디렉토리 이동
+  - mkdir -p ~/buildFolder #새로운 buildFolder 생성 (존재한다면 생성 x)
+  - zip -r ~/buildFolder/frontBuild.zip *
+  - cd ~
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # 여기
+    secret_access_key: $AWS_SECRET_KEY # 여기
+    bucket: pchr-goco
+    skip_cleanup: true
+    acl: private
+    region: ap-northeast-2
+    wait-until-deploy: true
+    local_dir: buildFolder
+    on:
+      all_branches: true
+
+  - provider: codedeploy 
+    access_key_id: $AWS_ACCESS_KEY # 여기
+    secret_access_key: $AWS_SECRET_KEY # 여기
+    bucket: pchr-goco
+    key : frontBuild.zip
+    bundle_type : zip
+    application : goco-codedeploy
+    deployment_group: goco-codedeploy-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+    on:
+      all_branches: true
+
+# CI 실행 완료 시 작성한 이메일로 알람.???
+notifications:
+  email:
+    recipients:
+      - qortjdwns120712@gmail.com
