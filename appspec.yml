@@ -5,7 +5,7 @@ files:
     destination: /home/ubuntu/front
     overwrite: yes
 
-file_exists_behavior: OVERWRITE
+# file_exists_behavior: OVERWRITE
 
 permissions:
   - object: /
