@@ -1,4 +1,4 @@
-REPOSITORY=/home/ubuntu/
+REPOSITORY=/home/ubuntu
 
 mkdir -p real_front
 
