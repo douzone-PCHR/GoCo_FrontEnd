@@ -26,6 +26,7 @@ export const status = (data) => {
 export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) => {
   if (
     (authority === 'ROLE_MANAGER' || localStorage.getItem('team') === '1') &&
+    authority !== 'ROLE_ADMIN' &&
     check === false &&
     localStorage.getItem('modeChange') !== '1'
   ) {
