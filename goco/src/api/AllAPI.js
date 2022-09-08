@@ -225,6 +225,7 @@ export const signupAPI = (data, setSignupDataError) => {
 };
 // 공지사항 받아오기
 export const NoticeBoardAPI = async (setData, setShowData) => {
+  getAccessTokenAPI();
   await api
     .getNoticeBoard()
     .then((response) => {
