@@ -6,7 +6,6 @@ import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClic
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarModal from './CalendarModal';
-import { workGetData } from '../../api/work/workAPI';
 import * as api from '../../api/index';
 import AddWork from './AddWork';
 export default function CalendarComponent({ user, empList }) {
@@ -24,26 +23,23 @@ export default function CalendarComponent({ user, empList }) {
 
   useEffect(() => {
     scheduleAPI();
-    // workGetData(setGetWorkList, getEmpId, user.empId);
   }, [getEmpId, user.empId]);
   // 일정표 받기
   const scheduleAPI = async () => {
     // 직원 목록
     await api.workGetData(getEmpId).then((response) => {
-
       if (response.data.length !== 0) {
         setGetWorkList(response.data);
-      } else { 
+      } else {
         setGetWorkList({
           id: 0,
           title: '',
           start: '',
           end: '',
-        })
+        });
       }
-
     });
-  }
+  };
   return (
     <Box
       component="div"
@@ -55,6 +51,7 @@ export default function CalendarComponent({ user, empList }) {
         sx={{
           '& > :not(style)': {
             width: '100%',
+            marginLeft: '0',
           },
         }}>
         <CalendarHeader
@@ -109,8 +106,14 @@ export default function CalendarComponent({ user, empList }) {
           getEmpId={getEmpId}
         />
       )}
-       {addOpen && (
-        <AddWork addOpen={addOpen} setAddOpen={setAddOpen}  user={user.empNum} requestDate={null} setOpenInsert={setOpenInsert} />
+      {addOpen && (
+        <AddWork
+          addOpen={addOpen}
+          setAddOpen={setAddOpen}
+          user={user.empNum}
+          requestDate={null}
+          setOpenInsert={setOpenInsert}
+        />
       )}
     </Box>
   );

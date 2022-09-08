@@ -4,7 +4,7 @@ import WorkTime from '../../component/scheduleComponent/WorkTime';
 import WorkList from '../../component/scheduleComponent/WorkList';
 import { Grid } from '@mui/material';
 import * as api from '../../api/index';
-
+import { userMeAPI } from '../../api/employeeAPI';
 export default function Schedule() {
   const [loginEmp, setLoginEmp] = useState(0);
   const [getEmp, setEmp] = useState([]);
@@ -21,16 +21,15 @@ export default function Schedule() {
     });
     // 로그인의 기본값
     await api.loginDefaultValue().then((response) => {
+      localStorage.setItem('authority', response.data.authority);
       setLoginEmp(response.data);
     });
     // 이번주 소정 근로시간
     await api.commuteTime().then((response) => {
-      console.log(response.data);
       setCommuteTimeData(response.data);
     });
 
     await api.getWorkListData().then((response) => {
-      console.log(response);
       let privatedata = response.data.filter(
         (work) => work.workStartDate === null && work.workEndDate === null && work.workType === true
       );

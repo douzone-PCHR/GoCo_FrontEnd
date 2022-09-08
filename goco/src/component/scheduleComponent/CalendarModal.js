@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import 'moment/locale/ko';
 import moment from 'moment';
-import { dateWorkList } from '../../api/work/workAPI';
 import * as api from '../../api/index';
 import {
   Button,
