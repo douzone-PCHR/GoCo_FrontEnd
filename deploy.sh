@@ -1,3 +1,4 @@
+#! /bin/bash
 REPOSITORY=/home/ubuntu
 
 mkdir -p real_front
