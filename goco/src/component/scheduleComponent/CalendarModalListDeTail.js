@@ -2,16 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import 'moment/locale/ko';
 import moment from 'moment';
-import { dateWorkList, deleteWork, dialogDetailList, updateWork } from '../../api/work/workAPI';
 import {
   Button,
   ButtonGroup,
   Dialog,
   DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
+
   TextareaAutosize,
 } from '@mui/material';
 import { Box } from '@mui/system';

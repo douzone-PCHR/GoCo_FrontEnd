@@ -36,9 +36,16 @@ export const userMeAPI = async (setData) => {
     },
     url: urlUserMe,
   };
-  await axios(options).then((response) => {
-    setData(response.data);
-  });
+  await axios(options)
+    .then((response) => {
+      localStorage.setItem('authority', response.data.authority);
+      setData(response.data);
+    })
+    .catch((error) => {
+      if (error.response.data.message === '403') {
+        window.location.href = '/login';
+      }
+    });
 };
 
 //매니저 조회

@@ -3,7 +3,11 @@ import styles from '../../CSS/authcss/Login.module.css';
 import { LoginButtonGroup, LoginInputButton } from '../../component/auth/Login/LoginButtonGroup';
 import LoginInsertID from '../../component/auth/Login/LoginInsertID';
 import LoginInsertPwd from '../../component/auth/Login/LoginInsertPwd';
+import { deleteCookie } from '../../api/authAPI';
 export default function Login() {
+  React.useEffect(() => {
+    deleteCookie('accessToken');
+  });
   const [values, setValues] = React.useState({
     password: '',
     id: '',

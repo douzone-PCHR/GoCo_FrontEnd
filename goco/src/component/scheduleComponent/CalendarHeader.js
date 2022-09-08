@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Fab,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,7 +15,8 @@ import moment, { utc } from 'moment';
 import { confirm } from '../../common/confirm';
 import * as api from '../../api/index';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
-const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAddOpen}) => {
+import AddIcon from '@mui/icons-material/Add';
+const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user, setAddOpen }) => {
   const [dataEmpId, setDataEmpId] = useState(getEmpId);
   const [title, settitle] = useState(new moment().format('YYYY년 MM월'));
 
@@ -32,7 +34,7 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
   };
 
   const goToWork = () => {
-  confirm('지금 출근 하시겠습니까?').then( async (result) => {
+    confirm('지금 출근 하시겠습니까?').then(async (result) => {
       if (result.isConfirmed) {
         let work = {
           clockIn: new Date(),
@@ -40,7 +42,7 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
             empNum: user,
           },
         };
-        await api.commuteUpdate(work).then((response) => { 
+        await api.commuteUpdate(work).then((response) => {
           if (response.data.status === 'ALREADY_DONE') {
             sweetAlertSuccess(response.data.message, 'error', '/goco');
           } else if (response.data.status === 'OK') {
@@ -62,7 +64,7 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
           },
         };
 
-        await api.commuteUpdate(work).then((response) => { 
+        await api.commuteUpdate(work).then((response) => {
           if (response.data.status === 'ALREADY_DONE') {
             sweetAlertSuccess(response.data.message, 'error', '/goco');
           } else if (response.data.status === 'OK') {
@@ -168,28 +170,17 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user , setAd
           {title}
         </Typography>
 
-        <Button
-          style={{
-            marginRight: '20px',
-            width: '10%',
-            height: '10%',
-            color: '#000000',
-            fontFamily: 'Inter',
-            fontStyle: 'normal',
-            fontWeight: '700',
-            fontSize: '24px',
-            backgroundColor: '#FFFFFF',
-            borderRadius: '5px',
-            border : '3px solid black'
-          }}
-          onClick={() => setAddOpen(true)}
-        >
-          +
-        </Button>
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={() => {
+            setAddOpen(true);
+          }}>
+          <AddIcon />
+        </Fab>
       </ButtonGroup>
 
       <ButtonGroup style={{ width: '20%' }}>
-
         <Button
           style={{
             marginRight: '20px',
