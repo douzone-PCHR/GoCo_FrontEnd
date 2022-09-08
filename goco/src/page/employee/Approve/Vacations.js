@@ -108,7 +108,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} textAlign={'center'}>
               <Typography variant="h6" gutterBottom component="div">
-                Detail
+                기안 상세
               </Typography>
               <Box>
                 <div>{row.detail.content}</div>
@@ -214,7 +214,7 @@ export default function Vacations({
           <TableHead>
             <TableRow>
               <TableCell></TableCell>
-              <TableCell align="center">요청 종류</TableCell>
+              <TableCell align="center">휴가 종류</TableCell>
               <TableCell align="center">휴가 시작일</TableCell>
               <TableCell align="center">휴가 종료일</TableCell>
               <TableCell align="center">신청 일자</TableCell>

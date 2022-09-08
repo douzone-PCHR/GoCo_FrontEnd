@@ -51,7 +51,7 @@ export default function ManagerApprove() {
   console.log(memberInfoResult);
   return (
     <>
-      <Box sx={{ display: 'flex' }} justifyContent={'center'}>
+      <Box sx={{ display: 'flex' }}>
         <ApproveSideBar
           approveList={approveList}
           setState={setState}
@@ -61,8 +61,11 @@ export default function ManagerApprove() {
           selectMember={selectMember}
         />
 
-        <Box sx={{ width: '100' }}>
-          <Box display="flex">
+        <Box
+          sx={{ display: 'flex', marginLeft: '5%', marginTop: '3%', minWidth: '60%' }}
+          flexDirection="column"
+          position="sticky">
+          <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}
               onChange={handleChange}

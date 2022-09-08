@@ -66,7 +66,10 @@ export default function Approve() {
           type={value}
         />
 
-        <Box sx={{ display: 'flex', marginLeft: '10vw' }} flexDirection="column" position="sticky">
+        <Box
+          sx={{ display: 'flex', marginLeft: '5%', marginTop: '3%', minWidth: '60%' }}
+          flexDirection="column"
+          position="sticky">
           <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}
