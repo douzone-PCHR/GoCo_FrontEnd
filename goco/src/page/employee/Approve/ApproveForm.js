@@ -127,8 +127,9 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               placeholder=" 신청 사유를 입력하세요 "
               style={{
                 marginTop: 10,
-                minHeight: 200,
-                minWidth: 100,
+                marginLeft: 5,
+                minHeight: '15%',
+                maxWidth: '97%',
                 resize: 'none',
               }}
             />
@@ -166,8 +167,8 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                     setFile(e.target.files[0]);
                   } else {
                     resultConfirm(
-                      '10MB이상 은  가능 합니다',
-                      `현재파일크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
+                      '10MB미만 파일만 첨부가능 합니다',
+                      `현재 파일 크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
                       'error',
                       document.getElementById('modal')
                     );

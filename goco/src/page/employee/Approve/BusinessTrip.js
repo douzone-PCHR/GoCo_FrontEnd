@@ -106,7 +106,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} textAlign={'center'}>
               <Typography variant="h6" gutterBottom component="div">
-                Detail
+                기안 상세
               </Typography>
               <Box>
                 <div>
@@ -200,7 +200,7 @@ export default function BusinessTrips({
       });
   }
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 1000 }}>
+    <TableContainer component={Paper} sx={{ marginTop: '5%', maxHeight: 600, minWidth: 1000 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
