@@ -1,5 +1,5 @@
 import * as api from './index';
-import { setCookie, deleteCookie } from './authAPI';
+import { setCookie } from './authAPI';
 import {
   sweetAlert2,
   sweetAlertSuccess,
@@ -225,7 +225,6 @@ export const signupAPI = (data, setSignupDataError) => {
 };
 // 공지사항 받아오기
 export const NoticeBoardAPI = async (setData, setShowData) => {
-  getAccessTokenAPI();
   await api
     .getNoticeBoard()
     .then((response) => {
@@ -371,7 +370,8 @@ export const deleteEmpAPI = async () => {
     .getDeleteEmp()
     .then((response) => {
       if (response.data) {
-        deleteCookie(); //쿠키삭제
+        api.logOut();
+        // deleteCookie(); //쿠키삭제
         sweetAlertSuccess('탈퇴 성공', 'success', '/login');
       }
     })
@@ -436,7 +436,6 @@ export const changeEmailAPI = async (textData) => {
     });
 };
 // 회원 번호 변경
-
 export const changePhoneNumberAPI = async (textData) => {
   const text = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
   if (
@@ -460,5 +459,18 @@ export const changePhoneNumberAPI = async (textData) => {
     })
     .catch((error) => {
       sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+    });
+};
+// 로그아웃
+export const logOutAPI = async () => {
+  await api
+    .logOut()
+    .then((response) => {
+      if (response.data === 1) {
+        window.location.href = '/login';
+      }
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
