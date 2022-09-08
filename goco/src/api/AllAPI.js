@@ -5,6 +5,17 @@ import {
   sweetAlertSuccess,
   sweetAlertComment,
 } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+// 리프레쉬토큰으로 엑세스토큰 받아오는 것
+export const getAccessTokenAPI = async () => {
+  await api
+    .getAccessToken()
+    .then((response) => {
+      console.log('accesstoken 함수의 리스펀스 : ', response);
+    })
+    .catch((error) => {
+      console.log('accesstoken 함수의 error : ', error);
+    });
+};
 // 로그인 하는 것
 export const loginAPI = async (id, password) => {
   await api
