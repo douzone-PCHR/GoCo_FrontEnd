@@ -63,6 +63,7 @@ export default function Approve() {
           setDateFilter={setDateFilter}
           dateFilter={dateFilter}
           setPage={setPage}
+          type={value}
         />
 
         <Box sx={{ display: 'flex', marginLeft: '10vw' }} flexDirection="column" position="sticky">

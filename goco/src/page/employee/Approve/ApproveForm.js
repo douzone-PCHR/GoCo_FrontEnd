@@ -33,7 +33,10 @@ const style = {
 
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const today = new Date();
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setFile(null);
+  };
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
   const [newApprove, setNewApprove] = useState({});
@@ -139,7 +142,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 size="medium"
                 sx={{ fontFamily: 'GmarketSans', width: '93%', height: '40px' }}
                 value={file?.name || ''}
-                placeholder={`첨부파일명: "휴가 / 출장 기안서_신청일자_사원번호_이름"`}
+                placeholder={`첨부파일명: "${type}기안서_신청일자_사원번호_이름"`}
                 disabled
               />
               <IconButton sx={{ borderRadius: 0 }}>
@@ -159,8 +162,17 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 id="file"
                 hidden
                 onChange={(e) => {
-                  console.log(e.target.files[0]);
-                  setFile(e.target.files[0]);
+                  if (e.target?.files[0]?.size <= 10 * 1024 * 1024) {
+                    setFile(e.target.files[0]);
+                  } else {
+                    resultConfirm(
+                      '10MB이상 은  가능 합니다',
+                      `현재파일크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
+                      'error',
+                      document.getElementById('modal')
+                    );
+                    setFile(null);
+                  }
                 }}></input>
             </Box>
             <Typography sx={{ color: 'red' }}>
