@@ -3,20 +3,21 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { IconButton, Paper, TextareaAutosize, TextField } from '@mui/material';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { Chip, IconButton, Paper, TextareaAutosize, TextField } from '@mui/material';
 import { addBusinessTrip } from '../../../api/businessTripAPI';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css files
 import { ko } from 'react-date-range/dist/locale';
-import { Today } from '@mui/icons-material';
+import { Error, Today, Warning } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import { addConfirm, resultConfirm } from '../../../common/confirm';
-import { border } from '@mui/system';
 import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
 import { addVacation, checkVacationCount } from '../../../api/vacationAPI';
-import moment from 'moment';
+import moment, { now } from 'moment';
 
 const style = {
   position: 'absolute',
@@ -32,7 +33,10 @@ const style = {
 
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const today = new Date();
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setFile(null);
+  };
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
   const [newApprove, setNewApprove] = useState({});
@@ -57,9 +61,28 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
+        <Typography id="modal-modal-title" variant="h4" component="h2" align="center">
           {type} 신청
-        </Typography>
+        </Typography>{' '}
+        <Box>
+          <FileDownloadIcon sx={{ verticalAlign: 'middle', color: 'rgb(61, 145, 255)' }} />
+          {type === '휴가' ? (
+            // console.log(userInfo)
+            <a
+              download={`휴가기안서_${moment(today).format('yyMMDD')}_${userInfo?.empId}_${
+                userInfo?.name
+              }`}
+              href="/assets/vacation.xls">
+              기안서 양식 다운로드{' '}
+            </a>
+          ) : (
+            <a
+              download={`출장기안서_${userInfo?.unit?.unitName}_${userInfo?.empId}_${userInfo?.name}`}
+              href="/assets/businessTrip.xls">
+              기안서 양식 다운로드{' '}
+            </a>
+          )}
+        </Box>
         <hr />
         <Box textAlign={'center'}>
           <DateRange
@@ -67,11 +90,11 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             dateDisplayFormat={'yyyy/MM/dd'}
             onChange={(item) => {
               let count = 0;
-              console.log(date);
-              console.log();
-              console.log(today.getTime / (60 * 60 * 24 * 1000));
-              console.log(today.toISOString());
-              console.log(item.selection.startDate.toISOString());
+              // console.log(date);
+              // console.log();
+              // console.log(today.getTime / (60 * 60 * 24 * 1000));
+              // console.log(today.toISOString());
+              // console.log(item.selection.startDate.toISOString());
 
               if (vacationType === '반차') {
                 item.selection.endDate = item.selection.startDate;
@@ -110,13 +133,56 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               }}
             />
             <hr></hr>
+            {console.log(userInfo)}
 
-            <input
-              type="file"
-              onChange={(e) => {
-                console.log(e.target.files);
-                setFile(e.target.files[0]);
-              }}></input>
+            <Box className="filebox" sx={{ display: 'flex' }} justifyContent="space-around">
+              <TextField
+                className="upload-name"
+                variant="outlined"
+                size="medium"
+                sx={{ fontFamily: 'GmarketSans', width: '93%', height: '40px' }}
+                value={file?.name || ''}
+                placeholder={`첨부파일명: "${type}기안서_신청일자_사원번호_이름"`}
+                disabled
+              />
+              <IconButton sx={{ borderRadius: 0 }}>
+                <label htmlFor="file">
+                  <UploadFileIcon
+                    sx={{
+                      fontSize: '35px',
+                      verticalAlign: 'center',
+                      cursor: 'pointer',
+                      color: 'rgb(61, 145, 255)',
+                    }}
+                  />{' '}
+                </label>
+              </IconButton>
+              <input
+                type="file"
+                id="file"
+                hidden
+                onChange={(e) => {
+                  if (e.target?.files[0]?.size <= 10 * 1024 * 1024) {
+                    setFile(e.target.files[0]);
+                  } else {
+                    resultConfirm(
+                      '10MB이상 은  가능 합니다',
+                      `현재파일크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
+                      'error',
+                      document.getElementById('modal')
+                    );
+                    setFile(null);
+                  }
+                }}></input>
+            </Box>
+            <Typography sx={{ color: 'red' }}>
+              <Error sx={{ verticalAlign: 'middle' }} />
+              기안서 양식을 다운로드 받은 후 작성하여 첨부 하십시오.
+            </Typography>
+            <Typography sx={{ color: 'red' }}>
+              <Error sx={{ verticalAlign: 'middle' }} />
+              양식이 다를 경우 결재가 반려 될 수 있습니다
+            </Typography>
           </Box>
 
           <hr></hr>

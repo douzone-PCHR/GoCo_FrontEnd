@@ -1,12 +1,13 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import { BoardCommentDeleteButton, BoardCommentUpdateButton } from '../../component/Board/BoardCSS';
 import Button from '@mui/material/Button';
 import { CommentDeleteAPI, CommentUpdateAPI } from '../../api/AllAPI';
+import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
 export default function BoardCommentShowAll({ comment, whoAmI }) {
-  const [updateText, setUpdateText] = React.useState(false);
-  const [commentContent, setCommentContent] = React.useState('');
+  const [updateText, setUpdateText] = useState(false);
+  const [commentContent, setCommentContent] = useState('');
 
   return (
     <>
@@ -15,7 +16,9 @@ export default function BoardCommentShowAll({ comment, whoAmI }) {
           <div className={styles.CommentName}>
             {comment.employeeDto.name} ( {comment.employeeDto.empId} )
           </div>
-          <div className={styles.CommentRegisterDate}>등록일시 : {comment.registeredDate}</div>
+          <div className={styles.CommentRegisterDate}>
+            등록일시 : {dayjs(comment.registeredDate).format('YYYY-MM-DD HH:mm:ss')}
+          </div>
         </div>
         {updateText ? (
           <>

@@ -27,6 +27,7 @@ export default function ApproveSideBar({
   dateFilter,
   setPage,
   selectMember,
+  type,
 }) {
   const today = new Date();
   const [startDate, setStartDate] = useState(
@@ -91,7 +92,6 @@ export default function ApproveSideBar({
             날짜 초기화
           </Button>
           <Button
-            sx={{ fontFamily: 'GmarketSans' }}
             size="small"
             onClick={() => {
               setPage(0);
@@ -114,16 +114,26 @@ export default function ApproveSideBar({
             color="primary"
             label={
               approveList.filter((approve) => {
-                console.log(selectMember);
                 if (
+                  type === '휴가' &&
+                  (selectMember === approve.employee.name ||
+                    selectMember === '전체보기' ||
+                    !selectMember)
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_WAITTING' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_WAITTING';
+                } else if (
                   selectMember === approve.employee.name ||
                   selectMember === '전체보기' ||
                   !selectMember
                 ) {
                   return dateFilter
                     ? approve.approveYn === 'APPROVE_WAITTING' &&
-                        startDate <= approve.vacationRequestDate &&
-                        approve.vacationRequestDate <= endDate
+                        startDate <= approve.businessTripRequestDate &&
+                        approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_WAITTING';
                 }
               }).length
@@ -145,14 +155,25 @@ export default function ApproveSideBar({
             label={
               approveList.filter((approve) => {
                 if (
+                  type === '휴가' &&
+                  (selectMember === approve.employee.name ||
+                    selectMember === '전체보기' ||
+                    !selectMember)
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_SUCCESS' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_SUCCESS';
+                } else if (
                   selectMember === approve.employee.name ||
                   selectMember === '전체보기' ||
                   !selectMember
                 ) {
                   return dateFilter
                     ? approve.approveYn === 'APPROVE_SUCCESS' &&
-                        startDate <= approve.vacationRequestDate &&
-                        approve.vacationRequestDate <= endDate
+                        startDate <= approve.businessTripRequestDate &&
+                        approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_SUCCESS';
                 }
               }).length
@@ -173,14 +194,25 @@ export default function ApproveSideBar({
             label={
               approveList.filter((approve) => {
                 if (
+                  type === '휴가' &&
+                  (selectMember === approve.employee.name ||
+                    selectMember === '전체보기' ||
+                    !selectMember)
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_REFUSE' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_REFUSE';
+                } else if (
                   selectMember === approve.employee.name ||
                   selectMember === '전체보기' ||
                   !selectMember
                 ) {
                   return dateFilter
                     ? approve.approveYn === 'APPROVE_REFUSE' &&
-                        startDate <= approve.vacationRequestDate &&
-                        approve.vacationRequestDate <= endDate
+                        startDate <= approve.businessTripRequestDate &&
+                        approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_REFUSE';
                 }
               }).length
@@ -199,15 +231,27 @@ export default function ApproveSideBar({
             color="default"
             label={
               approveList.filter((approve) => {
+                // console.log(approve);
                 if (
+                  type === '휴가' &&
+                  (selectMember === approve.employee.name ||
+                    selectMember === '전체보기' ||
+                    !selectMember)
+                ) {
+                  return dateFilter
+                    ? approve.approveYn === 'APPROVE_CANCEL' &&
+                        startDate <= approve.vacationRequestDate &&
+                        approve.vacationRequestDate <= endDate
+                    : approve.approveYn === 'APPROVE_CANCEL';
+                } else if (
                   selectMember === approve.employee.name ||
                   selectMember === '전체보기' ||
                   !selectMember
                 ) {
                   return dateFilter
                     ? approve.approveYn === 'APPROVE_CANCEL' &&
-                        startDate <= approve.vacationRequestDate &&
-                        approve.vacationRequestDate <= endDate
+                        startDate <= approve.businessTripRequestDate &&
+                        approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_CANCEL';
                 }
               }).length

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,7 +12,7 @@ import AuthNumButton from './AuthNumButton';
 const theme = createTheme();
 
 export default function FindIdPage({ setId }) {
-  const [data, setData] = React.useState({}); // 이름, 이메일 , 인증 번호가 들어 있는 유즈스테이트
+  const [data, setData] = useState({}); // 이름, 이메일 , 인증 번호가 들어 있는 유즈스테이트
   return (
     <>
       <div className={styles.BackGround}>

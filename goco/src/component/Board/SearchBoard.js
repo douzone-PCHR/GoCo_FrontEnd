@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -12,11 +12,11 @@ import dayjs from 'dayjs'; //달력
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 export default function SearchBoard({ data, setShowData, DATE }) {
-  const [info, setInfo] = React.useState({
+  const [info, setInfo] = useState({
     info: 1,
     keyWord: '',
   });
-  const [dateInfo, setDateInfo] = React.useState({
+  const [dateInfo, setDateInfo] = useState({
     start: dayjs(new Date('1900-01-01')).format('YYYY-MM-DD'),
     end: dayjs(new Date()).format('YYYY-MM-DD'),
   });

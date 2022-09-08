@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; //달력
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'; //달력
@@ -7,10 +7,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { getUnitAPI } from '../../../api/AllAPI';
 export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck }) {
-  const [units, setUnit] = React.useState();
+  const [units, setUnit] = useState();
   const resultDept = [];
   const teams = [];
-  React.useEffect(() => {
+  useEffect(() => {
     getUnitAPI(setUnit);
   }, []);
   units &&

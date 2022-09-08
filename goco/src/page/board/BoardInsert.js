@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Editor from '../../component/Board/EditorComponent';
 import styles from '../../CSS/board/NoticeBoard.module.css';
 import Grid from '@mui/material/Grid';
@@ -12,8 +12,8 @@ import { BoardInsertAPI } from '../../api/AllAPI';
 import BoardInsertButtonGroup from '../../component/Board/BoardInsertButtonGroup';
 
 const NoticeWriteComponent = () => {
-  const [user, setUser] = React.useState();
-  const [data, setData] = React.useState({
+  const [user, setUser] = useState();
+  const [data, setData] = useState({
     boardTitle: '',
     boardContent: '',
     boardType: '1',
@@ -37,7 +37,7 @@ const NoticeWriteComponent = () => {
     BoardInsertAPI(insertData);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     userMeAPI(setUser);
   }, []); //초기 로그인한 유저의 데이터 받아오는 것
 
