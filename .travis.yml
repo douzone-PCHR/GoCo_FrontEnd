@@ -15,7 +15,8 @@ deploy:
   local_dir: public
   on:
     branch: main
-
+branches:
+  only: main
 install:
   - chmod 775 ./goco
   - cd ./goco
