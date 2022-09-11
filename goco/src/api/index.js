@@ -296,3 +296,9 @@ export const getAccessToken = () =>
     url: '/user/newtoken',
     method: 'get',
   });
+// 로그아웃
+export const logOut = () =>
+  client({
+    url: '/auth/logOut',
+    method: 'get',
+  });

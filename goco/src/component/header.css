@@ -156,6 +156,7 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
+  cursor: pointer;
 }
 .dropdown:hover .dropbtn {
   background-color: inherit;
