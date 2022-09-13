@@ -11,6 +11,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  IconButton,
   Radio,
   RadioGroup,
   Stack,
@@ -19,6 +20,7 @@ import {
 } from '@mui/material';
 import { resultConfirm } from '../../../common/confirm';
 import style from '../../../CSS/approve.module.css';
+import { Replay, Restore, Search } from '@mui/icons-material';
 
 export default function ApproveSideBar({
   approveList,
@@ -88,19 +90,20 @@ export default function ApproveSideBar({
               />
             </Stack>
           </LocalizationProvider>
-          <Button sx={{ fontFamily: 'GmarketSans' }} size="small" onClick={resetHandler}>
-            날짜 초기화
-          </Button>
-          <Button
-            size="small"
-            onClick={() => {
-              setPage(0);
-              setDateFilter({ startDate, endDate });
-            }}>
-            검색
-          </Button>
+          <Box className={style.filter}>
+            <Button size="medium" onClick={resetHandler}>
+              <Restore fontSize="medium" /> 날짜 초기화
+            </Button>
+            <Button
+              size="medium"
+              onClick={() => {
+                setPage(0);
+                setDateFilter({ startDate, endDate });
+              }}>
+              <Search fontSize="medium" /> 검색
+            </Button>
+          </Box>
         </Box>
-        <Divider variant="middle" />
         <Typography
           id="sidebar-content"
           variant="button"
@@ -219,7 +222,8 @@ export default function ApproveSideBar({
             }></Chip>
         </Typography>
         <Typography
-          margin="1vh  0vh"
+          margin="1vh 0vh"
+          paddingBottom="5%"
           id="sidebar-content"
           variant="button"
           gutterBottom
@@ -257,9 +261,9 @@ export default function ApproveSideBar({
               }).length
             }></Chip>
         </Typography>
-        <Divider variant="middle" />
-        <FormControl>
-          <br></br>
+        <Divider variant="fullWidth" />
+        <Divider variant="fullWidth" />
+        <FormControl sx={{ paddingTop: '10%' }}>
           <Typography className={style.title}>승인 상태별 요청</Typography>
           <RadioGroup
             onChange={(e) => setState(e.currentTarget.value)}

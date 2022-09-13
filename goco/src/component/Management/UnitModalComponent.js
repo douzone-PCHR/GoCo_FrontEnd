@@ -1,10 +1,24 @@
-import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Button,
+  Chip,
+  IconButton,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getManager } from '../../api/employeeAPI';
 import { deleteUnitAPI, updateUnitAPI } from '../../api/unitAPI';
 import style from '../../CSS/admin.module.css';
 import { ChildModal } from './ChildModal';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Delete } from '@mui/icons-material';
 
 export const UnitModalComponent = ({
   open,
@@ -28,10 +42,70 @@ export const UnitModalComponent = ({
         disableRestoreFocus={true}
         disableAutoFocus={true}>
         <div className={style.modal}>
+          <Typography
+            id="modal-modal-title"
+            variant="h5"
+            component="h2"
+            fontWeight="bold"
+            padding={2}>
+            {dept?.unitName} 부서 정보
+          </Typography>
+          <div className={style.btn}>
+            <Button
+              size="large"
+              sx={{ color: 'rgb(235,100,70)' }}
+              onClick={() => {
+                Swal.fire({
+                  title: `${dept?.unitName}부서를 삭제 하시겠습니까?`,
+                  icon: 'warning',
+                  target: '#parent-modal',
+                  confirmButtonText: '삭제하기',
+                  showCancelButton: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    deleteUnitAPI(dept.unitId, 1).then((data) => {
+                      console.log(data);
+                      switch (data) {
+                        case -1:
+                          break;
+                        case 1:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `부서 내에 사원이 존재합니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'warning',
+                          });
+                          break;
+                        case 2:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `${dept.unitName}부서가 삭제되었습니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'success',
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              setOpen(false);
+                              render();
+                            }
+                          });
+                          break;
+                        default:
+                          break;
+                      }
+                    });
+                  }
+                });
+              }}>
+              부서 삭제
+              <DeleteIcon fontSize="medium" />
+            </Button>
+          </div>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ width: '30%' }}>부서: {dept?.unitName}</TableCell>
+                <TableCell sx={{ width: '30%' }}>
+                  <Chip color="primary" label={`${dept?.unitName} 부서`}></Chip>
+                </TableCell>
                 <TableCell colSpan={5}>팀장</TableCell>
               </TableRow>
             </TableHead>
@@ -41,7 +115,9 @@ export const UnitModalComponent = ({
                   let check = false;
                   return dept && dept.unitName === team.parentUnit.unitName ? (
                     <TableRow key={idx}>
-                      <TableCell>{team.unitName}</TableCell>
+                      <TableCell>
+                        <Chip label={team.unitName}></Chip>
+                      </TableCell>
                       {managers.length !== 0 &&
                         managers.map((manager, key) => {
                           if (manager.unit.unitName === team.unitName) {
@@ -56,7 +132,7 @@ export const UnitModalComponent = ({
                         })}
                       {check === false && <TableCell>없음</TableCell>}
                       <TableCell padding="none" align="right" colSpan={10}>
-                        <Button
+                        <IconButton
                           onClick={() => {
                             Swal.fire({
                               title: '팀명 변경',
@@ -93,10 +169,10 @@ export const UnitModalComponent = ({
                               }
                             });
                           }}>
-                          팀 수정
-                        </Button>
+                          <EditIcon />
+                        </IconButton>
 
-                        <Button
+                        <IconButton
                           onClick={() => {
                             Swal.fire({
                               title: `${team.unitName}팀을 삭제 하시겠습니까?`,
@@ -147,8 +223,8 @@ export const UnitModalComponent = ({
                               }
                             });
                           }}>
-                          팀 삭제
-                        </Button>
+                          <DeleteIcon></DeleteIcon>
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -163,52 +239,6 @@ export const UnitModalComponent = ({
                 setHandleModal(true);
               }}>
               팀추가
-            </Button>
-
-            <Button
-              onClick={() => {
-                Swal.fire({
-                  title: `${dept?.unitName}부서를 삭제 하시겠습니까?`,
-                  icon: 'warning',
-                  target: '#parent-modal',
-                  confirmButtonText: '삭제하기',
-                  showCancelButton: true,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    deleteUnitAPI(dept.unitId, 1).then((data) => {
-                      console.log(data);
-                      switch (data) {
-                        case -1:
-                          break;
-                        case 1:
-                          Swal.fire({
-                            target: '#parent-modal',
-                            title: `부서 내에 사원이 존재합니다.`,
-                            confirmButtonText: '확인',
-                            icon: 'warning',
-                          });
-                          break;
-                        case 2:
-                          Swal.fire({
-                            target: '#parent-modal',
-                            title: `${dept.unitName}부서가 삭제되었습니다.`,
-                            confirmButtonText: '확인',
-                            icon: 'success',
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              setOpen(false);
-                              render();
-                            }
-                          });
-                          break;
-                        default:
-                          break;
-                      }
-                    });
-                  }
-                });
-              }}>
-              부서 삭제
             </Button>
             <Button
               onClick={() => {
