@@ -200,9 +200,7 @@ export const signupAPI = (data, setSignupDataError) => {
     phoneNumber: data.phoneNumber,
     email: data.email,
     hiredate: data.hiredate,
-    unit: {
-      unitId: data.unit,
-    },
+    unit: data.unit,
   };
   api
     .getSignup(signupData)

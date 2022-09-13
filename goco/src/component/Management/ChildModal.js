@@ -9,25 +9,24 @@ import {
   Typography,
   Button,
   Box,
-  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { getEmp } from '../../api/employeeAPI';
-import { insertUnitAPI } from '../../api/unitAPI';
+import * as api from '../../api/index';
 import style from '../../CSS/admin.module.css';
-import { confirm, resultConfirm } from '../../common/confirm';
-import { fontSize } from '@mui/system';
+import { resultConfirm } from '../../common/confirm';
 export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
   const [empTeamMembers, setEmpTeamMembers] = useState({ userRoles: [] });
-  const [emps, setEmp] = useState();
+  const [emps, setEmps] = useState();
   const [mgrNum, setmgrNum] = useState();
   const [check, setCheck] = useState(false);
   useEffect(() => {
-    getEmp(setEmp, setmgrNum);
+    api.getEmp().then((res) => {
+      setEmps(res.data);
+      setmgrNum(res.data[0].empNum);
+    });
   }, []);
   const handleFieldChange = (event) => {
-    console.log(event.target.value);
     setEmpTeamMembers({
       ...empTeamMembers,
       [event.target.name]: event.target.value,
@@ -112,14 +111,16 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
                 showCancelButton: true,
               }).then((result) => {
                 if (result.isConfirmed) {
-                  insertUnitAPI(
-                    teamName,
-                    dept.unitId,
-                    mgrNum,
-                    empTeamMembers.userRoles,
-                    setEmpTeamMembers
-                  ).then((data) => {
-                    data
+                  const unit = {
+                    unitName: teamName,
+                    parentUnit: {
+                      unitId: dept.unitId,
+                    },
+                    managerNum: mgrNum, //매니저
+                    employeeList: empTeamMembers.userRoles, // 리스트형태
+                  };
+                  api.insertUnit(unit).then((res) => {
+                    res.data
                       ? resultConfirm(
                           `팀이 추가되었습니다.`,
                           `팀명 : ${teamName}`,

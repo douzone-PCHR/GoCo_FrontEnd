@@ -32,6 +32,7 @@ script:
   - cd ..
   - pwd
   - cp appspec.yml ~/beforeBuildFolder
+  - cp deploy.sh ~/beforeBuildFolder
   - cd ~/beforeBuildFolder #beforeBuildFolder 디렉토리 이동
   - mkdir -p ~/buildFolder #새로운 buildFolder 생성 (존재한다면 생성 x)
   - zip -r ~/buildFolder/frontBuild.zip *

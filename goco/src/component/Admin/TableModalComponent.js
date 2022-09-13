@@ -18,10 +18,11 @@ import { Fragment, useEffect, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from 'sweetalert2';
-import { deleteAdminEmpAPI } from '../../api/employeeAPI';
+import * as api from '../../api/index';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
 import { confirm, resultConfirm } from '../../common/confirm';
+import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 
 function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
   setUpdateModal(true);
@@ -75,7 +76,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                         target: document.getElementById('emp-info-modal'),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteAdminEmpAPI(empInfo.id).then((result) => {
+                          api.deleteAdminEmpAPI(empInfo.id).then((result) => {
                             if (result.data === 1) {
                               resultConfirm(
                                 '퇴사처리 되었습니다.',
@@ -145,6 +146,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
               {/* 직책 */}
               <TableRow>
                 <TableCell sx={{ fontWeight: 'bold' }}>직책</TableCell>
+                {console.log(empInfo.teamPosition)}
                 <TableCell align="center">{empInfo.teamPosition.teamPositionName}</TableCell>
                 <TableCell>
                   <IconButton

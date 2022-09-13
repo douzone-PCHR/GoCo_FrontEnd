@@ -34,7 +34,7 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
               <FormControl
                 sx={{ width: '100%' }}
                 onChange={(e) => {
-                  setData({ ...data, unit: e.target.value });
+                  setData({ ...data, unit: JSON.parse(e.target.value) });
                   setOkUnitCheck(true);
                 }}>
                 <InputLabel htmlFor="grouped-native-select">부서를 지정해 주세요</InputLabel>
@@ -51,9 +51,10 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
                         <optgroup key={idex} label={unit.unitName}>
                           {teams &&
                             teams.map((team, idex) => {
+                              // console.log(team);
                               if (unit.unitId === team.parentUnit.unitId) {
                                 return (
-                                  <option key={idex} value={team.unitId}>
+                                  <option key={idex} value={JSON.stringify(team)}>
                                     {team.unitName}
                                   </option>
                                 );
