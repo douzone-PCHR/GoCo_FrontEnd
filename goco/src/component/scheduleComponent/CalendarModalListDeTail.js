@@ -2,19 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import 'moment/locale/ko';
 import moment from 'moment';
-import {
-  Button,
-  ButtonGroup,
-  Dialog,
-  DialogTitle,
-
-  TextareaAutosize,
-} from '@mui/material';
+import { Button, ButtonGroup, Dialog, DialogTitle, TextareaAutosize } from '@mui/material';
 import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
 
-const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setOpenInsert }) => {
+const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
   const handleClose = () => setSecondOpen(false);
   const [textarea, setTextArea] = useState('');
@@ -24,16 +17,16 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setO
     calendarDetailAPI();
   }, []);
 
-  const calendarDetailAPI = async () => { 
+  const calendarDetailAPI = async () => {
     if (workType !== 3 || workType !== 4) {
-      await api.dialogDetailList(workId).then((response) => { 
+      await api.dialogDetailList(workId).then((response) => {
         setDetailWorkList(response.data);
-      })
+      });
     }
-  }
+  };
 
   const deleteHandler = async () => {
-    await api.deleteWork(detailWorkList.workId).then((response) => { 
+    await api.deleteWork(detailWorkList.workId).then((response) => {
       setSecondOpen(false);
       setOpenInsert(false);
       if (response.data.status === 'OK') {
@@ -41,7 +34,7 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setO
       } else {
         sweetAlertSuccess(response.data.message, 'error', '/goco');
       }
-    })
+    });
   };
 
   const updateHandler = async () => {
@@ -53,19 +46,17 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId , workType , setO
       workEndDate: detailWorkList.workEndDate,
       workType: detailWorkList.workType,
       employee: { empNum: detailWorkList.employee.empNum },
-    }
- 
+    };
 
-    await api.updateWork(updateData).then((response) => { 
+    await api.updateWork(updateData).then((response) => {
       setSecondOpen(false);
       setOpenInsert(false);
-      console.log(response.data);
       if (response.data.status === 'OK') {
         sweetAlertSuccess(response.data.message, 'success', '/goco');
       } else {
         sweetAlertSuccess(response.data.message, 'error', '/goco');
       }
-    })
+    });
   };
 
   return (

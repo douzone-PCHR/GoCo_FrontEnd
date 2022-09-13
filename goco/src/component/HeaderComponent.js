@@ -100,7 +100,6 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           <div className="dropdown">
             <button className="dropbtn">
               {statusData !== undefined && statusData[0]?.employee.name}
-              <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
               <Link to="/userupdate">설정</Link>
