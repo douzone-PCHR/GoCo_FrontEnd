@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMenu } from 'react-icons/fi';
-
 import { modeChange, status } from '../util/HeaderUtil';
 import { logOutAPI } from '../api/AllAPI';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {

@@ -15,21 +15,24 @@ const Header = () => {
   }, [urlValue]);
   const headerAPI = async () => {
     await api.headerData().then((response) => {
-      setStatusData(response.data);
-      localStorage.setItem('team', response.data[0].employee.teamPosition.teamPositionId);
+      if (response.data !== '') {
+        setStatusData(response.data);
+        localStorage.setItem('team', response.data[0].employee.teamPosition.teamPositionId);
+      }
     });
   };
 
   return (
     <header className="Header">
       {statusData !== undefined && statusData.length !== 0 ? (
-        <Link to="/goco" className="link-logo">
+        <Link to="/goco" className="link-logo" onClick={() => window.location.href('/goco')}>
           <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
         </Link>
       ) : (
         <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
       )}
       {statusData !== undefined &&
+      statusData !== '' &&
       statusData.length !== 0 &&
       localStorage.getItem('modeChange') !== null ? (
         <HeaderComponent statusData={statusData} setUrlValue={setUrlValue} urlValue={urlValue} />

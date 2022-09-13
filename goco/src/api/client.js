@@ -24,7 +24,6 @@ client.interceptors.response.use(
       // window.location.href = '/';
     }
     if (error.response.status === 401) {
-      // window.location.href = '/login';
       console.error(error);
     }
     if (error.response.status === 403) {
