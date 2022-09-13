@@ -4,7 +4,6 @@ import WorkTime from '../../component/scheduleComponent/WorkTime';
 import WorkList from '../../component/scheduleComponent/WorkList';
 import { Grid } from '@mui/material';
 import * as api from '../../api/index';
-import { userMeAPI } from '../../api/employeeAPI';
 export default function Schedule() {
   const [loginEmp, setLoginEmp] = useState(0);
   const [getEmp, setEmp] = useState([]);

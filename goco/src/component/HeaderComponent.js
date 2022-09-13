@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMenu } from 'react-icons/fi';
-import { deleteCookie } from '../api/authAPI';
 import { modeChange, status } from '../util/HeaderUtil';
 import { Button } from '@mui/material';
+import { logOutAPI } from '../api/AllAPI';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
 
@@ -113,10 +112,13 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
-              <a href="/login" onClick={deleteCookie}>
-                Logout
-              </a>
               <Link to="/userupdate">설정</Link>
+              <a
+                onClick={() => {
+                  logOutAPI();
+                }}>
+                로그아웃
+              </a>
             </div>
           </div>
         </nav>

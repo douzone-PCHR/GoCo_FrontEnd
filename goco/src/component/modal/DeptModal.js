@@ -1,8 +1,7 @@
 import { Button, Modal, TextField, Typography } from '@mui/material';
 import Swal from 'sweetalert2';
-import { insertUnitAPI } from '../../api/unitAPI';
 import styled from '../../CSS/admin.module.css';
-
+import * as api from '../../api/index';
 export function DeptModal({ insertBtn, setInsertBtn, render }) {
   return (
     <Modal open={insertBtn} id="dept-insert-modal" disableAutoFocus={false}>
@@ -27,8 +26,9 @@ export function DeptModal({ insertBtn, setInsertBtn, render }) {
                   showCancelButton: true,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    insertUnitAPI(unitName).then((data) => {
-                      data
+                    const unit = { unitName: unitName };
+                    api.insertUnit(unit).then((res) => {
+                      res.data
                         ? Swal.fire({
                             title: `${unitName} 부서가 추가되었습니다.`,
                             icon: 'success',

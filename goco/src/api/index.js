@@ -293,6 +293,68 @@ export const getChangePhoneNumber = (data) =>
 // 리프레쉬 토큰을 통해 엑세스 토큰을 받아 오는 것
 export const getAccessToken = () =>
   client({
-    url: '/auth/newtoken',
+    url: '/user/newtoken',
     method: 'get',
   });
+// 로그아웃
+export const logOut = () =>
+  client({
+    url: '/auth/logOut',
+    method: 'get',
+  });
+// userMe
+export const userMe = () =>
+  client({
+    url: '/user/me',
+    method: 'get',
+  });
+
+export const getEmp = () =>
+  client({
+    url: '/admin/findAll',
+    method: 'get',
+  });
+
+export const getResignation = () =>
+  client({
+    url: '/admin/ResignationAll',
+    method: 'get',
+  });
+
+export const deleteAdminEmpAPI = (id) =>
+  client({
+    url: `/admin/delete/${id}`,
+    method: 'delete',
+  });
+
+export const getManager = (unitId) =>
+  client({
+    url: `/admin/findmanager/${unitId}`,
+    method: 'get',
+  });
+
+export const updateEmp = (type, updateType, updateValue) =>
+  client({
+    url: `/admin/emp/jobtitle/${type.empInfo.id}/${updateType}/${updateValue}`,
+  });
+
+export const deleteUnit = (unitId, type) =>
+  client({
+    url: `/admin/unit/${type}/${unitId}`,
+    method: 'delete',
+  });
+
+export const updateUnit = (unitId, unit) =>
+  client({
+    url: `/admin/unit/${unitId}`,
+    method: 'put',
+    data: unit,
+  });
+
+export const insertUnit = (unit) => {
+  client({
+    url: `/admin/unit`,
+    method: 'post',
+    data: unit,
+  });
+};

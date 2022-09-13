@@ -20,7 +20,6 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <TableContainer component={Paper} sx={{ minWidth: 1000 }}>
       <Table>
@@ -31,6 +30,7 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
               ? emp?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : emp
             ).map((element, index) => {
+              console.log(element);
               return (
                 <TableCellComponent
                   processingData={processingData}

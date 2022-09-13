@@ -1,9 +1,9 @@
 import { Edit, Search } from '@mui/icons-material';
 import {
   Button,
-  Chip,
   IconButton,
   Modal,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -11,12 +11,9 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
-  Typography,
 } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import { getUnitsAPI, insertUnitAPI } from '../../api/unitAPI';
+import { useEffect, useState } from 'react';
+import * as api from '../../api/index';
 import { UnitModalComponent } from '../../component/Management/UnitModalComponent';
 import { DeptModal } from '../../component/modal/DeptModal';
 import styled from '../../CSS/admin.module.css';
@@ -37,7 +34,9 @@ export const Management = () => {
   }
 
   useEffect(() => {
-    getUnitsAPI(setUnits);
+    api.getUnit().then((res) => {
+      setUnits(res.data);
+    });
   }, [check, open, handleModal]);
 
   units &&
@@ -133,6 +132,7 @@ export const Management = () => {
         handleModal={handleModal}
         setHandleModal={setHandleModal}
         render={render}
+        check={check}
       />
     </>
   );

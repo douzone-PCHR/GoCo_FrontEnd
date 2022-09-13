@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../CSS/authcss/Login.module.css';
 import { LoginButtonGroup, LoginInputButton } from '../../component/auth/Login/LoginButtonGroup';
 import LoginInsertID from '../../component/auth/Login/LoginInsertID';
 import LoginInsertPwd from '../../component/auth/Login/LoginInsertPwd';
-import { deleteCookie } from '../../api/authAPI';
+import { deleteCookieAPI } from '../../api/AllAPI';
+
 export default function Login() {
-
-  React.useEffect(() => {
-    deleteCookie('accessToken');
-  });
-
   const [values, setValues] = useState({
     password: '',
     id: '',
@@ -17,6 +13,9 @@ export default function Login() {
     idInputError: false,
     pwdInputError: false,
   });
+  useEffect(() => {
+    deleteCookieAPI();
+  }, []);
 
   return (
     <div className={styles.BackGround}>
