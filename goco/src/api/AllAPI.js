@@ -235,7 +235,7 @@ export const NoticeBoardAPI = async (setData, setShowData) => {
       setShowData(response.data);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`NoticeBoardAPI 에러 발생 : ${error}`, 'error');
     });
 };
 // 자유게시판 받아오기
@@ -475,5 +475,34 @@ export const logOutAPI = async () => {
     })
     .catch((error) => {
       console.log(error);
+    });
+};
+// 쿠키삭제 요청
+export const deleteCookieAPI = async () => {
+  await api
+    .logOut()
+    .then((response) => {
+      if (response.data === 1) {
+        console.log('로그인 이동됨, 쿠키 정상 삭제');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+// userMe
+//////회원 정보확인 userMe
+
+export const userMeAPI = async (setData) => {
+  await api
+    .userMe()
+    .then((response) => {
+      localStorage.setItem('authority', response.data.authority);
+      setData(response.data);
+    })
+    .catch((error) => {
+      if (error.response.data.message === '403') {
+        window.location.href = '/login';
+      }
     });
 };

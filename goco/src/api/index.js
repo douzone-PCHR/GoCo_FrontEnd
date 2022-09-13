@@ -302,3 +302,9 @@ export const logOut = () =>
     url: '/auth/logOut',
     method: 'get',
   });
+// userMe
+export const userMe = () =>
+  client({
+    url: '/user/me',
+    method: 'get',
+  });

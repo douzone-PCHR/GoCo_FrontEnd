@@ -26,28 +26,6 @@ export const updateEmpAPI = async (type, updateValue, setResult) => {
     });
 };
 
-//////회원 정보확인 userMe
-const urlUserMe = '/api/user/me';
-export const userMeAPI = async (setData) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${getCookie('accessToken')}`,
-    },
-    url: urlUserMe,
-  };
-  await axios(options)
-    .then((response) => {
-      localStorage.setItem('authority', response.data.authority);
-      setData(response.data);
-    })
-    .catch((error) => {
-      if (error.response.data.message === '403') {
-        window.location.href = '/login';
-      }
-    });
-};
-
 //매니저 조회
 export const getManager = (unitId, setManager) => {
   axios.get(`/api/admin/findmanager/${unitId}`).then((response) => {
