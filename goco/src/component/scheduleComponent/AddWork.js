@@ -23,22 +23,21 @@ import * as api from '../../api/index';
 import { sweetAlert2, sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import moment from 'moment';
 import { confirm } from '../../common/confirm';
-export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOpenInsert }) {
+export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpenInsert }) {
   const [startValue, setStartValue] = useState(requestDate);
   const [endValue, setEndValue] = useState(requestDate);
-  const [radioValue, setRadioValue] = useState(0);  
-  
+  const [radioValue, setRadioValue] = useState(0);
+
   const [textarea, setTextArea] = useState('');
   const [textTitle, setTextTitle] = useState('');
-
 
   const handleClose = () => setAddOpen(false);
 
   const startChange = (newValue) => {
-      setStartValue(newValue);
+    setStartValue(newValue);
   };
   const endChange = (newValue) => {
-      setEndValue(newValue);
+    setEndValue(newValue);
   };
 
   const addEvent = async () => {
@@ -59,14 +58,12 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
         } else {
           sweetAlertSuccess(response.data.message, 'error', '/goco');
         }
-       
-      })
-    } else { 
+      });
+    } else {
       setAddOpen(false);
       setOpenInsert(false);
       sweetAlert2('마지막 날짜를 시작 날짜 전으로 잡을 수 없습니다.', 'error');
     }
-
   };
   return (
     <div>
@@ -93,20 +90,20 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
           PaperProps={{ sx: { width: '100%', height: '100%', padding: '20px' } }}>
           <DialogTitle
             style={{
-              fontSize: '50px',
+              fontSize: '40px',
               fontWeight: '400',
               fontFamily: 'Inter',
               color: '#000000',
               textAlign: 'center',
             }}>
-            업무 등록 리스트
+            업무 등록
           </DialogTitle>
           <Divider />
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             value={radioValue}
             onChange={(e) => setRadioValue(Number(e.target.value))}
-            style={{ display: 'inline-block', margin: '0 20px' }}
+            style={{ display: 'inline-block', margin: '2% 20px' }}
             name="radio-buttons-group"
             id="radio-buttons-group">
             <FormControlLabel value="0" control={<Radio />} label="사내업무" />
@@ -121,9 +118,8 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
                 width: '100%',
               },
             }}>
-            <FormControl style={{ width: '50%' }}>
+            <FormControl style={{ width: '285px' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-
                 <DateTimePicker
                   inputFormat="yyyy/MM/dd hh:mm aa "
                   label="시작일"
@@ -131,10 +127,9 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
                   onChange={startChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
-
               </LocalizationProvider>
             </FormControl>
-            <FormControl style={{ width: '50%' }}>
+            <FormControl style={{ width: '285px' }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   inputFormat="yyyy/MM/dd hh:mm aa "
@@ -150,16 +145,16 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
           <TextField
             style={{ width: '90%', margin: '20px 15px', fontSize: '16px' }}
             onBlur={(e) => setTextTitle(e.target.value)}
-            placeholder="업무 제목"></TextField>
+            placeholder="업무 제목을 입력하세요"></TextField>
           <TextareaAutosize
             minRows={30}
             aria-label="maximum height"
-            placeholder="업무 내용 기입란"
+            placeholder="업무 내용을 입력하세요"
             onBlur={(e) => setTextArea(e.target.value)}
             style={{
               width: '85%',
               height: '90%',
-              fontSize: '32px',
+              fontSize: '20px',
               fontWeight: '500',
               margin: '0px 15px',
               padding: '15px',
@@ -168,38 +163,30 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
           />
 
           <ButtonGroup
-            style={{
+            sx={{
               display: 'flex',
               height: '10%',
               margin: '15px 100px',
               alignItems: 'center',
-              justifyContent: 'space-around',
+              justifyContent: 'center',
             }}>
             <Button
-              style={{
-                width: '20%',
-                backgroundColor: '#00AAFF',
-                color: '#FFFFFF',
-                fontFamily: 'Inter',
-                fontSize: '16px',
-                fontWeight: '700',
-                height: '100%',
-                border: '1px solid transparent',
-                borderRadius: '5%',
-              }}
+              variant="contained"
+              color="primary"
+              size="large"
+              style={{ marginRight: '5%', width: '20%', borderRadius: '5%', fontWeight: 500 }}
               onClick={addEvent}>
               추가
             </Button>
             <Button
+              variant="contained"
+              size="large"
               style={{
+                marginLeft: '5%',
                 width: '20%',
                 backgroundColor: '#D9D9D9',
                 color: '#616161',
-                fontFamily: 'Inter',
-                fontSize: '16px',
-                fontWeight: '700',
-                height: '100%',
-                border: '1px solid transparent',
+                fontWeight: '500',
                 borderRadius: '5%',
               }}
               onClick={handleClose}>

@@ -25,7 +25,7 @@ const PublicWork = (publicData) => {
     <Box
       style={{
         position: 'relative',
-        border: '1px solid black',
+        border: '1px solid lightgray',
         width: '100%',
         height: '40%',
         backgroundColor: '#ffffff80',
@@ -40,7 +40,7 @@ const PublicWork = (publicData) => {
       }}>
       <Typography
         elevation={0}
-        sx={{ mt: 4, mb: 2, marginTop: '1px' }}
+        sx={{ mt: 4, mb: 2, marginTop: '3%' }}
         variant="h6"
         component="div"
         style={{

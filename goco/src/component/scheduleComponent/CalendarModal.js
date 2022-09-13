@@ -7,6 +7,7 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -15,6 +16,7 @@ import {
 import CalendarModalListDeTail from './CalendarModalListDeTail';
 import AddWork from './AddWork';
 import { style } from '@mui/system';
+import { Add } from '@mui/icons-material';
 
 export default function CalendarModal({ open, setOpenInsert, requestDate, user, getEmpId }) {
   const [detailList, setDetailList] = useState([]);
@@ -35,19 +37,18 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
 
   useEffect(() => {
     calendarModalAPI();
-  },[]);
-  const calendarModalAPI = async () => { 
+  }, []);
+  const calendarModalAPI = async () => {
     const data = {
       workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
       employee: {
         empId: getEmpId,
       },
-    }
-    await api.dateWorkList(data , getEmpId).then((response) => { 
+    };
+    await api.dateWorkList(data, getEmpId).then((response) => {
       setDetailList(response.data);
-    })
-  }
-
+    });
+  };
 
   const handleClose = () => setOpenInsert(false);
   return (
@@ -65,22 +66,20 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
               },
             },
           }}>
-          <DialogTitle style={{ fontSize: '32px' }}>
+          <DialogTitle style={{ fontSize: '32px', textAlign: 'center' }}>
             {moment(requestDate).format('YYYY-MM-DD (dd)')}
 
-            <Button
+            <IconButton
               style={{
                 float: 'right',
-                fontSize: '24px',
                 marginRight: '10%',
                 borderRadius: '10px',
                 border: '3px solid #616161',
                 color: '#616161',
-                fontWeight: '700',
               }}
               onClick={addWorkBtnOpen}>
-              +
-            </Button>
+              <Add />
+            </IconButton>
           </DialogTitle>
 
           <List sx={{ pt: 0 }} style={{ padding: '20px' }}>
@@ -93,7 +92,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                 }}
                 button
                 onClick={() => {
-                  detailListOpen(data.id , data.workType);
+                  detailListOpen(data.id, data.workType);
                 }}
                 key={index}>
                 <ListItemText
@@ -101,7 +100,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                     <Typography
                       type="body2"
                       style={{
-                        fontSize: '32px',
+                        fontSize: '20px',
                         fontFamily: 'Inter',
                         color: '#616161',
                         fontWeight: '500',
@@ -115,7 +114,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
                     <Typography
                       type="body2"
                       style={{
-                        fontSize: '32px',
+                        fontSize: '30px',
                         fontFamily: 'Inter',
                         color: '#616161',
                         fontWeight: '500',
@@ -141,11 +140,11 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
               },
             },
           }}>
-          <DialogTitle style={{ fontSize: '32px' }}>
+          <DialogTitle style={{ fontSize: '32px', textAlign: 'center' }}>
             {moment(requestDate).format('YYYY-MM-DD (dd)')}
 
-            <Button style={{ float: 'right', fontSize: '32px' }} onClick={addWorkBtnOpen}>
-              +
+            <Button style={{ float: 'right', fontSize: '30px' }} onClick={addWorkBtnOpen}>
+              <Add fontSize="large" />
             </Button>
           </DialogTitle>
 
@@ -153,9 +152,10 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
             <ListItemText
               primary={
                 <Typography
+                  align="center"
                   type="body2"
                   style={{
-                    fontSize: '32px',
+                    fontSize: '25px',
                     fontFamily: 'Inter',
                     color: '#616161',
                     fontWeight: '500',
@@ -169,11 +169,23 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
         </Dialog>
       )}
 
-      {secondOpen && workId !== 0 && (workType !== 3 && workType !== 4) && (
-        <CalendarModalListDeTail open={secondOpen} setSecondOpen={setSecondOpen} workId={workId} workType={workType} setOpenInsert={setOpenInsert} />
+      {secondOpen && workId !== 0 && workType !== 3 && workType !== 4 && (
+        <CalendarModalListDeTail
+          open={secondOpen}
+          setSecondOpen={setSecondOpen}
+          workId={workId}
+          workType={workType}
+          setOpenInsert={setOpenInsert}
+        />
       )}
       {addOpen && (
-        <AddWork addOpen={addOpen} setAddOpen={setAddOpen} user={user} requestDate={requestDate} setOpenInsert={setOpenInsert} />
+        <AddWork
+          addOpen={addOpen}
+          setAddOpen={setAddOpen}
+          user={user}
+          requestDate={requestDate}
+          setOpenInsert={setOpenInsert}
+        />
       )}
     </div>
   );

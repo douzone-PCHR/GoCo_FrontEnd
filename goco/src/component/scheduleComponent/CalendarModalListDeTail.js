@@ -6,6 +6,7 @@ import { Button, ButtonGroup, Dialog, DialogTitle, TextareaAutosize } from '@mui
 import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
+import { Delete } from '@mui/icons-material';
 
 const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
@@ -89,7 +90,7 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
             fontFamily: 'Inter',
             color: '#000000',
             textAlign: 'center',
-          }}>{`${moment(detailWorkList.workStartDate).format('hh:mm')} ${
+          }}>{`${moment(detailWorkList.workStartDate).format('hh:mm')}   ${
           detailWorkList.workTitle
         }`}</DialogTitle>
         <TextareaAutosize
@@ -101,7 +102,7 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
           style={{
             width: '80%',
             height: '70%',
-            fontSize: '32px',
+            fontSize: '25px',
             fontWeight: '500',
             margin: '0px 60px',
             padding: '15px',
@@ -118,42 +119,37 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
             justifyContent: 'space-around',
           }}>
           <Button
+            variant="contained"
+            color="inherit"
+            size="large"
             style={{
               width: '20%',
-              backgroundColor: '#FFFFFF',
-              color: '#616161',
               fontFamily: 'Inter',
-              fontSize: '16px',
-              fontWeight: '700',
-              height: '30%',
-              border: '1px solid #000000',
+              fontWeight: '500',
               borderRadius: '5%',
             }}
             onClick={handleClose}>
             취소
           </Button>
           <Button
+            variant="contained"
+            color="primary"
+            size="large"
             style={{
               width: '20%',
-              backgroundColor: '#02A8F1',
-              color: '#FFFFFF',
-              fontFamily: 'Inter',
-              fontSize: '16px',
-              fontWeight: '700',
-              height: '30%',
+              fontWeight: '500',
               borderRadius: '5%',
             }}
             onClick={updateHandler}>
             수정
           </Button>
           <Button
+            variant="contained"
+            color="error"
+            size="large"
             style={{
               width: '20%',
-              backgroundColor: '#FF6363',
-              color: '#FFFFFF',
-              fontFamily: 'Inter',
-              fontSize: '16px',
-              fontWeight: '700',
+              fontWeight: '500',
               height: '30%',
               borderRadius: '5%',
             }}

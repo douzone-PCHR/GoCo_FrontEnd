@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { modeChange, status } from '../util/HeaderUtil';
+import { Button } from '@mui/material';
 import { logOutAPI } from '../api/AllAPI';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
@@ -34,11 +35,13 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           </Link>
 
           <Link to="/goco">
-            <button
-              className="user-change-btn"
+            <Button
+              variant="outlined"
+              size="large"
+              // className="user-change-btn"
               onClick={() => (localStorage.setItem('modeChange', 0), setUrlValue('goco'))}>
-              사원 모드 전환
-            </button>
+              사원 Mode
+            </Button>
           </Link>
 
           <div className="nav-text">{statusData[0]?.employee?.name}</div>
@@ -75,11 +78,14 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
 
           {localStorage.getItem('team') === '1' ? (
             <Link to="/manager">
-              <button
-                className="mangerChangeBtn"
+              <Button
+                sx={{ color: 'gray', borderColor: 'gray', fontWeight: '500' }}
+                size="large"
+                variant="outlined"
+                // className="mangerChangeBtn"
                 onClick={() => (localStorage.setItem('modeChange', 1), setUrlValue('manager'))}>
-                매니저 모드 전환
-              </button>
+                매니저 Mode
+              </Button>
             </Link>
           ) : (
             ''
@@ -87,11 +93,14 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
 
           {statusData[0]?.employee.authority === 'ROLE_ADMIN' ? (
             <Link to="/admin">
-              <button
-                className="mangerChangeBtn"
+              <Button
+                sx={{ color: 'gray', borderColor: 'gray', fontWeight: '500' }}
+                size="large"
+                variant="outlined"
+                // className="mangerChangeBtn"
                 onClick={() => (localStorage.setItem('modeChange', 3), setUrlValue('admin'))}>
-                인사 모드로 전환
-              </button>
+                관리자 Mode
+              </Button>
             </Link>
           ) : (
             ''
@@ -133,11 +142,14 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           </Link>
 
           <Link to="/goco">
-            <button
-              className="user-change-btn"
+            <Button
+              sx={{ color: '#00AAFF', borderColor: '#00AAFF', fontWeight: '500' }}
+              variant="outlined"
+              size="large"
+              // className="user-change-btn"
               onClick={() => (localStorage.setItem('modeChange', 0), setUrlValue('goco'))}>
-              사원 모드 전환
-            </button>
+              직원 Mode
+            </Button>
           </Link>
         </nav>
       );

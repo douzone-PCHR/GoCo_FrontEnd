@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Fab,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -16,6 +17,8 @@ import { confirm } from '../../common/confirm';
 import * as api from '../../api/index';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import AddIcon from '@mui/icons-material/Add';
+import AddBoxOutlined from '@mui/icons-material/AddBoxOutlined';
+import { PostAddSharp } from '@mui/icons-material';
 const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user, setAddOpen }) => {
   const [dataEmpId, setDataEmpId] = useState(getEmpId);
   const [title, settitle] = useState(new moment().format('YYYY년 MM월'));
@@ -90,107 +93,84 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user, setAdd
         height: '100%',
         margintop: '100px',
       }}>
-      <ButtonGroup style={{ width: '80%' }}>
-        <Button
-          style={{
-            width: '5%',
-            backgroundColor: '#E6F7FF',
-            color: '#000000',
-            height: '5%',
-            border: '1px solid #000000',
-            borderRadius: '5%',
-          }}
-          className="btn-theme text-white f-12 wid-55"
-          onClick={() => prevHandle()}>
-          &lt;
-        </Button>
-        <Button
-          style={{
-            width: '5%',
-            marginRight: '20px',
-            backgroundColor: '#E6F7FF',
-            color: '#000000',
-            height: '5%',
-            border: '1px solid #000000',
-            borderRadius: '5%',
-          }}
-          className="btn-theme text-white f-12 wid-55"
-          onClick={() => nextHandle()}>
-          &gt;
-        </Button>
-        <Button
-          style={{
-            width: '10%',
-            height: '5%',
-            border: '1px solid #000000',
-            marginRight: '10px',
-            color: '#000000',
-            borderRadius: '5%',
-            fontFamily: 'Inter',
-            fontWeight: '600',
-            fontSize: '11px',
-          }}
-          className="btn-theme text-white f-12 wid-55"
-          onClick={() => todayHandle()}>
-          오늘
-        </Button>
+      <FormControl style={{ width: '25%' }}>
+        <InputLabel id="demo-simple-select-label">직원 목록</InputLabel>
+        <Select
+          size="small"
+          labelId="demo-simple-select-label"
+          id="empId"
+          name="empId"
+          value={dataEmpId}
+          label="우리팀 직원 목록"
+          onChange={handleChange}>
+          {empList.map((data) => {
+            return (
+              <MenuItem key={data.empId} value={data.empId}>
+                {data.name}({data.empId})
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+      <Button
+        variant="outlined"
+        size="medium"
+        style={{
+          borderRadius: '5%',
+          fontWeight: '700',
+          fontSize: '13px',
+        }}
+        className="btn-theme text-white f-12 wid-55"
+        onClick={() => todayHandle()}>
+        today
+      </Button>
+      <Button variant="text" sx={{ height: '5%', color: 'gray' }} onClick={() => prevHandle()}>
+        &lt;
+      </Button>
+      <Typography
+        elevation={0}
+        sx={{ marginTop: '1px', textAlign: 'center' }}
+        variant="h3"
+        component="div"
+        id="title"
+        style={{
+          width: '15%',
+          fontFamily: 'Inter',
+          fontStyle: 'normal',
+          fontWeight: '700',
+          fontSize: '20px',
+        }}>
+        {title}
+      </Typography>
+      <Button variant="text" sx={{ height: '5%', color: 'gray' }} onClick={() => nextHandle()}>
+        &gt;
+      </Button>
 
-        <FormControl style={{ width: '25%', marginRight: '60px' }}>
-          <InputLabel id="demo-simple-select-label">직원 목록</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="empId"
-            name="empId"
-            value={dataEmpId}
-            label="우리팀 직원 목록"
-            onChange={handleChange}>
-            {empList.map((data) => {
-              return (
-                <MenuItem key={data.empId} value={data.empId}>
-                  {data.name},{data.empId}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-
-        <Typography
-          elevation={0}
-          sx={{ mt: 4, mb: 2, marginTop: '1px' }}
-          variant="h3"
-          component="div"
-          id="title"
-          style={{
-            width: '20%',
-            fontFamily: 'Inter',
-            fontStyle: 'normal',
-            fontWeight: '700',
-            fontSize: '20px',
-          }}>
-          {title}
-        </Typography>
-
-        <Fab
-          color="primary"
-          aria-label="add"
-          onClick={() => {
-            setAddOpen(true);
-          }}>
-          <AddIcon />
-        </Fab>
-      </ButtonGroup>
+      <Button
+        color="primary"
+        variant="outlined"
+        size="medium"
+        aria-label="add"
+        onClick={() => {
+          setAddOpen(true);
+        }}>
+        <PostAddSharp fontSize="small" color="primary" />
+        일정등록
+      </Button>
 
       <ButtonGroup style={{ width: '20%' }}>
         <Button
+          variant="contained"
+          size="small"
           style={{
-            marginRight: '20px',
-            width: '60%',
+            marginLeft: '10%',
+            marginRight: '10%',
             height: '20%',
+            width: '50%',
             color: '#FFFFFF',
             fontFamily: 'Inter',
-            fontStyle: 'normal',
-            fontWeight: '700',
-            fontSize: '24px',
+            fontWeight: '500',
+            fontSize: '20px',
             backgroundColor: '#00AAFF',
             borderRadius: '5px',
           }}
@@ -199,14 +179,16 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user, setAdd
           출근
         </Button>
         <Button
+          variant="contained"
+          size="small"
           style={{
-            width: '60%',
             height: '20%',
+            width: '50%',
             color: '#FFFFFF',
             fontFamily: 'Inter',
             fontStyle: 'normal',
-            fontWeight: '700',
-            fontSize: '24px',
+            fontWeight: '500',
+            fontSize: '20px',
             backgroundColor: '#FF6363',
             borderRadius: '5px',
           }}
