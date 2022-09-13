@@ -490,9 +490,7 @@ export const deleteCookieAPI = async () => {
       console.log(error);
     });
 };
-// userMe
 //////회원 정보확인 userMe
-
 export const userMeAPI = async (setData) => {
   await api
     .userMe()

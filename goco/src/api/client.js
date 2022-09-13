@@ -12,7 +12,6 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log('에러 값 : ', error);
     if (error.response.headers.refresh === 'true') {
       sweetAlertCookie();
     }
@@ -21,17 +20,15 @@ client.interceptors.response.use(
     }
     if (error.response.status === 400) {
       console.error(error);
-      // window.location.href = '/';
     }
     if (error.response.status === 401) {
-      // window.location.href = '/login';
       console.error(error);
     }
     if (error.response.status === 403) {
-      window.location.href = '/login';
+      console.error(error);
     }
     if (error.response.status === 500) {
-      // window.location.href = '/login';
+      console.error(error);
     }
     return Promise.reject(error);
   }
