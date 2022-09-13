@@ -24,12 +24,8 @@ export const status = (data) => {
 };
 
 export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) => {
-  if (
-    (authority === 'ROLE_MANAGER' || localStorage.getItem('team') === '1') &&
-    authority !== 'ROLE_ADMIN' &&
-    check === false &&
-    localStorage.getItem('modeChange') !== '1'
-  ) {
+  console.log(urlValue);
+  if (authority === 'ROLE_MANAGER') {
     setCheck(true);
     switch (urlValue) {
       case 'approveteam':
@@ -40,30 +36,60 @@ export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) =>
         setUrlValue('manager');
         localStorage.setItem('modeChange', '1');
         break;
+      case 'goco':
+        setUrlValue('goco');
+        localStorage.setItem('modeChange', '0');
+        break;
+      case 'approve':
+        setUrlValue('approve');
+        localStorage.setItem('modeChange', '0');
+        break;
+      case 'board':
+        setUrlValue('board');
+        localStorage.setItem('modeChange', '0');
+        break;
       default:
         localStorage.setItem('modeChange', '0');
         break;
     }
-  } else if (
-    authority === 'ROLE_ADMIN' &&
-    check === false &&
-    localStorage.getItem('modeChange') !== '3'
-  ) {
+  } else if (authority === 'ROLE_ADMIN') {
     setCheck(true);
-    switch (urlValue) {
-      case 'admin':
-        setUrlValue('admin');
-        localStorage.setItem('modeChange', '3');
-        break;
-      case 'management':
-        setUrlValue('management');
-        localStorage.setItem('modeChange', '3');
-        break;
-      default:
-        localStorage.setItem('modeChange', '0');
-        break;
+    if (localStorage.getItem('team') === '1') {
+      switch (urlValue) {
+        case 'approveteam':
+          setUrlValue('approveteam');
+          localStorage.setItem('modeChange', '1');
+          break;
+        case 'manager':
+          setUrlValue('manager');
+          localStorage.setItem('modeChange', '1');
+          break;
+        case 'goco':
+          setUrlValue('goco');
+          localStorage.setItem('modeChange', '0');
+          break;
+        case 'approve':
+          setUrlValue('approve');
+          localStorage.setItem('modeChange', '0');
+          break;
+        case 'board':
+          setUrlValue('board');
+          localStorage.setItem('modeChange', '0');
+          break;
+        case 'admin':
+          setUrlValue('admin');
+          localStorage.setItem('modeChange', '3');
+          break;
+        case 'management':
+          setUrlValue('management');
+          localStorage.setItem('modeChange', '3');
+          break;
+        default:
+          localStorage.setItem('modeChange', '0');
+          break;
+      }
     }
-  } else {
+  } else if (authority === 'ROLE_USER') {
     setCheck(true);
     switch (urlValue) {
       case 'goco':
