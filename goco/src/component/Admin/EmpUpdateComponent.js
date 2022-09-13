@@ -1,7 +1,8 @@
 import { Box, Button, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { updateEmpAPI } from '../../api/employeeAPI';
+import style from '../../CSS/admin.module.css';
+import * as api from '../../api/index';
 import { confirm, resultConfirm } from '../../common/confirm';
 function handleChange(e, setValue) {
   setValue(e.target.value);
@@ -24,9 +25,22 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
           document.getElementById('emp-update-modal')
         ).then((confirmData) => {
           if (confirmData.isConfirmed) {
-            updateEmpAPI(type, value)
-              .then((data) => {
-                if (data) {
+            let updateType = null;
+            switch (type.type) {
+              case '부서':
+                updateType = 1;
+                break;
+              case '직책':
+                updateType = 2;
+                break;
+              case '직급':
+                updateType = 3;
+                break;
+            }
+            api
+              .updateEmp(type, updateType, value)
+              .then((res) => {
+                if (res.data) {
                   return resultConfirm(
                     '팀 변경이 완료되었습니다.',
                     '직급이 팀원으로 설정됩니다.',
@@ -54,7 +68,20 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
           document.getElementById('emp-update-modal')
         ).then((confirmData) => {
           if (confirmData.isConfirmed) {
-            updateEmpAPI(type, value)
+            let updateType = null;
+            switch (type.type) {
+              case '부서':
+                updateType = 1;
+                break;
+              case '직책':
+                updateType = 2;
+                break;
+              case '직급':
+                updateType = 3;
+                break;
+            }
+            api
+              .updateEmp(type, updateType, value)
               .then((data) => {
                 console.log(data);
                 if (data) {

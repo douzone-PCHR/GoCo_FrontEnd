@@ -14,16 +14,14 @@ import style from '../../CSS/admin.module.css';
 import { TableCellComponent } from '../../component/Admin/TableCellComponent';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { AdminTableHead } from '../../component/Admin/TableHead';
-import { getEmp, getResignationAPI } from '../../api/employeeAPI';
-import { getUnitsAPI } from '../../api/unitAPI';
+import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { getUser } from '../../component/auth/Login/sessionLogin';
 import { Resignation } from '../../component/Admin/Resignation';
 const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
   switch (selectValue) {
     case 1:
-      // return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
-      return <div />;
+      return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
     case 2:
       return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
     case 3:
@@ -92,12 +90,19 @@ export const Admin = () => {
     teamId: null,
   };
   useEffect(() => {
-    getEmp(setEmp, null);
-    getUnitsAPI(setUnits);
+    api.getEmp().then((res) => {
+      setEmp(res.data);
+    });
+
+    api.getUnit().then((res) => {
+      setUnits(res.data);
+    });
   }, [check, tabValue === 1]);
 
   useEffect(() => {
-    getResignationAPI(setResignations);
+    api.getResignation().then((res) => {
+      setResignations(res.data);
+    });
   }, [check, tabValue === 2]);
 
   processingData = units && unitProcessing(units);

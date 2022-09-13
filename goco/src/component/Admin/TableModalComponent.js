@@ -18,7 +18,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from 'sweetalert2';
-import { deleteAdminEmpAPI } from '../../api/employeeAPI';
+import * as api from '../../api/index';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
 import { confirm, resultConfirm } from '../../common/confirm';
@@ -74,7 +74,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                         target: document.getElementById('emp-info-modal'),
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          deleteAdminEmpAPI(empInfo.id).then((result) => {
+                          api.deleteAdminEmpAPI(empInfo.id).then((result) => {
                             if (result.data === 1) {
                               resultConfirm(
                                 '퇴사처리 되었습니다.',

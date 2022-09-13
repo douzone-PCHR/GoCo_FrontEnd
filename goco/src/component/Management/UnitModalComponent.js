@@ -10,11 +10,10 @@ import {
 } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { getManager } from '../../api/employeeAPI';
-import { deleteUnitAPI, updateUnitAPI } from '../../api/unitAPI';
-import { confirm, resultConfirm } from '../../common/confirm';
 import style from '../../CSS/admin.module.css';
 import { ChildModal } from './ChildModal';
+import * as api from '../../api/index';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const UnitModalComponent = ({
   open,
@@ -28,9 +27,11 @@ export const UnitModalComponent = ({
 }) => {
   const [managers, setManagers] = useState([]);
   useEffect(() => {
-    dept?.unitId && getManager(dept.unitId, setManagers);
-  }, [dept?.unitId, check]);
-
+    dept?.unitId &&
+      api.getManager(dept.unitId).then((res) => {
+        setManagers(res.data);
+      });
+  }, [dept?.unitId, handleModal]);
   return (
     <>
       <Modal
@@ -40,6 +41,63 @@ export const UnitModalComponent = ({
         disableRestoreFocus={true}
         disableAutoFocus={true}>
         <div className={style.modal}>
+          <Typography
+            id="modal-modal-title"
+            variant="h5"
+            component="h2"
+            fontWeight="bold"
+            padding={2}>
+            {dept?.unitName} 부서 정보
+          </Typography>
+          <div className={style.btn}>
+            <Button
+              size="large"
+              sx={{ color: 'rgb(235,100,70)' }}
+              onClick={() => {
+                Swal.fire({
+                  title: `${dept?.unitName}부서를 삭제 하시겠습니까?`,
+                  icon: 'warning',
+                  target: '#parent-modal',
+                  confirmButtonText: '삭제하기',
+                  showCancelButton: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    api.deleteUnit(dept.unitId, 1).then((res) => {
+                      switch (res.data) {
+                        case -1:
+                          break;
+                        case 1:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `부서 내에 사원이 존재합니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'warning',
+                          });
+                          break;
+                        case 2:
+                          Swal.fire({
+                            target: '#parent-modal',
+                            title: `${dept.unitName}부서가 삭제되었습니다.`,
+                            confirmButtonText: '확인',
+                            icon: 'success',
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              setOpen(false);
+                              render();
+                            }
+                          });
+                          break;
+                        default:
+                          break;
+                      }
+                    });
+                  }
+                });
+              }}>
+              부서 삭제
+              <DeleteIcon fontSize="medium" />
+            </Button>
+          </div>
           <Table>
             <TableHead>
               <TableRow>
@@ -102,33 +160,30 @@ export const UnitModalComponent = ({
                               target: document.getElementById('parent-modal'),
                               showCancelButton: true,
                             }).then((result) => {
-                              if (result.value) {
-                                result.isConfirmed &&
-                                  updateUnitAPI(team.unitId, result.value).then((results) => {
-                                    results
-                                      ? resultConfirm(
-                                          '팀명이 변경되었습니다.',
-                                          null,
-                                          'success',
-                                          document.getElementById('parent-modal')
-                                        ).then((result) => {
-                                          render();
-                                          result.confirm && setOpen(false);
-                                        })
-                                      : resultConfirm(
-                                          '중복된 팀명입니다.',
-                                          null,
-                                          'error',
-                                          document.getElementById('parent-modal')
-                                        );
-                                  });
-                              } else {
-                                resultConfirm(
-                                  '팀명을 입력해주세요.',
-                                  null,
-                                  'warning',
-                                  document.getElementById('parent-modal')
-                                );
+                              if (result.isConfirmed) {
+                                api.updateUnit(team.unitId, result.value).then((res) => {
+                                  if (res.data) {
+                                    Swal.fire({
+                                      icon: 'success',
+                                      title: '팀명이 변경되었습니다.',
+                                      target: '#parent-modal',
+                                      text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
+                                      confirmButtonText: '확인',
+                                    }).then((result) => {
+                                      if (result.isConfirmed) {
+                                        setOpen(false);
+                                      }
+                                    });
+                                  } else {
+                                    Swal.fire({
+                                      title: '중복된 팀명입니다.',
+                                      icon: 'error',
+                                      target: '#parent-modal',
+                                      showConfirmButton: true,
+                                      confirmButtonText: '확인',
+                                    });
+                                  }
+                                });
                               }
                             });
                           }}>
@@ -147,8 +202,8 @@ export const UnitModalComponent = ({
                               showCancelButton: true,
                             }).then(async (result) => {
                               if (result.isConfirmed) {
-                                await deleteUnitAPI(team.unitId, 2).then((data) => {
-                                  switch (data) {
+                                await api.deleteUnit(team.unitId, 2).then((res) => {
+                                  switch (res.data) {
                                     case -1:
                                       break;
                                     case 1:
