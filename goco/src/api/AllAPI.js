@@ -11,6 +11,9 @@ export const getAccessTokenAPI = async () => {
     .getAccessToken()
     .then((response) => {
       console.log('accesstoken 함수의 리스펀스 : ', response);
+      if (response.statusText === 'OK') {
+        window.location.reload();
+      }
     })
     .catch((error) => {
       console.log('accesstoken 함수의 error : ', error);
