@@ -7,9 +7,10 @@ import ManagerBusinessTrips from './ManagerBusinessTrip';
 import { approveBusinessTripList } from '../../../api/businessTripAPI';
 import { approveVacationList } from '../../../api/vacationAPI';
 import ApproveSideBar from '../../employee/Approve/ApproveSideBar';
-import { userMeAPI } from '../../../api/employeeAPI';
 import { getUser } from '../../../component/auth/Login/sessionLogin';
 import { MenuItem, Select } from '@mui/material';
+import { userMeAPI } from '../../../api/AllAPI';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 export default function ManagerApprove() {
   const [approveList, setApproveList] = useState([]);
@@ -51,7 +52,7 @@ export default function ManagerApprove() {
   console.log(memberInfoResult);
   return (
     <>
-      <Box sx={{ display: 'flex' }} justifyContent={'center'}>
+      <Box sx={{ display: 'flex' }}>
         <ApproveSideBar
           approveList={approveList}
           setState={setState}
@@ -61,8 +62,11 @@ export default function ManagerApprove() {
           selectMember={selectMember}
         />
 
-        <Box sx={{ width: '100' }}>
-          <Box display="flex">
+        <Box
+          sx={{ display: 'flex', marginLeft: '5%', marginTop: '3%', minWidth: '60%' }}
+          flexDirection="column"
+          position="sticky">
+          <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}
               onChange={handleChange}

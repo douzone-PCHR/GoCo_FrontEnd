@@ -23,12 +23,13 @@
 }
 
 .sidebar_container {
+  margin-top: 3%;
+  margin-left: 3%;
   display: flex;
   position: relative;
   /* right: 20%; */
   min-height: 75vh;
   align-items: center;
-  padding-top: 2%;
   width: 20%;
   justify-content: space-between;
   flex-direction: column;
@@ -58,4 +59,10 @@
   cursor: pointer;
   height: 40px;
   margin-left: 10px;
+}
+
+/* sidebar */
+.filter {
+  padding-top: 3%;
+  padding-bottom: 3%;
 }

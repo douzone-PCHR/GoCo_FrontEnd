@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'moment/locale/ko';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,12 +17,12 @@ import {
   TextareaAutosize,
   TextField,
 } from '@mui/material';
-import CalendarModalListDeTail from './CalendarModalListDeTail';
-import { DatePicker, DateTimePicker, DesktopDatePicker } from '@mui/x-date-pickers';
-import { minWidth } from '@mui/system';
+import { DateTimePicker } from '@mui/x-date-pickers';
+
 import * as api from '../../api/index';
-import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
+import { sweetAlert2, sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import moment from 'moment';
+import { confirm } from '../../common/confirm';
 export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOpenInsert }) {
   const [startValue, setStartValue] = useState(requestDate);
   const [endValue, setEndValue] = useState(requestDate);
@@ -30,36 +30,43 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate , setOp
   
   const [textarea, setTextArea] = useState('');
   const [textTitle, setTextTitle] = useState('');
-  useEffect(() => {}, []);
+
 
   const handleClose = () => setAddOpen(false);
 
   const startChange = (newValue) => {
-    setStartValue(newValue);
+      setStartValue(newValue);
   };
   const endChange = (newValue) => {
-    setEndValue(newValue);
+      setEndValue(newValue);
   };
 
   const addEvent = async () => {
-    let workData = {
-      workTitle: textTitle,
-      workContent: textarea,
-      workStartDate: startValue,
-      workEndDate: endValue,
-      workType: radioValue,
-      employee: { empNum: user },
-    };
-    await api.addWork(workData).then((response) => { 
+    if (startValue <= endValue) {
+      let workData = {
+        workTitle: textTitle,
+        workContent: textarea,
+        workStartDate: startValue,
+        workEndDate: endValue,
+        workType: radioValue,
+        employee: { empNum: user },
+      };
+      await api.addWork(workData).then((response) => {
+        setAddOpen(false);
+        setOpenInsert(false);
+        if (response.data.status === 'OK') {
+          sweetAlertSuccess(response.data.message, 'success', '/goco');
+        } else {
+          sweetAlertSuccess(response.data.message, 'error', '/goco');
+        }
+       
+      })
+    } else { 
       setAddOpen(false);
       setOpenInsert(false);
-      if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco');
-      } else {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
-      }
-     
-    })
+      sweetAlert2('마지막 날짜를 시작 날짜 전으로 잡을 수 없습니다.', 'error');
+    }
+
   };
   return (
     <div>

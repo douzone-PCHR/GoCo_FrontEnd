@@ -293,7 +293,19 @@ export const getChangePhoneNumber = (data) =>
 // 리프레쉬 토큰을 통해 엑세스 토큰을 받아 오는 것
 export const getAccessToken = () =>
   client({
-    url: '/auth/newtoken',
+    url: '/user/newtoken',
+    method: 'get',
+  });
+// 로그아웃
+export const logOut = () =>
+  client({
+    url: '/auth/logOut',
+    method: 'get',
+  });
+// userMe
+export const userMe = () =>
+  client({
+    url: '/user/me',
     method: 'get',
   });
 

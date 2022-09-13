@@ -1,5 +1,7 @@
 import {
   Button,
+  Chip,
+  IconButton,
   Modal,
   Table,
   TableBody,
@@ -7,6 +9,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
@@ -14,6 +17,8 @@ import style from '../../CSS/admin.module.css';
 import { ChildModal } from './ChildModal';
 import * as api from '../../api/index';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Delete } from '@mui/icons-material';
 
 export const UnitModalComponent = ({
   open,
@@ -114,7 +119,9 @@ export const UnitModalComponent = ({
                   let member = [];
                   return dept && dept.unitName === team.parentUnit.unitName ? (
                     <TableRow key={idx}>
-                      <TableCell>{team.unitName}</TableCell>
+                      <TableCell>
+                        <Chip label={team.unitName}></Chip>
+                      </TableCell>
                       {managers.length !== 0 &&
                         managers.map((manager) => {
                           if (
@@ -150,7 +157,7 @@ export const UnitModalComponent = ({
                         </Tooltip>
                       )}
                       <TableCell padding="none" align="right" colSpan={10}>
-                        <Button
+                        <IconButton
                           onClick={() => {
                             Swal.fire({
                               title: '팀명 변경',
@@ -187,9 +194,9 @@ export const UnitModalComponent = ({
                               }
                             });
                           }}>
-                          팀 수정
-                        </Button>
-                        <Button
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
                           onClick={() => {
                             Swal.fire({
                               title: `${team.unitName}팀을 삭제 하시겠습니까?`,
@@ -240,8 +247,8 @@ export const UnitModalComponent = ({
                               }
                             });
                           }}>
-                          팀 삭제
-                        </Button>
+                          <DeleteIcon></DeleteIcon>
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -256,52 +263,6 @@ export const UnitModalComponent = ({
                 setHandleModal(true);
               }}>
               팀추가
-            </Button>
-
-            <Button
-              onClick={() => {
-                Swal.fire({
-                  title: `${dept?.unitName}부서를 삭제 하시겠습니까?`,
-                  icon: 'warning',
-                  target: '#parent-modal',
-                  confirmButtonText: '삭제하기',
-                  showCancelButton: true,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    deleteUnitAPI(dept.unitId, 1).then((data) => {
-                      console.log(data);
-                      switch (data) {
-                        case -1:
-                          break;
-                        case 1:
-                          Swal.fire({
-                            target: '#parent-modal',
-                            title: `부서 내에 사원이 존재합니다.`,
-                            confirmButtonText: '확인',
-                            icon: 'warning',
-                          });
-                          break;
-                        case 2:
-                          Swal.fire({
-                            target: '#parent-modal',
-                            title: `${dept.unitName}부서가 삭제되었습니다.`,
-                            confirmButtonText: '확인',
-                            icon: 'success',
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              setOpen(false);
-                              render();
-                            }
-                          });
-                          break;
-                        default:
-                          break;
-                      }
-                    });
-                  }
-                });
-              }}>
-              부서 삭제
             </Button>
             <Button
               onClick={() => {

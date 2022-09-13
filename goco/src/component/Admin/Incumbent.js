@@ -1,5 +1,5 @@
 import { Pagination, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { TableCellComponent } from './TableCellComponent';
 import { AdminTableHead } from './TableHead';
 
@@ -14,7 +14,7 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
     setPage(0);
   };
   return (
-    <TableContainer sx={{ height: '45vh' }}>
+    <TableContainer component={Paper} sx={{ minWidth: 1000 }}>
       <Table>
         <AdminTableHead />
         <TableBody>

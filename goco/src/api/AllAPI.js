@@ -1,5 +1,5 @@
 import * as api from './index';
-import { setCookie, deleteCookie } from './authAPI';
+import { setCookie } from './authAPI';
 import {
   sweetAlert2,
   sweetAlertSuccess,
@@ -11,6 +11,9 @@ export const getAccessTokenAPI = async () => {
     .getAccessToken()
     .then((response) => {
       console.log('accesstoken 함수의 리스펀스 : ', response);
+      if (response.statusText === 'OK') {
+        window.location.reload();
+      }
     })
     .catch((error) => {
       console.log('accesstoken 함수의 error : ', error);
@@ -230,7 +233,7 @@ export const NoticeBoardAPI = async (setData, setShowData) => {
       setShowData(response.data);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`NoticeBoardAPI 에러 발생 : ${error}`, 'error');
     });
 };
 // 자유게시판 받아오기
@@ -242,7 +245,7 @@ export const FreeBoardAPI = async (setData, setShowData) => {
       setShowData(response.data);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 게시글 작성
@@ -257,7 +260,7 @@ export const BoardInsertAPI = async (insertData) => {
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 게시글 수정
@@ -272,7 +275,7 @@ export const BoardUpdateAPI = async (updateData, boardId) => {
       sweetAlertSuccess('수정이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 게시글 상세 보기
@@ -283,7 +286,7 @@ export const BoardSelectAPI = async (boardId, setData) => {
       setData(response.data);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`BoardSelectAPI 에러 발생 : ${error}`);
     });
 };
 // 게시글 삭제
@@ -294,7 +297,7 @@ export const deleteBoardAPI = async (boardId) => {
       sweetAlertSuccess('게시글이 삭제되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      sweetAlert2(`${error.response.data.message}`, 'warning');
+      console.log(`${error.response.data.message}`);
     });
 };
 // 모든 댓글 받아오기
@@ -306,7 +309,7 @@ export const GetAllCommentAPI = async (boardId, setCommentData) => {
       setCommentData(response.data);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 댓글 입력
@@ -321,7 +324,7 @@ export const CommentInsertAPI = async (comment) => {
       sweetAlertComment('댓글이 입력되었습니다.', 'success', `/boardselect/${comment.boardId}`);
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 댓글 삭제
@@ -336,7 +339,7 @@ export const CommentDeleteAPI = async (comment) => {
       );
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 // 댓글 업데이트
@@ -359,7 +362,7 @@ export const CommentUpdateAPI = async (comment, commentContent) => {
       );
     })
     .catch((error) => {
-      sweetAlert2(`에러 발생 : ${error}`, 'error');
+      console.log(`에러 발생 : ${error}`);
     });
 };
 ////// 회원 삭제
@@ -368,7 +371,8 @@ export const deleteEmpAPI = async () => {
     .getDeleteEmp()
     .then((response) => {
       if (response.data) {
-        deleteCookie(); //쿠키삭제
+        api.logOut();
+        // deleteCookie(); //쿠키삭제
         sweetAlertSuccess('탈퇴 성공', 'success', '/login');
       }
     })
@@ -406,7 +410,7 @@ export const pwdChangeAPI = async (textData) => {
       }
     })
     .catch((error) => {
-      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };
 // 회원 이메일 변경
@@ -429,11 +433,10 @@ export const changeEmailAPI = async (textData) => {
       }
     })
     .catch((error) => {
-      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
     });
 };
 // 회원 번호 변경
-
 export const changePhoneNumberAPI = async (textData) => {
   const text = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
   if (
@@ -456,6 +459,46 @@ export const changePhoneNumberAPI = async (textData) => {
       }
     })
     .catch((error) => {
-      sweetAlert2(error.response.data.message, 'warning'); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
+    });
+};
+// 로그아웃
+export const logOutAPI = async () => {
+  await api
+    .logOut()
+    .then((response) => {
+      if (response.data === 1) {
+        window.location.href = '/login';
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+// 쿠키삭제 요청
+export const deleteCookieAPI = async () => {
+  await api
+    .logOut()
+    .then((response) => {
+      if (response.data === 1) {
+        console.log('로그인 이동됨, 쿠키 정상 삭제');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+//////회원 정보확인 userMe
+export const userMeAPI = async (setData) => {
+  await api
+    .userMe()
+    .then((response) => {
+      localStorage.setItem('authority', response.data.authority);
+      setData(response.data);
+    })
+    .catch((error) => {
+      if (error.response.data.message === '403') {
+        window.location.href = '/login';
+      }
     });
 };

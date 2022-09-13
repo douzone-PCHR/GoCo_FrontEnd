@@ -5,7 +5,7 @@ import { TableModalComponent } from './TableModalComponent';
 export const TableCellComponent = ({ processingData, data, checkFnc }) => {
   const [open, setOpen] = useState(false);
   const empInfo = data && {
-    id: data?.empNum, //id값을 넘겨받으며 사원 수정
+    id: data?.empNum, // id값을 넘겨받으며 사원 수정
     name: data?.name,
     jobTitle: {
       jobTitleName: data.jobTitle?.jobTitleName,

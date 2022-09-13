@@ -3,13 +3,13 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../../CSS/employeecss/UserUpdate.module.css';
-import { userMeAPI } from '../../api/employeeAPI';
 import PasswordChange from '../../component/Employee/PasswordChange';
 import DeleteEmp from '../../component/Employee/DeleteEmp';
 import ChangeEmail from '../../component/Employee/ChangeEmail';
 import ChangePhoneNumber from '../../component/Employee/ChangePhoneNumber';
 import NameAndId from '../../component/Employee/NameAndId';
 import ReturnButton from '../../component/Employee/ReturnButton';
+import { userMeAPI } from '../../api/AllAPI';
 const theme = createTheme();
 
 export default function UserDataUpdate() {

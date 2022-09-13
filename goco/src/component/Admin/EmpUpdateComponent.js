@@ -119,7 +119,7 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
   return type?.type !== '부서' ? (
     <div>
       {type?.type}
-      <Select value={value || ''} onChange={(e) => handleChange(e, setValue)}>
+      <Select size="small" value={value || ''} onChange={(e) => handleChange(e, setValue)}>
         {type.data &&
           type.data.map((result) => {
             return (

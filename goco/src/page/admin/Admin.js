@@ -18,6 +18,7 @@ import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { getUser } from '../../component/auth/Login/sessionLogin';
 import { Resignation } from '../../component/Admin/Resignation';
+import { Box } from '@mui/system';
 const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
   switch (selectValue) {
     case 1:
@@ -115,6 +116,7 @@ export const Admin = () => {
             value={tabValue}
             onChange={(e, newValue) => {
               setSelectValue(1);
+
               setTabValue(newValue);
             }}>
             <Tab label="재직자" value={1}></Tab>
@@ -152,14 +154,12 @@ export const Admin = () => {
               <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
             ) : (
               handleSelectValue(selectValue, processingData, checkFnc, emp)
-              // <div />
             )
           ) : (
             <Resignation resignations={resignations} searchName={searchName} />
           )}
         </div>
       </div>
-      <div />
     </div>
   );
 };

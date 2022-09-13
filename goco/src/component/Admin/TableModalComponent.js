@@ -40,36 +40,38 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
         aria-describedby="modal-modal-description"
         id="emp-info-modal">
         <div className={style.modal}>
+          {console.log(empInfo)}
           <Typography
             id="modal-modal-title"
-            variant="h6"
+            variant="h5"
             component="h2"
             fontWeight={'bold'}
             padding={2}>
             사원정보
           </Typography>
-          <Table sx={{ marginTop: '3%' }}>
+          <Table sx={{ marginTop: '5%' }}>
             <TableHead>
               <TableRow>
                 {/* 이름 */}
                 <TableCell>
                   <Avatar></Avatar>
                 </TableCell>
-                <TableCell>{empInfo.name}</TableCell>
+                <TableCell sx={{ fontSize: '20px' }}>
+                  {empInfo.name}({empInfo.id})
+                </TableCell>
                 <TableCell colSpan={10} align="right">
                   <Button
-                    sx={{ color: '#dd2c00' }}
+                    sx={{ color: 'rgb(235,100,70)' }}
                     onClick={() => {
                       Swal.fire({
                         icon: 'warning',
                         title: '퇴사처리 하시겠습니까?',
                         text: '* 퇴사 처리시 되돌릴 수 없습니다.',
-                        iconColor: 'red',
-                        color: 'red',
+                        iconColor: 'rgb(235,100,70)',
                         showConfirmButton: true,
                         confirmButtonText: '퇴사처리',
                         cancelButtonText: '취소',
-                        confirmButtonColor: '#ef4f00',
+                        confirmButtonColor: 'rgb(235,100,70)',
                         showCancelButton: true,
                         target: document.getElementById('emp-info-modal'),
                       }).then((result) => {
@@ -162,7 +164,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
             </TableBody>
           </Table>
           <Button
-            sx={{ marginTop: '5%' }}
+            sx={{ marginTop: '30%' }}
             onClick={() => {
               setOpen(false);
             }}>

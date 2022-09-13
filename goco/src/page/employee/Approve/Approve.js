@@ -10,8 +10,8 @@ import ApproveForm from './ApproveForm';
 import { getVacations } from '../../../api/vacationAPI';
 import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
-import { userMeAPI } from '../../../api/employeeAPI';
 import style from '../../../CSS/approve.module.css';
+import { userMeAPI } from '../../../api/AllAPI';
 
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
@@ -66,7 +66,10 @@ export default function Approve() {
           type={value}
         />
 
-        <Box sx={{ display: 'flex', marginLeft: '10vw' }} flexDirection="column" position="sticky">
+        <Box
+          sx={{ display: 'flex', marginLeft: '5%', marginTop: '3%', minWidth: '60%' }}
+          flexDirection="column"
+          position="sticky">
           <Box sx={{ display: 'flex' }} justifyContent="space-between">
             <Tabs
               value={value}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sweetAlertCookie } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 import { getCookie } from './authAPI';
 
 const client = axios.create();
@@ -11,16 +12,19 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response.headers.refresh === 'true') {
+      sweetAlertCookie();
+    }
+    if (error.response.headers.refresh === 'false') {
+      window.location.href = '/login';
+    }
     if (error.response.status === 400) {
       console.error(error);
-      // window.location.href = '/';
     }
     if (error.response.status === 401) {
-      // window.location.href = '/';
       console.error(error);
     }
     if (error.response.status === 403) {
-      // window.location.href = '/';
       console.error(error);
     }
     if (error.response.status === 500) {
