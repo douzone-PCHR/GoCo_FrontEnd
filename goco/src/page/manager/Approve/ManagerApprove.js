@@ -7,9 +7,9 @@ import ManagerBusinessTrips from './ManagerBusinessTrip';
 import { approveBusinessTripList } from '../../../api/businessTripAPI';
 import { approveVacationList } from '../../../api/vacationAPI';
 import ApproveSideBar from '../../employee/Approve/ApproveSideBar';
-import { userMeAPI } from '../../../api/employeeAPI';
 import { getUser } from '../../../component/auth/Login/sessionLogin';
 import { MenuItem, Select } from '@mui/material';
+import { userMeAPI } from '../../../api/AllAPI';
 
 export default function ManagerApprove() {
   const [approveList, setApproveList] = useState([]);

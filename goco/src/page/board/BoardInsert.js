@@ -7,8 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import { userMeAPI } from '../../api/employeeAPI';
-import { BoardInsertAPI } from '../../api/AllAPI';
+import { BoardInsertAPI, userMeAPI } from '../../api/AllAPI';
 import BoardInsertButtonGroup from '../../component/Board/BoardInsertButtonGroup';
 
 const NoticeWriteComponent = () => {

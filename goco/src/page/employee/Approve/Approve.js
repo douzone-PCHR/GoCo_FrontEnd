@@ -10,8 +10,8 @@ import ApproveForm from './ApproveForm';
 import { getVacations } from '../../../api/vacationAPI';
 import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
-import { userMeAPI } from '../../../api/employeeAPI';
 import style from '../../../CSS/approve.module.css';
+import { userMeAPI } from '../../../api/AllAPI';
 
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
