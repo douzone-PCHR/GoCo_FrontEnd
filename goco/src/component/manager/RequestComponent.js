@@ -13,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import usePagination from '../../util/Pagination';
+import { Link } from 'react-router-dom';
 function typeName(vacationType) {
   let result = '';
   switch (vacationType) {
@@ -75,7 +76,9 @@ export default function RequestComponent({ getRequsetData }) {
             float: 'right',
             lineHeight: '24px',
           }}>
-          더보기
+          <Link to="/approveteam" style={{ color: 'black', textDecoration: 'none' }}>
+            더보기
+          </Link>
         </Button>
       </Typography>
       <Divider />
@@ -88,7 +91,6 @@ export default function RequestComponent({ getRequsetData }) {
           aria-label="custom pagination table">
           <TableBody>
             {pageData.currentData().map((data, index) => {
-              // console.log(data);
               return (
                 <TableRow key={index}>
                   <TableCell

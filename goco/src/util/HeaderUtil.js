@@ -24,7 +24,6 @@ export const status = (data) => {
 };
 
 export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) => {
-  console.log(urlValue);
   if (authority === 'ROLE_MANAGER') {
     setCheck(true);
     switch (urlValue) {
