@@ -22,6 +22,7 @@ import { deleteAdminEmpAPI } from '../../api/employeeAPI';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
 import { confirm, resultConfirm } from '../../common/confirm';
+import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
 
 function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
   setUpdateModal(true);
@@ -143,6 +144,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
               {/* 직책 */}
               <TableRow>
                 <TableCell sx={{ fontWeight: 'bold' }}>직책</TableCell>
+                {console.log(empInfo.teamPosition)}
                 <TableCell align="center">{empInfo.teamPosition.teamPositionName}</TableCell>
                 <TableCell>
                   <IconButton

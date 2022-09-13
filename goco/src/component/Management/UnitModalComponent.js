@@ -1,8 +1,18 @@
-import { Button, Modal, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Button,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 import { Fragment, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { getManager } from '../../api/employeeAPI';
 import { deleteUnitAPI, updateUnitAPI } from '../../api/unitAPI';
+import { confirm, resultConfirm } from '../../common/confirm';
 import style from '../../CSS/admin.module.css';
 import { ChildModal } from './ChildModal';
 
@@ -14,11 +24,13 @@ export const UnitModalComponent = ({
   handleModal,
   setHandleModal,
   render,
+  check,
 }) => {
   const [managers, setManagers] = useState([]);
   useEffect(() => {
     dept?.unitId && getManager(dept.unitId, setManagers);
-  }, [dept?.unitId, handleModal]);
+  }, [dept?.unitId, check]);
+
   return (
     <>
       <Modal
@@ -32,29 +44,53 @@ export const UnitModalComponent = ({
             <TableHead>
               <TableRow>
                 <TableCell sx={{ width: '30%' }}>부서: {dept?.unitName}</TableCell>
-                <TableCell colSpan={5}>팀장</TableCell>
+                <TableCell>팀장</TableCell>
+                <TableCell colSpan={5}>팀원</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {teams &&
                 teams.map((team, idx) => {
-                  let check = false;
+                  let mgrCheck = false;
+                  let empCheck = 0;
+                  let member = [];
                   return dept && dept.unitName === team.parentUnit.unitName ? (
                     <TableRow key={idx}>
                       <TableCell>{team.unitName}</TableCell>
                       {managers.length !== 0 &&
-                        managers.map((manager, key) => {
-                          if (manager.unit.unitName === team.unitName) {
-                            check = true;
+                        managers.map((manager) => {
+                          if (
+                            manager.unit.unitName === team.unitName &&
+                            manager.teamPosition.teamPositionId === 1
+                          ) {
+                            mgrCheck = true;
                             return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                           }
-                          // return manager.unit.unitName === team.unitName ? (
-                          //   <TableCell key={manager.empNum}>{manager.name}</TableCell>
-                          // ) : (
-                          //   <TableCell key={manager.empNum}></TableCell>
-                          // );
                         })}
-                      {check === false && <TableCell>없음</TableCell>}
+                      {mgrCheck === false && <TableCell>없음</TableCell>}
+                      {managers.length !== 0 &&
+                        managers.map((manager) => {
+                          if (
+                            manager.unit.unitName === team.unitName &&
+                            manager.teamPosition.teamPositionId === 2
+                          ) {
+                            if (empCheck >= 1) {
+                              member.push(`${manager.name}`);
+                              return null;
+                            }
+                            ++empCheck;
+                            return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
+                          }
+                        })}
+                      {member.length !== 0 && (
+                        <Tooltip
+                          placement="right"
+                          title={
+                            <div style={{ whiteSpace: 'pre-line' }}> {member.join('\n')}</div>
+                          }>
+                          <TableCell>...</TableCell>
+                        </Tooltip>
+                      )}
                       <TableCell padding="none" align="right" colSpan={10}>
                         <Button
                           onClick={() => {
@@ -63,39 +99,41 @@ export const UnitModalComponent = ({
                               input: 'text',
                               toast: true,
                               inputPlaceholder: '변경할 팀 이름을 입력해주세요:',
-                              target: '#parent-modal',
+                              target: document.getElementById('parent-modal'),
                               showCancelButton: true,
                             }).then((result) => {
-                              if (result.isConfirmed) {
-                                updateUnitAPI(team.unitId, result.value).then((results) => {
-                                  if (results) {
-                                    Swal.fire({
-                                      icon: 'success',
-                                      title: '팀명이 변경되었습니다.',
-                                      target: '#parent-modal',
-                                      text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
-                                      confirmButtonText: '확인',
-                                    }).then((result) => {
-                                      if (result.isConfirmed) {
-                                        setOpen(false);
-                                      }
-                                    });
-                                  } else {
-                                    Swal.fire({
-                                      title: '중복된 팀명입니다.',
-                                      icon: 'error',
-                                      target: '#parent-modal',
-                                      showConfirmButton: true,
-                                      confirmButtonText: '확인',
-                                    });
-                                  }
-                                });
+                              if (result.value) {
+                                result.isConfirmed &&
+                                  updateUnitAPI(team.unitId, result.value).then((results) => {
+                                    results
+                                      ? resultConfirm(
+                                          '팀명이 변경되었습니다.',
+                                          null,
+                                          'success',
+                                          document.getElementById('parent-modal')
+                                        ).then((result) => {
+                                          render();
+                                          result.confirm && setOpen(false);
+                                        })
+                                      : resultConfirm(
+                                          '중복된 팀명입니다.',
+                                          null,
+                                          'error',
+                                          document.getElementById('parent-modal')
+                                        );
+                                  });
+                              } else {
+                                resultConfirm(
+                                  '팀명을 입력해주세요.',
+                                  null,
+                                  'warning',
+                                  document.getElementById('parent-modal')
+                                );
                               }
                             });
                           }}>
                           팀 수정
                         </Button>
-
                         <Button
                           onClick={() => {
                             Swal.fire({

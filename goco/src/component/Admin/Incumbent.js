@@ -1,5 +1,5 @@
 import { Pagination, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { TableCellComponent } from './TableCellComponent';
 import { AdminTableHead } from './TableHead';
 
@@ -13,7 +13,6 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <TableContainer sx={{ height: '45vh' }}>
       <Table>
@@ -24,6 +23,7 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
               ? emp?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : emp
             ).map((element, index) => {
+              console.log(element);
               return (
                 <TableCellComponent
                   processingData={processingData}

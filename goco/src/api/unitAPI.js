@@ -47,7 +47,6 @@ export const updateUnitAPI = async (unitId, unitName) => {
     unitName: unitName,
   };
   return await axios.put(`${url}/${unitId}`, unit).then((response) => {
-    console.log(response.data);
     return response.data;
   });
 };

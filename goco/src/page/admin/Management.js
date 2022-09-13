@@ -35,6 +35,7 @@ export const Management = () => {
 
   useEffect(() => {
     getUnitsAPI(setUnits);
+    console.log(1);
   }, [check, open, handleModal]);
 
   units &&
@@ -119,6 +120,7 @@ export const Management = () => {
         handleModal={handleModal}
         setHandleModal={setHandleModal}
         render={render}
+        check={check}
       />
     </>
   );
