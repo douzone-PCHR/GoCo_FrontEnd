@@ -8,6 +8,7 @@ import { getUnitsAPI } from '../../api/unitAPI';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { getUser } from '../../component/auth/Login/sessionLogin';
 import { Resignation } from '../../component/Admin/Resignation';
+import { Box } from '@mui/system';
 const unitProcessing = (units) => {
   let teams, depts, check;
   let processing = {
@@ -76,26 +77,29 @@ export const Admin = () => {
 
   processingData = units && unitProcessing(units);
   return (
-    <div className={style.Container}>
-      <div />
-      <div className={style.item}>
-        <Tabs
-          value={tabValue}
-          onChange={(e, newValue) => {
-            setTabValue(newValue);
-          }}>
-          <Tab label="재직자" value={1}></Tab>
-          <Tab label="퇴사자" value={2}></Tab>
-        </Tabs>
-        <div>
-          {tabValue === 1 ? (
-            <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
-          ) : (
-            <Resignation resignations={resignations} />
-          )}
+    <>
+      <div
+        className={style.Container}
+        sx={{ display: 'flex', marginLeft: '5%', marginRight: '5%', minWidth: '60%' }}>
+        <div className={style.item}>
+          <Tabs
+            value={tabValue}
+            onChange={(e, newValue) => {
+              setTabValue(newValue);
+            }}>
+            <Tab label="재직자" value={1}></Tab>
+            <Tab label="퇴사자" value={2}></Tab>
+          </Tabs>
+          <Box>
+            {tabValue === 1 ? (
+              <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
+            ) : (
+              <Resignation resignations={resignations} />
+            )}
+          </Box>
         </div>
+        {/* <div /> */}
       </div>
-      <div />
-    </div>
+    </>
   );
 };

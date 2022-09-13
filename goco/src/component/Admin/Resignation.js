@@ -1,5 +1,6 @@
 import {
   Chip,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -21,15 +22,15 @@ export const Resignation = ({ resignations }) => {
     setPage(0);
   };
   return (
-    <TableContainer sx={{ height: '45vh' }}>
+    <TableContainer component={Paper} sx={{ minWidth: 1000 }}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>이름</TableCell>
-            <TableCell>전화번호</TableCell>
-            <TableCell>이메일</TableCell>
-            <TableCell>퇴사일</TableCell>
-            <TableCell>입사일</TableCell>
+            <TableCell align="center">이름</TableCell>
+            <TableCell align="center">전화번호</TableCell>
+            <TableCell align="center">이메일</TableCell>
+            <TableCell align="center">퇴사일</TableCell>
+            <TableCell align="center">입사일</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
