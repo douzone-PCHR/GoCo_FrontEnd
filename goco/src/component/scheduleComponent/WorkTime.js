@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
-import { Divider, TableHead, Typography } from '@mui/material';
+import { Chip, Divider, TableHead, Typography } from '@mui/material';
 
 export default function WorkTime({ commuteTimeData }) {
   return (
@@ -22,7 +22,7 @@ export default function WorkTime({ commuteTimeData }) {
         }}>
         <Typography
           elevation={0}
-          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '8px solid #00AAFF' }}
+          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '5px solid #00AAFF' }}
           variant="h6"
           component="div"
           style={{
@@ -73,7 +73,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  40h
+                  <Chip color="default" size="small" sx={{ width: '50px' }} label="40h" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -96,7 +96,13 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  {commuteTimeData.commute_work_time}h
+                  <Chip
+                    size="small"
+                    sx={{ width: '50px', backgroundColor: '#00AAFF' }}
+                    label={`${
+                      commuteTimeData.commute_work_time ? commuteTimeData.commute_work_time : '0'
+                    }h`}
+                  />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -119,10 +125,16 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  {commuteTimeData.commute_work_time >= 40
-                    ? commuteTimeData.commute_work_time - 40
-                    : 0}
-                  h
+                  <Chip
+                    size="small"
+                    sx={{ width: '50px', backgroundColor: '#FF8B8B' }}
+                    color="error"
+                    label={` ${
+                      commuteTimeData.commute_work_time >= 40
+                        ? commuteTimeData.commute_work_time - 40
+                        : 0
+                    }h`}
+                  />
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -141,7 +153,7 @@ export default function WorkTime({ commuteTimeData }) {
         }}>
         <Typography
           elevation={0}
-          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '8px solid #FF8B8B' }}
+          sx={{ mt: 4, mb: 2, marginTop: '1px', borderLeft: '5px solid #FF8B8B' }}
           variant="h6"
           component="div"
           style={{
@@ -160,9 +172,9 @@ export default function WorkTime({ commuteTimeData }) {
             <TableHead>
               <TableRow>
                 <TableCell align="left">휴가 그룹</TableCell>
-                <TableCell align="left">총</TableCell>
-                <TableCell align="left">사용</TableCell>
-                <TableCell align="left">잔여</TableCell>
+                <TableCell align="center">총</TableCell>
+                <TableCell align="center">사용</TableCell>
+                <TableCell align="center">잔여</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -184,7 +196,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                     textAlign: 'center',
                   }}>
-                  11
+                  <Chip size="small" color="default" label="11" sx={{ width: '30px' }} />
                 </TableCell>
                 <TableCell
                   style={{
@@ -194,9 +206,16 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                     textAlign: 'center',
                   }}>
-                  {String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
-                    ? String(parseInt(11) - commuteTimeData.vacation_count)
-                    : 0}
+                  <Chip
+                    size="small"
+                    sx={{ width: '30px', backgroundColor: '#00AAFF' }}
+                    label={
+                      commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
+                      // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
+                      //   ? String(parseInt(11) - commuteTimeData.vacation_count)
+                      // : 0
+                    }
+                  />
                 </TableCell>
                 <TableCell
                   style={{
@@ -206,7 +225,12 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                     textAlign: 'center',
                   }}>
-                  {commuteTimeData.vacation_count}
+                  <Chip
+                    size="small"
+                    color="info"
+                    sx={{ width: '30px' }}
+                    label={commuteTimeData.vacation_count}
+                  />
                 </TableCell>
               </TableRow>
             </TableBody>
