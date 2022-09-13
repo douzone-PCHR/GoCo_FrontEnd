@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 import * as api from '../../api/index';
 import style from '../../CSS/admin.module.css';
 import { resultConfirm } from '../../common/confirm';
-export const ChildModal = ({ handleModl, setHandleModal, dept }) => {
+export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
   const [empTeamMembers, setEmpTeamMembers] = useState({ userRoles: [] });
   const [emps, setEmps] = useState();
   const [mgrNum, setmgrNum] = useState();

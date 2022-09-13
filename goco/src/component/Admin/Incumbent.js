@@ -1,4 +1,11 @@
-import { Pagination, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import {
+  Pagination,
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  TablePagination,
+} from '@mui/material';
 import { useState } from 'react';
 import { TableCellComponent } from './TableCellComponent';
 import { AdminTableHead } from './TableHead';

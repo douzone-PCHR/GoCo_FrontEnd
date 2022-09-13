@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Input,
-  MenuItem,
-  Pagination,
-  Select,
-  Tab,
-  Table,
-  TableBody,
-  Tabs,
-} from '@mui/material';
+import { Box, Button, Input, MenuItem, Select, Tab, Tabs } from '@mui/material';
 import style from '../../CSS/admin.module.css';
 import { TableCellComponent } from '../../component/Admin/TableCellComponent';
 import { Fragment, useEffect, useRef, useState } from 'react';
@@ -18,7 +7,6 @@ import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { getUser } from '../../component/auth/Login/sessionLogin';
 import { Resignation } from '../../component/Admin/Resignation';
-import { Box } from '@mui/system';
 const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
   switch (selectValue) {
     case 1:
