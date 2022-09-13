@@ -38,72 +38,19 @@ root.render(
         <Route path="/findid" index element={<FindId />} />
         <Route path="/showid" index element={<ShowId />} />
         <Route path="/findpwd" index element={<FindPwd />} />
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute authenticated={access} authority={authority} component={<Admin />} />
-          }
-        />
-        <Route
-          path="/management"
-          element={
-            <AdminRoute authenticated={access} authority={authority} component={<Management />} />
-          }
-        />
-        <Route
-          path="/manager"
-          index
-          element={
-            <AuthorityRoute
-              authenticated={access}
-              authority={authority}
-              component={<ManagerMain />}
-            />
-          }
-        />
-        <Route
-          path="/approveteam"
-          element={
-            <AuthorityRoute
-              authenticated={access}
-              authority={authority}
-              component={<ManagerApprove />}
-            />
-          }
-        />
-
-        <Route
-          path="/userupdate"
-          index
-          element={<PrivateRoute authenticated={access} component={<UserUpdate />} />}
-        />
-        <Route
-          path="/goco"
-          index
-          element={<PrivateRoute authenticated={access} component={<Main />} />}
-        />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/management" element={<Management />} />
+        <Route path="/manager" index element={<ManagerMain />} />
+        <Route path="/approveteam" element={<ManagerApprove />} />
+        <Route path="/userupdate" index element={<UserUpdate />} />
+        <Route path="/goco" index element={<Main />} />
         <Route path="/currentStatus" index element={<Myteamcurrentstatus />} />
         <Route path="*" index element={<NotFound />} />
-        <Route
-          path="/approve"
-          element={<PrivateRoute authenticated={access} component={<Approve />} />}
-        />
-        <Route
-          path="/board"
-          element={<PrivateRoute authenticated={access} component={<Board />} />}
-        />
-        <Route
-          path="/boardinsert"
-          element={<PrivateRoute authenticated={access} component={<BoardInsert />} />}
-        />
-        <Route
-          path="/boardselect/:boardId"
-          element={<PrivateRoute authenticated={access} component={<BoardSelect />} />}
-        />
-        <Route
-          path="/BoardUpdate/:boardId"
-          element={<PrivateRoute authenticated={access} component={<BoardUpdate />} />}
-        />
+        <Route path="/approve" element={<Approve />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/boardinsert" element={<BoardInsert />} />
+        <Route path="/boardselect/:boardId" element={<BoardSelect />} />
+        <Route path="/BoardUpdate/:boardId" element={<BoardUpdate />} />
       </Route>
     </Routes>
   </BrowserRouter>
