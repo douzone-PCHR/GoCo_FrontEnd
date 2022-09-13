@@ -1,5 +1,8 @@
+import { Edit, Search } from '@mui/icons-material';
 import {
   Button,
+  Chip,
+  IconButton,
   Modal,
   Table,
   TableBody,
@@ -57,10 +60,14 @@ export const Management = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ width: '15%' }}>부서</TableCell>
-                  <TableCell colSpan={10}>팀</TableCell>
+                  <TableCell align="center">부서</TableCell>
+                  <TableCell colSpan={10} align="center">
+                    팀
+                  </TableCell>
                   <TableCell padding="none" align="right">
                     <Button
+                      color="info"
+                      variant="contained"
                       onClick={() => {
                         setInsertBtn(true);
                       }}>
@@ -77,21 +84,28 @@ export const Management = () => {
                   ).map((dept) => {
                     return (
                       <TableRow key={dept.unitId}>
-                        <TableCell>{dept.unitName}</TableCell>
+                        <TableCell align="center">
+                          <Chip
+                            color="primary"
+                            label={dept.unitName}
+                            sx={{ minWidth: '60%' }}></Chip>
+                        </TableCell>
                         {teams &&
                           teams.map((team) => {
                             return dept.unitName === team.parentUnit.unitName ? (
-                              <TableCell key={team.unitId}>{team.unitName}</TableCell>
+                              <TableCell key={team.unitId} align="center">
+                                <Chip label={team.unitName}></Chip>
+                              </TableCell>
                             ) : null;
                           })}
                         <TableCell align="right" colSpan={20} padding="none">
-                          <Button
+                          <IconButton
                             onClick={() => {
                               setOpen(true);
                               setDept(dept);
                             }}>
-                            수정하기
-                          </Button>
+                            <Search />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     );

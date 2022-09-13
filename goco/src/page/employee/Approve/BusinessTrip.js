@@ -200,7 +200,7 @@ export default function BusinessTrips({
       });
   }
   return (
-    <TableContainer component={Paper} sx={{ marginTop: '5%', maxHeight: 600, minWidth: 1000 }}>
+    <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 1000 }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
