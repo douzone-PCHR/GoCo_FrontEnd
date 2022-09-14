@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import styles from '../../../CSS/authcss/Login.module.css';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { loginAPI } from '../../../api/AllAPI';
 export function LoginButtonGroup() {
   const FindId = () => {
     window.location.href = '/findId';
@@ -24,22 +23,7 @@ export function LoginButtonGroup() {
   );
 }
 
-export function LoginInputButton({ values, setValues }) {
-  const LoginClick = (e) => {
-    // 로그인 클릭
-    if (values.id === '') {
-      //ID가 비어잇을 경우 retrun
-      setValues({ ...values, idInputError: true });
-      return;
-    }
-    if (values.password === '') {
-      //PWD가 비어잇을 경우 retrun
-      setValues({ ...values, pwdInputError: true });
-      return;
-    }
-    loginAPI(values.id, values.password);
-    setValues({ ...values, idInputError: false, pwdInputError: false }); // input error reset
-  };
+export function LoginInputButton({ LoginClick }) {
   return (
     <>
       <div className={styles.LoginButton}>
