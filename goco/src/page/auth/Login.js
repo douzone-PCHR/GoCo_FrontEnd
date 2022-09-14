@@ -4,6 +4,8 @@ import { LoginButtonGroup, LoginInputButton } from '../../component/auth/Login/L
 import LoginInsertID from '../../component/auth/Login/LoginInsertID';
 import LoginInsertPwd from '../../component/auth/Login/LoginInsertPwd';
 import { deleteCookieAPI, loginAPI } from '../../api/AllAPI';
+import { Authheader } from '../../component/auth/AuthHeader';
+import { AuthFooter } from '../../component/auth/AuthFooter';
 
 export default function Login() {
   const [values, setValues] = useState({
@@ -34,6 +36,7 @@ export default function Login() {
 
   return (
     <div className={styles.BackGround}>
+      <Authheader />
       <div className={styles.Border}>
         <div className={styles.LoginText}>로그인</div>
         <LoginInsertID values={values} setValues={setValues} LoginClick={LoginClick} />
@@ -44,6 +47,7 @@ export default function Login() {
         {/* --------------------버튼3개---------------------- */}
         <LoginButtonGroup />
       </div>
+      <AuthFooter />
     </div>
   );
 }
