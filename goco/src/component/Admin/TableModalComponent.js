@@ -1,7 +1,6 @@
 import {
   Avatar,
   Button,
-  Divider,
   IconButton,
   Modal,
   Table,
@@ -9,20 +8,17 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import style from '../../CSS/admin.module.css';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from 'sweetalert2';
 import * as api from '../../api/index';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
-import { confirm, resultConfirm } from '../../common/confirm';
-import { sweetAlert2 } from '../auth/AuthSweetAlert.js/sweetAlert2';
+import { resultConfirm } from '../../common/confirm';
 
 function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
   setUpdateModal(true);

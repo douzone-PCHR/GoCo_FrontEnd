@@ -17,7 +17,7 @@ const Header = () => {
     await api.headerData().then((response) => {
       if (response.data !== '') {
         setStatusData(response.data);
-        localStorage.setItem('team', response.data[0].employee.teamPosition.teamPositionId);
+        localStorage.setItem('team', response.data[0]?.employee.teamPosition.teamPositionId);
       }
     });
   };
