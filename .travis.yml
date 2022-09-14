@@ -50,19 +50,20 @@ deploy:
     local_dir: buildFolder
     on:
       all_branches: true
-
+    
   - provider: codedeploy 
     access_key_id: $AWS_ACCESS_KEY # 여기
     secret_access_key: $AWS_SECRET_KEY # 여기
-    bucket: pchr-goco
-    key : frontBuild.zip
+    bucket: goco-pchr
+    key : back.zip
     bundle_type : zip
-    application : goco-codedeploy
-    deployment_group: goco-codedeploy-group
+    application : goco-deploy
+    deployment_group: gocoCodeDeploy
     region: ap-northeast-2
     wait-until-deployed: true
     on:
       all_branches: true
+
 
 # CI 실행 완료 시 작성한 이메일로 알람.???
 notifications:
