@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import usePagination from '../../util/Pagination';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 export default function Notice({ noticeList }) {
   let [page, setPage] = useState(1);
@@ -58,7 +59,9 @@ export default function Notice({ noticeList }) {
             float: 'right',
             lineHeight: '24px',
           }}>
-          더보기
+          <Link to="/board" style={{ color: 'black', textDecoration: 'none' }}>
+            더보기
+          </Link>
         </Button>
       </Typography>
 

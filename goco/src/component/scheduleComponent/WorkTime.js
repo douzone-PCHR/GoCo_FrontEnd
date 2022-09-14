@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { Chip, Divider, TableHead, Typography } from '@mui/material';
+import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
   return (
@@ -193,7 +194,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontFamily: 'Inter',
                     fontStyle: 'normal',
                     fontWeight: '500',
-                    fontSize: '15px',
+                    fontSize: '10px',
                     textAlign: 'center',
                   }}>
                   <Chip size="small" color="default" label="11" sx={{ width: '40px' }} />

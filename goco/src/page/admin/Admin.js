@@ -1,11 +1,8 @@
 import { Box, Button, Input, MenuItem, Select, Tab, Tabs } from '@mui/material';
 import style from '../../CSS/admin.module.css';
-import { TableCellComponent } from '../../component/Admin/TableCellComponent';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { AdminTableHead } from '../../component/Admin/TableHead';
+import { Fragment, useEffect, useState } from 'react';
 import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
-import { getUser } from '../../component/auth/Login/sessionLogin';
 import { Resignation } from '../../component/Admin/Resignation';
 const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
   switch (selectValue) {
@@ -17,6 +14,8 @@ const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
       return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
     case 4:
       return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
+    default:
+      break;
   }
 };
 const unitProcessing = (units) => {
@@ -45,11 +44,13 @@ const unitProcessing = (units) => {
         if (teamCheck.unitType) {
           return teamCheck.parentUnit.unitId;
         }
+        return null;
       })
       .filter((teamCheck) => {
         if (teamCheck) {
           return teamCheck;
         }
+        return null;
       });
     const setCheckTeam = new Set(check);
     const checkTeam = [...setCheckTeam];

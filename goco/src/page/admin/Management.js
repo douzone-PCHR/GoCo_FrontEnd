@@ -1,8 +1,7 @@
-import { Edit, Search } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import {
   Button,
   IconButton,
-  Modal,
   Chip,
   Table,
   TableBody,

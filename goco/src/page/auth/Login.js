@@ -3,7 +3,9 @@ import styles from '../../CSS/authcss/Login.module.css';
 import { LoginButtonGroup, LoginInputButton } from '../../component/auth/Login/LoginButtonGroup';
 import LoginInsertID from '../../component/auth/Login/LoginInsertID';
 import LoginInsertPwd from '../../component/auth/Login/LoginInsertPwd';
-import { deleteCookieAPI } from '../../api/AllAPI';
+import { deleteCookieAPI, loginAPI } from '../../api/AllAPI';
+import { Authheader } from '../../component/auth/AuthHeader';
+import { AuthFooter } from '../../component/auth/AuthFooter';
 
 export default function Login() {
   const [values, setValues] = useState({
@@ -13,22 +15,39 @@ export default function Login() {
     idInputError: false,
     pwdInputError: false,
   });
+  const LoginClick = (e) => {
+    // 로그인 클릭
+    if (values.id === '') {
+      //ID가 비어잇을 경우 retrun
+      setValues({ ...values, idInputError: true });
+      return;
+    }
+    if (values.password === '') {
+      //PWD가 비어잇을 경우 retrun
+      setValues({ ...values, pwdInputError: true });
+      return;
+    }
+    loginAPI(values.id, values.password);
+    setValues({ ...values, idInputError: false, pwdInputError: false }); // input error reset
+  };
   useEffect(() => {
     deleteCookieAPI();
   }, []);
 
   return (
     <div className={styles.BackGround}>
+      <Authheader />
       <div className={styles.Border}>
         <div className={styles.LoginText}>로그인</div>
-        <LoginInsertID values={values} setValues={setValues} />
-        <LoginInsertPwd values={values} setValues={setValues} />
-        <LoginInputButton values={values} setValues={setValues} />
+        <LoginInsertID values={values} setValues={setValues} LoginClick={LoginClick} />
+        <LoginInsertPwd values={values} setValues={setValues} LoginClick={LoginClick} />
+        <LoginInputButton LoginClick={LoginClick} />
         {/* --------------------위까지 로그인 form 안이다.---------------------- */}
         <hr className={styles.Horizontal} />
         {/* --------------------버튼3개---------------------- */}
         <LoginButtonGroup />
       </div>
+      <AuthFooter />
     </div>
   );
 }

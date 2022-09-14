@@ -8,12 +8,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ShowIdButtonGroup from '../../component/auth/FindId/ShowIdButtonGroup';
-
+import { Authheader } from '../../component/auth/AuthHeader';
+import { AuthFooter } from '../../component/auth/AuthFooter';
 const theme = createTheme();
 export default function ShowId({ id }) {
   return (
     <>
       <div className={styles.BackGround}>
+        <Authheader />
         <div className={styles.Border}>
           <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="lg">
@@ -42,6 +44,7 @@ export default function ShowId({ id }) {
             </Container>
           </ThemeProvider>
         </div>
+        <AuthFooter />
       </div>
     </>
   );

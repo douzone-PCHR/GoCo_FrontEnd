@@ -8,11 +8,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import styles from '../../../CSS/authcss/Login.module.css';
 
-export default function LoginInsertPwd({ values, setValues }) {
+export default function LoginInsertPwd({ values, setValues, LoginClick }) {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
+  const keypress = (e) => {
+    if (e.keyCode === 13) {
+      LoginClick();
+    }
+  };
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -33,6 +37,7 @@ export default function LoginInsertPwd({ values, setValues }) {
           id="outlined-adornment-password"
           type={values.showPassword ? 'text' : 'password'}
           value={values.password}
+          onKeyDown={keypress}
           onChange={handleChange('password')}
           error={values.pwdInputError}
           endAdornment={

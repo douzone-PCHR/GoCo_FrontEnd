@@ -20,6 +20,7 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
       } else {
         teams.push(unit); // 팀정렬 하는 것
       }
+      return null;
     });
 
   return (
@@ -51,7 +52,6 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
                         <optgroup key={idex} label={unit.unitName}>
                           {teams &&
                             teams.map((team, idex) => {
-                              // console.log(team);
                               if (unit.unitId === team.parentUnit.unitId) {
                                 return (
                                   <option key={idex} value={JSON.stringify(team)}>
@@ -59,6 +59,7 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
                                   </option>
                                 );
                               }
+                              return null;
                             })}
                         </optgroup>
                       );

@@ -24,7 +24,7 @@ export const status = (data) => {
 };
 
 export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) => {
-  console.log(urlValue);
+  console.log(authority, urlValue);
   if (authority === 'ROLE_MANAGER') {
     setCheck(true);
     switch (urlValue) {
@@ -76,6 +76,20 @@ export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) =>
           setUrlValue('board');
           localStorage.setItem('modeChange', '0');
           break;
+        case 'admin':
+          setUrlValue('admin');
+          localStorage.setItem('modeChange', '3');
+          break;
+        case 'management':
+          setUrlValue('management');
+          localStorage.setItem('modeChange', '3');
+          break;
+        default:
+          localStorage.setItem('modeChange', '0');
+          break;
+      }
+    } else {
+      switch (urlValue) {
         case 'admin':
           setUrlValue('admin');
           localStorage.setItem('modeChange', '3');
