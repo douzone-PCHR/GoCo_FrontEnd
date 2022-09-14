@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { sweetAlertCookie } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+import {
+  sweetAlertComment,
+  sweetAlertCookie,
+} from '../component/auth/AuthSweetAlert.js/sweetAlert2';
 import { getCookie } from './authAPI';
 
 const client = axios.create();
@@ -22,10 +25,20 @@ client.interceptors.response.use(
       console.error(error);
     }
     if (error.response.status === 401) {
-      console.error(error);
+      if (
+        !error.response.headers.refresh === 'true' ||
+        error.response.headers.refresh !== undefined
+      ) {
+        sweetAlertComment('로그인 정보가 없습니다.', 'warning', '/login');
+      }
     }
     if (error.response.status === 403) {
-      console.error(error);
+      if (
+        !error.response.headers.refresh === 'true' ||
+        error.response.headers.refresh === undefined
+      ) {
+        sweetAlertComment('권한이 없습니다.', 'warning', '/goco');
+      }
     }
     if (error.response.status === 500) {
       console.error(error);

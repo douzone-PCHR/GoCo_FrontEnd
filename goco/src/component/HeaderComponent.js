@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 import { modeChange, status } from '../util/HeaderUtil';
 import { Button } from '@mui/material';
 import { logOutAPI } from '../api/AllAPI';
+import { sweetAlertComment } from './auth/AuthSweetAlert.js/sweetAlert2';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
-
+  let url = window.location.href.split('http://localhost:3000/')[1];
   useEffect(() => {
     window.onpopstate = () => {
       window.location.reload();
     };
-    setUrlValue(window.location.href.split('http://localhost:3000/')[1]);
+    if (localStorage.getItem('team') === '2' && (url === 'manager' || url === 'approveteam')) {
+      sweetAlertComment('권한이 없습니다.', 'warning', '/goco');
+    }
+    setUrlValue(url);
     modeChange(urlValue, setUrlValue, statusData[0]?.employee?.authority, setCheck, check);
   }, []);
   if (check) {
@@ -70,9 +74,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
             게시판
           </Link>
 
-          <Link
-            to={window.location.href.split('http://localhost:3000/')[1]}
-            style={{ color: '#00AAFF' }}>
+          <Link to={url} style={{ color: '#00AAFF' }}>
             {status(statusData[0]?.commuteStatus)}
           </Link>
 
