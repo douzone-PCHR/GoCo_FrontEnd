@@ -1,7 +1,5 @@
 import { Box, Button, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
-import style from '../../CSS/admin.module.css';
 import * as api from '../../api/index';
 import { confirm, resultConfirm } from '../../common/confirm';
 function handleChange(e, setValue) {
@@ -35,6 +33,8 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                 break;
               case '직급':
                 updateType = 3;
+                break;
+              default:
                 break;
             }
             api
@@ -78,6 +78,8 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                 break;
               case '직급':
                 updateType = 3;
+                break;
+              default:
                 break;
             }
             api

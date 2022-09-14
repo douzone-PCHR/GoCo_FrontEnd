@@ -18,7 +18,6 @@ import { ChildModal } from './ChildModal';
 import * as api from '../../api/index';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Delete } from '@mui/icons-material';
 
 export const UnitModalComponent = ({
   open,
@@ -131,6 +130,7 @@ export const UnitModalComponent = ({
                             mgrCheck = true;
                             return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                           }
+                          return null;
                         })}
                       {mgrCheck === false && <TableCell>없음</TableCell>}
                       {managers.length !== 0 &&
@@ -146,6 +146,7 @@ export const UnitModalComponent = ({
                             ++empCheck;
                             return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                           }
+                          return null;
                         })}
                       {member.length !== 0 && (
                         <Tooltip
