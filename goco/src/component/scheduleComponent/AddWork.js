@@ -22,7 +22,7 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import * as api from '../../api/index';
 import { sweetAlert2, sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import moment from 'moment';
-import { confirm } from '../../common/confirm';
+import { confirm, resultConfirm } from '../../common/confirm';
 export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpenInsert }) {
   const [startValue, setStartValue] = useState(requestDate);
   const [endValue, setEndValue] = useState(requestDate);
@@ -50,15 +50,25 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
         workType: radioValue,
         employee: { empNum: user },
       };
-      await api.addWork(workData).then((response) => {
-        setAddOpen(false);
-        setOpenInsert(false);
-        if (response.data.status === 'OK') {
-          sweetAlertSuccess(response.data.message, 'success', '/goco');
-        } else {
-          sweetAlertSuccess(response.data.message, 'error', '/goco');
-        }
-      });
+      await api
+        .addWork(workData)
+        .then((response) => {
+          setAddOpen(false);
+          setOpenInsert(false);
+          if (response.data.status === 'OK') {
+            sweetAlertSuccess(response.data.message, 'success', '/goco');
+          } else {
+            sweetAlertSuccess(response.data.message, 'error', '/goco');
+          }
+        })
+        .catch((error) => {
+          resultConfirm(
+            error.response.data.errors[0].defaultMessage,
+            '',
+            'error',
+            document.getElementById('modal')
+          );
+        });
     } else {
       setAddOpen(false);
       setOpenInsert(false);
@@ -76,6 +86,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
           },
         }}>
         <Dialog
+          id="modal"
           sx={{
             '& .MuiDialog-container': {
               '& .MuiPaper-root': {
