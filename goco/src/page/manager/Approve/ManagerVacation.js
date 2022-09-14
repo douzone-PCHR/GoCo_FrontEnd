@@ -15,9 +15,9 @@ import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutl
 import Swal from 'sweetalert2';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { approveVacationList, approveVacation, deleteVacation } from '../../../api/vacationAPI';
 import { Button, Chip, TablePagination } from '@mui/material';
 import { confirm } from '../../../common/confirm';
+import * as api from '../../../api';
 
 function createData(name, count, type, startDate, endDate, requestDate, approve, detail, vacation) {
   return {
@@ -104,7 +104,12 @@ function Row(props) {
                           if (result.isConfirmed) {
                             Swal.fire('결재가 승인 되었습니다', '', 'success');
                             row.vacation.approveYn = 'APPROVE_SUCCESS';
-                            approveVacation(row.vacation, check, setCheck);
+                            api
+                              .approveVacation(row.vacation)
+                              .then(() => {
+                                setCheck(!check);
+                              })
+                              .catch((err) => console.log(err));
                           }
                         });
                       }}>
@@ -116,7 +121,12 @@ function Row(props) {
                           if (result.isConfirmed) {
                             Swal.fire('결재가 반려 되었습니다', '', 'success');
                             row.vacation.approveYn = 'APPROVE_REFUSE';
-                            approveVacation(row.vacation, check, setCheck);
+                            api
+                              .approveVacation(row.vacation)
+                              .then(() => {
+                                setCheck(!check);
+                              })
+                              .catch((err) => console.log(err));
                           }
                         });
                       }}>
@@ -132,7 +142,12 @@ function Row(props) {
                           (result) => {
                             if (result.isConfirmed) {
                               row.vacation.approveYn = 'APPROVE_CANCEL';
-                              approveVacation(row.vacation, check, setCheck);
+                              api
+                                .approveVacation(row.vacation)
+                                .then(() => {
+                                  setCheck(!check);
+                                })
+                                .catch((err) => console.log(err));
                               Swal.fire('승인이 취소 되었습니다', '', 'success');
                             }
                           }

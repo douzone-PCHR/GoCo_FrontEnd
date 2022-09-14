@@ -14,10 +14,9 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
-import { checkBusiness, deleteBusinessTrip, getBusinessTrip } from '../../../api/businessTripAPI';
-import Swal from 'sweetalert2';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
 import { Chip, TablePagination, Tooltip } from '@mui/material';
+import * as api from '../../../api';
 
 function createData(startDate, endDate, requestDate, approve, detail, business) {
   return {
@@ -85,9 +84,11 @@ function Row(props) {
                         '',
                         'success',
                         document.getElementById('modal2')
-                      ).then(() => {
-                        deleteBusinessTrip(row.business, check, setCheck);
-                      });
+                      )
+                        .then(() => {
+                          api.deleteBusinessTrip(row.business).then(() => setCheck(!check));
+                        })
+                        .catch((err) => console.log(err));
                     }
                   });
                 }}>

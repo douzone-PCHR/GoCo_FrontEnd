@@ -4,13 +4,10 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ManagerVacations from './ManagerVacation';
 import ManagerBusinessTrips from './ManagerBusinessTrip';
-import { approveBusinessTripList } from '../../../api/businessTripAPI';
-import { approveVacationList } from '../../../api/vacationAPI';
 import ApproveSideBar from '../../employee/Approve/ApproveSideBar';
-import { getUser } from '../../../component/auth/Login/sessionLogin';
 import { MenuItem, Select } from '@mui/material';
 import { userMeAPI } from '../../../api/AllAPI';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import * as api from '../../../api';
 
 export default function ManagerApprove() {
   const [approveList, setApproveList] = useState([]);
@@ -34,9 +31,13 @@ export default function ManagerApprove() {
   useEffect(() => {
     if (userInfo?.unit?.unitId) {
       if (value === '휴가결재') {
-        approveVacationList(setApproveList, userInfo?.unit?.unitId);
+        api.approveVacationList(userInfo?.unit?.unitId).then((res) => {
+          setApproveList(res.data);
+        });
       } else if (value === '출장결재') {
-        approveBusinessTripList(setApproveList, userInfo?.unit?.unitId);
+        api.approveBusinessTripList(userInfo?.unit?.unitId).then((res) => {
+          setApproveList(res.data);
+        });
       }
     }
   }, [check, value, userInfo?.unit?.unitId]);

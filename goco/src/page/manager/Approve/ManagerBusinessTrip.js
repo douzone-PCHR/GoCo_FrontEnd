@@ -14,14 +14,10 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
-import {
-  approveBusinessTrip,
-  deleteBusinessTrip,
-  getBusinessTrip,
-} from '../../../api/businessTripAPI';
 import { Button, Chip, TablePagination } from '@mui/material';
 import Swal from 'sweetalert2';
 import { confirm } from '../../../common/confirm';
+import * as api from '../../../api';
 
 function createData(name, startDate, endDate, requestDate, approve, detail, business) {
   return {
@@ -107,7 +103,12 @@ function Row(props) {
                           if (result.isConfirmed) {
                             Swal.fire('결재가 승인 되었습니다', '', 'success');
                             row.business.approveYn = 'APPROVE_SUCCESS';
-                            approveBusinessTrip(row.business, check, setCheck);
+                            api
+                              .approveBusinessTrip(row.business)
+                              .then(() => {
+                                setCheck(!check);
+                              })
+                              .catch((err) => console.log(err));
                           }
                         });
                       }}>
@@ -119,7 +120,12 @@ function Row(props) {
                           if (result.isConfirmed) {
                             Swal.fire('결재가 반려 되었습니다', '', 'success');
                             row.business.approveYn = 'APPROVE_REFUSE';
-                            approveBusinessTrip(row.business, check, setCheck);
+                            api
+                              .approveBusinessTrip(row.business)
+                              .then(() => {
+                                setCheck(!check);
+                              })
+                              .catch((err) => console.log(err));
                           }
                         });
                       }}>
@@ -139,7 +145,12 @@ function Row(props) {
                           }
                         );
                         row.business.approveYn = 'APPROVE_CANCEL';
-                        approveBusinessTrip(row.business, check, setCheck);
+                        api
+                          .approveBusinessTrip(row.business)
+                          .then(() => {
+                            setCheck(!check);
+                          })
+                          .catch((err) => console.log(err));
                       }}>
                       승인취소
                     </Button>

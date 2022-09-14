@@ -12,10 +12,9 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
-import Swal from 'sweetalert2';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { deleteVacation, getVacations } from '../../../api/vacationAPI';
+import * as api from '../../../api';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
 import { Button, Chip, Stack, TablePagination, Tooltip } from '@mui/material';
 
@@ -87,9 +86,13 @@ function Row(props) {
                         '',
                         'success',
                         document.getElementById('modal2')
-                      ).then((result) => {
-                        deleteVacation(row.vacation, check, setCheck);
-                      });
+                      )
+                        .then((result) => {
+                          api.deleteVacation(row.vacation).then(() => {
+                            setCheck(!check);
+                          });
+                        })
+                        .catch((err) => console.log(err));
                     }
                   });
                 }}>

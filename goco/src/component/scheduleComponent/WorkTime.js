@@ -172,7 +172,7 @@ export default function WorkTime({ commuteTimeData }) {
           <Table sx={{ width: '100%' }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
-                <TableCell align="left">휴가 그룹</TableCell>
+                <TableCell align="left"></TableCell>
                 <TableCell align="center">총</TableCell>
                 <TableCell align="center">사용</TableCell>
                 <TableCell align="center">잔여</TableCell>
@@ -187,7 +187,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontWeight: '500',
                     fontSize: '15px',
                   }}>
-                  연차 휴가
+                  연차
                 </TableCell>
                 <TableCell
                   style={{
@@ -197,7 +197,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '10px',
                     textAlign: 'center',
                   }}>
-                  <Chip size="small" color="default" label="11" sx={{ width: '31px' }} />
+                  <Chip size="small" color="default" label="11" sx={{ width: '40px' }} />
                 </TableCell>
                 <TableCell
                   style={{
@@ -209,8 +209,13 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-                    sx={{ width: '31px', backgroundColor: '#00AAFF' }}
-                    label={commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0}
+                    sx={{ width: '40px', backgroundColor: '#00AAFF' }}
+                    label={
+                      commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
+                      // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
+                      //   ? String(parseInt(11) - commuteTimeData.vacation_count)
+                      // : 0
+                    }
                   />
                 </TableCell>
                 <TableCell
@@ -224,9 +229,7 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     color="info"
-                    sx={{
-                      width: '31px',
-                    }}
+                    sx={{ width: '40px' }}
                     label={commuteTimeData.vacation_count}
                   />
                 </TableCell>
