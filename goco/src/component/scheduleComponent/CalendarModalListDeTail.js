@@ -7,6 +7,7 @@ import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
 import { Delete } from '@mui/icons-material';
+import { resultConfirm } from '../../common/confirm';
 
 const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
@@ -49,15 +50,26 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
       employee: { empNum: detailWorkList.employee.empNum },
     };
 
-    await api.updateWork(updateData).then((response) => {
-      setSecondOpen(false);
-      setOpenInsert(false);
-      if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco');
-      } else {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
-      }
-    });
+    await api
+      .updateWork(updateData)
+      .then((response) => {
+        setSecondOpen(false);
+        setOpenInsert(false);
+        if (response.data.status === 'OK') {
+          sweetAlertSuccess(response.data.message, 'success', '/goco');
+        } else {
+          sweetAlertSuccess(response.data.message, 'error', '/goco');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        resultConfirm(
+          error.response.data.errors[0].defaultMessage,
+          '',
+          'error',
+          document.getElementById('modal')
+        );
+      });
   };
 
   return (
@@ -71,6 +83,7 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
         },
       }}>
       <Dialog
+        id="modal"
         open={open}
         onClose={handleClose}
         PaperProps={{ sx: { width: '100%', height: '50%', display: 'flex' } }}
