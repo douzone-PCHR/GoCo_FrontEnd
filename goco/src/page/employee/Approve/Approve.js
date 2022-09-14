@@ -7,12 +7,10 @@ import Box from '@mui/material/Box';
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ApproveForm from './ApproveForm';
-import { getVacations } from '../../../api/vacationAPI';
-import { getBusinessTrip } from '../../../api/businessTripAPI';
 import ApproveSideBar from './ApproveSideBar';
 import style from '../../../CSS/approve.module.css';
 import { userMeAPI } from '../../../api/AllAPI';
-
+import * as api from '../../../api';
 export default function Approve() {
   const [approveList, setApproveList] = useState([]);
   const [value, setValue] = useState('휴가');
@@ -34,20 +32,16 @@ export default function Approve() {
   useEffect(() => {
     if (userInfo.empNum) {
       if (value === '휴가') {
-        getVacations(setApproveList, userInfo.empNum);
+        api.getVacations(userInfo.empNum).then((res) => {
+          setApproveList(res.data);
+        });
       } else if (value === '출장') {
-        getBusinessTrip(setApproveList, userInfo.empNum);
+        api.getBusinessTrip(userInfo.empNum).then((res) => {
+          setApproveList(res.data);
+        });
       }
     }
   }, [check, value, userInfo.empNum]);
-  console.log(check);
-  // useEffect(() => {
-  //   if (value == '휴가') {
-  //     getVacations(setApprove, 1);
-  //   } else {
-  //     getBusinessTrip(setApprove, 1);
-  //   }
-  // }, [value, check]);
 
   const handleChange = (event, newValue) => {
     setPage(0);

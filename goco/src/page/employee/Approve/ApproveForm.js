@@ -6,17 +6,15 @@ import Modal from '@mui/material/Modal';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Chip, IconButton, Paper, TextareaAutosize, TextField } from '@mui/material';
-import { addBusinessTrip } from '../../../api/businessTripAPI';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css files
 import { ko } from 'react-date-range/dist/locale';
 import { Error, Today, Warning } from '@mui/icons-material';
-import Swal from 'sweetalert2';
 import { addConfirm, resultConfirm } from '../../../common/confirm';
 import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
-import { addVacation, checkVacationCount } from '../../../api/vacationAPI';
+import * as api from '../../../api';
 import moment, { now } from 'moment';
 
 const style = {
@@ -50,6 +48,33 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
       key: 'selection',
     },
   ]);
+
+  const addApprove = (approveApi, fd) => {
+    approveApi(fd)
+      .then((res) => {
+        if (res.data.success.length === 0 && res.data.waitting.length === 0) {
+          resultConfirm(
+            '신청이 완료되었습니다',
+            '결재대기중인 경우 삭제 할 수 있습니다.',
+            'success',
+            document.getElementById('modal')
+          ).then(() => {
+            setOpen(false);
+            setCheck(!check);
+          });
+        } else {
+          resultConfirm(
+            '중복되는 신청일이 있습니다!',
+            '삭제 후 다시 신청 해주십시오',
+            'error',
+            document.getElementById('modal')
+          ).then(() => {
+            setCheckOpen(true);
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   console.log(date);
 
   return (
@@ -90,22 +115,26 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             dateDisplayFormat={'yyyy/MM/dd'}
             onChange={(item) => {
               let count = 0;
-              // console.log(date);
-              // console.log();
-              // console.log(today.getTime / (60 * 60 * 24 * 1000));
-              // console.log(today.toISOString());
-              // console.log(item.selection.startDate.toISOString());
-
-              if (vacationType === '반차') {
-                item.selection.endDate = item.selection.startDate;
-                count = 0.5;
-                checkVacationCount(userInfo.empNum, count, item.selection);
-              } else if (vacationType === '연차') {
-                count =
-                  (item.selection.endDate - item.selection.startDate) / (60 * 60 * 24 * 1000) + 1;
-                checkVacationCount(userInfo.empNum, count, item.selection);
+              if (vacationType === '반차' || vacationType === '연차') {
+                vacationType === '반차'
+                  ? (count = 0.5 & (item.selection.endDate = item.selection.startDate))
+                  : (count =
+                      (item.selection.endDate - item.selection.startDate) / (60 * 60 * 24 * 1000) +
+                      1);
+                api.checkVacationCount(userInfo.empNum).then((res) => {
+                  if (res.data - count < 0) {
+                    resultConfirm(
+                      '잔여 휴가 일수를 확인하세요!!',
+                      `잔여 휴가 : ${res.data} 일`,
+                      'error',
+                      document.getElementById('modal')
+                    ).then(() => {
+                      item.selection.startDate = new Date();
+                      item.selection.endDate = null;
+                    });
+                  }
+                });
               }
-
               setDate([item.selection]);
             }}
             locale={ko}
@@ -192,11 +221,11 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               if (date[0].endDate) {
                 addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
                   (result) => {
+                    const newApprove = {};
                     if (result.isConfirmed) {
-                      const newApprove = {};
+                      const fd = new FormData();
                       if (type === '출장') {
                         newApprove.businessTripContent = document.getElementById('content').value;
-
                         newApprove.businessTripStartDate = new Date(
                           date[0].startDate - new Date().getTimezoneOffset() * 60000
                         ).toISOString();
@@ -208,7 +237,12 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           empNum: userInfo.empNum,
                           unit: { unitId: userInfo.unit.unitId },
                         };
-                        addBusinessTrip(newApprove, file, setOpen, setCheckOpen, setCheck, check);
+                        fd.append(
+                          'businessTripDTO',
+                          new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
+                        );
+                        file ? fd.append('file', file) : fd.append('file', new Blob());
+                        addApprove(api.addBusinessTrip, fd);
                       } else if (type === '휴가') {
                         newApprove.vacationContent = document.getElementById('content').value;
                         newApprove.vacationType = vacationType;
@@ -223,10 +257,17 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           empNum: userInfo.empNum,
                           unit: { unitId: userInfo.unit.unitId },
                         };
-                        addVacation(newApprove, file, setOpen, setCheckOpen, setCheck, check);
+                        fd.append(
+                          'vacationDTO',
+                          new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
+                        );
+                        file ? fd.append('file', file) : fd.append('file', new Blob());
+                        addApprove(api.addVacation, fd);
                       }
-                      setNewApprove(newApprove);
                     }
+                    // 중복일자 체크 하기위해서
+                    console.log(newApprove);
+                    setNewApprove(newApprove);
                   }
                 );
               } else {
@@ -251,6 +292,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             />
           )}
         </Box>
+        {console.log(newApprove)}
       </Box>
     </Modal>
     // </div>

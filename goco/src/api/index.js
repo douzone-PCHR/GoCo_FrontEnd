@@ -358,3 +358,106 @@ export const insertUnit = (unit) => {
     data: unit,
   });
 };
+
+// -------- vacation ---------
+// 휴가 리스트(사원)
+export const getVacations = (empNum) =>
+  client({
+    url: `/user/vacations/${empNum}`,
+    method: 'get',
+  });
+
+// 휴가 리스트(매니저)
+export const approveVacationList = (unitId) =>
+  client({
+    url: `/manager/vacations/approve/${unitId}`,
+    method: 'get',
+  });
+
+// 휴가 등록
+export const addVacation = (fd) =>
+  client({
+    url: '/user/vacation',
+    method: 'post',
+    data: fd,
+    headers: { 'Content-Type': `multipart/form-data; ` },
+  });
+
+// 휴가 결재
+export const approveVacation = (vacation) =>
+  client({
+    url: '/manager/vacation/approve',
+    method: 'put',
+    data: vacation,
+  });
+
+// 휴가 삭제
+export const deleteVacation = (vacation) =>
+  client({
+    url: '/user/vacation/del',
+    method: 'post',
+    data: vacation,
+  });
+
+// check date
+export const checkVacation = (vacation) =>
+  client({
+    url: '/user/vacation/check',
+    method: 'post',
+    data: vacation,
+  });
+
+// check vacationCount
+export const checkVacationCount = (empNum) =>
+  client({
+    url: `/user/vacation/count/${empNum}`,
+    method: 'get',
+  });
+
+// -------- business -----------
+// 출장 리스트(사원)
+export const getBusinessTrip = (empNum) =>
+  client({
+    url: `/user/businesslist/${empNum}`,
+    method: 'get',
+  });
+
+// 출장 리스트(매니저)
+export const approveBusinessTripList = (unitId) =>
+  client({
+    url: `/manager/businesslist/approve/${unitId}`,
+    method: 'get',
+  });
+
+// 출장 등록
+export const addBusinessTrip = (fd) =>
+  client({
+    url: '/user/business',
+    method: 'post',
+    data: fd,
+    headers: { 'Content-Type': `multipart/form-data; ` },
+  });
+
+// 출장 결재
+export const approveBusinessTrip = (business) =>
+  client({
+    url: '/manager/business/approve',
+    method: 'put',
+    data: business,
+  });
+
+// 출장 삭제
+export const deleteBusinessTrip = (business) =>
+  client({
+    url: '/user/business/del',
+    method: 'post',
+    data: business,
+  });
+
+// check date
+export const checkBusiness = (business) =>
+  client({
+    url: '/user/business/check',
+    method: 'post',
+    data: business,
+  });

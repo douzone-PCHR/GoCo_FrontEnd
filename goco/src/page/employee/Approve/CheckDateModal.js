@@ -3,11 +3,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { resultConfirm } from '../../../common/confirm';
 import Vacations from './Vacations';
 import BusinessTrips from './BusinessTrip';
-import { checkBusiness } from '../../../api/businessTripAPI';
-import { checkVacation } from '../../../api/vacationAPI';
+import * as api from '../../../api';
 
 const style = {
   position: 'absolute',
@@ -27,10 +25,14 @@ export default function CheckDateModal(props) {
   const [checkDate, setCheckDate] = useState([]);
   const [page, setPage] = useState(0);
   useEffect(() => {
-    if (type === '출장') {
-      checkBusiness(setCheckDate, newApprove);
-    } else if (type === '휴가') {
-      checkVacation(setCheckDate, newApprove);
+    if (type === '출장' || type === '휴가') {
+      type === '출장'
+        ? api.checkBusiness(newApprove).then((res) => {
+            setCheckDate(res.data.waitting.concat(res.data.success));
+          })
+        : api.checkVacation(newApprove).then((res) => {
+            setCheckDate(res.data.waitting.concat(res.data.success));
+          });
     }
   }, [check]);
   return (
