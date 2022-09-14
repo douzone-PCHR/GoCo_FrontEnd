@@ -9,6 +9,8 @@ import SendAuthButton from '../../component/auth/FindPwd/SendAuthButton';
 import InsertAuthNumber from '../../component/auth/FindPwd/InsertAuthNumber';
 import MoveLoginPage from '../../component/auth/FindPwd/MoveLoginPage';
 import SendNewPassword from '../../component/auth/FindPwd/SendNewPassword';
+import { Authheader } from '../../component/auth/AuthHeader';
+import { AuthFooter } from '../../component/auth/AuthFooter';
 const theme = createTheme();
 
 export default function FindPwd() {
@@ -16,6 +18,7 @@ export default function FindPwd() {
   return (
     <>
       <div className={styles.BackGround}>
+        <Authheader />
         <div className={styles.Border}>
           <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="lg">
@@ -31,6 +34,7 @@ export default function FindPwd() {
             </Container>
           </ThemeProvider>
         </div>
+        <AuthFooter />
       </div>
     </>
   );

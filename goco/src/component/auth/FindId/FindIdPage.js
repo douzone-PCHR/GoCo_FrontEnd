@@ -9,6 +9,8 @@ import InsertAuthNum from './InsertAuthNum';
 import MoveLoginPage from './MoveLoginPage';
 import MoveShowIdPage from './MoveShowIdPage';
 import AuthNumButton from './AuthNumButton';
+import { Authheader } from '../AuthHeader';
+import { AuthFooter } from '../AuthFooter';
 const theme = createTheme();
 
 export default function FindIdPage({ setId }) {
@@ -16,6 +18,7 @@ export default function FindIdPage({ setId }) {
   return (
     <>
       <div className={styles.BackGround}>
+        <Authheader />
         <div className={styles.Border}>
           <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="lg">
@@ -31,6 +34,7 @@ export default function FindIdPage({ setId }) {
             </Container>
           </ThemeProvider>
         </div>
+        <AuthFooter />
       </div>
     </>
   );

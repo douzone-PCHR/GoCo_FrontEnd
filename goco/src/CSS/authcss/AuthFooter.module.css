@@ -1,0 +1,25 @@
+.LogoImgDiv {
+  width: 200px;
+  height: 170px;
+}
+.LogoImg {
+  width: 200px;
+  height: 170px;
+}
+.FooterTxt {
+  font-family: 'GmarketSans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
+}
+.FooterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
