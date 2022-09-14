@@ -16,8 +16,12 @@ export default function NotFound() {
         <Grid container spacing={2}>
           <Grid item={true} xs={6}>
             <Typography variant="h1">404</Typography>
-            <Typography variant="h6">죄송합니다. 요청하신 페이지를 찾을 수 없습니다.</Typography>
-            <Button variant="contained">
+            <Typography variant="h7">죄송합니다. 요청하신 페이지를 찾을 수 없습니다.</Typography>
+            <Button
+              variant="contained"
+              sx={{
+                margin: '20px',
+              }}>
               <Link to="/goco" style={{ color: 'white' }}>
                 Home
               </Link>
