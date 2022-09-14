@@ -65,16 +65,14 @@ export const AuthCheckAPI = async (authNum, email, setId) => {
       email: email,
     })
     .then((response) => {
-      if (response.data === '올바른 인증번호를 입력하세요.') {
-        sweetAlert2(response.data, 'warning');
-      } else if (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.') {
-        sweetAlert2(response.data, 'warning');
-      } else {
-        setId(response.data);
+      if (response.data.status === 'BAD_REQUEST') {
+        sweetAlert2(response.data.message, 'warning');
+      } else if (response.data.status === 'OK') {
+        setId(response.data.message);
       }
     })
     .catch((error) => {
-      sweetAlert2(error.response.data.message, 'warning');
+      console.log('에러 발생 : ', error);
     });
 };
 //pwd 찾기위해 인증번호 보내는 함수
@@ -109,18 +107,15 @@ export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) =
     })
     .then((response) => {
       handleClose();
-      if (
-        (response.data === '올바른 인증번호를 입력하세요.') |
-        (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.')
-      ) {
-        sweetAlert2(response.data, 'warning');
-      } else if (response.data === '이메일로 비밀번호가 발송 되었습니다.') {
-        sweetAlertSuccess(response.data, 'success', '/login');
+      if (response.data.status === 'BAD_REQUEST') {
+        sweetAlert2(response.data.message, 'warning');
+      } else if (response.data.status === 'OK') {
+        sweetAlertSuccess(response.data.message, 'success', '/login');
       }
     })
     .catch((error) => {
       handleClose(); // 에러이면 '메일보내는중 '메시지 끈다
-      sweetAlert2(error.response.data.message, 'warning');
+      console.log('에러 발생 : ', error);
     });
 };
 //ID 중복 체크
@@ -170,19 +165,19 @@ export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupData
       email: data.email,
     })
     .then((response) => {
-      if (
-        (response.data === '올바른 인증번호를 입력하세요.') |
-        (response.data === '인증 번호가 3회이상 잘못 입력되었습니다. 재인증 바랍니다.')
+      if (response.data.status === 'BAD_REQUEST') {
+        sweetAlert2(response.data.message, 'warning');
+      } else if (
+        response.data.status === 'OK' &&
+        data.authenticationNumber == response.data.message
       ) {
-        sweetAlert2(response.data, 'warning');
-      } else if (data.authenticationNumber == response.data) {
         sweetAlert2('인증에 성공하였습니다.', 'success');
         setOkEmailCheck(true);
         setSignupDataError({ ...data, valid_email: '' });
       }
     })
     .catch((error) => {
-      sweetAlert2(error.response.data.message, 'warning');
+      console.log('에러 발생 : ', error);
     });
 };
 // 회원 가입시 unit 불러오기
@@ -371,8 +366,6 @@ export const deleteEmpAPI = async () => {
     .getDeleteEmp()
     .then((response) => {
       if (response.data) {
-        api.logOut();
-        // deleteCookie(); //쿠키삭제
         sweetAlertSuccess('탈퇴 성공', 'success', '/login');
       }
     })
@@ -481,7 +474,7 @@ export const deleteCookieAPI = async () => {
     .logOut()
     .then((response) => {
       if (response.data === 1) {
-        console.log('로그인 이동됨, 쿠키 정상 삭제');
+        console.log('쿠키 삭제');
       }
     })
     .catch((error) => {
