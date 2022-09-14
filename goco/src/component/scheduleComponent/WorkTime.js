@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { Chip, Divider, TableHead, Typography } from '@mui/material';
+import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
   return (
@@ -193,10 +194,10 @@ export default function WorkTime({ commuteTimeData }) {
                     fontFamily: 'Inter',
                     fontStyle: 'normal',
                     fontWeight: '500',
-                    fontSize: '15px',
+                    fontSize: '10px',
                     textAlign: 'center',
                   }}>
-                  <Chip size="small" color="default" label="11" sx={{ width: '30px' }} />
+                  <Chip size="small" color="default" label="11" sx={{ width: '31px' }} />
                 </TableCell>
                 <TableCell
                   style={{
@@ -208,13 +209,8 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-                    sx={{ width: '30px', backgroundColor: '#00AAFF' }}
-                    label={
-                      commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
-                      // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
-                      //   ? String(parseInt(11) - commuteTimeData.vacation_count)
-                      // : 0
-                    }
+                    sx={{ width: '31px', backgroundColor: '#00AAFF' }}
+                    label={commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0}
                   />
                 </TableCell>
                 <TableCell
@@ -228,7 +224,9 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     color="info"
-                    sx={{ width: '30px' }}
+                    sx={{
+                      width: '31px',
+                    }}
                     label={commuteTimeData.vacation_count}
                   />
                 </TableCell>

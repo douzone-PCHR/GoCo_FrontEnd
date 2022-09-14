@@ -14,7 +14,7 @@ export function getVacations(setData, empNum) {
 
 // 휴가 결재 리스트
 export function approveVacationList(setData, unitId) {
-  const url = `/api/vacations/approve/${unitId}`;
+  const url = `/api/mananger/vacations/approve/${unitId}`;
   axios
     .get(url)
     .then((response) => setData(response.data))
@@ -23,7 +23,8 @@ export function approveVacationList(setData, unitId) {
 
 // 휴가 추가
 export function addVacation(vacation, file, setOpen, setCheckOpen, setCheck, check) {
-  const url = '/api/vacation';
+  console.log('adsdasdas');
+  const url = '/api/user/vacation';
   const fd = new FormData();
   fd.append('vacationDTO', new Blob([JSON.stringify(vacation)], { type: 'application/json' }));
   file ? fd.append('file', file) : fd.append('file', new Blob());

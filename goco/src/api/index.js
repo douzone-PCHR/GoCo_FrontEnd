@@ -357,3 +357,9 @@ export const insertUnit = (unit) => {
     data: unit,
   });
 };
+
+// 휴가 및 출장 관련 api
+
+// getVacations /vacations/${empNum}`
+
+// approveVacationList /mananger/vacations/approve/${unitId}`
