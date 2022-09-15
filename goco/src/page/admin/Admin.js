@@ -4,16 +4,41 @@ import { Fragment, useEffect, useState } from 'react';
 import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { Resignation } from '../../component/Admin/Resignation';
-const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
+const handleSelectValue = (selectValue, processingData, checkFnc, emp, searchName) => {
   switch (selectValue) {
     case 1:
-      return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
+      return (
+        <Incumbent
+          processingData={processingData}
+          checkFnc={checkFnc}
+          emp={emp.filter((data) => data.name.includes(searchName))}
+        />
+      );
+
     case 2:
-      return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
+      return (
+        <Incumbent
+          processingData={processingData}
+          checkFnc={checkFnc}
+          emp={emp.filter((data) => data.jobTitle.jobTitleName.includes(searchName))}
+        />
+      );
     case 3:
-      return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
+      return (
+        <Incumbent
+          processingData={processingData}
+          checkFnc={checkFnc}
+          emp={emp.filter((data) => data.unit.parentUnit.unitName.includes(searchName))}
+        />
+      );
     case 4:
-      return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />;
+      return (
+        <Incumbent
+          processingData={processingData}
+          checkFnc={checkFnc}
+          emp={emp.filter((data) => data.unit.unitName.includes(searchName))}
+        />
+      );
     default:
       break;
   }
@@ -115,11 +140,15 @@ export const Admin = () => {
             {tabValue === 1 && (
               <Fragment>
                 <Select
+                  size="small"
+                  sx={{
+                    margin: '10px',
+                  }}
                   value={selectValue}
                   onChange={(e) => {
                     setSelectValue(e.target.value);
                   }}>
-                  <MenuItem value={1}>사원명</MenuItem>
+                  <MenuItem value={1}>직원명</MenuItem>
                   <MenuItem value={2}>직급</MenuItem>
                   <MenuItem value={3}>부서</MenuItem>
                   <MenuItem value={4}>팀</MenuItem>
@@ -129,6 +158,14 @@ export const Admin = () => {
             )}
             {tabValue === 2 && <Input id="searchInput" placeholder="이름을 입력하세요" />}
             <Button
+              variant="outlined"
+              size="medium"
+              style={{
+                borderRadius: '5%',
+                fontWeight: '700',
+                fontSize: '13px',
+                margin: '10px',
+              }}
               onClick={() => {
                 setSearchName(document.getElementById('searchInput').value);
                 document.getElementById('searchInput').value = null;
@@ -142,7 +179,7 @@ export const Admin = () => {
             !searchName ? (
               <Incumbent processingData={processingData} checkFnc={checkFnc} emp={emp} />
             ) : (
-              handleSelectValue(selectValue, processingData, checkFnc, emp)
+              handleSelectValue(selectValue, processingData, checkFnc, emp, searchName)
             )
           ) : (
             <Resignation resignations={resignations} searchName={searchName} />
