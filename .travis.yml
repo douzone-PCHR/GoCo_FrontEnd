@@ -55,7 +55,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY # 여기
     secret_access_key: $AWS_SECRET_KEY # 여기
     bucket: goco-pchr
-    key : back.zip
+    key : frontBuild.zip
     bundle_type : zip
     application : goco-codedeploy-webservice
     deployment_group: goco-codedeploy-webservice
