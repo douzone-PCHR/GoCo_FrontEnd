@@ -11,8 +11,10 @@ export const getAccessTokenAPI = async () => {
     .getAccessToken()
     .then((response) => {
       console.log('accesstoken 함수의 리스펀스 : ', response);
-      if (response.statusText === 'OK') {
-        window.location.reload();
+      if (response.data.status === 'BAD_REQUEST') {
+        sweetAlert2(response.data.message, 'warning');
+      } else if (response.data.status === 'OK') {
+        window.location.reload(true);
       }
     })
     .catch((error) => {
