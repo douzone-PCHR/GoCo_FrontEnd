@@ -209,7 +209,7 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-                    sx={{ width: '40px', backgroundColor: '#00AAFF' }}
+                    sx={{ width: '40px', backgroundColor: '#00AAFF', color: 'white' }}
                     label={
                       commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
                       // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
@@ -229,7 +229,7 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     color="info"
-                    sx={{ width: '40px' }}
+                    sx={{ width: '40px', backgroundColor: '#FF8B8B', color: 'white' }}
                     label={commuteTimeData.vacation_count}
                   />
                 </TableCell>

@@ -3,7 +3,7 @@ import CommuteCheck from '../../component/manager/CommuteCheck';
 import Notice from '../../component/manager/Notice';
 import RequestComponent from '../../component/manager/RequestComponent';
 import CurrentStatus from '../../component/manager/CurrentStatus';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import * as api from '../../api/index';
 import moment from 'moment';
 const ManagerMain = () => {
@@ -91,24 +91,41 @@ const ManagerMain = () => {
   };
   return (
     currentStatus.length !== 0 && (
-      <div style={{ margin: '0 20%', height: '100%' }}>
+      <Box sx={{ height: '100%' }}>
         <>
-          <Grid container spacing={7} marginTop={1}>
-            <Grid item xs={12} sm={6} style={{ backgroundColor: 'rgb(250,250,250)' }}>
+          <Grid container spacing={6} marginTop={1}>
+            <Grid
+              item
+              xs={10}
+              sm={5}
+              style={{
+                paddingRight: '10%',
+                marginLeft: '10%',
+                // marginBottom: '3%',
+                // backgroundColor: 'rgb(250,250,250)',
+              }}>
               <CommuteCheck commuteCheckData={commuteCheckData} />
             </Grid>
-            <Grid item xs={12} sm={6} style={{ backgroundColor: 'rgb(250,250,250)' }}>
+            <Grid item xs={10} sm={5} style={{ paddingLeft: '3%' }}>
               <RequestComponent getRequsetData={getRequsetData} />
             </Grid>
-            <Grid item xs={12} sm={6} style={{ backgroundColor: 'rgb(250,250,250)' }}>
+            <Grid
+              item
+              xs={10}
+              sm={5}
+              style={{
+                paddingRight: '10%',
+                marginLeft: '10%',
+                // backgroundColor: 'rgb(250,250,250)',
+              }}>
               <CurrentStatus currentStatus={currentStatus} />
             </Grid>
-            <Grid item xs={12} sm={6} style={{ backgroundColor: 'rgb(250,250,250)' }}>
+            <Grid item xs={10} sm={5} style={{ paddingLeft: '3%' }}>
               <Notice noticeList={noticeList} />
             </Grid>
           </Grid>
         </>
-      </div>
+      </Box>
     )
   );
 };

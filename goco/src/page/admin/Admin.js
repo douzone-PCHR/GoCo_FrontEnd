@@ -4,6 +4,8 @@ import { Fragment, useEffect, useState } from 'react';
 import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { Resignation } from '../../component/Admin/Resignation';
+import { Search } from '@mui/icons-material';
+import { width } from '@mui/system';
 const handleSelectValue = (selectValue, processingData, checkFnc, emp) => {
   switch (selectValue) {
     case 1:
@@ -111,10 +113,12 @@ export const Admin = () => {
             <Tab label="재직자" value={1}></Tab>
             <Tab label="퇴사자" value={2}></Tab>
           </Tabs>
-          <Box>
+          <Box sx={{ width: '23%' }} display="flex" justifyContent="space-around">
             {tabValue === 1 && (
               <Fragment>
                 <Select
+                  size="small"
+                  sx={{ marginRight: '2%' }}
                   value={selectValue}
                   onChange={(e) => {
                     setSelectValue(e.target.value);
@@ -124,16 +128,21 @@ export const Admin = () => {
                   <MenuItem value={3}>부서</MenuItem>
                   <MenuItem value={4}>팀</MenuItem>
                 </Select>
-                <Input id="searchInput" placeholder="검색어를 입력하세요" />
+                <Input
+                  sx={{ paddingLeft: '2%', width: '50%' }}
+                  id="searchInput"
+                  placeholder="검색어를 입력하세요"
+                />
               </Fragment>
             )}
             {tabValue === 2 && <Input id="searchInput" placeholder="이름을 입력하세요" />}
             <Button
+              // size="large"
               onClick={() => {
                 setSearchName(document.getElementById('searchInput').value);
                 document.getElementById('searchInput').value = null;
               }}>
-              검색
+              <Search /> 검색
             </Button>
           </Box>
         </Box>
