@@ -41,16 +41,16 @@ export const Resignation = ({ resignations }) => {
             ).map((resignation) => {
               return (
                 <TableRow key={resignation.empNum}>
-                  <TableCell>{resignation.name}</TableCell>
-                  <TableCell>{resignation.phoneNumber}</TableCell>
-                  <TableCell>{resignation.email}</TableCell>
-                  <TableCell>
+                  <TableCell align="center">{resignation.name}</TableCell>
+                  <TableCell align="center">{resignation.phoneNumber}</TableCell>
+                  <TableCell align="center">{resignation.email}</TableCell>
+                  <TableCell align="center">
                     {resignation.resignationDate
                       .split('T', 1)[0]
                       .replace('-', '년')
                       .replace('-', '월') + `일`}
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     {resignation.hiredate.split('T', 1)[0].replace('-', '년').replace('-', '월') +
                       `일`}
                   </TableCell>

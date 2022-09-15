@@ -1,4 +1,13 @@
-import { Box, Button, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { useState } from 'react';
 import * as api from '../../api/index';
 import { confirm, resultConfirm } from '../../common/confirm';
@@ -11,10 +20,10 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
   function handleReset() {
     checkFnc();
     setUpdateModal(false);
-    setValue(null);
+    // setValue(null);
   }
+  console.log(type.empInfo.id);
   function updateEmployee(type, value) {
-    console.log(type.type);
     if (value) {
       if (type.type === '부서') {
         confirm(
@@ -46,7 +55,12 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                     '직급이 팀원으로 설정됩니다.',
                     'success',
                     document.getElementById('emp-update-modal')
-                  );
+                  ).then(() => {
+                    if (localStorage.getItem('id') === type.empInfo.id) {
+                    } else {
+                      window.location.reload();
+                    }
+                  });
                 } else {
                   return resultConfirm(
                     '현재 위치한 팀입니다.',
@@ -82,29 +96,28 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
               default:
                 break;
             }
-            api
-              .updateEmp(type, updateType, value)
-              .then((data) => {
-                console.log(data);
-                if (data) {
-                  return resultConfirm(
-                    `${type.type} 변경 성공하였습니다.`,
-                    '',
-                    'success',
-                    document.getElementById('emp-update-modal')
-                  );
-                } else {
-                  return resultConfirm(
-                    `${type.type} 변경을 실패하였습니다.`,
-                    '기존값과 동일합니다.',
-                    'error',
-                    document.getElementById('emp-update-modal')
-                  );
-                }
-              })
-              .then(() => {
-                handleReset();
-              });
+            api.updateEmp(type, updateType, value).then((data) => {
+              console.log(data);
+              if (data) {
+                resultConfirm(
+                  `${type.type} 변경 성공하였습니다.`,
+                  '',
+                  'success',
+                  document.getElementById('emp-update-modal')
+                ).then(() => {
+                  handleReset();
+                });
+              } else {
+                resultConfirm(
+                  `${type.type} 변경을 실패하였습니다.`,
+                  '기존값과 동일합니다.',
+                  'error',
+                  document.getElementById('emp-update-modal')
+                ).then(() => {
+                  handleReset();
+                });
+              }
+            });
           }
         });
       }
@@ -119,65 +132,153 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
   }
 
   return type?.type !== '부서' ? (
-    <div>
-      {type?.type}
-      <Select size="small" value={value || ''} onChange={(e) => handleChange(e, setValue)}>
-        {type.data &&
-          type.data.map((result) => {
+    <Box>
+      <Typography
+        sx={{
+          color: 'black',
+          fontSize: '32px',
+          margin: '20px',
+        }}>
+        {type?.type} 수정
+      </Typography>
+
+      <FormControl style={{ width: '25%' }}>
+        <InputLabel id="select-label">{type?.type}</InputLabel>
+        <Select
+          size="small"
+          labelId="select-label"
+          value={value || ''}
+          onChange={(e) => handleChange(e, setValue)}>
+          {type.data &&
+            type.data.map((result) => {
+              return (
+                <MenuItem key={result.id} value={result.id}>
+                  {result.content}
+                </MenuItem>
+              );
+            })}
+        </Select>
+      </FormControl>
+      <ButtonGroup
+        sx={{
+          display: 'flex',
+          margin: '15px 100px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '30px',
+        }}>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            width: '100%',
+            borderRadius: '5%',
+          }}
+          size="medium"
+          onClick={() => updateEmployee(type, value)}>
+          수정
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            width: '100%',
+            borderRadius: '5%',
+            backgroundColor: '#D9D9D9',
+            color: '#616161',
+          }}
+          onClick={() => {
+            setUpdateModal(false);
+            setValue(null);
+          }}>
+          취소
+        </Button>
+      </ButtonGroup>
+    </Box>
+  ) : (
+    // type이 팀인 경우
+    <Box>
+      <Typography
+        sx={{
+          color: 'black',
+          fontSize: '32px',
+          margin: '20px',
+        }}>
+        {type?.type} 수정
+      </Typography>
+
+      <FormControl style={{ width: '40%', margin: '10px' }}>
+        <InputLabel id="first-label">부서</InputLabel>
+        <Select
+          size="small"
+          labelId="first-label"
+          value={value || ''}
+          onChange={(e) => handleChange(e, setValue)}
+          inputRef={(ref) => setDept(ref?.value)}>
+          {type?.data?.depts.map((dept) => {
             return (
-              <MenuItem key={result.id} value={result.id}>
-                {result.content}
+              <MenuItem key={dept.unitId} value={dept.unitId}>
+                {dept.unitName}
               </MenuItem>
             );
           })}
-      </Select>
-      <br />
-      <Button onClick={() => updateEmployee(type, value)}>수정</Button>
-      <Button
-        onClick={() => {
-          setUpdateModal(false);
-          setValue(null);
+        </Select>
+      </FormControl>
+
+      <FormControl style={{ width: '40%', margin: '10px' }}>
+        <InputLabel id="second-label">팀</InputLabel>
+        <Select
+          size="small"
+          labelId="second-label"
+          value={teamvalue || ''}
+          onChange={(e) => handleChange(e, setTeamValue)}>
+          {type?.data?.teams.map((team) => {
+            return (
+              team.parentUnit?.unitId === dept && (
+                <MenuItem key={team.unitId} value={team.unitId}>
+                  {team.unitName}
+                </MenuItem>
+              )
+            );
+          })}
+        </Select>
+      </FormControl>
+      <ButtonGroup
+        sx={{
+          display: 'flex',
+          margin: '15px 100px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '40px',
         }}>
-        취소
-      </Button>
-    </div>
-  ) : (
-    // type이 팀인 경우
-    <Box sx={{ paddingTop: '20px' }}>
-      {type?.type}
-      <Select
-        value={value || ''}
-        onChange={(e) => handleChange(e, setValue)}
-        inputRef={(ref) => setDept(ref?.value)}>
-        {type?.data?.depts.map((dept) => {
-          return (
-            <MenuItem key={dept.unitId} value={dept.unitId}>
-              {dept.unitName}
-            </MenuItem>
-          );
-        })}
-      </Select>
-      팀
-      <Select value={teamvalue || ''} onChange={(e) => handleChange(e, setTeamValue)}>
-        {type?.data?.teams.map((team) => {
-          return (
-            team.parentUnit?.unitId === dept && (
-              <MenuItem key={team.unitId} value={team.unitId}>
-                {team.unitName}
-              </MenuItem>
-            )
-          );
-        })}
-      </Select>
-      <br />
-      <Button onClick={() => updateEmployee(type, teamvalue)}>수정</Button>
-      <Button
-        onClick={() => {
-          setUpdateModal(false);
-          setValue(null);
-        }}>
-        취소
-      </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            width: '100%',
+            borderRadius: '5%',
+          }}
+          size="medium"
+          onClick={() => updateEmployee(type, teamvalue)}>
+          수정
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          style={{
+            width: '100%',
+            borderRadius: '5%',
+            backgroundColor: '#D9D9D9',
+            color: '#616161',
+          }}
+          size="medium"
+          onClick={() => {
+            setUpdateModal(false);
+            setValue(null);
+          }}>
+          취소
+        </Button>
+      </ButtonGroup>
     </Box>
   );
 };

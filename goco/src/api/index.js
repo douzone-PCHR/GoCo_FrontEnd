@@ -335,6 +335,7 @@ export const getManager = (unitId) =>
 export const updateEmp = (type, updateType, updateValue) =>
   client({
     url: `/admin/emp/jobtitle/${type.empInfo.id}/${updateType}/${updateValue}`,
+    method: 'put',
   });
 
 export const deleteUnit = (unitId, type) =>

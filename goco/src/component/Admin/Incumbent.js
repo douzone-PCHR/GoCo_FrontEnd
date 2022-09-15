@@ -1,5 +1,6 @@
-import { Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Button, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import { TableCellComponent } from './TableCellComponent';
 import { AdminTableHead } from './TableHead';
 
@@ -23,7 +24,6 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
               ? emp?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : emp
             ).map((element, index) => {
-              console.log(element);
               return (
                 <TableCellComponent
                   processingData={processingData}
