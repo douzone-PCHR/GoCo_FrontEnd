@@ -17,8 +17,11 @@ import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutl
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
 import { Chip, TablePagination, Tooltip } from '@mui/material';
 import * as api from '../../../api';
+import moment from 'moment';
+import {} from 'moment-timezone';
 
 function createData(startDate, endDate, requestDate, approve, detail, business) {
+  console.log(startDate);
   return {
     startDate,
     endDate,
@@ -37,15 +40,16 @@ const approveType = {
 function Row(props) {
   const { row, check, setCheck } = props;
   const [open, setOpen] = useState(false);
-
+  row.startDate = moment(row.startDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.endDate = moment(row.endDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.requestDate = moment(row.requestDate).tz('Asia/Seoul').format('YYYY-MM-DD');
   return (
     <Fragment>
       <TableRow>
-        {/* <TableCell component="th" scope="row"> */}
         <TableCell></TableCell>
-        <TableCell align="center">{row.startDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.endDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.requestDate.split('T')[0]}</TableCell>
+        <TableCell align="center">{row.startDate}</TableCell>
+        <TableCell align="center">{row.endDate}</TableCell>
+        <TableCell align="center">{row.requestDate}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -157,7 +161,6 @@ export default function BusinessTrips({
   // }, [check]);
   const rows = [];
   if (businessList.length) {
-    console.log(businessList);
     businessList
       .filter((business) => {
         if (dateFilter) {
@@ -200,6 +203,7 @@ export default function BusinessTrips({
         );
       });
   }
+  console.log(rows);
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 1000 }}>
       <Table stickyHeader aria-label="sticky table">

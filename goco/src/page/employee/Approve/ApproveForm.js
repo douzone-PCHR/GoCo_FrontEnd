@@ -148,6 +148,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                   }
                 });
               }
+
               setDate([item.selection]);
             }}
             locale={ko}
@@ -244,13 +245,26 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                         const fd = new FormData();
                         if (type === '출장') {
                           newApprove.businessTripContent = document.getElementById('content').value;
+                          console.log(date[0].startDate);
                           newApprove.businessTripStartDate = new Date(
                             date[0].startDate - new Date().getTimezoneOffset() * 60000
                           ).toISOString();
-
                           newApprove.businessTripEndDate = new Date(
                             date[0].endDate - new Date().getTimezoneOffset() * 60000
                           ).toISOString();
+                          newApprove.businessTripStartDate = moment(
+                            newApprove.businessTripStartDate
+                          )
+                            .hours('00')
+                            .minutes('00')
+                            .seconds('00')
+                            .format();
+                          newApprove.businessTripEndDate = moment(newApprove.businessTripEndDate)
+                            .hours('23')
+                            .minutes('59')
+                            .seconds('59')
+                            .format();
+
                           newApprove.employee = {
                             empNum: userInfo.empNum,
                             unit: { unitId: userInfo.unit.unitId },
@@ -265,12 +279,15 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           newApprove.vacationContent = document.getElementById('content').value;
                           newApprove.vacationType = vacationType;
                           newApprove.vacationStartDate = new Date(
-                            date[0].startDate - new Date().getTimezoneOffset() * 60000
-                          ).toISOString();
-
+                            moment(date[0].startDate)
+                              .hours('00')
+                              .minutes('00')
+                              .seconds('00')
+                              .format()
+                          );
                           newApprove.vacationEndDate = new Date(
-                            date[0].endDate - new Date().getTimezoneOffset() * 60000
-                          ).toISOString();
+                            moment(date[0].endDate).hours('23').minutes('59').seconds('59').format()
+                          );
                           newApprove.employee = {
                             empNum: userInfo.empNum,
                             unit: { unitId: userInfo.unit.unitId },

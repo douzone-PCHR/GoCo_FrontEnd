@@ -18,6 +18,7 @@ import { Button, Chip, TablePagination } from '@mui/material';
 import Swal from 'sweetalert2';
 import { confirm } from '../../../common/confirm';
 import * as api from '../../../api';
+import moment from 'moment';
 
 function createData(name, startDate, endDate, requestDate, approve, detail, business) {
   return {
@@ -41,7 +42,9 @@ const approveType = {
 function Row(props) {
   const { row, check, setCheck } = props;
   const [open, setOpen] = useState(false);
-
+  row.startDate = moment(row.startDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.endDate = moment(row.endDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.requestDate = moment(row.requestDate).tz('Asia/Seoul').format('YYYY-MM-DD');
   return (
     <Fragment>
       {/* <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}> */}
@@ -49,9 +52,9 @@ function Row(props) {
         {/* <TableCell component="th" scope="row"> */}
         <TableCell></TableCell>
         <TableCell align="center">{row.name}</TableCell>
-        <TableCell align="center">{row.startDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.endDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.requestDate.split('T')[0]}</TableCell>
+        <TableCell align="center">{row.startDate}</TableCell>
+        <TableCell align="center">{row.endDate}</TableCell>
+        <TableCell align="center">{row.requestDate}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
