@@ -70,9 +70,12 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
           );
         });
     } else {
-      setAddOpen(false);
-      setOpenInsert(false);
-      sweetAlert2('마지막 날짜를 시작 날짜 전으로 잡을 수 없습니다.', 'error');
+      resultConfirm(
+        '시작 날짜 또는 마지막 날짜를 정확히 설정 해주세요.',
+        '',
+        'error',
+        document.getElementById('modal')
+      );
     }
   };
   return (
