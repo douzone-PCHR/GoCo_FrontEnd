@@ -15,7 +15,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { Chip, TablePagination, Tooltip } from '@mui/material';
+import { Chip, Divider, TablePagination, Tooltip } from '@mui/material';
 import * as api from '../../../api';
 import moment from 'moment';
 import {} from 'moment-timezone';
@@ -39,7 +39,7 @@ const approveType = {
 };
 function Row(props) {
   const { row, check, setCheck } = props;
-  const [open, setOpen] = useState(false);
+  const [detail, setDetail] = useState(false);
   row.startDate = moment(row.startDate).tz('Asia/Seoul').format('YYYY-MM-DD');
   row.endDate = moment(row.endDate).tz('Asia/Seoul').format('YYYY-MM-DD');
   row.requestDate = moment(row.requestDate).tz('Asia/Seoul').format('YYYY-MM-DD');
@@ -51,12 +51,11 @@ function Row(props) {
         <TableCell align="center">{row.endDate}</TableCell>
         <TableCell align="center">{row.requestDate}</TableCell>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          <IconButton aria-label="expand row" size="small" onClick={() => setDetail(!detail)}>
+            {detail ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell align="right">
-          {' '}
           {approveType[row.approve] === '결재대기' && (
             <Chip color="primary" label={approveType[row.approve]} />
           )}
@@ -108,15 +107,13 @@ function Row(props) {
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={detail} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} textAlign={'center'}>
               <Typography variant="h6" gutterBottom component="div">
                 기안 상세
               </Typography>
               <Box>
-                <div>
-                  {row.detail.approveDate && '결재일: ' + row.detail.approveDate.split('T')[0]}
-                </div>
+                <div>{row.detail.approveDate && '결재일: ' + row.detail.approveDate}</div>
                 <div>{row.detail.content}</div>
                 <div>
                   {row.detail.file && row.detail.file.originalName}

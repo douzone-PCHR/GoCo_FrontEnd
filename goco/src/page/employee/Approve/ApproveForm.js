@@ -60,13 +60,13 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
     approveApi(fd)
       .then((res) => {
         if (res.data.success.length === 0 && res.data.waitting.length === 0) {
+          handleClose();
           resultConfirm(
             '신청이 완료되었습니다',
             '결재대기중인 경우 삭제 할 수 있습니다.',
-            'success',
-            document.getElementById('modal')
+            'success'
           ).then(() => {
-            setOpen(false);
+            handleClose();
             setCheck(!check);
           });
         } else {

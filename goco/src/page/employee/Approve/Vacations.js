@@ -16,7 +16,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import * as api from '../../../api';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { Button, Chip, Stack, TablePagination, Tooltip } from '@mui/material';
+import { Button, Chip, Divider, Stack, TablePagination, Tooltip } from '@mui/material';
 import moment from 'moment';
 
 function createData(type, startDate, endDate, requestDate, approve, detail, vacation) {
@@ -94,6 +94,7 @@ function Row(props) {
                         .then((result) => {
                           api.deleteVacation(row.vacation).then(() => {
                             setCheck(!check);
+                            console.log('vacations');
                           });
                         })
                         .catch((err) => console.log(err));
@@ -121,6 +122,9 @@ function Row(props) {
                 <div>{row.detail.content}</div>
                 <div>
                   {row.detail.approveDate && '결재일: ' + row.detail.approveDate.split('T')[0]}
+                </div>
+
+                <div>
                   {row.detail.file && row.detail.file.originalName}
                   {row.detail.file && (
                     <a href={row.detail.file.filePath}>
@@ -149,6 +153,7 @@ export default function Vacations({
   setCheck,
   state,
   dateFilter,
+  setCheckOpen,
 }) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);
