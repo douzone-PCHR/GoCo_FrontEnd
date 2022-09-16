@@ -46,7 +46,7 @@
 
 /* modal 속성 */
 .modal {
-  position: fixed;
+  position: absolute;
   border-radius: 10px;
   top: 50%;
   left: 50%;
@@ -59,7 +59,7 @@
 }
 /* 사원 정보 모달 */
 .empModal {
-  position: fixed;
+  position: absolute;
   border-radius: 10px;
   top: 50%;
   left: 50%;

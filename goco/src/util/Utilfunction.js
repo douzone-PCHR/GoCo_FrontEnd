@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Button, Chip } from '@mui/material';
 
 export function myTeamStatus(data) {
+  console.log(data);
   let result = '';
   let check = '';
   if (data.vacation_approve === 'APPROVE_SUCCESS') {
@@ -17,9 +18,8 @@ export function myTeamStatus(data) {
           fontSize: '16px',
           border: '1px solid #B3B3B3',
           fontWeight: '700',
-        }}>
-        휴가
-      </Chip>
+        }}
+        label="휴가"></Chip>
     );
   } else if (data.business_approve === 'APPROVE_SUCCESS') {
     result = `${moment(data.business_trip_start_date).format('YYYY-MM-DD')} ~ ${moment(
@@ -33,9 +33,8 @@ export function myTeamStatus(data) {
           fontSize: '16px',
           border: '1px solid #B3B3B3',
           fontWeight: '700',
-        }}>
-        출장
-      </Chip>
+        }}
+        label="출장"></Chip>
     );
   } else {
     if (
@@ -51,7 +50,7 @@ export function myTeamStatus(data) {
       moment(data.clock_in).format('HH') === '00'
     ) {
       result = `미출근`;
-      check = <Chip sx={{ width: '60%' }} label="미출근" />;
+      check = <Chip sx={{ width: '70%' }} label="미출근" />;
     } else {
       result = (
         <Chip
