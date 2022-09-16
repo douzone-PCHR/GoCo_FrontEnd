@@ -99,7 +99,7 @@ export default function WorkTime({ commuteTimeData }) {
                   align="left">
                   <Chip
                     size="small"
-                    sx={{ width: '50px', backgroundColor: '#00AAFF' }}
+                    sx={{ width: '50px', backgroundColor: '#00AAFF', color: 'white' }}
                     label={`${
                       commuteTimeData.commute_work_time ? commuteTimeData.commute_work_time : '0'
                     }h`}

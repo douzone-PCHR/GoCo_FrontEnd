@@ -210,7 +210,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               </MenuItem>
             </Box>
           </Box>
-          {status(statusData[0]?.commuteStatus) === '미출근' || '퇴근' || '휴가' ? (
+          {status(statusData[0]?.commuteStatus) === ('미출근' || '퇴근' || '휴가') ? (
             <Chip
               size="large"
               sx={{
