@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { modeChange, status } from '../util/HeaderUtil';
-import { Button } from '@mui/material';
+import { Avatar, Box, Button, Chip, ListItemIcon, MenuItem } from '@mui/material';
 import { logOutAPI } from '../api/AllAPI';
-import { sweetAlertComment } from './auth/AuthSweetAlert.js/sweetAlert2';
+import {
+  BusinessCenterSharp,
+  Home,
+  Logout,
+  PersonOutline,
+  Settings,
+  Work,
+} from '@mui/icons-material';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
-  let url = window.location.href.split('http://localhost:3000/')[1];
+
   useEffect(() => {
     window.onpopstate = () => {
       window.location.reload();
     };
-    if (localStorage.getItem('team') === '2' && (url === 'manager' || url === 'approveteam')) {
-      sweetAlertComment('권한이 없습니다.', 'warning', '/goco');
-    }
-    setUrlValue(url);
+    setUrlValue(window.location.href.split('http://localhost:3000/')[1]);
     modeChange(urlValue, setUrlValue, statusData[0]?.employee?.authority, setCheck, check);
   }, []);
   if (check) {
@@ -40,6 +44,17 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
 
           <Link to="/goco">
             <Button
+              sx={{
+                fontSize: '15px',
+                color: 'gray',
+                borderColor: 'gray',
+                borderBlockColor: 'gray',
+                '&:hover': {
+                  borderColor: '#00AAFF',
+                  borderBlockColor: '#00AAFF',
+                  color: '#00AAFF',
+                },
+              }}
               variant="outlined"
               size="large"
               // className="user-change-btn"
@@ -48,8 +63,44 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
             </Button>
           </Link>
 
-          <div className="nav-text">{statusData[0]?.employee?.name}</div>
-          <div className="nav-text leader">{statusData[0]?.employee?.unit.unitName} </div>
+          <Box className="dropdown">
+            <MenuItem className="dropbtn">
+              <Avatar
+                sx={{
+                  marginRight: '5%',
+                  backgroundColor: 'lightgray',
+                }}
+              />
+              {statusData !== undefined && statusData[0]?.employee.name}
+              <Chip
+                size="medium"
+                sx={{ marginLeft: '10%', fontSize: '15px', color: 'gray' }}
+                label={statusData[0]?.employee?.unit.unitName}
+              />
+              <i className="fa fa-caret-down"></i>
+            </MenuItem>
+            <Box className="dropdown-content">
+              <NavLink to="/userupdate" style={{ size: '10px', color: 'gray' }}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Settings />
+                  </ListItemIcon>
+                  사원정보수정
+                </MenuItem>
+              </NavLink>
+
+              <MenuItem
+                sx={{ color: 'salmon' }}
+                onClick={() => {
+                  logOutAPI();
+                }}>
+                <ListItemIcon>
+                  <Logout sx={{ color: 'salmon' }} />
+                </ListItemIcon>
+                로그아웃
+              </MenuItem>
+            </Box>
+          </Box>
         </nav>
       );
     } else if (localStorage.getItem('modeChange') === '0') {
@@ -74,14 +125,20 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
             게시판
           </Link>
 
-          <Link to={url} style={{ color: '#00AAFF' }}>
-            {status(statusData[0]?.commuteStatus)}
-          </Link>
-
           {localStorage.getItem('team') === '1' ? (
             <Link to="/manager">
               <Button
-                sx={{ color: 'gray', borderColor: 'gray', fontWeight: '500' }}
+                sx={{
+                  fontSize: '15px',
+                  color: 'gray',
+                  borderColor: 'gray',
+                  borderBlockColor: 'gray',
+                  '&:hover': {
+                    borderColor: '#00AAFF',
+                    borderBlockColor: '#00AAFF',
+                    color: '#00AAFF',
+                  },
+                }}
                 size="large"
                 variant="outlined"
                 // className="mangerChangeBtn"
@@ -92,11 +149,20 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           ) : (
             ''
           )}
-
           {statusData[0]?.employee.authority === 'ROLE_ADMIN' ? (
             <Link to="/admin">
               <Button
-                sx={{ color: 'gray', borderColor: 'gray', fontWeight: '500' }}
+                sx={{
+                  fontSize: '15px',
+                  color: 'gray',
+                  borderColor: 'gray',
+                  borderBlockColor: 'gray',
+                  '&:hover': {
+                    borderColor: '#00AAFF',
+                    borderBlockColor: '#00AAFF',
+                    color: '#00AAFF',
+                  },
+                }}
                 size="large"
                 variant="outlined"
                 // className="mangerChangeBtn"
@@ -107,21 +173,71 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           ) : (
             ''
           )}
-
-          <div className="dropdown">
-            <button className="dropbtn">
+          <Box className="dropdown">
+            <MenuItem className="dropbtn">
+              <Avatar
+                sx={{
+                  marginRight: '5%',
+                  backgroundColor: 'lightgray',
+                }}
+              />
               {statusData !== undefined && statusData[0]?.employee.name}
-            </button>
-            <div className="dropdown-content">
-              <Link to="/userupdate">설정</Link>
-              <a
+              <Chip
+                size="medium"
+                sx={{ marginLeft: '10%', fontSize: '15px', color: 'gray' }}
+                label={statusData[0]?.employee?.unit.unitName}
+              />
+              <i className="fa fa-caret-down"></i>
+            </MenuItem>
+            <Box className="dropdown-content">
+              <NavLink to="/userupdate" style={{ size: '10px', color: 'black' }}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <Settings />
+                  </ListItemIcon>
+                  사원정보수정
+                </MenuItem>
+              </NavLink>
+
+              <MenuItem
                 onClick={() => {
                   logOutAPI();
                 }}>
+                <ListItemIcon>
+                  <Logout />
+                </ListItemIcon>
                 로그아웃
-              </a>
-            </div>
-          </div>
+              </MenuItem>
+            </Box>
+          </Box>
+          {status(statusData[0]?.commuteStatus) === ('미출근' || '퇴근' || '휴가') ? (
+            <Chip
+              size="large"
+              sx={{
+                color: 'white',
+                border: '2px solid rgb(255,100,100)',
+                backgroundColor: 'rgb(255,100,100)',
+                opacity: 0.9,
+                fontSize: '20px',
+              }}
+              icon={<Home style={{ color: 'white' }} />}
+              label={status(statusData[0]?.commuteStatus)}
+            />
+          ) : (
+            <Chip
+              size="large"
+              sx={{
+                height: '50%',
+                color: 'white',
+                backgroundColor: '#0288d1',
+                border: '2px solid',
+                fontSize: '20px',
+                opacity: 0.8,
+              }}
+              icon={<Work style={{ color: 'white' }} />}
+              label={status(statusData[0]?.commuteStatus)}
+            />
+          )}
         </nav>
       );
     } else if (
@@ -150,7 +266,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               size="large"
               // className="user-change-btn"
               onClick={() => (localStorage.setItem('modeChange', 0), setUrlValue('goco'))}>
-              직원 Mode
+              사원 Mode
             </Button>
           </Link>
         </nav>

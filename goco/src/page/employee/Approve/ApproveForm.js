@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -10,7 +10,7 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css files
 import { ko } from 'react-date-range/dist/locale';
-import { Error, Today, Warning } from '@mui/icons-material';
+import { Error, Info, Today, Warning } from '@mui/icons-material';
 import { addConfirm, resultConfirm } from '../../../common/confirm';
 import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
@@ -34,6 +34,13 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
   const handleClose = () => {
     setOpen(false);
     setFile(null);
+    setDate([
+      {
+        startDate: new Date(),
+        endDate: null,
+        key: 'selection',
+      },
+    ]);
   };
   const [file, setFile] = useState('');
   // checkDate 할 때 사용할 입력받은 객체
@@ -86,26 +93,32 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h4" component="h2" align="center">
+        <Typography id="modal-modal-title" variant="h5" component="h3" align="center">
           {type} 신청
         </Typography>{' '}
         <Box>
-          <FileDownloadIcon sx={{ verticalAlign: 'middle', color: 'rgb(61, 145, 255)' }} />
           {type === '휴가' ? (
-            // console.log(userInfo)
-            <a
+            <Button
+              startIcon={
+                <FileDownloadIcon sx={{ verticalAlign: 'middle', color: 'rgb(61, 145, 255)' }} />
+              }
               download={`휴가기안서_${moment(today).format('yyMMDD')}_${userInfo?.empId}_${
                 userInfo?.name
               }`}
               href="/assets/vacation.xls">
-              기안서 양식 다운로드{' '}
-            </a>
+              {type}기안서 양식 다운로드
+            </Button>
           ) : (
-            <a
-              download={`출장기안서_${userInfo?.unit?.unitName}_${userInfo?.empId}_${userInfo?.name}`}
-              href="/assets/businessTrip.xls">
-              기안서 양식 다운로드{' '}
-            </a>
+            <Button
+              startIcon={
+                <FileDownloadIcon sx={{ verticalAlign: 'middle', color: 'rgb(61, 145, 255)' }} />
+              }
+              download={`출장기안서_${moment(today).format('yyMMDD')}_${userInfo?.empId}_${
+                userInfo?.name
+              }`}
+              href="/assets/vacation.xls">
+              {type}기안서 양식 다운로드
+            </Button>
           )}
         </Box>
         <hr />
@@ -152,13 +165,14 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             <TextareaAutosize
               id="content"
               maxRows={10}
-              // aria-label="maximum height"
+              maxLength="255"
               placeholder=" 신청 사유를 입력하세요 "
               style={{
+                padding: '1%',
                 marginTop: 10,
                 marginLeft: 5,
                 minHeight: '15%',
-                maxWidth: '97%',
+                maxWidth: '95%',
                 resize: 'none',
               }}
             />
@@ -169,8 +183,8 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               <TextField
                 className="upload-name"
                 variant="outlined"
-                size="medium"
-                sx={{ fontFamily: 'GmarketSans', width: '93%', height: '40px' }}
+                size="small"
+                sx={{ width: '93%', height: '40px' }}
                 value={file?.name || ''}
                 placeholder={`첨부파일명: "${type}기안서_신청일자_사원번호_이름"`}
                 disabled
@@ -179,12 +193,12 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 <label htmlFor="file">
                   <UploadFileIcon
                     sx={{
-                      fontSize: '35px',
+                      fontSize: '30px',
                       verticalAlign: 'center',
                       cursor: 'pointer',
                       color: 'rgb(61, 145, 255)',
                     }}
-                  />{' '}
+                  />
                 </label>
               </IconButton>
               <input
@@ -205,84 +219,103 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                   }
                 }}></input>
             </Box>
-            <Typography sx={{ color: 'red' }}>
-              <Error sx={{ verticalAlign: 'middle' }} />
-              기안서 양식을 다운로드 받은 후 작성하여 첨부 하십시오.
-            </Typography>
-            <Typography sx={{ color: 'red' }}>
-              <Error sx={{ verticalAlign: 'middle' }} />
-              양식이 다를 경우 결재가 반려 될 수 있습니다
-            </Typography>
+            <Box marginLeft="1%">
+              <Typography align="left" sx={{ fontSize: '13px', color: 'red' }}>
+                <Info sx={{ fontSize: '20px', verticalAlign: 'middle' }} />
+                기안서 양식을 다운로드 받은 후 작성하여 첨부 하십시오.
+              </Typography>
+              <Typography align="left" sx={{ fontSize: '13px', color: 'red' }}>
+                <Info sx={{ fontSize: '20px', verticalAlign: 'middle' }} />
+                양식이 다를 경우 결재가 반려 될 수 있습니다
+              </Typography>
+            </Box>
           </Box>
+          <Box display="flex" justifyContent="center" marginTop="2%" marginBottom="2%">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                console.log(file);
+                if (date[0].endDate && file) {
+                  addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
+                    (result) => {
+                      const newApprove = {};
+                      if (result.isConfirmed) {
+                        const fd = new FormData();
+                        if (type === '출장') {
+                          newApprove.businessTripContent = document.getElementById('content').value;
+                          newApprove.businessTripStartDate = new Date(
+                            date[0].startDate - new Date().getTimezoneOffset() * 60000
+                          ).toISOString();
 
-          <hr></hr>
-          <Button
-            onClick={() => {
-              if (date[0].endDate) {
-                addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
-                  (result) => {
-                    const newApprove = {};
-                    if (result.isConfirmed) {
-                      const fd = new FormData();
-                      if (type === '출장') {
-                        newApprove.businessTripContent = document.getElementById('content').value;
-                        newApprove.businessTripStartDate = new Date(
-                          date[0].startDate - new Date().getTimezoneOffset() * 60000
-                        ).toISOString();
+                          newApprove.businessTripEndDate = new Date(
+                            date[0].endDate - new Date().getTimezoneOffset() * 60000
+                          ).toISOString();
+                          newApprove.employee = {
+                            empNum: userInfo.empNum,
+                            unit: { unitId: userInfo.unit.unitId },
+                          };
+                          fd.append(
+                            'businessTripDTO',
+                            new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
+                          );
+                          file ? fd.append('file', file) : fd.append('file', new Blob());
+                          addApprove(api.addBusinessTrip, fd);
+                        } else if (type === '휴가') {
+                          newApprove.vacationContent = document.getElementById('content').value;
+                          newApprove.vacationType = vacationType;
+                          newApprove.vacationStartDate = new Date(
+                            date[0].startDate - new Date().getTimezoneOffset() * 60000
+                          ).toISOString();
 
-                        newApprove.businessTripEndDate = new Date(
-                          date[0].endDate - new Date().getTimezoneOffset() * 60000
-                        ).toISOString();
-                        newApprove.employee = {
-                          empNum: userInfo.empNum,
-                          unit: { unitId: userInfo.unit.unitId },
-                        };
-                        fd.append(
-                          'businessTripDTO',
-                          new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
-                        );
-                        file ? fd.append('file', file) : fd.append('file', new Blob());
-                        addApprove(api.addBusinessTrip, fd);
-                      } else if (type === '휴가') {
-                        newApprove.vacationContent = document.getElementById('content').value;
-                        newApprove.vacationType = vacationType;
-                        newApprove.vacationStartDate = new Date(
-                          date[0].startDate - new Date().getTimezoneOffset() * 60000
-                        ).toISOString();
-
-                        newApprove.vacationEndDate = new Date(
-                          date[0].endDate - new Date().getTimezoneOffset() * 60000
-                        ).toISOString();
-                        newApprove.employee = {
-                          empNum: userInfo.empNum,
-                          unit: { unitId: userInfo.unit.unitId },
-                        };
-                        fd.append(
-                          'vacationDTO',
-                          new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
-                        );
-                        file ? fd.append('file', file) : fd.append('file', new Blob());
-                        addApprove(api.addVacation, fd);
+                          newApprove.vacationEndDate = new Date(
+                            date[0].endDate - new Date().getTimezoneOffset() * 60000
+                          ).toISOString();
+                          newApprove.employee = {
+                            empNum: userInfo.empNum,
+                            unit: { unitId: userInfo.unit.unitId },
+                          };
+                          fd.append(
+                            'vacationDTO',
+                            new Blob([JSON.stringify(newApprove)], { type: 'application/json' })
+                          );
+                          file ? fd.append('file', file) : fd.append('file', new Blob());
+                          addApprove(api.addVacation, fd);
+                        }
                       }
+                      // 중복일자 체크 하기위해서
+                      console.log(newApprove);
+                      setNewApprove(newApprove);
                     }
-                    // 중복일자 체크 하기위해서
-                    console.log(newApprove);
-                    setNewApprove(newApprove);
-                  }
-                );
-              } else {
-                console.log(date[0].endDate);
-                resultConfirm(
-                  '종료일을 지정해주세요',
-                  '',
-                  'error',
-                  document.getElementById('modal')
-                );
-              }
-            }}>
-            신청
-          </Button>
-          <Button onClick={handleClose}>취소</Button>
+                  );
+                } else if (date[0].endDate === null) {
+                  console.log(date[0].endDate);
+                  resultConfirm(
+                    '종료일을 지정해주세요',
+                    '',
+                    'error',
+                    document.getElementById('modal')
+                  );
+                } else {
+                  resultConfirm(
+                    '첨부 파일이 없습니다',
+                    '왼쪽 상단 기안서 양식을 다운로드 후 작성하여 첨부하십시오',
+                    'error',
+                    document.getElementById('modal')
+                  );
+                }
+              }}>
+              신청
+            </Button>
+
+            <Button
+              sx={{ marginLeft: '3%' }}
+              variant="contained"
+              color="inherit"
+              onClick={handleClose}>
+              취소
+            </Button>
+          </Box>
           {checkOpen && (
             <CheckDateModal
               checkOpen={checkOpen}

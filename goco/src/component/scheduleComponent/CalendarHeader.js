@@ -116,8 +116,11 @@ const CalendarHeader = ({ calendarRef, empList, getEmpId, setEmpId, user, setAdd
         variant="outlined"
         size="medium"
         style={{
+          color: 'black',
+          backgroundColor: 'lightgray',
+          opacity: '0.4',
+          borderColor: 'lightgray',
           borderRadius: '5%',
-          fontWeight: '700',
           fontSize: '13px',
         }}
         className="btn-theme text-white f-12 wid-55"

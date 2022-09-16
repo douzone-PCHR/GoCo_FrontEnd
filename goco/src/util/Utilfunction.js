@@ -1,6 +1,6 @@
 import 'moment/locale/ko';
 import moment from 'moment';
-import { Button } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 
 export function myTeamStatus(data) {
   let result = '';
@@ -10,7 +10,7 @@ export function myTeamStatus(data) {
       data.vacation_end_date
     ).format('YYYY-MM-DD')}`;
     check = (
-      <Button
+      <Chip
         style={{
           backgroundColor: '#FCC967',
           color: '#FFFFFF',
@@ -19,14 +19,14 @@ export function myTeamStatus(data) {
           fontWeight: '700',
         }}>
         휴가
-      </Button>
+      </Chip>
     );
   } else if (data.business_approve === 'APPROVE_SUCCESS') {
     result = `${moment(data.business_trip_start_date).format('YYYY-MM-DD')} ~ ${moment(
       data.business_trip_end_date
     ).format('YYYY-MM-DD')}`;
     check = (
-      <Button
+      <Chip
         style={{
           backgroundColor: 'green',
           color: '#FFFFFF',
@@ -35,58 +35,43 @@ export function myTeamStatus(data) {
           fontWeight: '700',
         }}>
         출장
-      </Button>
+      </Chip>
     );
   } else {
     if (
       moment(data.clock_out).format('HH') === '00' &&
       moment(data.clock_in).format('HH') !== '00'
     ) {
-      result = `출근 ${moment(data.clock_in).format('HH시mm분')}`;
+      result = <Chip label={`${moment(data.clock_in).format('HH:mm')}`} />;
       check = (
-        <Button
-          style={{
-            backgroundColor: '#00AAFF',
-            color: '#FFFFFF',
-            fontSize: '16px',
-            border: '1px solid #B3B3B3',
-            fontWeight: '700',
-          }}>
-          근무 중
-        </Button>
+        <Chip sx={{ width: '60%', backgroundColor: '#00AAFF', color: 'white' }} label="근무중" />
       );
     } else if (
       moment(data.clock_out).format('HH') === '00' &&
       moment(data.clock_in).format('HH') === '00'
     ) {
       result = `미출근`;
-      check = (
-        <Button
-          style={{
-            backgroundColor: 'black',
-            color: '#FFFFFF',
-            fontSize: '16px',
-            border: '1px solid #B3B3B3',
-            fontWeight: '700',
-          }}>
-          미출근
-        </Button>
-      );
+      check = <Chip sx={{ width: '60%' }} label="미출근" />;
     } else {
-      result = `출근 ${moment(data.clock_in).format('HH시mm분')} 
-                  퇴근 ${moment(data.clock_out).format('HH시mm분')}
-        `;
+      result = (
+        <Chip
+          variant="outlined"
+          sx={{ fontSize: '15px' }}
+          label={`${moment(data.clock_in)?.format('HH:mm')} ~
+ ${moment(data.clock_out)?.format('HH:mm')}`}
+        />
+      );
+
       check = (
-        <Button
-          style={{
+        <Chip
+          size="large"
+          label="퇴근"
+          sx={{
+            width: '60%',
             backgroundColor: '#FF8B8B',
             color: '#FFFFFF',
-            fontSize: '16px',
-            border: '1px solid #B3B3B3',
-            fontWeight: '700',
-          }}>
-          퇴근
-        </Button>
+          }}
+        />
       );
     }
   }

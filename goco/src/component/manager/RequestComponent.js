@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 
 import {
   Button,
+  Chip,
+  IconButton,
   Pagination,
   Table,
   TableBody,
@@ -14,37 +16,38 @@ import {
 } from '@mui/material';
 import usePagination from '../../util/Pagination';
 import { Link } from 'react-router-dom';
-function typeName(vacationType) {
-  let result = '';
-  switch (vacationType) {
-    case '0':
-      result = '연차 신청';
-      break;
-    case '1':
-      result = '휴가 신청';
-      break;
-    case '2':
-      result = '병가 신청';
-      break;
-    case '10':
-      result = '출장 신청';
-      break;
-    default:
-      result = '신청';
-  }
+import { Add, Search } from '@mui/icons-material';
+// function typeName(vacationType) {
+//   let result = '';
+//   switch (vacationType) {
+//     case '0':
+//       result = '연차 신청';
+//       break;
+//     case '1':
+//       result = '휴가 신청';
+//       break;
+//     case '2':
+//       result = '병가 신청';
+//       break;
+//     case '10':
+//       result = '출장 신청';
+//       break;
+//     default:
+//       result = '신청';
+//   }
 
-  return result;
-}
+//   return result;
+// }
 export default function RequestComponent({ getRequsetData }) {
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
   const count = Math.ceil(getRequsetData.length / PER_PAGE);
   const pageData = usePagination(getRequsetData, PER_PAGE);
-
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);
   };
+  console.log(getRequsetData);
   return (
     <Box
       sx={{
@@ -63,23 +66,19 @@ export default function RequestComponent({ getRequsetData }) {
           fontFamily: 'Inter',
           fontStyle: 'normal',
           fontWeight: '700',
-          fontSize: '24px',
         }}>
-        요청사항
-        <Button
+        결재 대기
+        <Box
           style={{
-            color: 'black',
-            fontFamily: 'Inter',
-            fontStyle: 'normal',
-            fontSize: '20px',
-            fontWeight: '700',
             float: 'right',
-            lineHeight: '24px',
           }}>
-          <Link to="/approveteam" style={{ color: 'black', textDecoration: 'none' }}>
-            더보기
+          <Link to="/approveteam" style={{ textDecoration: 'none' }}>
+            <Button sx={{ fontSize: '15px', fontWeight: 500, color: 'gray' }}>
+              <Search />
+              더보기
+            </Button>
           </Link>
-        </Button>
+        </Box>
       </Typography>
       <Divider />
 
@@ -94,30 +93,30 @@ export default function RequestComponent({ getRequsetData }) {
               return (
                 <TableRow key={index}>
                   <TableCell
+                    align="center"
                     style={{
-                      fontSize: '20px',
-                      fontWeight: '700',
+                      fontSize: '15px',
+                      fontWeight: '500',
                     }}>
                     {data.name && data.name}
                   </TableCell>
                   <TableCell
+                    align="center"
                     style={{
-                      fontSize: '20px',
-                      fontWeight: '700',
+                      fontSize: '15px',
+                      fontWeight: '500',
                     }}>
-                    {typeName(data.vacationType)}
-                  </TableCell>
-                  <TableCell>
-                    <Button
+                    <Chip
                       variant="outlined"
-                      style={{
-                        backgroundColor: '#FF8B8B',
-                        color: '#FFFFFF',
-                        fontSize: '24px',
-                        border: '#FF8B8B',
-                      }}>
-                      승인 대기
-                    </Button>
+                      color="info"
+                      label={data.vacationType === '10' ? '출장' : data.vacationType}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      color="primary"
+                      label={data.approveEnum === 'APPROVE_WAITTING' ? '결재대기' : '결재완료'}
+                    />
                   </TableCell>
                 </TableRow>
               );
@@ -131,10 +130,10 @@ export default function RequestComponent({ getRequsetData }) {
           position: 'absolute',
           left: '20px',
           bottom: '10px',
-          height: '40px',
+          height: '50px',
         }}
         count={count}
-        size="large"
+        size="medium"
         page={page}
         variant="outlined"
         shape="rounded"

@@ -15,6 +15,7 @@ import {
 import usePagination from '../../util/Pagination';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { Search } from '@mui/icons-material';
 
 export default function Notice({ noticeList }) {
   let [page, setPage] = useState(1);
@@ -46,10 +47,9 @@ export default function Notice({ noticeList }) {
           fontFamily: 'Inter',
           fontStyle: 'normal',
           fontWeight: '700',
-          fontSize: '24px',
         }}>
         공지사항
-        <Button
+        <Box
           style={{
             color: 'black',
             fontFamily: 'Inter',
@@ -60,9 +60,12 @@ export default function Notice({ noticeList }) {
             lineHeight: '24px',
           }}>
           <Link to="/board" style={{ color: 'black', textDecoration: 'none' }}>
-            더보기
+            <Button sx={{ fontSize: '15px', fontWeight: 500, color: 'gray' }}>
+              <Search />
+              더보기
+            </Button>
           </Link>
-        </Button>
+        </Box>
       </Typography>
 
       <Divider />

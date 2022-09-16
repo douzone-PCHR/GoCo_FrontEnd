@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import {
   Button,
+  Chip,
   Pagination,
   Table,
   TableBody,
@@ -16,6 +17,7 @@ import {
 import usePagination from '../../util/Pagination';
 import { Link } from 'react-router-dom';
 import { myTeamStatus } from '../../util/Utilfunction';
+import { Search } from '@mui/icons-material';
 export default function CurrentStatus({ currentStatus }) {
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
@@ -26,6 +28,7 @@ export default function CurrentStatus({ currentStatus }) {
     setPage(p);
     pageData.jump(p);
   };
+  console.log(currentStatus);
 
   return (
     <Box
@@ -44,10 +47,9 @@ export default function CurrentStatus({ currentStatus }) {
           fontFamily: 'Inter',
           fontStyle: 'normal',
           fontWeight: '700',
-          fontSize: '24px',
         }}>
-        현재 우리팀 근무 현황
-        <Button
+        팀 근무 현황
+        <Box
           style={{
             fontFamily: 'Inter',
             fontStyle: 'normal',
@@ -60,9 +62,12 @@ export default function CurrentStatus({ currentStatus }) {
             to="/currentStatus"
             state={{ currentStatus }}
             style={{ color: 'black', textDecoration: 'none' }}>
-            더보기
+            <Button sx={{ fontSize: '15px', fontWeight: 500, color: 'gray' }}>
+              <Search />
+              더보기
+            </Button>
           </Link>
-        </Button>
+        </Box>
       </Typography>
 
       <Divider />
@@ -75,24 +80,26 @@ export default function CurrentStatus({ currentStatus }) {
                 return (
                   <TableRow key={index}>
                     <TableCell
+                      align="center"
                       style={{
                         fontFamily: 'Inter',
                         fontStyle: 'normal',
-                        fontWeight: '700',
+                        fontWeight: '500',
                         fontSize: '16px',
                       }}>
                       {data.name}
                     </TableCell>
                     <TableCell
+                      align="center"
                       style={{
                         fontFamily: 'Inter',
                         fontStyle: 'normal',
-                        fontWeight: '700',
+                        fontWeight: '500',
                         fontSize: '16px',
                       }}>
                       {myTeamStatus(data).result}
                     </TableCell>
-                    <TableCell>{myTeamStatus(data).check}</TableCell>
+                    <TableCell align="center">{myTeamStatus(data).check} </TableCell>
                   </TableRow>
                 );
               })}
@@ -108,7 +115,7 @@ export default function CurrentStatus({ currentStatus }) {
           height: '40px',
         }}
         count={count}
-        size="large"
+        size="medium"
         page={page}
         variant="outlined"
         shape="rounded"

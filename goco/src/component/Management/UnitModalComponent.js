@@ -200,7 +200,7 @@ export const UnitModalComponent = ({
                         <IconButton
                           onClick={() => {
                             Swal.fire({
-                              title: `${team.unitName}팀을 삭제 하시겠습니까?`,
+                              title: `${team.unitName}을 삭제 하시겠습니까?`,
                               icon: 'warning',
                               target: '#parent-modal',
                               cancelButtonText: '돌아가기',
