@@ -28,7 +28,6 @@ const style = {
   boxShadow: 24,
   p: 2,
 };
-
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const today = new Date();
   const handleClose = () => {
@@ -125,6 +124,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
         <Box textAlign={'center'}>
           <DateRange
             // editableDateInputs={true}
+            minDate={today}
             dateDisplayFormat={'yyyy/MM/dd'}
             onChange={(item) => {
               let count = 0;
