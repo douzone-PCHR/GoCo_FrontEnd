@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material';
+import { MoreHoriz, Search } from '@mui/icons-material';
 import {
   Button,
   IconButton,
@@ -10,8 +10,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
+  Box,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import * as api from '../../api/index';
 import { UnitModalComponent } from '../../component/Management/UnitModalComponent';
 import { DeptModal } from '../../component/modal/DeptModal';
@@ -49,11 +51,11 @@ export const Management = () => {
     });
 
   return (
-    <>
-      <div className={styled.Container}>
-        <div />
-        <div className={styled.item}>
-          <div className={styled.btn}></div>
+    <Fragment>
+      <Box className={styled.Container}>
+        <Box />
+        <Box className={styled.item}>
+          <Box className={styled.btn}></Box>
           <TableContainer>
             <Table>
               <TableHead>
@@ -80,6 +82,8 @@ export const Management = () => {
                     ? resultDepts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     : resultDepts
                   ).map((dept) => {
+                    let count = 0;
+                    let teamStore = [];
                     return (
                       <TableRow key={dept.unitId}>
                         <TableCell align="center">
@@ -90,12 +94,31 @@ export const Management = () => {
                         </TableCell>
                         {teams &&
                           teams.map((team) => {
-                            return dept.unitName === team.parentUnit.unitName ? (
+                            if (dept.unitName === team.parentUnit.unitName) {
+                              ++count;
+                            }
+                            if (count >= 4 && dept.unitName === team.parentUnit.unitName) {
+                              teamStore.push(team.unitName);
+                            }
+                            return count < 4 && dept.unitName === team.parentUnit.unitName ? (
                               <TableCell key={team.unitId} align="center">
                                 <Chip label={team.unitName}></Chip>
                               </TableCell>
                             ) : null;
                           })}
+                        {count > 3 && (
+                          <TableCell>
+                            <Tooltip
+                              placement="right"
+                              title={
+                                <Box style={{ whiteSpace: 'pre-line' }} sx={{ fontSize: '15px' }}>
+                                  {teamStore.join(' / ')}
+                                </Box>
+                              }>
+                              <MoreHoriz sx={{ verticalAlign: 'middle' }} />
+                            </Tooltip>
+                          </TableCell>
+                        )}
                         <TableCell align="right" colSpan={20} padding="none">
                           <IconButton
                             onClick={() => {
@@ -119,9 +142,9 @@ export const Management = () => {
               onPageChange={(e, page) => handleChangePage(page, setPage)}
             />
           </TableContainer>
-        </div>
-        <div />
-      </div>
+        </Box>
+        <Box />
+      </Box>
       <DeptModal insertBtn={insertBtn} setInsertBtn={setInsertBtn} render={render} />
       <UnitModalComponent
         open={open}
@@ -133,6 +156,6 @@ export const Management = () => {
         render={render}
         check={check}
       />
-    </>
+    </Fragment>
   );
 };

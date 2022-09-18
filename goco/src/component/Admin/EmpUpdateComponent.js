@@ -22,7 +22,6 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
     setUpdateModal(false);
     // setValue(null);
   }
-  console.log(type.empInfo.id);
   function updateEmployee(type, value) {
     if (value) {
       if (type.type === '부서') {

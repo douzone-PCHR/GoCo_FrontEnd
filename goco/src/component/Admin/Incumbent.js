@@ -1,6 +1,5 @@
-import { Button, Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
+import { Paper, Table, TableBody, TableContainer, TablePagination } from '@mui/material';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import { TableCellComponent } from './TableCellComponent';
 import { AdminTableHead } from './TableHead';
 

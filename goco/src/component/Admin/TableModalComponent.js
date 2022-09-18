@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 import * as api from '../../api/index';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
-import { resultConfirm } from '../../common/confirm';
+import { confirm, resultConfirm } from '../../common/confirm';
 
 function handlemodal(setUpdateModal, data, setType, typeName, empInfo) {
   setUpdateModal(true);
@@ -36,7 +36,6 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
         aria-describedby="modal-modal-description"
         id="emp-info-modal">
         <div className={style.modal}>
-          {console.log(empInfo)}
           <Typography
             id="modal-modal-title"
             variant="h5"
@@ -59,18 +58,23 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                   <Button
                     sx={{ color: 'rgb(235,100,70)' }}
                     onClick={() => {
-                      Swal.fire({
-                        icon: 'warning',
-                        title: '퇴사처리 하시겠습니까?',
-                        text: '* 퇴사 처리시 되돌릴 수 없습니다.',
-                        iconColor: 'rgb(235,100,70)',
-                        showConfirmButton: true,
-                        confirmButtonText: '퇴사처리',
-                        cancelButtonText: '취소',
-                        confirmButtonColor: 'rgb(235,100,70)',
-                        showCancelButton: true,
-                        target: document.getElementById('emp-info-modal'),
-                      }).then((result) => {
+                      // Swal.fire({
+                      //   icon: 'warning',
+                      //   title: '퇴사처리 하시겠습니까?',
+                      //   text: '* 퇴사 처리시 되돌릴 수 없습니다.',
+                      //   iconColor: 'rgb(235,100,70)',
+                      //   showConfirmButton: true,
+                      //   confirmButtonText: '퇴사처리',
+                      //   cancelButtonText: '취소',
+                      //   confirmButtonColor: 'rgb(235,100,70)',
+                      //   showCancelButton: true,
+                      //   target: document.getElementById('emp-info-modal'),
+                      // })
+                      confirm(
+                        '퇴사처리 하시겠습니까?',
+                        '* 퇴사 처리시 되돌릴 수 없습니다.',
+                        document.getElementById('emp-info-modal')
+                      ).then((result) => {
                         if (result.isConfirmed) {
                           api.deleteAdminEmpAPI(empInfo.id).then((result) => {
                             if (result.data === 1) {
