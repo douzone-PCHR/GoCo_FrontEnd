@@ -27,10 +27,14 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 2,
+  minHeight: '90%',
 };
-
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const today = new Date();
+  const maxDate = new Date();
+  maxDate.setDate(0);
+  maxDate.setMonth(11);
+  maxDate.setFullYear(today.getFullYear());
   const handleClose = () => {
     setOpen(false);
     setFile(null);
@@ -57,32 +61,29 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
   ]);
 
   const addApprove = (approveApi, fd) => {
-    approveApi(fd)
-      .then((res) => {
-        if (res.data.success.length === 0 && res.data.waitting.length === 0) {
-          resultConfirm(
-            '신청이 완료되었습니다',
-            '결재대기중인 경우 삭제 할 수 있습니다.',
-            'success',
-            document.getElementById('modal')
-          ).then(() => {
-            setOpen(false);
-            setCheck(!check);
-          });
-        } else {
-          resultConfirm(
-            '중복되는 신청일이 있습니다!',
-            '삭제 후 다시 신청 해주십시오',
-            'error',
-            document.getElementById('modal')
-          ).then(() => {
-            setCheckOpen(true);
-          });
-        }
-      })
-      .catch((err) => console.log(err));
+    approveApi(fd).then((res) => {
+      if (res.data.success.length === 0 && res.data.waitting.length === 0) {
+        handleClose();
+        resultConfirm(
+          '신청이 완료되었습니다',
+          '결재대기중인 경우 삭제 할 수 있습니다.',
+          'success'
+        ).then(() => {
+          handleClose();
+          setCheck(!check);
+        });
+      } else {
+        resultConfirm(
+          '중복되는 신청일이 있습니다!',
+          '삭제 후 다시 신청 해주십시오',
+          'error',
+          document.getElementById('modal')
+        ).then(() => {
+          setCheckOpen(true);
+        });
+      }
+    });
   };
-  console.log(date);
 
   return (
     // <div>
@@ -123,40 +124,46 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
         </Box>
         <hr />
         <Box textAlign={'center'}>
-          <DateRange
-            // editableDateInputs={true}
-            dateDisplayFormat={'yyyy/MM/dd'}
-            onChange={(item) => {
-              let count = 0;
-              if (vacationType === '반차' || vacationType === '연차') {
-                vacationType === '반차'
-                  ? (count = 0.5 & (item.selection.endDate = item.selection.startDate))
-                  : (count =
-                      (item.selection.endDate - item.selection.startDate) / (60 * 60 * 24 * 1000) +
-                      1);
-                api.checkVacationCount(userInfo.empNum).then((res) => {
-                  if (res.data - count < 0) {
-                    resultConfirm(
-                      '잔여 휴가 일수를 확인하세요!!',
-                      `잔여 휴가 : ${res.data} 일`,
-                      'error',
-                      document.getElementById('modal')
-                    ).then(() => {
-                      item.selection.startDate = new Date();
-                      item.selection.endDate = null;
-                    });
-                  }
-                });
-              }
-              setDate([item.selection]);
-            }}
-            locale={ko}
-            moveRangeOnFirstSelection={false}
-            ranges={date}
-            startDatePlaceholder={'시작일'}
-            endDatePlaceholder={'종료일'}
-            // retainEndDateOnFirstSelection={false}
-          />
+          <Box sx={{ minHeight: '400px' }}>
+            <DateRange
+              // editableDateInputs={true}
+              minDate={today}
+              maxDate={maxDate}
+              dateDisplayFormat={'yyyy/MM/dd'}
+              onChange={(item) => {
+                let count = 0;
+                if (vacationType === '반차' || vacationType === '연차') {
+                  vacationType === '반차'
+                    ? (count = 0.5 & (item.selection.endDate = item.selection.startDate))
+                    : (count =
+                        (item.selection.endDate - item.selection.startDate) /
+                          (60 * 60 * 24 * 1000) +
+                        1);
+                  api.checkVacationCount(userInfo.empNum).then((res) => {
+                    if (res.data - count < 0) {
+                      resultConfirm(
+                        '잔여 휴가 일수를 확인하세요!!',
+                        `잔여 휴가 : ${res.data} 일`,
+                        'error',
+                        document.getElementById('modal')
+                      ).then(() => {
+                        item.selection.startDate = new Date();
+                        item.selection.endDate = null;
+                      });
+                    }
+                  });
+                }
+
+                setDate([item.selection]);
+              }}
+              locale={ko}
+              moveRangeOnFirstSelection={false}
+              ranges={date}
+              startDatePlaceholder={'시작일'}
+              endDatePlaceholder={'종료일'}
+              // retainEndDateOnFirstSelection={false}
+            />
+          </Box>
           <Box display="flex" flexDirection="column">
             <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
             {type === '휴가' && (
@@ -177,7 +184,6 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               }}
             />
             <hr></hr>
-            {console.log(userInfo)}
 
             <Box className="filebox" sx={{ display: 'flex' }} justifyContent="space-around">
               <TextField
@@ -206,11 +212,11 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 id="file"
                 hidden
                 onChange={(e) => {
-                  if (e.target?.files[0]?.size <= 10 * 1024 * 1024) {
+                  if (e.target?.files[0]?.size <= 10 * 1024) {
                     setFile(e.target.files[0]);
                   } else {
                     resultConfirm(
-                      '10MB미만 파일만 첨부가능 합니다',
+                      '1MB미만 파일만 첨부가능 합니다',
                       `현재 파일 크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
                       'error',
                       document.getElementById('modal')
@@ -235,7 +241,6 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               variant="contained"
               color="primary"
               onClick={() => {
-                console.log(file);
                 if (date[0].endDate && file) {
                   addConfirm('등록 하시겠습니까?', '', document.getElementById('modal')).then(
                     (result) => {
@@ -247,10 +252,22 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           newApprove.businessTripStartDate = new Date(
                             date[0].startDate - new Date().getTimezoneOffset() * 60000
                           ).toISOString();
-
                           newApprove.businessTripEndDate = new Date(
                             date[0].endDate - new Date().getTimezoneOffset() * 60000
                           ).toISOString();
+                          newApprove.businessTripStartDate = moment(
+                            newApprove.businessTripStartDate
+                          )
+                            .hours('00')
+                            .minutes('00')
+                            .seconds('00')
+                            .format();
+                          newApprove.businessTripEndDate = moment(newApprove.businessTripEndDate)
+                            .hours('23')
+                            .minutes('59')
+                            .seconds('59')
+                            .format();
+
                           newApprove.employee = {
                             empNum: userInfo.empNum,
                             unit: { unitId: userInfo.unit.unitId },
@@ -265,12 +282,15 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                           newApprove.vacationContent = document.getElementById('content').value;
                           newApprove.vacationType = vacationType;
                           newApprove.vacationStartDate = new Date(
-                            date[0].startDate - new Date().getTimezoneOffset() * 60000
-                          ).toISOString();
-
+                            moment(date[0].startDate)
+                              .hours('00')
+                              .minutes('00')
+                              .seconds('00')
+                              .format()
+                          );
                           newApprove.vacationEndDate = new Date(
-                            date[0].endDate - new Date().getTimezoneOffset() * 60000
-                          ).toISOString();
+                            moment(date[0].endDate).hours('23').minutes('59').seconds('59').format()
+                          );
                           newApprove.employee = {
                             empNum: userInfo.empNum,
                             unit: { unitId: userInfo.unit.unitId },
@@ -284,12 +304,10 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                         }
                       }
                       // 중복일자 체크 하기위해서
-                      console.log(newApprove);
                       setNewApprove(newApprove);
                     }
                   );
                 } else if (date[0].endDate === null) {
-                  console.log(date[0].endDate);
                   resultConfirm(
                     '종료일을 지정해주세요',
                     '',
@@ -325,7 +343,6 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
             />
           )}
         </Box>
-        {console.log(newApprove)}
       </Box>
     </Modal>
     // </div>

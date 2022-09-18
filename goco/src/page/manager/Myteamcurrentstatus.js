@@ -27,9 +27,7 @@ const Myteamcurrentstatus = () => {
   };
 
   return (
-    <Container 
-      
-    >
+    <Container>
       <Box
         sx={{
           position: 'relative',
@@ -38,8 +36,8 @@ const Myteamcurrentstatus = () => {
           bgcolor: 'rgba(255, 255, 255, 0.6)',
           padding: '10px',
           height: '60vh',
-          margin:'0 auto',
-          backgroundColor : 'rgb(250,250,250)',
+          margin: '0 auto',
+          backgroundColor: 'rgb(250,250,250)',
         }}>
         <Typography
           sx={{ mt: 4, mb: 2, marginTop: '1px', padding: '15px' }}
@@ -87,7 +85,9 @@ const Myteamcurrentstatus = () => {
                         fontWeight: '700',
                         fontSize: '16px',
                       }}>
-                      {myTeamStatus(data).result}
+                      {myTeamStatus(data).result === ('미출근' || '휴가' || '출장')
+                        ? ''
+                        : myTeamStatus(data).result}
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
                     <TableCell>{data.commute_work_time} / 40h </TableCell>

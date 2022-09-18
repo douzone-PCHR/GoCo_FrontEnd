@@ -16,7 +16,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import * as api from '../../../api';
 import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { Button, Chip, Stack, TablePagination, Tooltip } from '@mui/material';
+import { Button, Chip, Divider, Stack, TablePagination, Tooltip } from '@mui/material';
+import moment from 'moment';
 
 function createData(type, startDate, endDate, requestDate, approve, detail, vacation) {
   return {
@@ -39,15 +40,18 @@ const approveType = {
 function Row(props) {
   const { row, check, setCheck } = props;
   const [open, setOpen] = useState(false);
+  row.startDate = moment(row.startDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.endDate = moment(row.endDate).tz('Asia/Seoul').format('YYYY-MM-DD');
+  row.requestDate = moment(row.requestDate).tz('Asia/Seoul').format('YYYY-MM-DD');
   return (
     <Fragment>
       <TableRow>
         {/* <TableCell component="th" scope="row"> */}
         <TableCell />
         <TableCell align="center">{row.type}</TableCell>
-        <TableCell align="center">{row.startDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.endDate.split('T')[0]}</TableCell>
-        <TableCell align="center">{row.requestDate.split('T')[0]}</TableCell>
+        <TableCell align="center">{row.startDate}</TableCell>
+        <TableCell align="center">{row.endDate}</TableCell>
+        <TableCell align="center">{row.requestDate}</TableCell>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -90,6 +94,7 @@ function Row(props) {
                         .then((result) => {
                           api.deleteVacation(row.vacation).then(() => {
                             setCheck(!check);
+                            console.log('vacations');
                           });
                         })
                         .catch((err) => console.log(err));
@@ -117,6 +122,9 @@ function Row(props) {
                 <div>{row.detail.content}</div>
                 <div>
                   {row.detail.approveDate && '결재일: ' + row.detail.approveDate.split('T')[0]}
+                </div>
+
+                <div>
                   {row.detail.file && row.detail.file.originalName}
                   {row.detail.file && (
                     <a href={row.detail.file.filePath}>
@@ -145,6 +153,7 @@ export default function Vacations({
   setCheck,
   state,
   dateFilter,
+  setCheckOpen,
 }) {
   // const [vacationList, setVacationList] = useState([]);
   // const [check, setCheck] = useState(false);

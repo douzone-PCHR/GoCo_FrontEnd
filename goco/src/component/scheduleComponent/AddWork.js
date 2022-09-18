@@ -159,6 +159,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
           <TextField
             style={{ width: '90%', margin: '20px 15px', fontSize: '16px' }}
             onBlur={(e) => setTextTitle(e.target.value)}
+            inputProps={{ maxLength: 50 }}
             placeholder="업무 제목을 입력하세요"></TextField>
           <TextareaAutosize
             minRows={30}
