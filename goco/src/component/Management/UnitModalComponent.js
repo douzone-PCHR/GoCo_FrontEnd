@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Chip,
   IconButton,
@@ -18,6 +19,7 @@ import { ChildModal } from './ChildModal';
 import * as api from '../../api/index';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { MoreHoriz } from '@mui/icons-material';
 
 export const UnitModalComponent = ({
   open,
@@ -102,162 +104,166 @@ export const UnitModalComponent = ({
               <DeleteIcon fontSize="medium" />
             </Button>
           </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ width: '30%' }}>부서: {dept?.unitName}</TableCell>
-                <TableCell>팀장</TableCell>
-                <TableCell colSpan={5}>팀원</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {teams &&
-                teams.map((team, idx) => {
-                  let mgrCheck = false;
-                  let empCheck = 0;
-                  let member = [];
-                  return dept && dept.unitName === team.parentUnit.unitName ? (
-                    <TableRow key={idx}>
-                      <TableCell>
-                        <Chip label={team.unitName}></Chip>
-                      </TableCell>
-                      {managers.length !== 0 &&
-                        managers.map((manager) => {
-                          if (
-                            manager.unit.unitName === team.unitName &&
-                            manager.teamPosition.teamPositionId === 1
-                          ) {
-                            mgrCheck = true;
-                            return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
-                          }
-                          return null;
-                        })}
-                      {mgrCheck === false && <TableCell>없음</TableCell>}
-                      {managers.length !== 0 &&
-                        managers.map((manager) => {
-                          if (
-                            manager.unit.unitName === team.unitName &&
-                            manager.teamPosition.teamPositionId === 2
-                          ) {
-                            if (empCheck >= 1) {
-                              member.push(`${manager.name}`);
-                              return null;
+          <Box sx={{ height: '50vh', overflow: 'auto' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>부서: {dept?.unitName}</TableCell>
+                  <TableCell>팀장</TableCell>
+                  <TableCell colSpan={5}>팀원</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {teams &&
+                  teams.map((team, idx) => {
+                    let mgrCheck = false;
+                    let empCheck = 0;
+                    let member = [];
+                    return dept && dept.unitName === team.parentUnit.unitName ? (
+                      <TableRow key={idx}>
+                        <TableCell>
+                          <Chip label={team.unitName}></Chip>
+                        </TableCell>
+                        {managers.length !== 0 &&
+                          managers.map((manager) => {
+                            if (
+                              manager.unit.unitName === team.unitName &&
+                              manager.teamPosition.teamPositionId === 1
+                            ) {
+                              mgrCheck = true;
+                              return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                             }
-                            ++empCheck;
-                            return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
-                          }
-                          return null;
-                        })}
-                      {member.length !== 0 && (
-                        <Tooltip
-                          placement="right"
-                          title={
-                            <div style={{ whiteSpace: 'pre-line' }}> {member.join('\n')}</div>
-                          }>
-                          <TableCell>...</TableCell>
-                        </Tooltip>
-                      )}
-                      <TableCell padding="none" align="right" colSpan={10}>
-                        <IconButton
-                          onClick={() => {
-                            Swal.fire({
-                              title: '팀명 변경',
-                              input: 'text',
-                              toast: true,
-                              inputPlaceholder: '변경할 팀 이름을 입력해주세요:',
-                              target: document.getElementById('parent-modal'),
-                              showCancelButton: true,
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                api.updateUnit(team.unitId, result.value).then((res) => {
-                                  if (res.data) {
-                                    Swal.fire({
-                                      icon: 'success',
-                                      title: '팀명이 변경되었습니다.',
-                                      target: '#parent-modal',
-                                      text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
-                                      confirmButtonText: '확인',
-                                    }).then((result) => {
-                                      if (result.isConfirmed) {
-                                        setOpen(false);
-                                      }
-                                    });
-                                  } else {
-                                    Swal.fire({
-                                      title: '중복된 팀명입니다.',
-                                      icon: 'error',
-                                      target: '#parent-modal',
-                                      showConfirmButton: true,
-                                      confirmButtonText: '확인',
-                                    });
-                                  }
-                                });
+                            return null;
+                          })}
+                        {mgrCheck === false && <TableCell>없음</TableCell>}
+                        {managers.length !== 0 &&
+                          managers.map((manager) => {
+                            if (
+                              manager.unit.unitName === team.unitName &&
+                              manager.teamPosition.teamPositionId === 2
+                            ) {
+                              if (empCheck >= 1) {
+                                member.push(`${manager.name}`);
+                                return null;
                               }
-                            });
-                          }}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            Swal.fire({
-                              title: `${team.unitName}을 삭제 하시겠습니까?`,
-                              icon: 'warning',
-                              target: '#parent-modal',
-                              cancelButtonText: '돌아가기',
-                              cancelButtonColor: 'gray',
-                              confirmButtonText: '삭제하기',
-                              confirmButtonColor: 'red',
-                              showCancelButton: true,
-                            }).then(async (result) => {
-                              if (result.isConfirmed) {
-                                await api.deleteUnit(team.unitId, 2).then((res) => {
-                                  switch (res.data) {
-                                    case -1:
-                                      break;
-                                    case 1:
+                              ++empCheck;
+                              return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
+                            }
+                            return null;
+                          })}
+                        {member.length !== 0 && (
+                          <TableCell>
+                            <Tooltip
+                              placement="right"
+                              title={
+                                <div style={{ whiteSpace: 'pre-line' }}> {member.join('\n')}</div>
+                              }>
+                              <MoreHoriz sx={{ verticalAlign: 'middle' }} />
+                            </Tooltip>
+                          </TableCell>
+                        )}
+                        <TableCell padding="none" align="right" colSpan={10}>
+                          <IconButton
+                            onClick={() => {
+                              Swal.fire({
+                                title: '팀명 변경',
+                                input: 'text',
+                                toast: true,
+                                inputPlaceholder: '변경할 팀 이름을 입력해주세요:',
+                                target: document.getElementById('parent-modal'),
+                                showCancelButton: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  api.updateUnit(team.unitId, result.value).then((res) => {
+                                    if (res.data) {
                                       Swal.fire({
-                                        target: '#parent-modal',
-                                        title: `팀에 사원이 존재합니다.`,
-                                        confirmButtonText: '확인',
-                                        icon: 'warning',
-                                      }).then(() => {
-                                        render();
-                                      });
-                                      break;
-                                    case 2:
-                                      Swal.fire({
-                                        target: '#parent-modal',
-                                        title: `${team.unitName}팀이 삭제되었습니다.`,
-                                        confirmButtonText: '확인',
                                         icon: 'success',
-                                      }).then(() => {
-                                        render();
+                                        title: '팀명이 변경되었습니다.',
+                                        target: '#parent-modal',
+                                        text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
+                                        confirmButtonText: '확인',
+                                      }).then((result) => {
+                                        if (result.isConfirmed) {
+                                          setOpen(false);
+                                        }
                                       });
-                                      break;
-                                    default:
-                                      break;
-                                  }
-                                });
-                              } else {
-                                Swal.fire({
-                                  target: '#parent-modal',
-                                  title: `팀 삭제가 취소되었습니다.`,
-                                  confirmButtonText: '확인',
-                                  icon: 'info',
-                                });
-                              }
-                            });
-                          }}>
-                          <DeleteIcon></DeleteIcon>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    <Fragment key={idx}></Fragment>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                                    } else {
+                                      Swal.fire({
+                                        title: '중복된 팀명입니다.',
+                                        icon: 'error',
+                                        target: '#parent-modal',
+                                        showConfirmButton: true,
+                                        confirmButtonText: '확인',
+                                      });
+                                    }
+                                  });
+                                }
+                              });
+                            }}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => {
+                              Swal.fire({
+                                title: `${team.unitName}을 삭제 하시겠습니까?`,
+                                icon: 'warning',
+                                target: '#parent-modal',
+                                cancelButtonText: '돌아가기',
+                                cancelButtonColor: 'gray',
+                                confirmButtonText: '삭제하기',
+                                confirmButtonColor: 'red',
+                                showCancelButton: true,
+                              }).then(async (result) => {
+                                if (result.isConfirmed) {
+                                  await api.deleteUnit(team.unitId, 2).then((res) => {
+                                    switch (res.data) {
+                                      case -1:
+                                        break;
+                                      case 1:
+                                        Swal.fire({
+                                          target: '#parent-modal',
+                                          title: `팀에 사원이 존재합니다.`,
+                                          confirmButtonText: '확인',
+                                          icon: 'warning',
+                                        }).then(() => {
+                                          render();
+                                        });
+                                        break;
+                                      case 2:
+                                        Swal.fire({
+                                          target: '#parent-modal',
+                                          title: `${team.unitName}팀이 삭제되었습니다.`,
+                                          confirmButtonText: '확인',
+                                          icon: 'success',
+                                        }).then(() => {
+                                          render();
+                                        });
+                                        break;
+                                      default:
+                                        break;
+                                    }
+                                  });
+                                } else {
+                                  Swal.fire({
+                                    target: '#parent-modal',
+                                    title: `팀 삭제가 취소되었습니다.`,
+                                    confirmButtonText: '확인',
+                                    icon: 'info',
+                                  });
+                                }
+                              });
+                            }}>
+                            <DeleteIcon></DeleteIcon>
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      <Fragment key={idx}></Fragment>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </Box>
           <div className={style.btn}>
             <Button
               onClick={() => {

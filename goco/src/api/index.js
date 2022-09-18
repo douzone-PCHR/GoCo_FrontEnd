@@ -130,7 +130,7 @@ export const getLogin = (data) =>
 // 아이디 찾기 API
 export const getFindId = (data) =>
   client({
-    url: '/auth/sendEmailForId',
+    url: '/auth/sendemailforid',
     method: 'post',
     data: data,
   });
@@ -144,7 +144,7 @@ export const getAuthCheck = (data) =>
 // 비번 찾기
 export const getFindPwd = (data) =>
   client({
-    url: '/auth/sendEmailForPwd',
+    url: '/auth/sendemailforpwd',
     method: 'post',
     data: data,
   });
@@ -158,14 +158,14 @@ export const getFindPassword = (data) =>
 // 아이디 중복체크
 export const getIDCheck = (data) =>
   client({
-    url: `/auth/checkInfo?info=${data.empId}`,
+    url: `/auth/checkinfo?info=${data.empId}`,
     method: 'get',
     data: data,
   });
 // 회원 가입시 유효한 이메일인지 확인하는 것
 export const getSendEmailForSignUp = (data) =>
   client({
-    url: '/auth/sendEmailForEmail',
+    url: '/auth/sendemailforemail',
     method: 'post',
     data: data,
   });
@@ -179,7 +179,7 @@ export const getCheckAuthForSignUp = (data) =>
 ///// 회원 가입시 unit 불러오기
 export const getUnit = () =>
   client({
-    url: '/auth/getAllUnit',
+    url: '/auth/getallunit',
     method: 'get',
   });
 /// 회원 가입 버튼
@@ -271,21 +271,21 @@ export const getWhoAmI = () =>
 //회원 비번 변경
 export const getPwdChange = (data) =>
   client({
-    url: '/user/changePwd',
+    url: '/user/changepwd',
     method: 'put',
     data: data,
   });
 // 회원 이메일 변경
 export const getChangeEmail = (data) =>
   client({
-    url: '/user/changeEmail',
+    url: '/user/changeemail',
     method: 'put',
     data: data,
   });
 // 회원 번호 변경
 export const getChangePhoneNumber = (data) =>
   client({
-    url: '/user/changePhone',
+    url: '/user/changephone',
     method: 'put',
     data: data,
   });
@@ -298,7 +298,7 @@ export const getAccessToken = () =>
 // 로그아웃
 export const logOut = () =>
   client({
-    url: '/auth/logOut',
+    url: '/auth/logout',
     method: 'get',
   });
 // userMe
@@ -310,13 +310,13 @@ export const userMe = () =>
 
 export const getEmp = () =>
   client({
-    url: '/admin/findAll',
+    url: '/admin/findall',
     method: 'get',
   });
 
 export const getResignation = () =>
   client({
-    url: '/admin/ResignationAll',
+    url: '/admin/resignationall',
     method: 'get',
   });
 
@@ -351,13 +351,12 @@ export const updateUnit = (unitId, unit) =>
     data: unit,
   });
 
-export const insertUnit = (unit) => {
+export const insertUnit = (unit) =>
   client({
     url: `/admin/unit`,
     method: 'post',
     data: unit,
   });
-};
 
 // -------- vacation ---------
 // 휴가 리스트(사원)

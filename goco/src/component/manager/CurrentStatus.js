@@ -28,7 +28,6 @@ export default function CurrentStatus({ currentStatus }) {
     setPage(p);
     pageData.jump(p);
   };
-
   return (
     <Box
       sx={{

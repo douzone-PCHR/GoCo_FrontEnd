@@ -93,6 +93,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
                 sx={{ color: 'salmon' }}
                 onClick={() => {
                   logOutAPI();
+                  // window.location.href = '/login';
                 }}>
                 <ListItemIcon>
                   <Logout sx={{ color: 'salmon' }} />
