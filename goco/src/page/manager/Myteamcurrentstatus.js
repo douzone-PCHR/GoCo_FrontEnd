@@ -16,6 +16,7 @@ import { useLocation } from 'react-router-dom';
 const Myteamcurrentstatus = () => {
   const location = useLocation();
   const data = location.state?.currentStatus;
+  console.log(data);
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
   const count = Math.ceil(data.length / PER_PAGE);
@@ -90,6 +91,7 @@ const Myteamcurrentstatus = () => {
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
                     <TableCell>
+                      {console.log(data)}
                       {data.commute_work_hour}h {data.commute_work_min}m / 40h{' '}
                     </TableCell>
                     <TableCell>{data.vacation_count} / 11 </TableCell>
