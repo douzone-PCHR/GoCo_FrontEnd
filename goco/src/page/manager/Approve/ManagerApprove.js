@@ -41,16 +41,11 @@ export default function ManagerApprove() {
       }
     }
   }, [check, value, userInfo?.unit?.unitId]);
-  // console.log(userInfo?.unit?.unitId);
-  // console.log(approveList);
-  // console.log(setPage);
-  // console.log(1231231312);
   approveList.length !== 0 &&
     approveList.map((emp) => {
       memberInfo = { ...memberInfo, [emp.employee.empNum]: emp.employee.name };
     });
   let memberInfoResult = Object.entries(memberInfo);
-  console.log(memberInfoResult);
   return (
     <>
       <Box sx={{ display: 'flex' }}>

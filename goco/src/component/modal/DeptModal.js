@@ -10,14 +10,19 @@ export function DeptModal({ insertBtn, setInsertBtn, render }) {
           부서추가
         </Typography>
         <div>
-          <TextField name={styled.textField} size="normal" margin="normal" />
+          <TextField
+            name={styled.textField}
+            size="normal"
+            margin="normal"
+            inputProps={{ maxLength: 12 }}
+          />
           <br />
           <Button
             onClick={() => {
               const unitName = document.getElementsByName(styled.textField)[0].value;
               if (unitName) {
                 Swal.fire({
-                  title: `${unitName}부서를 추가 하시겠습니까?`,
+                  title: `[${unitName}]부서를 추가 하시겠습니까?`,
                   icon: 'info',
                   target: '#dept-insert-modal',
                   cancelButtonText: '돌아가기',
@@ -39,7 +44,7 @@ export function DeptModal({ insertBtn, setInsertBtn, render }) {
                             render();
                           })
                         : Swal.fire({
-                            title: `중복된 이름입니다.`,
+                            title: `중복된 부서이름입니다.`,
                             text: `${unitName}`,
                             icon: 'warning',
                             target: '#dept-insert-modal',

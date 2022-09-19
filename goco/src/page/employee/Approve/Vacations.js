@@ -94,10 +94,9 @@ function Row(props) {
                         .then((result) => {
                           api.deleteVacation(row.vacation).then(() => {
                             setCheck(!check);
-                            console.log('vacations');
                           });
                         })
-                        .catch((err) => console.log(err));
+                        .catch();
                     }
                   });
                 }}>

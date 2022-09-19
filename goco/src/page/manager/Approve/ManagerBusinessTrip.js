@@ -111,7 +111,7 @@ function Row(props) {
                               .then(() => {
                                 setCheck(!check);
                               })
-                              .catch((err) => console.log(err));
+                              .catch();
                           }
                         });
                       }}>
@@ -128,7 +128,7 @@ function Row(props) {
                               .then(() => {
                                 setCheck(!check);
                               })
-                              .catch((err) => console.log(err));
+                              .catch();
                           }
                         });
                       }}>
@@ -153,7 +153,7 @@ function Row(props) {
                           .then(() => {
                             setCheck(!check);
                           })
-                          .catch((err) => console.log(err));
+                          .catch();
                       }}>
                       승인취소
                     </Button>
@@ -242,7 +242,6 @@ export default function ManagerBusinessTrips({
         }
       })
       .map((business) => {
-        console.log(business);
         let detail = {
           content: business.businessTripContent,
           approveDate: business.businessTripApproveDate,
