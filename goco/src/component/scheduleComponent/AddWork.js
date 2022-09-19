@@ -62,12 +62,14 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
           }
         })
         .catch((error) => {
-          resultConfirm(
-            error.response.data.errors[0].defaultMessage,
-            '',
-            'error',
-            document.getElementById('modal')
-          );
+          if (error.response.status === 400) {
+            resultConfirm(
+              error.response.data.errors[0].defaultMessage,
+              '',
+              'error',
+              document.getElementById('modal')
+            );
+          }
         });
     } else {
       resultConfirm(
@@ -163,6 +165,7 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
             placeholder="업무 제목을 입력하세요"></TextField>
           <TextareaAutosize
             minRows={30}
+            maxLength={255}
             aria-label="maximum height"
             placeholder="업무 내용을 입력하세요"
             onBlur={(e) => setTextArea(e.target.value)}
@@ -190,7 +193,11 @@ export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpe
               color="primary"
               size="large"
               style={{ marginRight: '5%', width: '20%', borderRadius: '5%', fontWeight: 500 }}
-              onClick={addEvent}>
+              onClick={() => {
+                textTitle
+                  ? addEvent()
+                  : resultConfirm('제목을 입력', '', 'error', document.getElementById('modal'));
+              }}>
               추가
             </Button>
             <Button

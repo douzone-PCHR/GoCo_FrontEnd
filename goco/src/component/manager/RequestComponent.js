@@ -71,7 +71,10 @@ export default function RequestComponent({ getRequsetData }) {
           style={{
             float: 'right',
           }}>
-          <Link to="/approveteam" style={{ textDecoration: 'none' }}>
+          <Link
+            to="/approveteam"
+            style={{ textDecoration: 'none' }}
+            state={{ mode: 'approveteam' }}>
             <Button sx={{ fontSize: '15px', fontWeight: 500, color: 'gray' }}>
               <Search />
               더보기
