@@ -75,7 +75,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  <Chip color="default" size="small" sx={{ width: '50px' }} label="40h" />
+                  <Chip color="default" size="small" sx={{ width: '70px' }} label="40h" />
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -100,20 +100,13 @@ export default function WorkTime({ commuteTimeData }) {
                   align="left">
                   <Chip
                     size="small"
-                    sx={{ backgroundColor: '#00AAFF', color: 'white' }}
+                    sx={{ backgroundColor: '#00AAFF', color: 'white', width: '70px' }}
                     label={`${
                       commuteTimeData.commute_work_hour ? commuteTimeData.commute_work_hour : '0'
                     }h ${
                       commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
                     }m`}
                   />
-                  {/* <Chip
-                    size="small"
-                    sx={{ width: '50px', backgroundColor: '#00AAFF', color: 'white' }}
-                    label={`${
-                      commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
-                    }m`} */}
-                  {/* /> */}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -136,15 +129,18 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
+                  {console.log()}
                   <Chip
                     size="small"
-                    sx={{ backgroundColor: '#FF8B8B' }}
+                    sx={{ backgroundColor: '#FF8B8B', width: '70px' }}
                     color="error"
                     label={` ${
-                      commuteTimeData.commute_work_time >= 40
-                        ? commuteTimeData.commute_work_time - 40
-                        : 0
-                    }h`}
+                      commuteTimeData.commute_work_hour >= 40
+                        ? `${commuteTimeData.commute_work_hour - 40}h ${
+                            commuteTimeData.commute_work_min
+                          }m`
+                        : '0h'
+                    }`}
                   />
                 </TableCell>
               </TableRow>
@@ -207,7 +203,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '10px',
                     textAlign: 'center',
                   }}>
-                  <Chip size="small" color="default" label="11" />
+                  <Chip size="small" sx={{ width: '40px' }} color="default" label="11" />
                 </TableCell>
                 <TableCell
                   style={{
@@ -219,7 +215,7 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-                    sx={{ backgroundColor: '#00AAFF', color: 'white' }}
+                    sx={{ backgroundColor: '#00AAFF', color: 'white', width: '40px' }}
                     label={
                       commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
                       // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
@@ -239,7 +235,7 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     color="info"
-                    sx={{ backgroundColor: '#FF8B8B', color: 'white' }}
+                    sx={{ backgroundColor: '#FF8B8B', color: 'white', width: '40px' }}
                     label={commuteTimeData.vacation_count}
                   />
                 </TableCell>
