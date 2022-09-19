@@ -212,7 +212,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 id="file"
                 hidden
                 onChange={(e) => {
-                  if (e.target?.files[0]?.size <= 10 * 1024) {
+                  if (e.target?.files[0]?.size <= 1024 * 1024) {
                     setFile(e.target.files[0]);
                   } else {
                     resultConfirm(
