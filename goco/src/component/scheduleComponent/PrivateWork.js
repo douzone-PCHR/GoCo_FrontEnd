@@ -71,6 +71,7 @@ const PrivateWork = (privateData) => {
                         fontSize: '15px',
                         borderBottomColor: 'transparent',
                       }}
+                      // onClick={ }
                       align="center">
                       {data.workTitle}
                     </TableCell>

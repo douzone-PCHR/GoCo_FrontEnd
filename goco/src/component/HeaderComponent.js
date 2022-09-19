@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { modeChange, status } from '../util/HeaderUtil';
 import { Avatar, Box, Button, Chip, ListItemIcon, MenuItem } from '@mui/material';
 import { logOutAPI } from '../api/AllAPI';
@@ -13,12 +13,12 @@ import {
 } from '@mui/icons-material';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
-
+  const location = useLocation();
   useEffect(() => {
     window.onpopstate = () => {
       window.location.reload();
     };
-    setUrlValue(window.location.href.split('http://localhost:3000/')[1]);
+    setUrlValue(window.location.href.split('/')[3]);
     modeChange(urlValue, setUrlValue, statusData[0]?.employee?.authority, setCheck, check);
   }, []);
   if (check) {
@@ -32,13 +32,23 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           <Link
             to="/manager"
             onClick={() => setUrlValue('manager')}
-            style={{ color: urlValue === 'manager' ? '#00AAFF' : '#A8A8A8' }}>
+            style={{
+              color:
+                urlValue === 'manager' && location.state?.mode !== 'approveteam'
+                  ? '#00AAFF'
+                  : '#A8A8A8',
+            }}>
             팀원 근무 현황
           </Link>
           <Link
             to="/approveteam"
             onClick={() => setUrlValue('approveteam')}
-            style={{ color: urlValue === 'approveteam' ? '#00AAFF' : '#A8A8A8' }}>
+            style={{
+              color:
+                urlValue === 'approveteam' || location.state?.mode === 'approveteam'
+                  ? '#00AAFF'
+                  : '#A8A8A8',
+            }}>
             결재 관리
           </Link>
 
@@ -93,6 +103,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
                 sx={{ color: 'salmon' }}
                 onClick={() => {
                   logOutAPI();
+                  // window.location.href = '/login';
                 }}>
                 <ListItemIcon>
                   <Logout sx={{ color: 'salmon' }} />
@@ -240,10 +251,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           )}
         </nav>
       );
-    } else if (
-      statusData[0]?.employee.authority === 'ROLE_ADMIN' &&
-      localStorage.getItem('modeChange') === '3'
-    ) {
+    } else if (statusData[0]?.employee.authority === 'ROLE_ADMIN') {
       return (
         <nav className="Nav">
           <Link
@@ -259,16 +267,29 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
             부서 관리
           </Link>
 
-          <Link to="/goco">
-            <Button
-              sx={{ color: '#00AAFF', borderColor: '#00AAFF', fontWeight: '500' }}
-              variant="outlined"
-              size="large"
-              // className="user-change-btn"
-              onClick={() => (localStorage.setItem('modeChange', 0), setUrlValue('goco'))}>
-              사원 Mode
-            </Button>
-          </Link>
+          <Box className="dropdown">
+            <MenuItem className="dropbtn">
+              <Avatar
+                sx={{
+                  marginRight: '5%',
+                  backgroundColor: 'lightgray',
+                }}
+              />
+
+              <i className="fa fa-caret-down"></i>
+            </MenuItem>
+            <Box className="dropdown-content">
+              <MenuItem
+                onClick={() => {
+                  logOutAPI();
+                }}>
+                <ListItemIcon>
+                  <Logout />
+                </ListItemIcon>
+                로그아웃
+              </MenuItem>
+            </Box>
+          </Box>
         </nav>
       );
     }

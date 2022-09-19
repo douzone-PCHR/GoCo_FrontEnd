@@ -12,6 +12,7 @@ export const sweetAlertSuccess = (text, icon, url) => {
     text: text,
     icon: icon,
     confirmButtonColor: '#3085d6',
+    allowOutsideClick: false,
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.href = url;
@@ -75,7 +76,7 @@ export const sweetAlertCookie = () => {
     title: '로그인 시간이 만료되었습니다.',
     text: '로그인 시간을 연장하시겠습니까?',
     icon: 'warning',
-
+    allowOutsideClick: false,
     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
     cancelButtonColor: '#d33', // cancel 버튼 색깔 지정

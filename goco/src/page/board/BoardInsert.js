@@ -41,7 +41,7 @@ const NoticeWriteComponent = () => {
   }, []); //초기 로그인한 유저의 데이터 받아오는 것
 
   return (
-    <div className={styles.OutterBox}>
+    <div className={styles.OutterBox} style={{ position: 'relative' }}>
       <Grid container spacing={3}>
         <Grid item xs={12} sx={{ marginBottom: '5%' }}>
           <FormControl>
@@ -71,7 +71,7 @@ const NoticeWriteComponent = () => {
         <Grid item xs={12}>
           <div>내용</div>
         </Grid>
-        <Grid item xs={12} sx={{ marginBottom: '5%' }}>
+        <Grid item xs={12}>
           <Editor value={data.boardContent} onChange={onEditorChange} />
         </Grid>
         <BoardInsertButtonGroup BoardInsert={BoardInsert} />

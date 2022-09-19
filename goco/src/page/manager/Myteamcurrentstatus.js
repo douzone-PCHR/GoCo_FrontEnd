@@ -20,7 +20,7 @@ const Myteamcurrentstatus = () => {
   const PER_PAGE = 4;
   const count = Math.ceil(data.length / PER_PAGE);
   const pageData = usePagination(data, PER_PAGE);
-
+  console.log(data);
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);
@@ -37,7 +37,6 @@ const Myteamcurrentstatus = () => {
           padding: '10px',
           height: '60vh',
           margin: '0 auto',
-          backgroundColor: 'rgb(250,250,250)',
         }}>
         <Typography
           sx={{ mt: 4, mb: 2, marginTop: '1px', padding: '15px' }}
@@ -90,7 +89,9 @@ const Myteamcurrentstatus = () => {
                         : myTeamStatus(data).result}
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
-                    <TableCell>{data.commute_work_time} / 40h </TableCell>
+                    <TableCell>
+                      {data.commute_work_hour}h {data.commute_work_min}m / 40h{' '}
+                    </TableCell>
                     <TableCell>{data.vacation_count} / 11 </TableCell>
                   </TableRow>
                 );
