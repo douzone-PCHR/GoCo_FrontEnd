@@ -54,54 +54,18 @@ export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) =>
     }
   } else if (authority === 'ROLE_ADMIN') {
     setCheck(true);
-    if (localStorage.getItem('team') === '1') {
-      switch (urlValue) {
-        case 'approveteam':
-          setUrlValue('approveteam');
-          localStorage.setItem('modeChange', '1');
-          break;
-        case 'manager':
-          setUrlValue('manager');
-          localStorage.setItem('modeChange', '1');
-          break;
-        case 'goco':
-          setUrlValue('goco');
-          localStorage.setItem('modeChange', '0');
-          break;
-        case 'approve':
-          setUrlValue('approve');
-          localStorage.setItem('modeChange', '0');
-          break;
-        case 'board':
-          setUrlValue('board');
-          localStorage.setItem('modeChange', '0');
-          break;
-        case 'admin':
-          setUrlValue('admin');
-          localStorage.setItem('modeChange', '3');
-          break;
-        case 'management':
-          setUrlValue('management');
-          localStorage.setItem('modeChange', '3');
-          break;
-        default:
-          localStorage.setItem('modeChange', '0');
-          break;
-      }
-    } else {
-      switch (urlValue) {
-        case 'admin':
-          setUrlValue('admin');
-          localStorage.setItem('modeChange', '3');
-          break;
-        case 'management':
-          setUrlValue('management');
-          localStorage.setItem('modeChange', '3');
-          break;
-        default:
-          localStorage.setItem('modeChange', '0');
-          break;
-      }
+    switch (urlValue) {
+      case 'admin':
+        setUrlValue('admin');
+        localStorage.setItem('modeChange', '3');
+        break;
+      case 'management':
+        setUrlValue('management');
+        localStorage.setItem('modeChange', '3');
+        break;
+      default:
+        localStorage.setItem('modeChange', '0');
+        break;
     }
   } else if (authority === 'ROLE_USER') {
     setCheck(true);

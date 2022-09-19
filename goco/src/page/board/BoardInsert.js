@@ -66,7 +66,12 @@ const NoticeWriteComponent = () => {
           <div>제목</div>
         </Grid>
         <Grid item xs={12}>
-          <TextField fullWidth name="boardTitle" onChange={handleChange} />
+          <TextField
+            fullWidth
+            name="boardTitle"
+            onChange={handleChange}
+            inputProps={{ maxLength: 255 }}
+          />
         </Grid>
         <Grid item xs={12}>
           <div>내용</div>
