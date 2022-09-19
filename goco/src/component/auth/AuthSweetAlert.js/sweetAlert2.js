@@ -64,6 +64,8 @@ export const sweetAlertComment = (text, icon, url) => {
     text: text,
     icon: icon,
     confirmButtonColor: '#3085d6',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.replace(url);
