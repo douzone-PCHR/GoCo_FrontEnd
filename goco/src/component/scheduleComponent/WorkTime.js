@@ -9,6 +9,7 @@ import { Chip, Divider, TableHead, Typography } from '@mui/material';
 import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
+  console.log(commuteTimeData);
   return (
     <>
       <Box
@@ -99,11 +100,20 @@ export default function WorkTime({ commuteTimeData }) {
                   align="left">
                   <Chip
                     size="small"
+                    sx={{ backgroundColor: '#00AAFF', color: 'white' }}
+                    label={`${
+                      commuteTimeData.commute_work_hour ? commuteTimeData.commute_work_hour : '0'
+                    }h ${
+                      commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
+                    }m`}
+                  />
+                  {/* <Chip
+                    size="small"
                     sx={{ width: '50px', backgroundColor: '#00AAFF', color: 'white' }}
                     label={`${
-                      commuteTimeData.commute_work_time ? commuteTimeData.commute_work_time : '0'
-                    }h`}
-                  />
+                      commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
+                    }m`} */}
+                  {/* /> */}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -128,7 +138,7 @@ export default function WorkTime({ commuteTimeData }) {
                   align="left">
                   <Chip
                     size="small"
-                    sx={{ width: '50px', backgroundColor: '#FF8B8B' }}
+                    sx={{ backgroundColor: '#FF8B8B' }}
                     color="error"
                     label={` ${
                       commuteTimeData.commute_work_time >= 40
@@ -197,7 +207,7 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '10px',
                     textAlign: 'center',
                   }}>
-                  <Chip size="small" color="default" label="11" sx={{ width: '40px' }} />
+                  <Chip size="small" color="default" label="11" />
                 </TableCell>
                 <TableCell
                   style={{
@@ -209,7 +219,7 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-                    sx={{ width: '40px', backgroundColor: '#00AAFF', color: 'white' }}
+                    sx={{ backgroundColor: '#00AAFF', color: 'white' }}
                     label={
                       commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
                       // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
@@ -229,7 +239,7 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     color="info"
-                    sx={{ width: '40px', backgroundColor: '#FF8B8B', color: 'white' }}
+                    sx={{ backgroundColor: '#FF8B8B', color: 'white' }}
                     label={commuteTimeData.vacation_count}
                   />
                 </TableCell>
