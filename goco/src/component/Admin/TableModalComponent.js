@@ -146,7 +146,6 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
               {/* 직책 */}
               <TableRow>
                 <TableCell sx={{ fontWeight: 'bold' }}>직책</TableCell>
-                {console.log(empInfo.teamPosition)}
                 <TableCell align="center">{empInfo.teamPosition.teamPositionName}</TableCell>
                 <TableCell>
                   <IconButton

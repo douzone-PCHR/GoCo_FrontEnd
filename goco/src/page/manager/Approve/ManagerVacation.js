@@ -112,7 +112,7 @@ function Row(props) {
                               .then(() => {
                                 setCheck(!check);
                               })
-                              .catch((err) => console.log(err));
+                              .catch();
                           }
                         });
                       }}>
@@ -129,7 +129,7 @@ function Row(props) {
                               .then(() => {
                                 setCheck(!check);
                               })
-                              .catch((err) => console.log(err));
+                              .catch();
                           }
                         });
                       }}>
@@ -150,7 +150,7 @@ function Row(props) {
                                 .then(() => {
                                   setCheck(!check);
                                 })
-                                .catch((err) => console.log(err));
+                                .catch();
                               Swal.fire('승인이 취소 되었습니다', '', 'success');
                             }
                           }

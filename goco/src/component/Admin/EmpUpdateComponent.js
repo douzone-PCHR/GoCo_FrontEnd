@@ -96,7 +96,6 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                 break;
             }
             api.updateEmp(type, updateType, value).then((data) => {
-              console.log(data);
               if (data) {
                 resultConfirm(
                   `${type.type} 변경 성공하였습니다.`,

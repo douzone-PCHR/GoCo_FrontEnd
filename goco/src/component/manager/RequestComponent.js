@@ -47,7 +47,6 @@ export default function RequestComponent({ getRequsetData }) {
     setPage(p);
     pageData.jump(p);
   };
-  console.log(getRequsetData);
   return (
     <Box
       sx={{

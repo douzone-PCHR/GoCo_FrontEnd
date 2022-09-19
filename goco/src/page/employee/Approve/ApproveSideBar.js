@@ -43,8 +43,6 @@ export default function ApproveSideBar({
     setEndDate(moment(today).hours('23').minutes('59').seconds('59').format());
     setDateFilter();
   };
-  //   console.log(startDate);
-  //   console.log(endDate);
   return (
     <Box className={style.sidebar_container}>
       <Box>
@@ -182,7 +180,6 @@ export default function ApproveSideBar({
               }).length
             }></Chip>
         </Typography>
-        {console.log(approveList)}
         <Typography
           marginTop="1vh"
           id="sidebar-content"
@@ -235,7 +232,6 @@ export default function ApproveSideBar({
             color="default"
             label={
               approveList.filter((approve) => {
-                // console.log(approve);
                 if (
                   type === '휴가' &&
                   (selectMember === approve.employee.name ||
