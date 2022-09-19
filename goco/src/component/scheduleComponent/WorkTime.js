@@ -139,7 +139,7 @@ export default function WorkTime({ commuteTimeData }) {
                         ? `${commuteTimeData.commute_work_hour - 40}h ${
                             commuteTimeData.commute_work_min
                           }m`
-                        : '0h'
+                        : '0h 0m'
                     }`}
                   />
                 </TableCell>
