@@ -5,6 +5,7 @@ import {
   sweetAlertSuccess,
   sweetAlertComment,
 } from '../component/auth/AuthSweetAlert.js/sweetAlert2';
+import { parseJwt } from '../util/Utilfunction';
 // 리프레쉬토큰으로 엑세스토큰 받아오는 것
 export const getAccessTokenAPI = async () => {
   await api
@@ -36,7 +37,12 @@ export const loginAPI = async (id, password) => {
         sameSite: 'none',
         expires,
       });
-      sweetAlertSuccess('로그인 성공', 'success', '/goco');
+
+      if (parseJwt(response.data.accessToken).auth === 'ROLE_ADMIN') {
+        sweetAlertSuccess('로그인 성공', 'success', '/admin');
+      } else {
+        sweetAlertSuccess('로그인 성공', 'success', '/goco');
+      }
     })
     .catch(() => {
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');

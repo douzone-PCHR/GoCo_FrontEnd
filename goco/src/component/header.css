@@ -8,6 +8,7 @@
   grid-template-areas: 'logo nav';
   background-color: rgb(230, 247, 255);
   margin-bottom: 10px;
+  opacity: 0.8;
 }
 .link-logo {
   width: 10%;

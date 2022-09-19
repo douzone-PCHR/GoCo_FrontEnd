@@ -351,13 +351,12 @@ export const updateUnit = (unitId, unit) =>
     data: unit,
   });
 
-export const insertUnit = (unit) => {
+export const insertUnit = (unit) =>
   client({
     url: `/admin/unit`,
     method: 'post',
     data: unit,
   });
-};
 
 // -------- vacation ---------
 // 휴가 리스트(사원)
