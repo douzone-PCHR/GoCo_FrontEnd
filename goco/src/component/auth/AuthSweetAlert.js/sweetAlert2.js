@@ -5,7 +5,14 @@ export const sweetAlert2 = (text, icon) => {
     text: text,
     icon: icon,
     confirmButtonColor: '#3085d6',
-  });
+  }); // 로그인으로 보내버리면 회원가입 아이디체크할 때 로그인으로 가버림
+  // .then((result) => {
+  // // 만약 Promise리턴을 받으면,
+  // if (result.isConfirmed) {
+  //   // 만약 모달창에서 confirm 버튼을 눌렀다면
+  //   window.location.href = '/login';
+  // }
+  // });
 };
 export const sweetAlertSuccess = (text, icon, url) => {
   Swal.fire({
