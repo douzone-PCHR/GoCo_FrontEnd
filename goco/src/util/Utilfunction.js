@@ -3,7 +3,6 @@ import moment from 'moment';
 import { Button, Chip } from '@mui/material';
 
 export function myTeamStatus(data) {
-  console.log(data);
   let result = '';
   let check = '';
   if (data.vacation_approve === 'APPROVE_SUCCESS') {

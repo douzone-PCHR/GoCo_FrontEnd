@@ -95,7 +95,6 @@ export default function CurrentStatus({ currentStatus }) {
                         fontWeight: '500',
                         fontSize: '16px',
                       }}>
-                      {console.log(myTeamStatus(data))}
                       {myTeamStatus(data).result === '미출근' ? '' : myTeamStatus(data).result}
                     </TableCell>
                     <TableCell align="center">{myTeamStatus(data).check} </TableCell>

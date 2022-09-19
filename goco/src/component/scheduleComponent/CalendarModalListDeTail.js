@@ -62,7 +62,6 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
         }
       })
       .catch((error) => {
-        console.log(error);
         resultConfirm(
           error.response.data.errors[0].defaultMessage,
           '',
