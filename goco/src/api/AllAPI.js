@@ -44,7 +44,11 @@ export const loginAPI = async (id, password) => {
         sweetAlertSuccess('로그인 성공', 'success', '/goco');
       }
     })
-    .catch(() => {
+    .catch((error) => {
+      if (error.response.headers.loginfail === 'true') {
+        sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
+        return;
+      }
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
     });
 };
@@ -259,11 +263,12 @@ export const BoardInsertAPI = async (insertData) => {
   }
   await api
     .getBoardInsert(insertData)
-    .then(() => {
+    .then((response) => {
+      console.log('response :: ', response);
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 게시글 수정
@@ -278,7 +283,7 @@ export const BoardUpdateAPI = async (updateData, boardId) => {
       sweetAlertSuccess('수정이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 게시글 상세 보기
@@ -324,10 +329,11 @@ export const CommentInsertAPI = async (comment) => {
   await api
     .getCommentInsert(comment)
     .then((response) => {
+      console.log(response);
       sweetAlertComment('댓글이 입력되었습니다.', 'success', `/boardselect/${comment.boardId}`);
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 댓글 삭제
@@ -365,7 +371,7 @@ export const CommentUpdateAPI = async (comment, commentContent) => {
       );
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 ////// 회원 삭제
