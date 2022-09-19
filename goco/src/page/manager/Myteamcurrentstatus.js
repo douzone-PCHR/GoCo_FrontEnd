@@ -84,7 +84,9 @@ const Myteamcurrentstatus = () => {
                         fontWeight: '700',
                         fontSize: '16px',
                       }}>
-                      {myTeamStatus(data).result}
+                      {myTeamStatus(data).result === ('미출근' || '휴가' || '출장')
+                        ? ''
+                        : myTeamStatus(data).result}
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
                     <TableCell>

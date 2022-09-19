@@ -91,9 +91,9 @@ const ManagerMain = () => {
   };
   return (
     currentStatus.length !== 0 && (
-      <Box sx={{ height: '100%' }}>
+      <Box sx={{ height: '100%', marginBottom: '5%' }}>
         <>
-          <Grid container spacing={6} marginTop={1}>
+          <Grid container spacing={3} marginTop={1}>
             <Grid
               item
               xs={10}

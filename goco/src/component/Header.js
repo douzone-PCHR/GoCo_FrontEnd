@@ -17,7 +17,6 @@ const Header = () => {
   const headerAPI = async () => {
     await api.headerData().then((response) => {
       if (response.data !== '') {
-        console.log(response.data[0]?.employee.empNum);
         setStatusData(response.data);
         if (response.data[0]?.employee.authority !== 'ROLE_ADMIN') {
           localStorage.setItem('team', response.data[0]?.employee.teamPosition.teamPositionId);

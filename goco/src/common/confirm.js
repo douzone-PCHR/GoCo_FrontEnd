@@ -91,7 +91,6 @@ export const addConfirm = (title, text, target) => {
         cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
         confirmButtonText: '등록', // confirm 버튼 텍스트 지정
         cancelButtonText: '취소', // cancel 버튼 텍스트 지정
-
         reverseButtons: true, // 버튼 순서 거꾸로
       });
 };

@@ -28,7 +28,6 @@ export default function CurrentStatus({ currentStatus }) {
     setPage(p);
     pageData.jump(p);
   };
-
   return (
     <Box
       sx={{
@@ -96,7 +95,8 @@ export default function CurrentStatus({ currentStatus }) {
                         fontWeight: '500',
                         fontSize: '16px',
                       }}>
-                      {myTeamStatus(data).result}
+                      {console.log(myTeamStatus(data))}
+                      {myTeamStatus(data).result === '미출근' ? '' : myTeamStatus(data).result}
                     </TableCell>
                     <TableCell align="center">{myTeamStatus(data).check} </TableCell>
                   </TableRow>
