@@ -28,7 +28,9 @@ const Header = () => {
 
   return (
     <header className="Header">
-      {statusData !== undefined && statusData.length !== 0 ? (
+      {statusData !== undefined &&
+      statusData.length !== 0 &&
+      statusData[0]?.employee.authority !== 'ROLE_ADMIN' ? (
         <Link to="/goco" className="link-logo" onClick={() => window.location.href('/goco')}>
           <img src={`${process.env.PUBLIC_URL}/assets/gocoLogo.png`} alt="logo" className="Logo" />
         </Link>

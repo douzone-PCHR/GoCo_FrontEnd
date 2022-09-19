@@ -91,8 +91,8 @@ const Myteamcurrentstatus = () => {
                     </TableCell>
                     <TableCell>{myTeamStatus(data).check}</TableCell>
                     <TableCell>
-                      {console.log(data)}
-                      {data.commute_work_hour}h {data.commute_work_min}m / 40h{' '}
+                      {data.commute_work_hour ? `${data.commute_work_hour}h` : ''}{' '}
+                      {data.commute_work_min ? `${data.commute_work_min}m` : ''} / 40h
                     </TableCell>
                     <TableCell>{data.vacation_count} / 11 </TableCell>
                   </TableRow>

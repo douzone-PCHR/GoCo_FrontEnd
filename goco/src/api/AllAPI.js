@@ -47,10 +47,12 @@ export const loginAPI = async (id, password) => {
       }
     })
     .catch((error) => {
+
       // if (error.response.headers.loginfail === 'true') {
       //   sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
       //   return;
       // }
+
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
     });
 };
