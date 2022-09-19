@@ -6,7 +6,7 @@ export default function BoardKategorieButton({ pageInfo, setPageInfo }) {
       <Button
         sx={pageInfo === false ? MainButtonStyles1 : MainButtonStyles2} // 버튼 클릭시마다 디자인 바뀜
         onClick={() => setPageInfo(false)}>
-        공지사항 게시판
+        공지 게시판
       </Button>
       <Button
         sx={pageInfo === true ? MainButtonStyles1 : MainButtonStyles2} // 버튼 클릭시마다 디자인 바뀜
