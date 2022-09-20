@@ -11,16 +11,13 @@ export const getAccessTokenAPI = async () => {
   await api
     .getAccessToken()
     .then((response) => {
-      console.log('accesstoken 함수의 리스펀스 : ', response);
       if (response.data.status === 'BAD_REQUEST') {
         sweetAlert2(response.data.message, 'warning');
       } else if (response.data.status === 'OK') {
         window.location.reload(true);
       }
     })
-    .catch((error) => {
-      console.log('accesstoken 함수의 error : ', error);
-    });
+    .catch((error) => {});
 };
 // 로그인 하는 것
 export const loginAPI = async (id, password) => {
@@ -43,6 +40,7 @@ export const loginAPI = async (id, password) => {
       } else if (response.headers.loginfail === '') {
         sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
         return;
+
       }
       if (parseJwt(response.data.accessToken).auth === 'ROLE_ADMIN') {
         sweetAlertSuccess('로그인 성공', 'success', '/admin');
@@ -83,9 +81,7 @@ export const AuthCheckAPI = async (authNum, email, setId) => {
         setId(response.data.message);
       }
     })
-    .catch((error) => {
-      console.log('에러 발생 : ', error);
-    });
+    .catch((error) => {});
 };
 //pwd 찾기위해 인증번호 보내는 함수
 export const FindPwdAPI = async (empId, email, handleOpen, handleClose) => {
@@ -127,7 +123,6 @@ export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) =
     })
     .catch((error) => {
       handleClose(); // 에러이면 '메일보내는중 '메시지 끈다
-      console.log('에러 발생 : ', error);
     });
 };
 //ID 중복 체크
@@ -148,9 +143,7 @@ export const IDCheck = async (data, setOkIdCheck, setSignupDataError) => {
         sweetAlert2('아이디가 이미 존재 합니다.', 'warning');
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
 };
 // 회원 가입시 유효한 이메일인지 확인하는 것
 export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setAuthNumberOpen) => {
@@ -188,9 +181,7 @@ export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupData
         setSignupDataError({ ...data, valid_email: '' });
       }
     })
-    .catch((error) => {
-      console.log('에러 발생 : ', error);
-    });
+    .catch((error) => {});
 };
 // 회원 가입시 unit 불러오기
 export const getUnitAPI = (setUnit) => {
@@ -227,7 +218,6 @@ export const signupAPI = (data, setSignupDataError) => {
     .catch((error) => {
       if (error.response.data) {
         sweetAlert2(error.response.data.message, 'warning');
-        console.log(error);
       }
     });
 };
@@ -239,9 +229,7 @@ export const NoticeBoardAPI = async (setData, setShowData) => {
       setData(response.data);
       setShowData(response.data);
     })
-    .catch((error) => {
-      console.log(`NoticeBoardAPI 에러 발생 : ${error}`, 'error');
-    });
+    .catch((error) => {});
 };
 // 자유게시판 받아오기
 export const FreeBoardAPI = async (setData, setShowData) => {
@@ -251,9 +239,7 @@ export const FreeBoardAPI = async (setData, setShowData) => {
       setData(response.data);
       setShowData(response.data);
     })
-    .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
-    });
+    .catch((error) => {});
 };
 // 게시글 작성
 export const BoardInsertAPI = async (insertData) => {
@@ -263,11 +249,12 @@ export const BoardInsertAPI = async (insertData) => {
   }
   await api
     .getBoardInsert(insertData)
-    .then(() => {
+    .then((response) => {
+      console.log('response :: ', response);
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 게시글 수정
@@ -282,7 +269,7 @@ export const BoardUpdateAPI = async (updateData, boardId) => {
       sweetAlertSuccess('수정이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 게시글 상세 보기
@@ -292,9 +279,7 @@ export const BoardSelectAPI = async (boardId, setData) => {
     .then((response) => {
       setData(response.data);
     })
-    .catch((error) => {
-      console.log(`BoardSelectAPI 에러 발생 : ${error}`);
-    });
+    .catch((error) => {});
 };
 // 게시글 삭제
 export const deleteBoardAPI = async (boardId) => {
@@ -303,21 +288,16 @@ export const deleteBoardAPI = async (boardId) => {
     .then((response) => {
       sweetAlertSuccess('게시글이 삭제되었습니다.', 'success', '/board');
     })
-    .catch((error) => {
-      console.log(`${error.response.data.message}`);
-    });
+    .catch((error) => {});
 };
 // 모든 댓글 받아오기
 export const GetAllCommentAPI = async (boardId, setCommentData) => {
   await api
     .getGetAllComment(boardId)
     .then((response) => {
-      console.log(response.data);
       setCommentData(response.data);
     })
-    .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
-    });
+    .catch((error) => {});
 };
 // 댓글 입력
 export const CommentInsertAPI = async (comment) => {
@@ -328,10 +308,11 @@ export const CommentInsertAPI = async (comment) => {
   await api
     .getCommentInsert(comment)
     .then((response) => {
+      console.log(response);
       sweetAlertComment('댓글이 입력되었습니다.', 'success', `/boardselect/${comment.boardId}`);
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 // 댓글 삭제
@@ -345,9 +326,7 @@ export const CommentDeleteAPI = async (comment) => {
         `/boardselect/${comment.boardDto.boardId}`
       );
     })
-    .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
-    });
+    .catch((error) => {});
 };
 // 댓글 업데이트
 export const CommentUpdateAPI = async (comment, commentContent) => {
@@ -369,7 +348,7 @@ export const CommentUpdateAPI = async (comment, commentContent) => {
       );
     })
     .catch((error) => {
-      console.log(`에러 발생 : ${error}`);
+      sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
 };
 ////// 회원 삭제
@@ -381,9 +360,7 @@ export const deleteEmpAPI = async () => {
         sweetAlertSuccess('탈퇴 성공', 'success', '/');
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
 };
 ////// 내가누군지 알려주는 것  userMe / empNum 반환해줌
 export const WhoAmIAPI = async (setWhoAmI) => {
@@ -414,9 +391,7 @@ export const pwdChangeAPI = async (textData) => {
         sweetAlert2('변경 실패', 'warning');
       }
     })
-    .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
-    });
+    .catch((error) => {});
 };
 // 회원 이메일 변경
 export const changeEmailAPI = async (textData) => {
@@ -437,9 +412,7 @@ export const changeEmailAPI = async (textData) => {
         sweetAlert2('변경 실패', 'warning');
       }
     })
-    .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
-    });
+    .catch((error) => {});
 };
 // 회원 번호 변경
 export const changePhoneNumberAPI = async (textData) => {
@@ -463,9 +436,7 @@ export const changePhoneNumberAPI = async (textData) => {
         sweetAlert2('변경 실패', 'warning');
       }
     })
-    .catch((error) => {
-      console.log(error.response.data.message); // 로그인 시간지낫거나, 토큰이 잘못됫을 꼉우
-    });
+    .catch((error) => {});
 };
 // 로그아웃
 export const logOutAPI = async () => {
@@ -476,22 +447,14 @@ export const logOutAPI = async () => {
         window.location.href = '/';
       }
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
 };
 // 쿠키삭제 요청
 export const deleteCookieAPI = async () => {
   await api
-    .logOut()
-    .then((response) => {
-      if (response.data === 1) {
-        console.log('쿠키 삭제');
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    .deleteCookie()
+    .then((response) => {})
+    .catch((error) => {});
 };
 //////회원 정보확인 userMe
 export const userMeAPI = async (setData) => {

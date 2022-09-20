@@ -5,7 +5,14 @@ export const sweetAlert2 = (text, icon) => {
     text: text,
     icon: icon,
     confirmButtonColor: '#3085d6',
-  });
+  }); // 로그인으로 보내버리면 회원가입 아이디체크할 때 로그인으로 가버림
+  // .then((result) => {
+  // // 만약 Promise리턴을 받으면,
+  // if (result.isConfirmed) {
+  //   // 만약 모달창에서 confirm 버튼을 눌렀다면
+  //   window.location.href = '/login';
+  // }
+  // });
 };
 export const sweetAlertSuccess = (text, icon, url) => {
   Swal.fire({
@@ -13,6 +20,7 @@ export const sweetAlertSuccess = (text, icon, url) => {
     icon: icon,
     confirmButtonColor: '#3085d6',
     allowOutsideClick: false,
+    allowEscapeKey: false,
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.href = url;
@@ -24,7 +32,8 @@ export const sweetAlertDeleteUser = () => {
     title: '정말 탈퇴 하시겠습니까?',
     text: '탈퇴 클릭시 다시 되돌릴 수 없습니다.',
     icon: 'warning',
-
+    allowOutsideClick: false,
+    allowEscapeKey: false,
     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
     cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
@@ -44,7 +53,8 @@ export const sweetAlertDeleteBoard = (boardId) => {
     title: '정말 삭제 하시겠습니까?',
     text: '삭제 클릭시 다시 되돌릴 수 없습니다.',
     icon: 'warning',
-
+    allowOutsideClick: false,
+    allowEscapeKey: false,
     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
     cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
@@ -64,6 +74,8 @@ export const sweetAlertComment = (text, icon, url) => {
     text: text,
     icon: icon,
     confirmButtonColor: '#3085d6',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.replace(url);
@@ -77,6 +89,7 @@ export const sweetAlertCookie = () => {
     text: '로그인 시간을 연장하시겠습니까?',
     icon: 'warning',
     allowOutsideClick: false,
+    allowEscapeKey: false,
     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
     cancelButtonColor: '#d33', // cancel 버튼 색깔 지정

@@ -22,7 +22,48 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
     modeChange(urlValue, setUrlValue, statusData[0]?.employee?.authority, setCheck, check);
   }, []);
   if (check) {
-    if (
+    if (statusData[0]?.employee.authority === 'ROLE_ADMIN') {
+      return (
+        <nav className="Nav">
+          <Link
+            to="/admin"
+            onClick={() => setUrlValue('admin')}
+            style={{ color: urlValue === 'admin' ? '#00AAFF' : '#A8A8A8' }}>
+            직원 관리
+          </Link>
+          <Link
+            to="/management"
+            onClick={() => setUrlValue('management')}
+            style={{ color: urlValue === 'management' ? '#00AAFF' : '#A8A8A8' }}>
+            부서 관리
+          </Link>
+          <Box className="dropdown">
+            <MenuItem className="dropbtn">
+              <Avatar
+                sx={{
+                  marginRight: '5%',
+                  backgroundColor: 'lightgray',
+                }}
+              />
+              관리자
+              <i className="fa fa-caret-down"></i>
+            </MenuItem>
+            <Box className="dropdown-content">
+              <MenuItem
+                sx={{ color: 'salmon' }}
+                onClick={() => {
+                  logOutAPI();
+                }}>
+                <ListItemIcon>
+                  <Logout sx={{ color: 'salmon' }} />
+                </ListItemIcon>
+                로그아웃
+              </MenuItem>
+            </Box>
+          </Box>
+        </nav>
+      );
+    } else if (
       (statusData[0]?.employee?.authority === 'ROLE_MANAGER' ||
         localStorage.getItem('team') === '1') &&
       localStorage.getItem('modeChange') === '1'
@@ -160,30 +201,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
           ) : (
             ''
           )}
-          {statusData[0]?.employee.authority === 'ROLE_ADMIN' ? (
-            <Link to="/admin">
-              <Button
-                sx={{
-                  fontSize: '15px',
-                  color: 'gray',
-                  borderColor: 'gray',
-                  borderBlockColor: 'gray',
-                  '&:hover': {
-                    borderColor: '#00AAFF',
-                    borderBlockColor: '#00AAFF',
-                    color: '#00AAFF',
-                  },
-                }}
-                size="large"
-                variant="outlined"
-                // className="mangerChangeBtn"
-                onClick={() => (localStorage.setItem('modeChange', 3), setUrlValue('admin'))}>
-                관리자 Mode
-              </Button>
-            </Link>
-          ) : (
-            ''
-          )}
+
           <Box className="dropdown">
             <MenuItem className="dropbtn">
               <Avatar
@@ -211,11 +229,12 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               </NavLink>
 
               <MenuItem
+                sx={{ color: 'salmon' }}
                 onClick={() => {
                   logOutAPI();
                 }}>
                 <ListItemIcon>
-                  <Logout />
+                  <Logout sx={{ color: 'salmon' }} />
                 </ListItemIcon>
                 로그아웃
               </MenuItem>
@@ -249,47 +268,6 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               label={status(statusData[0]?.commuteStatus)}
             />
           )}
-        </nav>
-      );
-    } else if (statusData[0]?.employee.authority === 'ROLE_ADMIN') {
-      return (
-        <nav className="Nav">
-          <Link
-            to="/admin"
-            onClick={() => setUrlValue('admin')}
-            style={{ color: urlValue === 'admin' ? '#00AAFF' : '#A8A8A8' }}>
-            직원 관리
-          </Link>
-          <Link
-            to="/management"
-            onClick={() => setUrlValue('management')}
-            style={{ color: urlValue === 'management' ? '#00AAFF' : '#A8A8A8' }}>
-            부서 관리
-          </Link>
-
-          <Box className="dropdown">
-            <MenuItem className="dropbtn">
-              <Avatar
-                sx={{
-                  marginRight: '5%',
-                  backgroundColor: 'lightgray',
-                }}
-              />
-
-              <i className="fa fa-caret-down"></i>
-            </MenuItem>
-            <Box className="dropdown-content">
-              <MenuItem
-                onClick={() => {
-                  logOutAPI();
-                }}>
-                <ListItemIcon>
-                  <Logout />
-                </ListItemIcon>
-                로그아웃
-              </MenuItem>
-            </Box>
-          </Box>
         </nav>
       );
     }

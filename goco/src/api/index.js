@@ -460,3 +460,9 @@ export const checkBusiness = (business) =>
     method: 'post',
     data: business,
   });
+//delete
+export const deleteCookie = () =>
+  client({
+    url: '/auth/deleteCookie',
+    method: 'get',
+  });

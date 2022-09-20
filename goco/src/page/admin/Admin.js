@@ -109,7 +109,14 @@ export const Admin = () => {
   };
   useEffect(() => {
     api.getEmp().then((res) => {
-      setEmp(res.data);
+      console.log(res.data);
+      setEmp(
+        res.data.filter((data) => {
+          if (data.authority !== 'ROLE_ADMIN') {
+            return data;
+          }
+        })
+      );
     });
 
     api.getUnit().then((res) => {

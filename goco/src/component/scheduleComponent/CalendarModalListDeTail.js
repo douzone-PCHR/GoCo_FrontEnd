@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
 import { Delete } from '@mui/icons-material';
-import { resultConfirm } from '../../common/confirm';
+import { deleteConfirm, resultConfirm } from '../../common/confirm';
 
 const CalendarModalListDeTail = ({
   open,
@@ -35,55 +35,73 @@ const CalendarModalListDeTail = ({
   };
 
   const deleteHandler = async () => {
-    if (localStorage.getItem('id') === detailWorkList.employee.empId) {
-      await api.deleteWork(detailWorkList.workId).then((response) => {
-        setSecondOpen(false);
-        setOpenInsert(false);
-        if (response.data.status === 'OK') {
-          sweetAlertSuccess(response.data.message, 'success', '/goco');
+    deleteConfirm('삭제 하시겠습니까?', '', document.getElementById('modal')).then((res) => {
+      if (res.isConfirmed) {
+        if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+          api.deleteWork(detailWorkList.workId).then((response) => {
+            setSecondOpen(false);
+            setOpenInsert(false);
+            if (response.data.status === 'OK') {
+              sweetAlertSuccess(response.data.message, 'success', '/goco');
+            } else {
+              sweetAlertSuccess(response.data.message, 'error', '/goco');
+            }
+          });
         } else {
-          sweetAlertSuccess(response.data.message, 'error', '/goco');
-        }
-      });
-    } else {
-      resultConfirm('자신의 글만 삭제 가능합니다.', '', 'error', document.getElementById('modal'));
-    }
-  };
-
-  const updateHandler = async () => {
-    if (localStorage.getItem('id') === detailWorkList.employee.empId) {
-      const updateData = {
-        workId: detailWorkList.workId,
-        workTitle: detailWorkList.workTitle,
-        workContent: textarea,
-        workStartDate: detailWorkList.workStartDate,
-        workEndDate: detailWorkList.workEndDate,
-        workType: detailWorkList.workType,
-        employee: { empNum: detailWorkList.employee.empNum },
-      };
-
-      await api
-        .updateWork(updateData)
-        .then((response) => {
-          setSecondOpen(false);
-          setOpenInsert(false);
-          if (response.data.status === 'OK') {
-            sweetAlertSuccess(response.data.message, 'success', '/goco');
-          } else {
-            sweetAlertSuccess(response.data.message, 'error', '/goco');
-          }
-        })
-        .catch((error) => {
           resultConfirm(
-            error.response.data.errors[0].defaultMessage,
+            '자신의 글만 삭제 가능합니다.',
             '',
             'error',
             document.getElementById('modal')
           );
-        });
-    } else {
-      resultConfirm('자신의 글만 수정 가능합니다.', '', 'error', document.getElementById('modal'));
-    }
+        }
+      }
+    });
+  };
+
+  const updateHandler = async () => {
+    deleteConfirm('수정 하시겠습니까??', '', document.getElementById('modal')).then((res) => {
+      if (res.isConfirmed) {
+        if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+          const updateData = {
+            workId: detailWorkList.workId,
+            workTitle: detailWorkList.workTitle,
+            workContent: textarea,
+            workStartDate: detailWorkList.workStartDate,
+            workEndDate: detailWorkList.workEndDate,
+            workType: detailWorkList.workType,
+            employee: { empNum: detailWorkList.employee.empNum },
+          };
+
+          api
+            .updateWork(updateData)
+            .then((response) => {
+              setSecondOpen(false);
+              setOpenInsert(false);
+              if (response.data.status === 'OK') {
+                sweetAlertSuccess(response.data.message, 'success', '/goco');
+              } else {
+                sweetAlertSuccess(response.data.message, 'error', '/goco');
+              }
+            })
+            .catch((error) => {
+              resultConfirm(
+                error.response.data.errors[0].defaultMessage,
+                '',
+                'error',
+                document.getElementById('modal')
+              );
+            });
+        } else {
+          resultConfirm(
+            '자신의 글만 수정 가능합니다.',
+            '',
+            'error',
+            document.getElementById('modal')
+          );
+        }
+      }
+    });
   };
 
   return (

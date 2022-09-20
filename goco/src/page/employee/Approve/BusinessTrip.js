@@ -21,7 +21,6 @@ import moment from 'moment';
 import {} from 'moment-timezone';
 
 function createData(startDate, endDate, requestDate, approve, detail, business) {
-  console.log(startDate);
   return {
     startDate,
     endDate,
@@ -91,7 +90,7 @@ function Row(props) {
                         .then(() => {
                           api.deleteBusinessTrip(row.business).then(() => setCheck(!check));
                         })
-                        .catch((err) => console.log(err));
+                        .catch();
                     }
                   });
                 }}>
@@ -200,7 +199,6 @@ export default function BusinessTrips({
         );
       });
   }
-  console.log(rows);
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 600, minWidth: 1000 }}>
       <Table stickyHeader aria-label="sticky table">
