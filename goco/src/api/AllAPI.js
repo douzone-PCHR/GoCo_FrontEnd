@@ -176,7 +176,7 @@ export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupData
         sweetAlert2(response.data.message, 'warning');
       } else if (
         response.data.status === 'OK' &&
-        data.authenticationNumber == response.data.message
+        data.authenticationNumber === response.data.message
       ) {
         sweetAlert2('인증에 성공하였습니다.', 'success');
         setOkEmailCheck(true);

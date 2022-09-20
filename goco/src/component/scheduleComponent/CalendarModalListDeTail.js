@@ -6,7 +6,6 @@ import { Button, ButtonGroup, Dialog, DialogTitle, TextareaAutosize } from '@mui
 import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
-import { Delete } from '@mui/icons-material';
 import { deleteConfirm, resultConfirm } from '../../common/confirm';
 
 const CalendarModalListDeTail = ({
@@ -22,7 +21,6 @@ const CalendarModalListDeTail = ({
   const [textarea, setTextArea] = useState('');
 
   useEffect(() => {
-    // dialogDetailList(workId, setDetailWorkList , workType);
     calendarDetailAPI();
   }, []);
 
