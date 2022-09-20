@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
 import { Delete } from '@mui/icons-material';
-import { resultConfirm } from '../../common/confirm';
+import { deleteConfirm, resultConfirm } from '../../common/confirm';
 
 const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
@@ -28,13 +28,17 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
   };
 
   const deleteHandler = async () => {
-    await api.deleteWork(detailWorkList.workId).then((response) => {
-      setSecondOpen(false);
-      setOpenInsert(false);
-      if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco');
-      } else {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
+    deleteConfirm('삭제하시겠습니까?', '', document.getElementById('modal')).then((res) => {
+      if (res.isConfirmed) {
+        api.deleteWork(detailWorkList.workId).then((response) => {
+          setSecondOpen(false);
+          setOpenInsert(false);
+          if (response.data.status === 'OK') {
+            sweetAlertSuccess(response.data.message, 'success', '/goco');
+          } else {
+            sweetAlertSuccess(response.data.message, 'error', '/goco');
+          }
+        });
       }
     });
   };

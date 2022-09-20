@@ -50,11 +50,12 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
             </MenuItem>
             <Box className="dropdown-content">
               <MenuItem
+                sx={{ color: 'salmon' }}
                 onClick={() => {
                   logOutAPI();
                 }}>
                 <ListItemIcon>
-                  <Logout />
+                  <Logout sx={{ color: 'salmon' }} />
                 </ListItemIcon>
                 로그아웃
               </MenuItem>
@@ -228,11 +229,12 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               </NavLink>
 
               <MenuItem
+                sx={{ color: 'salmon' }}
                 onClick={() => {
                   logOutAPI();
                 }}>
                 <ListItemIcon>
-                  <Logout />
+                  <Logout sx={{ color: 'salmon' }} />
                 </ListItemIcon>
                 로그아웃
               </MenuItem>

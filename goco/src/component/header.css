@@ -6,9 +6,8 @@
   width: 98%;
   display: grid;
   grid-template-areas: 'logo nav';
-  background-color: rgb(230, 247, 255);
+  background-color: rgba(230, 247, 255, 0.8);
   margin-bottom: 10px;
-  opacity: 0.8;
 }
 .link-logo {
   width: 10%;

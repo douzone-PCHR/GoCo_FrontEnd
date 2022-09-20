@@ -24,12 +24,14 @@ export const Incumbent = ({ processingData, checkFnc, emp }) => {
               : emp
             ).map((element, index) => {
               return (
-                <TableCellComponent
-                  processingData={processingData}
-                  data={element}
-                  key={index}
-                  checkFnc={checkFnc}
-                />
+                element.authority !== 'ROLE_ADMIN' && (
+                  <TableCellComponent
+                    processingData={processingData}
+                    data={element}
+                    key={index}
+                    checkFnc={checkFnc}
+                  />
+                )
               );
             })}
         </TableBody>
