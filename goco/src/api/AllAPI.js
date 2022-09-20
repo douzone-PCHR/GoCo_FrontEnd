@@ -44,12 +44,11 @@ export const loginAPI = async (id, password) => {
       }
     })
     .catch((error) => {
-
-      // if (error.response.headers.loginfail === 'true') {
-      //   sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
-      //   return;
-      // }
-
+      console.log(error);
+      if (error.response.headers.loginfail === 'true') {
+        sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
+        return;
+      }
       sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
     });
 };
@@ -259,7 +258,6 @@ export const BoardInsertAPI = async (insertData) => {
     .catch((error) => {
       sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
-
 };
 // 게시글 수정
 export const BoardUpdateAPI = async (updateData, boardId) => {
@@ -275,7 +273,6 @@ export const BoardUpdateAPI = async (updateData, boardId) => {
     .catch((error) => {
       sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
-
 };
 // 게시글 상세 보기
 export const BoardSelectAPI = async (boardId, setData) => {
@@ -319,7 +316,6 @@ export const CommentInsertAPI = async (comment) => {
     .catch((error) => {
       sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
-
 };
 // 댓글 삭제
 export const CommentDeleteAPI = async (comment) => {
@@ -356,7 +352,6 @@ export const CommentUpdateAPI = async (comment, commentContent) => {
     .catch((error) => {
       sweetAlert2(error.response.data.errors[0].defaultMessage, 'warning');
     });
-
 };
 ////// 회원 삭제
 export const deleteEmpAPI = async () => {
@@ -459,11 +454,8 @@ export const logOutAPI = async () => {
 // 쿠키삭제 요청
 export const deleteCookieAPI = async () => {
   await api
-    .logOut()
-    .then((response) => {
-      if (response.data === 1) {
-      }
-    })
+    .deleteCookie()
+    .then((response) => {})
     .catch((error) => {});
 };
 //////회원 정보확인 userMe
