@@ -1,4 +1,4 @@
-import react, { useState, useEffect, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -14,8 +14,8 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
-import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { Chip, Divider, TablePagination, Tooltip } from '@mui/material';
+import { deleteConfirm, resultConfirm } from '../../../common/confirm';
+import { Chip, TablePagination, Tooltip } from '@mui/material';
 import * as api from '../../../api';
 import moment from 'moment';
 import {} from 'moment-timezone';
@@ -180,6 +180,7 @@ export default function BusinessTrips({
             return business;
           }
         }
+        return null;
       })
       .map((business) => {
         let detail = {
@@ -197,6 +198,7 @@ export default function BusinessTrips({
             business
           )
         );
+        return null;
       });
   }
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -15,8 +15,8 @@ import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutl
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import * as api from '../../../api';
-import { confirm, deleteConfirm, resultConfirm } from '../../../common/confirm';
-import { Button, Chip, Divider, Stack, TablePagination, Tooltip } from '@mui/material';
+import { deleteConfirm, resultConfirm } from '../../../common/confirm';
+import { Chip, TablePagination, Tooltip } from '@mui/material';
 import moment from 'moment';
 
 function createData(type, startDate, endDate, requestDate, approve, detail, vacation) {
@@ -198,6 +198,7 @@ export default function Vacations({
             return vacation;
           }
         }
+        return null;
       })
       .map((vacation) => {
         let detail = {
@@ -216,6 +217,7 @@ export default function Vacations({
             vacation
           )
         );
+        return null;
       });
   }
   return (

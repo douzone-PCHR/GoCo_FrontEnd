@@ -15,7 +15,6 @@ export default function CalendarComponent({ user, empList }) {
   const [requestDate, setRequestDate] = useState();
   const calendarRef = useRef();
   const [openInsert, setOpenInsert] = useState(false);
-
   const handleDateClick = (info) => {
     setOpenInsert(true);
     setRequestDate(info);

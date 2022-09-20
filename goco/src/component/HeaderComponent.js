@@ -3,14 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { modeChange, status } from '../util/HeaderUtil';
 import { Avatar, Box, Button, Chip, ListItemIcon, MenuItem } from '@mui/material';
 import { logOutAPI } from '../api/AllAPI';
-import {
-  BusinessCenterSharp,
-  Home,
-  Logout,
-  PersonOutline,
-  Settings,
-  Work,
-} from '@mui/icons-material';
+import { Home, Logout, Settings, Work } from '@mui/icons-material';
 function HeaderComponent({ statusData, setUrlValue, urlValue }) {
   const [check, setCheck] = useState(false);
   const location = useLocation();

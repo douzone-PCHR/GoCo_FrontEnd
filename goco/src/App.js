@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import Footer from './component/Footer';
-import Header from './component/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Admin } from './page/admin/Admin';
 import Login from './page/auth/Login';
 import Signup from './page/auth/Signup';
