@@ -10,6 +10,7 @@ export default function Schedule() {
   const [commuteTimeData, setCommuteTimeData] = useState([]);
   const [privateData, privateSetData] = useState();
   const [publicData, publicSetData] = useState();
+
   useEffect(() => {
     scheduleAPI();
   }, []);

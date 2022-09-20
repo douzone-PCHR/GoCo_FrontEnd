@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
+import * as api from '../../api';
 import {
   Divider,
+  IconButton,
   Pagination,
   Table,
   TableBody,
@@ -11,9 +13,29 @@ import {
   Typography,
 } from '@mui/material';
 import usePagination from '../../util/Pagination';
+import { Delete } from '@mui/icons-material';
+import { confirm, deleteConfirm, resultConfirm } from '../../common/confirm';
+import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
+const deleteHandler = async (workId) => {
+  deleteConfirm('삭제하시겠습니까?', '').then((res) => {
+    if (res.isConfirmed) {
+      api.deleteWork(workId).then((response) => {
+        if (response.data.status === 'OK') {
+          resultConfirm(response.data.message, '', 'success').then((res) => {
+            if (res) {
+              sweetAlertSuccess(response.data.message, 'error', '/goco');
+            }
+          });
+        } else {
+          sweetAlertSuccess(response.data.message, 'error', '/goco');
+        }
+      });
+    }
+  });
+};
 const PublicWork = (publicData) => {
   let [page, setPage] = useState(1);
-  const PER_PAGE = 3;
+  const PER_PAGE = 4;
   const count = Math.ceil(publicData.data.length / PER_PAGE);
   const pageData = usePagination(publicData.data, PER_PAGE);
   const handleChange = (e, p) => {
@@ -71,6 +93,14 @@ const PublicWork = (publicData) => {
                     }}
                     align="center">
                     {data.workTitle}
+                  </TableCell>
+                  <TableCell style={{ borderBottomColor: 'transparent' }} align="right">
+                    <IconButton
+                      onClick={() => {
+                        deleteHandler(data.workId);
+                      }}>
+                      <Delete />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               );
