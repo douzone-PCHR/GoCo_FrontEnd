@@ -9,7 +9,14 @@ import * as api from '../../api/index';
 import { Delete } from '@mui/icons-material';
 import { resultConfirm } from '../../common/confirm';
 
-const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
+const CalendarModalListDeTail = ({
+  open,
+  setSecondOpen,
+  getEmpId,
+  workId,
+  workType,
+  setOpenInsert,
+}) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
   const handleClose = () => setSecondOpen(false);
   const [textarea, setTextArea] = useState('');
@@ -28,31 +35,8 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
   };
 
   const deleteHandler = async () => {
-    await api.deleteWork(detailWorkList.workId).then((response) => {
-      setSecondOpen(false);
-      setOpenInsert(false);
-      if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/goco');
-      } else {
-        sweetAlertSuccess(response.data.message, 'error', '/goco');
-      }
-    });
-  };
-
-  const updateHandler = async () => {
-    const updateData = {
-      workId: detailWorkList.workId,
-      workTitle: detailWorkList.workTitle,
-      workContent: textarea,
-      workStartDate: detailWorkList.workStartDate,
-      workEndDate: detailWorkList.workEndDate,
-      workType: detailWorkList.workType,
-      employee: { empNum: detailWorkList.employee.empNum },
-    };
-
-    await api
-      .updateWork(updateData)
-      .then((response) => {
+    if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+      await api.deleteWork(detailWorkList.workId).then((response) => {
         setSecondOpen(false);
         setOpenInsert(false);
         if (response.data.status === 'OK') {
@@ -60,16 +44,46 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
         } else {
           sweetAlertSuccess(response.data.message, 'error', '/goco');
         }
-      })
-      .catch((error) => {
-        console.log(error);
-        resultConfirm(
-          error.response.data.errors[0].defaultMessage,
-          '',
-          'error',
-          document.getElementById('modal')
-        );
       });
+    } else {
+      resultConfirm('자신의 글만 삭제 가능합니다.', '', 'error', document.getElementById('modal'));
+    }
+  };
+
+  const updateHandler = async () => {
+    if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+      const updateData = {
+        workId: detailWorkList.workId,
+        workTitle: detailWorkList.workTitle,
+        workContent: textarea,
+        workStartDate: detailWorkList.workStartDate,
+        workEndDate: detailWorkList.workEndDate,
+        workType: detailWorkList.workType,
+        employee: { empNum: detailWorkList.employee.empNum },
+      };
+
+      await api
+        .updateWork(updateData)
+        .then((response) => {
+          setSecondOpen(false);
+          setOpenInsert(false);
+          if (response.data.status === 'OK') {
+            sweetAlertSuccess(response.data.message, 'success', '/goco');
+          } else {
+            sweetAlertSuccess(response.data.message, 'error', '/goco');
+          }
+        })
+        .catch((error) => {
+          resultConfirm(
+            error.response.data.errors[0].defaultMessage,
+            '',
+            'error',
+            document.getElementById('modal')
+          );
+        });
+    } else {
+      resultConfirm('자신의 글만 수정 가능합니다.', '', 'error', document.getElementById('modal'));
+    }
   };
 
   return (

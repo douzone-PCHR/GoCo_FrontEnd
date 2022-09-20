@@ -27,6 +27,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/findid" element={<FindId />} />
+        <Route path="/showid" element={<ShowId />} />
+        <Route path="/findpwd" element={<FindPwd />} />
+
         <Route path="/" element={<HeaderFooter />}>
           <Route path="/admin" element={<Admin />} />
           <Route path="/management" element={<Management />} />
@@ -35,19 +41,13 @@ function App() {
           <Route path="/userupdate" index element={<UserUpdate />} />
           <Route path="/goco" index element={<Main />} />
           <Route path="/currentStatus" index element={<Myteamcurrentstatus />} />
-          <Route path="*" index element={<NotFound />} />
           <Route path="/approve" element={<Approve />} />
           <Route path="/board" element={<Board />} />
           <Route path="/boardinsert" element={<BoardInsert />} />
           <Route path="/boardselect/:boardId" element={<BoardSelect />} />
           <Route path="/BoardUpdate/:boardId" element={<BoardUpdate />} />
         </Route>
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/findid" element={<FindId />} />
-        <Route path="/showid" element={<ShowId />} />
-        <Route path="/findpwd" element={<FindPwd />} />
+        <Route path="*" index element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

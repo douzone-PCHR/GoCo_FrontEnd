@@ -22,7 +22,7 @@ client.interceptors.response.use(
         !error.response.headers.refresh === 'true' ||
         error.response.headers.refresh === undefined
       ) {
-        sweetAlertComment('로그인 정보가 없습니다.', 'warning', '/login');
+        sweetAlertComment('로그인 정보가 없습니다.', 'warning', '/');
       } else if (error.response.headers.refresh === 'true') {
         sweetAlertCookie();
       }

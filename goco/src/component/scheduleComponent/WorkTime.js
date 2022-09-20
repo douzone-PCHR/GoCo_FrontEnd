@@ -9,7 +9,6 @@ import { Chip, Divider, TableHead, Typography } from '@mui/material';
 import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
-  console.log(commuteTimeData);
   return (
     <>
       <Box
@@ -107,13 +106,6 @@ export default function WorkTime({ commuteTimeData }) {
                       commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
                     }m`}
                   />
-                  {/* <Chip
-                    size="small"
-                    sx={{ width: '50px', backgroundColor: '#00AAFF', color: 'white' }}
-                    label={`${
-                      commuteTimeData.commute_work_min ? commuteTimeData.commute_work_min : '0'
-                    }m`} */}
-                  {/* /> */}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -220,12 +212,7 @@ export default function WorkTime({ commuteTimeData }) {
                   <Chip
                     size="small"
                     sx={{ backgroundColor: '#00AAFF', color: 'white' }}
-                    label={
-                      commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0
-                      // String(parseInt(11) - commuteTimeData.vacation_count) !== 'NaN'
-                      //   ? String(parseInt(11) - commuteTimeData.vacation_count)
-                      // : 0
-                    }
+                    label={commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0}
                   />
                 </TableCell>
                 <TableCell
