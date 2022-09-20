@@ -31,7 +31,7 @@ export default function Login() {
     setValues({ ...values, idInputError: false, pwdInputError: false }); // input error reset
   };
   useEffect(() => {
-    // deleteCookieAPI();
+    deleteCookieAPI();
   }, []);
 
   return (
