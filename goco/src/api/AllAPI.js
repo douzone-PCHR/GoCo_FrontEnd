@@ -34,8 +34,13 @@ export const loginAPI = async (id, password) => {
         sameSite: 'none',
         expires,
       });
-      if (response.data.status === 'BAD_REQUEST') {
+      if (response.headers.loginfail === 'true') {
+        sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
+        return;
+      } else if (response.headers.loginfail === '') {
         sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
+        return;
+
       }
       if (parseJwt(response.data.accessToken).auth === 'ROLE_ADMIN') {
         sweetAlertSuccess('로그인 성공', 'success', '/admin');
@@ -43,14 +48,7 @@ export const loginAPI = async (id, password) => {
         sweetAlertSuccess('로그인 성공', 'success', '/goco');
       }
     })
-    .catch((error) => {
-      console.log(error);
-      if (error.response.headers.loginfail === 'true') {
-        sweetAlert2('비밀번호가 5회 잘못 입력되어 5분간 로그인이 금지되었습니다.', 'error');
-        return;
-      }
-      sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
-    });
+    .catch((error) => {});
 };
 // 아이디 찾을 때 이메일 보내는 함수
 export const FindIdAPI = async (name, email, handleOpen, handleClose) => {
@@ -120,7 +118,7 @@ export const FindPasswordAPI = async (authNum, email, handleOpen, handleClose) =
       if (response.data.status === 'BAD_REQUEST') {
         sweetAlert2(response.data.message, 'warning');
       } else if (response.data.status === 'OK') {
-        sweetAlertSuccess(response.data.message, 'success', '/login');
+        sweetAlertSuccess(response.data.message, 'success', '/');
       }
     })
     .catch((error) => {
@@ -206,7 +204,7 @@ export const signupAPI = (data, setSignupDataError) => {
     .getSignup(signupData)
     .then((response) => {
       if (response.data.email === data.email) {
-        sweetAlertSuccess('가입 성공', 'success', '/login');
+        sweetAlertSuccess('가입 성공', 'success', '/');
       } else {
         setSignupDataError({
           valid_email: response.data.valid_email,
@@ -359,7 +357,7 @@ export const deleteEmpAPI = async () => {
     .getDeleteEmp()
     .then((response) => {
       if (response.data) {
-        sweetAlertSuccess('탈퇴 성공', 'success', '/login');
+        sweetAlertSuccess('탈퇴 성공', 'success', '/');
       }
     })
     .catch((error) => {});
@@ -446,7 +444,7 @@ export const logOutAPI = async () => {
     .logOut()
     .then((response) => {
       if (response.data === 1) {
-        window.location.href = '/login';
+        window.location.href = '/';
       }
     })
     .catch((error) => {});
@@ -468,7 +466,7 @@ export const userMeAPI = async (setData) => {
     })
     .catch((error) => {
       if (error.response.data.message === '403') {
-        window.location.href = '/login';
+        window.location.href = '/';
       }
     });
 };

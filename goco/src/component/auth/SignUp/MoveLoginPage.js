@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 export default function MoveLoginPage() {
   const LoginPage = () => {
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   return (

@@ -9,7 +9,14 @@ import * as api from '../../api/index';
 import { Delete } from '@mui/icons-material';
 import { deleteConfirm, resultConfirm } from '../../common/confirm';
 
-const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpenInsert }) => {
+const CalendarModalListDeTail = ({
+  open,
+  setSecondOpen,
+  getEmpId,
+  workId,
+  workType,
+  setOpenInsert,
+}) => {
   const [detailWorkList, setDetailWorkList] = useState([]);
   const handleClose = () => setSecondOpen(false);
   const [textarea, setTextArea] = useState('');
@@ -28,51 +35,73 @@ const CalendarModalListDeTail = ({ open, setSecondOpen, workId, workType, setOpe
   };
 
   const deleteHandler = async () => {
-    deleteConfirm('삭제하시겠습니까?', '', document.getElementById('modal')).then((res) => {
+    deleteConfirm('삭제 하시겠습니까?', '', document.getElementById('modal')).then((res) => {
       if (res.isConfirmed) {
-        api.deleteWork(detailWorkList.workId).then((response) => {
-          setSecondOpen(false);
-          setOpenInsert(false);
-          if (response.data.status === 'OK') {
-            sweetAlertSuccess(response.data.message, 'success', '/goco');
-          } else {
-            sweetAlertSuccess(response.data.message, 'error', '/goco');
-          }
-        });
+        if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+          api.deleteWork(detailWorkList.workId).then((response) => {
+            setSecondOpen(false);
+            setOpenInsert(false);
+            if (response.data.status === 'OK') {
+              sweetAlertSuccess(response.data.message, 'success', '/goco');
+            } else {
+              sweetAlertSuccess(response.data.message, 'error', '/goco');
+            }
+          });
+        } else {
+          resultConfirm(
+            '자신의 글만 삭제 가능합니다.',
+            '',
+            'error',
+            document.getElementById('modal')
+          );
+        }
       }
     });
   };
 
   const updateHandler = async () => {
-    const updateData = {
-      workId: detailWorkList.workId,
-      workTitle: detailWorkList.workTitle,
-      workContent: textarea,
-      workStartDate: detailWorkList.workStartDate,
-      workEndDate: detailWorkList.workEndDate,
-      workType: detailWorkList.workType,
-      employee: { empNum: detailWorkList.employee.empNum },
-    };
+    deleteConfirm('수정 하시겠습니까??', '', document.getElementById('modal')).then((res) => {
+      if (res.isConfirmed) {
+        if (localStorage.getItem('id') === detailWorkList.employee.empId) {
+          const updateData = {
+            workId: detailWorkList.workId,
+            workTitle: detailWorkList.workTitle,
+            workContent: textarea,
+            workStartDate: detailWorkList.workStartDate,
+            workEndDate: detailWorkList.workEndDate,
+            workType: detailWorkList.workType,
+            employee: { empNum: detailWorkList.employee.empNum },
+          };
 
-    await api
-      .updateWork(updateData)
-      .then((response) => {
-        setSecondOpen(false);
-        setOpenInsert(false);
-        if (response.data.status === 'OK') {
-          sweetAlertSuccess(response.data.message, 'success', '/goco');
+          api
+            .updateWork(updateData)
+            .then((response) => {
+              setSecondOpen(false);
+              setOpenInsert(false);
+              if (response.data.status === 'OK') {
+                sweetAlertSuccess(response.data.message, 'success', '/goco');
+              } else {
+                sweetAlertSuccess(response.data.message, 'error', '/goco');
+              }
+            })
+            .catch((error) => {
+              resultConfirm(
+                error.response.data.errors[0].defaultMessage,
+                '',
+                'error',
+                document.getElementById('modal')
+              );
+            });
         } else {
-          sweetAlertSuccess(response.data.message, 'error', '/goco');
+          resultConfirm(
+            '자신의 글만 수정 가능합니다.',
+            '',
+            'error',
+            document.getElementById('modal')
+          );
         }
-      })
-      .catch((error) => {
-        resultConfirm(
-          error.response.data.errors[0].defaultMessage,
-          '',
-          'error',
-          document.getElementById('modal')
-        );
-      });
+      }
+    });
   };
 
   return (

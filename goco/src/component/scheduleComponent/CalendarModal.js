@@ -173,6 +173,7 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
         <CalendarModalListDeTail
           open={secondOpen}
           setSecondOpen={setSecondOpen}
+          getEmpId={getEmpId}
           workId={workId}
           workType={workType}
           setOpenInsert={setOpenInsert}

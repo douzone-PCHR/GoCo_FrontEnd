@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 export default function ShowIdButtonGroup() {
   const LoginPage = () => {
-    window.location.href = '/login';
+    window.location.href = '/';
   };
   const FindPwdPage = () => {
     window.location.href = '/findPwd';
