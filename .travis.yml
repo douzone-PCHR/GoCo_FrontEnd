@@ -8,7 +8,7 @@ cache:
     - node_modules
 branches:
   only:
-    - main
+    - feature/yongju/update
 deploy:
   provider: pages
   skip-cleanup: true
