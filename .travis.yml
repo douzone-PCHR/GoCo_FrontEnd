@@ -8,7 +8,7 @@ cache:
     - node_modules
 branches:
   only:
-    - feature/yongju/update
+    - main
 deploy:
   provider: pages
   skip-cleanup: true
@@ -17,8 +17,7 @@ deploy:
   local_dir: public
   on:
     branch: main
-branches:
-  only: main
+
 install:
   - chmod 775 ./goco
   - cd ./goco
