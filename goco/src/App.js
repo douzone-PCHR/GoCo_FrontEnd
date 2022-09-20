@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import Footer from './component/Footer';
-import Header from './component/Header';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Admin } from './page/admin/Admin';
 import Login from './page/auth/Login';
 import Signup from './page/auth/Signup';
@@ -33,21 +30,21 @@ function App() {
         <Route path="/showid" element={<ShowId />} />
         <Route path="/findpwd" element={<FindPwd />} />
 
-        <Route path="/goco" element={<HeaderFooter />}>
-          <Route index element={<Main />} />
-          <Route path="/admin" index element={<Admin />} />
+        <Route path="/" element={<HeaderFooter />}>
+          <Route path="/admin" element={<Admin />} />
           <Route path="/management" element={<Management />} />
           <Route path="/manager" index element={<ManagerMain />} />
           <Route path="/approveteam" element={<ManagerApprove />} />
           <Route path="/userupdate" index element={<UserUpdate />} />
+          <Route path="/goco" index element={<Main />} />
           <Route path="/currentStatus" index element={<Myteamcurrentstatus />} />
-          <Route path="*" index element={<NotFound />} />
           <Route path="/approve" element={<Approve />} />
           <Route path="/board" element={<Board />} />
           <Route path="/boardinsert" element={<BoardInsert />} />
           <Route path="/boardselect/:boardId" element={<BoardSelect />} />
           <Route path="/BoardUpdate/:boardId" element={<BoardUpdate />} />
         </Route>
+        <Route path="*" index element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
