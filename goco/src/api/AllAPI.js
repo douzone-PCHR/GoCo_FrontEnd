@@ -40,7 +40,6 @@ export const loginAPI = async (id, password) => {
       } else if (response.headers.loginfail === '') {
         sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
         return;
-
       }
       if (parseJwt(response.data.accessToken).auth === 'ROLE_ADMIN') {
         sweetAlertSuccess('로그인 성공', 'success', '/admin');
@@ -174,7 +173,7 @@ export const CheckAuthForSignUpAPI = async (data, setOkEmailCheck, setSignupData
         sweetAlert2(response.data.message, 'warning');
       } else if (
         response.data.status === 'OK' &&
-        data.authenticationNumber == response.data.message
+        data.authenticationNumber === response.data.message
       ) {
         sweetAlert2('인증에 성공하였습니다.', 'success');
         setOkEmailCheck(true);

@@ -14,7 +14,6 @@ import style from '../../CSS/admin.module.css';
 import { Fragment, useState } from 'react';
 import { EmpUpdateModal } from './EmpUpdateModal';
 import EditIcon from '@mui/icons-material/Edit';
-import Swal from 'sweetalert2';
 import * as api from '../../api/index';
 import jobTitles from './jobTitle.json';
 import teamPositions from './teamPosition.json';
@@ -58,18 +57,6 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                   <Button
                     sx={{ color: 'rgb(235,100,70)' }}
                     onClick={() => {
-                      // Swal.fire({
-                      //   icon: 'warning',
-                      //   title: '퇴사처리 하시겠습니까?',
-                      //   text: '* 퇴사 처리시 되돌릴 수 없습니다.',
-                      //   iconColor: 'rgb(235,100,70)',
-                      //   showConfirmButton: true,
-                      //   confirmButtonText: '퇴사처리',
-                      //   cancelButtonText: '취소',
-                      //   confirmButtonColor: 'rgb(235,100,70)',
-                      //   showCancelButton: true,
-                      //   target: document.getElementById('emp-info-modal'),
-                      // })
                       confirm(
                         '퇴사처리 하시겠습니까?',
                         '* 퇴사 처리시 되돌릴 수 없습니다.',
@@ -83,16 +70,25 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                                 '',
                                 'success',
                                 document.getElementById('emp-info-modal')
-                              );
+                              ).then((res) => {
+                                if (res.isConfirmed) {
+                                  setOpen(!open);
+                                  checkFnc();
+                                }
+                              });
                             } else {
                               resultConfirm(
                                 '퇴사처리 할 수 없습니다.',
                                 '',
                                 'error',
                                 document.getElementById('emp-info-modal')
-                              );
+                              ).then((res) => {
+                                if (res.isConfirmed) {
+                                  setOpen(!open);
+                                  checkFnc();
+                                }
+                              });
                             }
-                            checkFnc();
                           });
                         }
                       });

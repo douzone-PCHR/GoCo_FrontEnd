@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -44,6 +44,7 @@ export default function ManagerApprove() {
   approveList.length !== 0 &&
     approveList.map((emp) => {
       memberInfo = { ...memberInfo, [emp.employee.empNum]: emp.employee.name };
+      return null;
     });
   let memberInfoResult = Object.entries(memberInfo);
   return (

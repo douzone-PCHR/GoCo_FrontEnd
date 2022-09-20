@@ -5,7 +5,6 @@ import * as api from '../../api/index';
 import { Incumbent } from '../../component/Admin/Incumbent.js';
 import { Resignation } from '../../component/Admin/Resignation';
 import { Search } from '@mui/icons-material';
-import { width } from '@mui/system';
 
 const handleSelectValue = (selectValue, processingData, checkFnc, emp, searchName) => {
   switch (selectValue) {
@@ -100,6 +99,8 @@ export const Admin = () => {
   const [resignations, setResignations] = useState();
   const [searchName, setSearchName] = useState();
   const [selectValue, setSelectValue] = useState(1);
+  const [checkEmp, setCheckEmp] = useState(false);
+  const [checkResign, setCheckResign] = useState(false);
   function checkFnc() {
     setCheck(!check);
   }
@@ -109,26 +110,27 @@ export const Admin = () => {
   };
   useEffect(() => {
     api.getEmp().then((res) => {
-      console.log(res.data);
       setEmp(
         res.data.filter((data) => {
           if (data.authority !== 'ROLE_ADMIN') {
             return data;
           }
+          return null;
         })
       );
+      return null;
     });
 
     api.getUnit().then((res) => {
       setUnits(res.data);
     });
-  }, [check, tabValue === 1]);
+  }, [checkEmp]);
 
   useEffect(() => {
     api.getResignation().then((res) => {
       setResignations(res.data);
     });
-  }, [check, tabValue === 2]);
+  }, [checkResign]);
 
   processingData = units && unitProcessing(units);
   return (
@@ -140,8 +142,13 @@ export const Admin = () => {
             value={tabValue}
             onChange={(e, newValue) => {
               setSelectValue(1);
-
               setTabValue(newValue);
+              if (newValue === 1) {
+                setCheckEmp(!checkEmp);
+              }
+              if (newValue === 2) {
+                setCheckResign(!checkResign);
+              }
             }}>
             <Tab label="재직자" value={1}></Tab>
             <Tab label="퇴사자" value={2}></Tab>

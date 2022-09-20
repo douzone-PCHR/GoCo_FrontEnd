@@ -1,4 +1,4 @@
-import react, { useState, useEffect, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -9,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -240,6 +239,7 @@ export default function ManagerBusinessTrips({
             }
           }
         }
+        return null;
       })
       .map((business) => {
         let detail = {
@@ -258,6 +258,7 @@ export default function ManagerBusinessTrips({
             business
           )
         );
+        return null;
       });
   }
   return (

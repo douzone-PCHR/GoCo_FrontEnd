@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { Chip, Divider, TableHead, Typography } from '@mui/material';
-import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
   return (
@@ -214,10 +213,8 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-
                     sx={{ backgroundColor: '#00AAFF', color: 'white', width: '40px' }}
                     label={commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0}
-
                   />
                 </TableCell>
                 <TableCell

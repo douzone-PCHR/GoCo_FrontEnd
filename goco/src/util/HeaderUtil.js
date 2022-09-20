@@ -19,6 +19,8 @@ export const status = (data) => {
     case '5':
       result = '퇴근';
       break;
+    default:
+      break;
   }
   return result;
 };
@@ -80,6 +82,8 @@ export const modeChange = (urlValue, setUrlValue, authority, setCheck, check) =>
       case 'board':
         setUrlValue('board');
         localStorage.setItem('modeChange', '0');
+        break;
+      default:
         break;
     }
   }
