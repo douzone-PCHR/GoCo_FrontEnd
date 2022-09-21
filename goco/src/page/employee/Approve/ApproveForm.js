@@ -219,11 +219,7 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                     } else {
                       resultConfirm(
                         '1MB미만 파일만 첨부가능 합니다',
-<<<<<<< HEAD
                         `현재 파일 크기 : ${(e.target.files[0]?.size / 1024 / 1024).toFixed(2)} MB`,
-=======
-                        `현재 파일 크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
->>>>>>> origin
                         'error',
                         document.getElementById('modal')
                       );
