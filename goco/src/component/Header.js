@@ -15,6 +15,7 @@ const Header = () => {
   }, [urlValue]);
   const headerAPI = async () => {
     await api.headerData().then((response) => {
+      console.log(response.data);
       if (response.data !== '') {
         setStatusData(response.data);
         if (response.data[0]?.employee.authority !== 'ROLE_ADMIN') {

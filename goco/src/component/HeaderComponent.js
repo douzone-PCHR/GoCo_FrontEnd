@@ -115,11 +115,12 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
                   backgroundColor: 'lightgray',
                 }}
               />
+              {/* {console.log(statusData[0].jobTitle.jobTitleName)} */}
               {statusData !== undefined && statusData[0]?.employee.name}
               <Chip
                 size="medium"
                 sx={{ marginLeft: '10%', fontSize: '15px', color: 'gray' }}
-                label={statusData[0]?.employee?.unit.unitName}
+                label={`${statusData[0]?.employee?.unit.unitName} ${statusData[0].jobTitle.jobTitleName}`}
               />
               <i className="fa fa-caret-down"></i>
             </MenuItem>
@@ -207,7 +208,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               <Chip
                 size="medium"
                 sx={{ marginLeft: '10%', fontSize: '15px', color: 'gray' }}
-                label={statusData[0]?.employee?.unit.unitName}
+                label={`${statusData[0]?.employee?.unit.unitName} ${statusData[0]?.employee?.jobTitle?.jobTitleName}`}
               />
               <i className="fa fa-caret-down"></i>
             </MenuItem>
@@ -233,6 +234,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               </MenuItem>
             </Box>
           </Box>
+          {console.log(statusData[0])}
           {status(statusData[0]?.commuteStatus) === ('미출근' || '퇴근' || '휴가') ? (
             <Chip
               size="large"
