@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -10,7 +10,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
 import SimCardDownloadOutlinedIcon from '@mui/icons-material/SimCardDownloadOutlined';
 import Swal from 'sweetalert2';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { Chip, Divider, TableHead, Typography } from '@mui/material';
-import { isOverflowing } from 'rsuite/esm/DOMHelper';
 
 export default function WorkTime({ commuteTimeData }) {
   return (

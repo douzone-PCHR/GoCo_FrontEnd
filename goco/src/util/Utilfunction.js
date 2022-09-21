@@ -1,6 +1,6 @@
 import 'moment/locale/ko';
 import moment from 'moment';
-import { Button, Chip } from '@mui/material';
+import { Chip } from '@mui/material';
 
 export function myTeamStatus(data) {
   let result = '';

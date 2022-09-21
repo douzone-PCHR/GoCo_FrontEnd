@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import usePagination from '../../util/Pagination';
 import { Delete } from '@mui/icons-material';
-import { confirm, deleteConfirm, resultConfirm } from '../../common/confirm';
+import { deleteConfirm, resultConfirm } from '../../common/confirm';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 const deleteHandler = async (workId) => {
   deleteConfirm('삭제하시겠습니까?', '').then((res) => {

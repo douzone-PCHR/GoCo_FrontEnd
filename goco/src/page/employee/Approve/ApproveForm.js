@@ -1,21 +1,21 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { Chip, IconButton, Paper, TextareaAutosize, TextField } from '@mui/material';
+import { IconButton, TextareaAutosize, TextField } from '@mui/material';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css files
 import { ko } from 'react-date-range/dist/locale';
-import { Error, Info, Today, Warning } from '@mui/icons-material';
+import { Info } from '@mui/icons-material';
 import { addConfirm, resultConfirm } from '../../../common/confirm';
 import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
 import * as api from '../../../api';
-import moment, { now } from 'moment';
+import moment from 'moment';
 
 const style = {
   position: 'absolute',
@@ -27,7 +27,8 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 2,
-  minHeight: '90%',
+  // minHeight: '70%',
+  maxHeight: '100%',
 };
 export default function ApproveForm({ open, setOpen, type, check, setCheck, userInfo }) {
   const today = new Date();
@@ -218,7 +219,11 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                     } else {
                       resultConfirm(
                         '1MB미만 파일만 첨부가능 합니다',
+<<<<<<< HEAD
                         `현재 파일 크기 : ${(e.target.files[0]?.size / 1024 / 1024).toFixed(2)} MB`,
+=======
+                        `현재 파일 크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
+>>>>>>> origin
                         'error',
                         document.getElementById('modal')
                       );

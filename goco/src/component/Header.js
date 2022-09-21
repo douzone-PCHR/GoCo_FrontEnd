@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './header.css';
 import HeaderComponent from './HeaderComponent';
 import * as api from '../api/index';
-import { Cookies } from 'react-cookie';
 const Header = () => {
   const [urlValue, setUrlValue] = useState(window.location.href.split('/')[3]);
   const [statusData, setStatusData] = useState();
@@ -16,6 +15,7 @@ const Header = () => {
   }, [urlValue]);
   const headerAPI = async () => {
     await api.headerData().then((response) => {
+      console.log(response.data);
       if (response.data !== '') {
         setStatusData(response.data);
         if (response.data[0]?.employee.authority !== 'ROLE_ADMIN') {

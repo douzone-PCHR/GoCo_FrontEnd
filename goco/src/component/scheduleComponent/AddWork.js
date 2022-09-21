@@ -20,9 +20,8 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers';
 
 import * as api from '../../api/index';
-import { sweetAlert2, sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
-import moment from 'moment';
-import { confirm, resultConfirm } from '../../common/confirm';
+import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
+import { resultConfirm } from '../../common/confirm';
 export default function AddWork({ addOpen, setAddOpen, user, requestDate, setOpenInsert }) {
   const [startValue, setStartValue] = useState(requestDate);
   const [endValue, setEndValue] = useState(requestDate);

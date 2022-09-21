@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import CalendarModalListDeTail from './CalendarModalListDeTail';
 import AddWork from './AddWork';
-import { style } from '@mui/system';
 import { Add } from '@mui/icons-material';
 
 export default function CalendarModal({ open, setOpenInsert, requestDate, user, getEmpId }) {
@@ -25,6 +24,20 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
   const [addOpen, setAddOpen] = useState(false);
   const [workId, setWorkId] = useState(0);
   const [workType, setWorkType] = useState(100);
+  useEffect(() => {
+    const calendarModalAPI = async () => {
+      const data = {
+        workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
+        employee: {
+          empId: getEmpId,
+        },
+      };
+      await api.dateWorkList(data, getEmpId).then((response) => {
+        setDetailList(response.data);
+      });
+    };
+    calendarModalAPI();
+  }, []);
   const detailListOpen = (workId, workType) => {
     setWorkId(workId);
     setWorkType(workType);
@@ -33,21 +46,6 @@ export default function CalendarModal({ open, setOpenInsert, requestDate, user, 
 
   const addWorkBtnOpen = () => {
     setAddOpen(true);
-  };
-
-  useEffect(() => {
-    calendarModalAPI();
-  }, []);
-  const calendarModalAPI = async () => {
-    const data = {
-      workStartDate: new Date(moment(requestDate).format('YYYY-MM-DD')),
-      employee: {
-        empId: getEmpId,
-      },
-    };
-    await api.dateWorkList(data, getEmpId).then((response) => {
-      setDetailList(response.data);
-    });
   };
 
   const handleClose = () => setOpenInsert(false);

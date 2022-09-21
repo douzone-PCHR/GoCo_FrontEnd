@@ -10,8 +10,6 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
-  FormLabel,
-  IconButton,
   Radio,
   RadioGroup,
   Stack,
@@ -20,7 +18,7 @@ import {
 } from '@mui/material';
 import { resultConfirm } from '../../../common/confirm';
 import style from '../../../CSS/approve.module.css';
-import { Replay, Restore, Search } from '@mui/icons-material';
+import { Restore, Search } from '@mui/icons-material';
 
 export default function ApproveSideBar({
   approveList,
