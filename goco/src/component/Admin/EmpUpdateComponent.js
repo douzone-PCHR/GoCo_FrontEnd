@@ -49,7 +49,7 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
               .updateEmp(type, updateType, value)
               .then((res) => {
                 if (res.data) {
-                  return resultConfirm(
+                  resultConfirm(
                     '팀 변경이 완료되었습니다.',
                     '직급이 팀원으로 설정됩니다.',
                     'success',
@@ -61,7 +61,7 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                     }
                   });
                 } else {
-                  return resultConfirm(
+                  resultConfirm(
                     '현재 위치한 팀입니다.',
                     '',
                     'warning',
@@ -103,7 +103,10 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                   'success',
                   document.getElementById('emp-update-modal')
                 ).then(() => {
-                  handleReset();
+                  if (localStorage.getItem('id') === type.empInfo.id) {
+                  } else {
+                    window.location.reload();
+                  }
                 });
               } else {
                 resultConfirm(
@@ -112,7 +115,10 @@ export const EmpUpdateComponent = ({ type, setValue, value, setUpdateModal, chec
                   'error',
                   document.getElementById('emp-update-modal')
                 ).then(() => {
-                  handleReset();
+                  if (localStorage.getItem('id') === type.empInfo.id) {
+                  } else {
+                    window.location.reload();
+                  }
                 });
               }
             });
