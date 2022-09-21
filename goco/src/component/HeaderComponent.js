@@ -120,7 +120,7 @@ function HeaderComponent({ statusData, setUrlValue, urlValue }) {
               <Chip
                 size="medium"
                 sx={{ marginLeft: '10%', fontSize: '15px', color: 'gray' }}
-                label={`${statusData[0]?.employee?.unit.unitName} ${statusData[0].jobTitle.jobTitleName}`}
+                label={`${statusData[0]?.employee?.unit.unitName} ${statusData[0]?.employee?.jobTitle.jobTitleName}`}
               />
               <i className="fa fa-caret-down"></i>
             </MenuItem>
