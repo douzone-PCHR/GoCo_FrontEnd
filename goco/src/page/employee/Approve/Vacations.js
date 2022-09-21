@@ -198,7 +198,6 @@ export default function Vacations({
             return vacation;
           }
         }
-        return null;
       })
       .map((vacation) => {
         let detail = {
@@ -217,7 +216,6 @@ export default function Vacations({
             vacation
           )
         );
-        return null;
       });
   }
   return (

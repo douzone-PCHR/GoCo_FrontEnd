@@ -239,7 +239,6 @@ export default function ManagerBusinessTrips({
             }
           }
         }
-        return null;
       })
       .map((business) => {
         let detail = {
@@ -258,7 +257,6 @@ export default function ManagerBusinessTrips({
             business
           )
         );
-        return null;
       });
   }
   return (

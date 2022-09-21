@@ -20,7 +20,6 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
       } else {
         teams.push(unit); // 팀정렬 하는 것
       }
-      return null;
     });
 
   return (
@@ -59,7 +58,6 @@ export default function UnitSelect({ data, setData, setOkUnitCheck, okUnitCheck 
                                   </option>
                                 );
                               }
-                              return null;
                             })}
                         </optgroup>
                       );

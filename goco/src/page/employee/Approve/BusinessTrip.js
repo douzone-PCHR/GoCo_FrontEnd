@@ -180,7 +180,6 @@ export default function BusinessTrips({
             return business;
           }
         }
-        return null;
       })
       .map((business) => {
         let detail = {
@@ -198,7 +197,6 @@ export default function BusinessTrips({
             business
           )
         );
-        return null;
       });
   }
   return (

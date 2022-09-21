@@ -135,7 +135,6 @@ export default function ApproveSideBar({
                         approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_WAITTING';
                 }
-                return null;
               }).length
             }></Chip>
         </Typography>
@@ -176,7 +175,6 @@ export default function ApproveSideBar({
                         approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_SUCCESS';
                 }
-                return null;
               }).length
             }></Chip>
         </Typography>
@@ -215,7 +213,6 @@ export default function ApproveSideBar({
                         approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_REFUSE';
                 }
-                return null;
               }).length
             }></Chip>
         </Typography>
@@ -255,7 +252,6 @@ export default function ApproveSideBar({
                         approve.businessTripRequestDate <= endDate
                     : approve.approveYn === 'APPROVE_CANCEL';
                 }
-                return null;
               }).length
             }></Chip>
         </Typography>
