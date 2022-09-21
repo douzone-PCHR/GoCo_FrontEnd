@@ -91,7 +91,6 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
                       </MenuItem>
                     );
                   }
-                  return null;
                 })}
             </TextField>
           </FormControl>

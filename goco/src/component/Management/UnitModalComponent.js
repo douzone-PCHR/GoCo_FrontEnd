@@ -133,7 +133,6 @@ export const UnitModalComponent = ({
                               mgrCheck = true;
                               return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                             }
-                            return null;
                           })}
                         {mgrCheck === false && <TableCell>없음</TableCell>}
                         {managers.length !== 0 &&
@@ -144,12 +143,10 @@ export const UnitModalComponent = ({
                             ) {
                               if (empCheck >= 1) {
                                 member.push(`${manager.name}`);
-                                return null;
                               }
                               ++empCheck;
                               return <TableCell key={manager.empNum}>{manager.name}</TableCell>;
                             }
-                            return null;
                           })}
                         {member.length !== 0 && (
                           <TableCell>

@@ -244,7 +244,6 @@ export default function ManagerVacations({
             }
           }
         }
-        return null;
       })
       .map((vacation) => {
         let detail = {
@@ -265,9 +264,7 @@ export default function ManagerVacations({
             vacation
           )
         );
-        return null;
       });
-    return null;
   }
 
   return (
