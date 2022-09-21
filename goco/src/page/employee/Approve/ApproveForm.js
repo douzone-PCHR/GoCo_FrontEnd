@@ -212,16 +212,18 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
                 id="file"
                 hidden
                 onChange={(e) => {
-                  if (e.target?.files[0]?.size <= 1024 * 1024) {
-                    setFile(e.target.files[0]);
-                  } else {
-                    resultConfirm(
-                      '1MB미만 파일만 첨부가능 합니다',
-                      `현재 파일 크기 : ${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB`,
-                      'error',
-                      document.getElementById('modal')
-                    );
-                    setFile(null);
+                  if (e.target.files[0]) {
+                    if (e.target?.files[0]?.size <= 1024 * 1024) {
+                      setFile(e.target.files[0]);
+                    } else {
+                      resultConfirm(
+                        '1MB미만 파일만 첨부가능 합니다',
+                        `현재 파일 크기 : ${(e.target.files[0]?.size / 1024 / 1024).toFixed(2)} MB`,
+                        'error',
+                        document.getElementById('modal')
+                      );
+                      setFile(null);
+                    }
                   }
                 }}></input>
             </Box>

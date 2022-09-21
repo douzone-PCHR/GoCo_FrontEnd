@@ -128,7 +128,6 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  {console.log()}
                   <Chip
                     size="small"
                     sx={{ backgroundColor: '#FF8B8B', width: '70px' }}
@@ -214,10 +213,8 @@ export default function WorkTime({ commuteTimeData }) {
                   }}>
                   <Chip
                     size="small"
-
                     sx={{ backgroundColor: '#00AAFF', color: 'white', width: '40px' }}
                     label={commuteTimeData.vacation_count ? 11 - commuteTimeData.vacation_count : 0}
-
                   />
                 </TableCell>
                 <TableCell

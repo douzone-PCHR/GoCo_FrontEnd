@@ -80,7 +80,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }} textAlign={'center'}>
               <Typography variant="h6" gutterBottom component="div">
-                Detail
+                기안상세
               </Typography>
               <Box>
                 <div>

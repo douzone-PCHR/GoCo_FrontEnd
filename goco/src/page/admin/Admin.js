@@ -109,7 +109,6 @@ export const Admin = () => {
   };
   useEffect(() => {
     api.getEmp().then((res) => {
-      console.log(res.data);
       setEmp(
         res.data.filter((data) => {
           if (data.authority !== 'ROLE_ADMIN') {

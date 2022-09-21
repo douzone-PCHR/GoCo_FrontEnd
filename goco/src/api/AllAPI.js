@@ -40,7 +40,6 @@ export const loginAPI = async (id, password) => {
       } else if (response.headers.loginfail === '') {
         sweetAlert2('아이디 혹은 비밀번호가 잘못 입력되었습니다.', 'warning');
         return;
-
       }
       if (parseJwt(response.data.accessToken).auth === 'ROLE_ADMIN') {
         sweetAlertSuccess('로그인 성공', 'success', '/admin');
@@ -250,7 +249,6 @@ export const BoardInsertAPI = async (insertData) => {
   await api
     .getBoardInsert(insertData)
     .then((response) => {
-      console.log('response :: ', response);
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
@@ -308,7 +306,6 @@ export const CommentInsertAPI = async (comment) => {
   await api
     .getCommentInsert(comment)
     .then((response) => {
-      console.log(response);
       sweetAlertComment('댓글이 입력되었습니다.', 'success', `/boardselect/${comment.boardId}`);
     })
     .catch((error) => {
