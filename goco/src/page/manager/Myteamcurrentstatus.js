@@ -16,12 +16,11 @@ import { useLocation } from 'react-router-dom';
 const Myteamcurrentstatus = () => {
   const location = useLocation();
   const data = location.state?.currentStatus;
-  console.log(data);
+
   let [page, setPage] = useState(1);
   const PER_PAGE = 4;
   const count = Math.ceil(data.length / PER_PAGE);
   const pageData = usePagination(data, PER_PAGE);
-  console.log(data);
   const handleChange = (e, p) => {
     setPage(p);
     pageData.jump(p);

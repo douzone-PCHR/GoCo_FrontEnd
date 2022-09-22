@@ -252,7 +252,6 @@ export const BoardInsertAPI = async (insertData) => {
   await api
     .getBoardInsert(insertData)
     .then((response) => {
-      console.log('response :: ', response);
       sweetAlertSuccess('작성이 완료되었습니다.', 'success', '/board');
     })
     .catch((error) => {
@@ -310,7 +309,6 @@ export const CommentInsertAPI = async (comment) => {
   await api
     .getCommentInsert(comment)
     .then((response) => {
-      console.log(response);
       sweetAlertComment('댓글이 입력되었습니다.', 'success', `/boardselect/${comment.boardId}`);
     })
     .catch((error) => {

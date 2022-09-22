@@ -127,7 +127,6 @@ export default function WorkTime({ commuteTimeData }) {
                     fontSize: '15px',
                   }}
                   align="left">
-                  {console.log()}
                   <Chip
                     size="small"
                     sx={{ backgroundColor: '#FF8B8B', width: '70px' }}
