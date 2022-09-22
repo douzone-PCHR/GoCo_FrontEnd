@@ -161,7 +161,7 @@ export const SendEmailForSignUpAPI = async (email, handleOpen, handleClose, setA
     })
     .catch((error) => {
       handleClose();
-      sweetAlert2(error.response.data.message, 'warning');
+      sweetAlert2('이미 가입되어 있는 유저입니다.', 'warning');
     });
 };
 // 회원 가입시 이메일 인증번호 확인하는 것
