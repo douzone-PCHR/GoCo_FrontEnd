@@ -7,6 +7,7 @@ export const TableCellComponent = ({ processingData, data, checkFnc }) => {
   const empInfo = data && {
     id: data?.empNum, // id값을 넘겨받으며 사원 수정
     name: data?.name,
+    empId: data?.empId,
     jobTitle: {
       jobTitleName: data.jobTitle?.jobTitleName,
       jobTitleId: data.jobTitle?.jobTitleId,

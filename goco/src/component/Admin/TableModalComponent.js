@@ -51,7 +51,7 @@ export const TableModalComponent = ({ processingData, open, setOpen, empInfo, ch
                   <Avatar></Avatar>
                 </TableCell>
                 <TableCell sx={{ fontSize: '20px' }}>
-                  {empInfo.name}({empInfo.id})
+                  {empInfo.name}({empInfo.empId})
                 </TableCell>
                 <TableCell colSpan={10} align="right">
                   <Button
