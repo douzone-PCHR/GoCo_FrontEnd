@@ -16,6 +16,7 @@ import CheckDateModal from './CheckDateModal';
 import VacationType from './VacationType';
 import * as api from '../../../api';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const style = {
   position: 'absolute',
@@ -211,11 +212,23 @@ export default function ApproveForm({ open, setOpen, type, check, setCheck, user
               <input
                 type="file"
                 id="file"
+                accept=".xls,.xlsx"
                 hidden
                 onChange={(e) => {
                   if (e.target.files[0]) {
                     if (e.target?.files[0]?.size <= 1024 * 1024) {
-                      setFile(e.target.files[0]);
+                      const files = e.target.files[0].name.split('.');
+                      if (files[files.length - 1].includes('xls')) {
+                        setFile(e.target.files[0]);
+                      } else {
+                        Swal.fire({
+                          title: '지정된 파일 형식이 아닙니다.',
+                          icon: 'error',
+                          target: '#modal',
+                        });
+                        e.target.files = null;
+                        setFile(null);
+                      }
                     } else {
                       resultConfirm(
                         '1MB미만 파일만 첨부가능 합니다',

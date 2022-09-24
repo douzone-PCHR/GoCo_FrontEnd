@@ -23,7 +23,7 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
   useEffect(() => {
     api.getEmp().then((res) => {
       setEmps(res.data);
-      setmgrNum(res.data[0].empNum);
+      setmgrNum(res.data[1].empNum);
     });
   }, []);
   const handleFieldChange = (event) => {
@@ -62,9 +62,11 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
               {emps &&
                 emps.map((emp, idx) => {
                   return (
-                    <MenuItem key={idx} value={emp.empNum}>
-                      {emp.name}
-                    </MenuItem>
+                    emp.empNum !== 1 && (
+                      <MenuItem key={idx} value={emp.empNum}>
+                        {emp.name}
+                      </MenuItem>
+                    )
                   );
                 })}
             </Select>
@@ -84,7 +86,7 @@ export const ChildModal = ({ handleModal, setHandleModal, dept }) => {
               }}>
               {emps &&
                 emps.map((emp) => {
-                  if (mgrNum !== emp.empNum) {
+                  if (mgrNum !== emp.empNum && emp.empNum !== 1) {
                     return (
                       <MenuItem key={emp.empNum} value={emp.empNum}>
                         {emp.name}

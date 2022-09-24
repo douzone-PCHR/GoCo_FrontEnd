@@ -91,16 +91,22 @@ function Row(props) {
                 <div>
                   {row.detail.file && row.detail.file.originalName}
                   {row.detail.file && (
-                    <a href={row.detail.file.filePath}>
-                      <IconButton color="primary">
-                        <SimCardDownloadOutlinedIcon align="bottom"></SimCardDownloadOutlinedIcon>
-                      </IconButton>
-                    </a>
+                    // <a href={row.detail.file.filePath}>
+                    <IconButton
+                      color="primary"
+                      onClick={() =>
+                        api.fileDownload(row.detail.file.filePath, row.detail.file.originalName)
+                      }>
+                      <SimCardDownloadOutlinedIcon align="bottom"></SimCardDownloadOutlinedIcon>
+                    </IconButton>
+                    // </a>
                   )}
                 </div>
                 {row.approve === 'APPROVE_WAITTING' && (
                   <div>
                     <Button
+                      variant="outlined"
+                      color="success"
                       onClick={() => {
                         confirm('결재를 승인 하시겠습니까?').then((result) => {
                           if (result.isConfirmed) {
@@ -118,6 +124,8 @@ function Row(props) {
                       결재승인
                     </Button>
                     <Button
+                      variant="outlined"
+                      color="error"
                       onClick={() => {
                         confirm('결재를 반려 하시겠습니까?').then((result) => {
                           if (result.isConfirmed) {
@@ -139,6 +147,8 @@ function Row(props) {
                 {row.approve === 'APPROVE_SUCCESS' && (
                   <div>
                     <Button
+                      variant="outlined"
+                      color="inherit"
                       onClick={() => {
                         confirm('승인 된 결재 입니다. 승인을 취소 하시겠습니까? ').then(
                           (result) => {
