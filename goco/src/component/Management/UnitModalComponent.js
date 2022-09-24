@@ -141,7 +141,7 @@ export const UnitModalComponent = ({
                               manager.unit.unitName === team.unitName &&
                               manager.teamPosition.teamPositionId === 2
                             ) {
-                              if (empCheck >= 1) {
+                              if (empCheck > 1) {
                                 member.push(`${manager.name}`);
                               }
                               ++empCheck;
@@ -171,29 +171,31 @@ export const UnitModalComponent = ({
                                 showCancelButton: true,
                               }).then((result) => {
                                 if (result.isConfirmed) {
-                                  api.updateUnit(team.unitId, result.value).then((res) => {
-                                    if (res.data) {
-                                      Swal.fire({
-                                        icon: 'success',
-                                        title: '팀명이 변경되었습니다.',
-                                        target: '#parent-modal',
-                                        text: `${team.unitName}이 ${result.value}로 변경되었습니다.`,
-                                        confirmButtonText: '확인',
-                                      }).then((result) => {
-                                        if (result.isConfirmed) {
-                                          setOpen(false);
-                                        }
-                                      });
-                                    } else {
-                                      Swal.fire({
-                                        title: '중복된 팀명입니다.',
-                                        icon: 'error',
-                                        target: '#parent-modal',
-                                        showConfirmButton: true,
-                                        confirmButtonText: '확인',
-                                      });
-                                    }
-                                  });
+                                  api
+                                    .updateUnit(team.unitId, { unitName: result.value })
+                                    .then((res) => {
+                                      if (res.data) {
+                                        Swal.fire({
+                                          icon: 'success',
+                                          title: '팀명이 변경되었습니다.',
+                                          target: '#parent-modal',
+                                          text: `[${team.unitName}]이 [${result.value}]로 변경되었습니다.`,
+                                          confirmButtonText: '확인',
+                                        }).then((result) => {
+                                          if (result.isConfirmed) {
+                                            setOpen(false);
+                                          }
+                                        });
+                                      } else {
+                                        Swal.fire({
+                                          title: '중복된 팀명입니다.',
+                                          icon: 'error',
+                                          target: '#parent-modal',
+                                          showConfirmButton: true,
+                                          confirmButtonText: '확인',
+                                        });
+                                      }
+                                    });
                                 }
                               });
                             }}>

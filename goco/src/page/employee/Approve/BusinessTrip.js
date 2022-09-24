@@ -117,11 +117,15 @@ function Row(props) {
                 <div>
                   {row.detail.file && row.detail.file.originalName}
                   {row.detail.file && (
-                    <a href={row.detail.file.filePath}>
-                      <IconButton color="primary">
-                        <SimCardDownloadOutlinedIcon align="bottom"></SimCardDownloadOutlinedIcon>
-                      </IconButton>
-                    </a>
+                    // <a href={row.detail.file.filePath}>
+                    <IconButton
+                      color="primary"
+                      onClick={() =>
+                        api.fileDownload(row.detail.file.filePath, row.detail.file.originalName)
+                      }>
+                      <SimCardDownloadOutlinedIcon align="bottom"></SimCardDownloadOutlinedIcon>
+                    </IconButton>
+                    // </a>
                   )}
                 </div>
               </Box>
