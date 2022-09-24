@@ -7,43 +7,26 @@ import { Resignation } from '../../component/Admin/Resignation';
 import { Search } from '@mui/icons-material';
 
 const handleSelectValue = (selectValue, processingData, checkFnc, emp, searchName) => {
+  let empData = {};
   switch (selectValue) {
     case 1:
-      return (
-        <Incumbent
-          processingData={processingData}
-          checkFnc={checkFnc}
-          emp={emp.filter((data) => data.name.includes(searchName))}
-        />
-      );
-
+      empData = emp.filter((data) => data.name.includes(searchName));
+      break;
     case 2:
-      return (
-        <Incumbent
-          processingData={processingData}
-          checkFnc={checkFnc}
-          emp={emp.filter((data) => data.jobTitle.jobTitleName.includes(searchName))}
-        />
-      );
+      empData = emp.filter((data) => data.jobTitle.jobTitleName.includes(searchName));
+      break;
     case 3:
-      return (
-        <Incumbent
-          processingData={processingData}
-          checkFnc={checkFnc}
-          emp={emp.filter((data) => data.unit.parentUnit.unitName.includes(searchName))}
-        />
-      );
+      empData = emp.filter((data) => data.unit.parentUnit.unitName.includes(searchName));
+      break;
+
     case 4:
-      return (
-        <Incumbent
-          processingData={processingData}
-          checkFnc={checkFnc}
-          emp={emp.filter((data) => data.unit.unitName.includes(searchName))}
-        />
-      );
+      empData = emp.filter((data) => data.unit.unitName.includes(searchName));
+      break;
+
     default:
       break;
   }
+  return <Incumbent processingData={processingData} checkFnc={checkFnc} emp={empData} />;
 };
 const unitProcessing = (units) => {
   let teams, depts, check;
@@ -57,13 +40,11 @@ const unitProcessing = (units) => {
       if (team.unitType) {
         return team;
       }
-      return null;
     });
     depts = units.filter((dept) => {
       if (!dept.unitType) {
         return dept;
       }
-      return null;
     });
 
     check = units
@@ -71,13 +52,11 @@ const unitProcessing = (units) => {
         if (teamCheck.unitType) {
           return teamCheck.parentUnit.unitId;
         }
-        return null;
       })
       .filter((teamCheck) => {
         if (teamCheck) {
           return teamCheck;
         }
-        return null;
       });
     const setCheckTeam = new Set(check);
     const checkTeam = [...setCheckTeam];
@@ -115,10 +94,8 @@ export const Admin = () => {
           if (data.authority !== 'ROLE_ADMIN') {
             return data;
           }
-          return null;
         })
       );
-      return null;
     });
 
     api.getUnit().then((res) => {
@@ -133,6 +110,7 @@ export const Admin = () => {
   }, [checkResign]);
 
   processingData = units && unitProcessing(units);
+
   return (
     <div className={style.Container}>
       <div />
