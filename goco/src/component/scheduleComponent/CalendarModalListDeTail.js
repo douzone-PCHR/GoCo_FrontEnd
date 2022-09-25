@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Dialog, DialogTitle, TextareaAutosize } from '@mui
 import { Box } from '@mui/system';
 import { sweetAlertSuccess } from '../auth/AuthSweetAlert.js/sweetAlert2';
 import * as api from '../../api/index';
-import { deleteConfirm, resultConfirm } from '../../common/confirm';
+import { addConfirm, deleteConfirm, resultConfirm } from '../../common/confirm';
 
 const CalendarModalListDeTail = ({
   open,
@@ -58,7 +58,7 @@ const CalendarModalListDeTail = ({
   };
 
   const updateHandler = async () => {
-    deleteConfirm('수정 하시겠습니까??', '', document.getElementById('modal')).then((res) => {
+    addConfirm('수정 하시겠습니까?', '', document.getElementById('modal')).then((res) => {
       if (res.isConfirmed) {
         if (localStorage.getItem('id') === detailWorkList.employee.empId) {
           const updateData = {

@@ -21,11 +21,7 @@ const deleteHandler = async (workId) => {
     if (res.isConfirmed) {
       api.deleteWork(workId).then((response) => {
         if (response.data.status === 'OK') {
-          resultConfirm(response.data.message, '', 'success').then((res) => {
-            if (res) {
-              sweetAlertSuccess(response.data.message, 'error', '/goco');
-            }
-          });
+          sweetAlertSuccess(response.data.message, 'success', '/goco');
         } else {
           sweetAlertSuccess(response.data.message, 'error', '/goco');
         }
